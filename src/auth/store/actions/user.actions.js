@@ -82,7 +82,7 @@ export function toggleInShortcuts (id) {
 
 export function removeUserData () {
 	
-	localStorage.setItem(USER_BROWSER_REFERENCE, JSON.stringify({}))
+	localStorage.removeItem(USER_BROWSER_REFERENCE)
 	return {
 		type: REMOVE_USER_DATA
 	}
@@ -95,7 +95,7 @@ export function logoutUser () {
 	
 	return (dispatch, getState) => {
 		
-		localStorage.setItem(USER_BROWSER_REFERENCE, JSON.stringify({}))
+		localStorage.removeItem(USER_BROWSER_REFERENCE)
 		
 		const user = getState().auth.user
 		
