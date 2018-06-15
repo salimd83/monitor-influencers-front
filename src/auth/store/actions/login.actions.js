@@ -1,11 +1,10 @@
-import axios from "axios/index"
-import {auth} from "firebase-db"
 import {setUserData} from "auth/store/actions/user.actions"
 import * as Actions from "store/actions"
 import * as rp from "request-promise"
 
-export const LOGIN_ERROR   = "LOGIN_ERROR"
+export const LOGIN_ERROR = "LOGIN_ERROR"
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
+export const REQUEST_SUCCESS = "REQUEST_SUCCESS"
 
 
 export function submitLogin ({username, password}) {
@@ -25,14 +24,13 @@ export function submitLogin ({username, password}) {
 			
 			const request = await rp(options)
 			
-			console.log("session token", request)
 			const sessionToken = request.data.access_token
-			const userProfile  = await rp({
-				                              method : "get",
-				                              uri    : "https://simple.beaux.media/v3.0/account",
-				                              headers: {"BA-Token": sessionToken},
-				                              json   : true // Automatically stringifies the body to JSON
-			                              })
+			const userProfile = await rp({
+				                             method : "get",
+				                             uri    : "https://simple.beaux.media/v3.0/account",
+				                             headers: {"BA-Token": sessionToken},
+				                             json   : true // Automatically stringifies the body to JSON
+			                             })
 			
 			
 			const res = {
@@ -54,7 +52,7 @@ export function submitLogin ({username, password}) {
 		catch (error) {
 			console.log(error)
 			let errData = error.response.body
-			let errMsg  = "Unknown Error"
+			let errMsg = "Unknown Error"
 			if (errData.error.code) {
 				if (errData.error.mobile) {
 					errMsg = errData.error.mobile[0]
@@ -74,39 +72,47 @@ export function submitLogin ({username, password}) {
 	}
 }
 
-export function loginWithFireBase ({username, password}) {
-	return (dispatch) =>
-		auth.signInWithEmailAndPassword(username, password)
-		    .then(() => {
-			    return dispatch({
-				                    type: LOGIN_SUCCESS
-			                    })
-		    })
-		    .catch(error => {
-			    const usernameErrorCodes = [
-				    "auth/email-already-in-use",
-				    "auth/invalid-email",
-				    "auth/operation-not-allowed",
-				    "auth/user-not-found",
-				    "auth/user-disabled"
-			    ]
-			    const passwordErrorCodes = [
-				    "auth/weak-password",
-				    "auth/wrong-password"
-			    ]
+export function submitRequest ({username}) {
+	
+	
+	return async (dispatch) => {
+		try {
+			var options = {
+				method: "post",
+				uri   : "https://simple.beaux.media/v3.0/account/login",
+				body  : {
+					mobile: username
+				},
+				json  : true // Automatically stringifies the body to JSON
+			}
 			
-			    const response = {
-				    username: usernameErrorCodes.includes(error.code) ? error.message : null,
-				    password: passwordErrorCodes.includes(error.code) ? error.message : null
-			    }
+			const request = await rp(options)
+			dispatch(Actions.showMessage({message: request.message}))
+			return dispatch({
+				                type    : REQUEST_SUCCESS,
+				                username: username,
+				                success : true
+			                })
+		}
+		catch (error) {
+			console.log(error)
+			let errData = error.response.body
+			let errMsg = "Unknown Error"
+			if (errData.error.code) {
+				if (errData.error.mobile) {
+					errMsg = errData.error.mobile[0]
+				} else if (errData.error.passcode) {
+					errMsg = errData.error.passcode[0]
+				} else if (errData.error.message) {
+					errMsg = errData.error.message
+				}
+			}
 			
-			    if (error.code === "auth/invalid-api-key") {
-				    dispatch(Actions.showMessage({message: error.message}))
-			    }
-			
-			    return dispatch({
-				                    type   : LOGIN_ERROR,
-				                    payload: response
-			                    })
-		    })
+			dispatch(Actions.showMessage({message: errMsg}))
+			return dispatch({
+				                type   : LOGIN_ERROR,
+				                payload: errMsg
+			                })
+		}
+	}
 }
