@@ -4,15 +4,14 @@ import * as Actions from "auth/store/actions/index"
 import {bindActionCreators} from "redux"
 import {Link, withRouter} from "react-router-dom"
 import {withStyles} from "@material-ui/core/styles/index"
-import {Button, Card, CardContent, Divider, Typography} from "@material-ui/core"
+import {Button, Card, CardContent, Typography} from "@material-ui/core"
 import InputAdornment from "@material-ui/core/InputAdornment"
 
-import * as Fn from "fn/index"
 
 
 import classNames from "classnames"
 import {TextFieldFormsy, FuseAnimate} from "@fuse"
-import Formsy, {addValidationRule, propTypes, withFormsy} from "formsy-react"
+import Formsy from "formsy-react"
 
 const styles = theme => ({
 	root : {
@@ -52,12 +51,6 @@ class Login extends Component {
 			sessionStorage.username = a.username
 			this.setState({step: 2})
 		}
-	}
-	
-	onForgetUser () {
-		delete sessionStorage.username
-		this.setState({step: 1})
-		
 	}
 	
 	onSubmit = (model) => {
@@ -203,7 +196,7 @@ class Login extends Component {
 	
 	render () {
 		const {classes} = this.props
-		const {step, canSubmit} = this.state
+		const {step} = this.state
 		
 		
 		return (

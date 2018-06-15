@@ -1,6 +1,7 @@
 import {setUserData} from "auth/store/actions/user.actions"
 import * as Actions from "store/actions"
 import * as rp from "request-promise"
+import * as Fn from "fn/index"
 
 export const LOGIN_ERROR = "LOGIN_ERROR"
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
@@ -12,17 +13,11 @@ export function submitLogin ({username, password}) {
 	
 	return async (dispatch) => {
 		try {
-			var options = {
-				method: "post",
-				uri   : "https://simple.beaux.media/v3.0/account/auth",
-				body  : {
-					mobile  : username,
-					passcode: password
-				},
-				json  : true // Automatically stringifies the body to JSON
-			}
 			
-			const request = await rp(options)
+			const request = await Fn.simpleCall("post", "account/auth", {
+				mobile  : username,
+				passcode: password
+			})
 			
 			const sessionToken = request.data.access_token
 			const userProfile = await rp({
@@ -43,6 +38,7 @@ export function submitLogin ({username, password}) {
 					"email"      : userProfile.data.email
 				}
 			}
+			
 			
 			dispatch(setUserData(res))
 			return dispatch({
@@ -77,16 +73,10 @@ export function submitRequest ({username}) {
 	
 	return async (dispatch) => {
 		try {
-			var options = {
-				method: "post",
-				uri   : "https://simple.beaux.media/v3.0/account/login",
-				body  : {
-					mobile: username
-				},
-				json  : true // Automatically stringifies the body to JSON
-			}
 			
-			const request = await rp(options)
+			const request = await Fn.simpleCall("post", "account/login", {
+				mobile: username
+			})
 			dispatch(Actions.showMessage({message: request.message}))
 			return dispatch({
 				                type    : REQUEST_SUCCESS,

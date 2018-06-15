@@ -1,5 +1,4 @@
 import {getUserData} from "../auth/store/actions"
-import * as Actions from "store/actions"
 import * as rp from "request-promise"
 import _ from "lodash"
 
