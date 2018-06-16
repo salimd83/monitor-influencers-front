@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { FusePageSimple, FuseAnimate } from '@fuse';
 import { Avatar, Button, Tab, Tabs, Typography } from '@material-ui/core';
-import TimelineTab from 'main/content/pages/profile/tabs/TimelineTab';
-import PhotosVideosTab from 'main/content/pages/profile/tabs/PhotosVideosTab';
-import AboutTab from 'main/content/pages/profile/tabs/AboutTab';
-import * as Fn from 'fn/simpleCall.js';
+import TimelineTab from 'main/content/apps/profile/tabs/TimelineTab';
+import PhotosVideosTab from 'main/content/apps/profile/tabs/PhotosVideosTab';
+import AboutTab from 'main/content/apps/profile/tabs/AboutTab';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from './store/actions';
 
 const styles = theme => ({
   layoutRoot: {},
@@ -43,18 +45,7 @@ class ProfilePage extends Component {
   };
 
   componentDidMount() {
-    Fn.simpleCall('get', `/si/profiles/${this.props.match.params.id}`).then(
-      res => {
-        console.log(res.data[0]);
-        const { first_name, last_name, profile_picture, links } = res.data[0];
-        this.setState({
-          first_name,
-          last_name,
-          profile_picture,
-          links
-        });
-      }
-    );
+    this.props.getProfile(this.props.match.params);
   }
 
   handleChange = (event, value) => {
@@ -62,7 +53,13 @@ class ProfilePage extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      profile,
+      links,
+      openNewLinkDialog,
+      linkDialog
+    } = this.props;
     const { value } = this.state;
 
     return (
@@ -76,10 +73,7 @@ class ProfilePage extends Component {
           <div className="p-24 flex flex-1 flex-col items-center justify-center md:flex-row md:items-end">
             <div className="flex flex-1 flex-col items-center justify-center md:flex-row md:items-center md:justify-start">
               <FuseAnimate animation="transition.expandIn" delay={300}>
-                <Avatar
-                  className="w-96 h-96"
-                  src={this.state.profile_picture}
-                />
+                <Avatar className="w-96 h-96" src={profile.profile_picture} />
               </FuseAnimate>
               <FuseAnimate animation="transition.slideLeftIn" delay={300}>
                 <span>
@@ -89,7 +83,7 @@ class ProfilePage extends Component {
                     color="inherit"
                     gutterBottom
                   >
-                    {this.state.first_name} {this.state.last_name}
+                    {profile.first_name} {profile.last_name}
                   </Typography>
                   <Typography className="md:ml-24" variant="subheading">
                     820 Folowers
@@ -99,7 +93,7 @@ class ProfilePage extends Component {
             </div>
 
             <div className="">
-              {this.state.links.map(link => (
+              {links.map(link => (
                 <div style={{ textAlign: 'right' }} className="md:mb-8">
                   <a href="#">
                     {link.value}
@@ -145,7 +139,9 @@ class ProfilePage extends Component {
         content={
           <div className="p-24">
             {value === 0 && <TimelineTab />}
-            {value === 1 && <AboutTab />}
+            {value === 1 && (
+              <AboutTab {...{ links, profile, openNewLinkDialog }} />
+            )}
             {value === 2 && <PhotosVideosTab />}
           </div>
         }
@@ -154,4 +150,25 @@ class ProfilePage extends Component {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(ProfilePage);
+function mapDispatchToProdps(dispatch) {
+  return bindActionCreators(
+    {
+      getProfile: Actions.getProfile,
+      getUserData: Actions.getUserData,
+      openNewLinkDialog: Actions.openNewLinkDialog
+    },
+    dispatch
+  );
+}
+
+function mapStateToProps({ profileApp }) {
+  const { profile, linkDialog } = profileApp;
+  return { ...profile, linkDialog };
+}
+
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStateToProps,
+    mapDispatchToProdps
+  )(ProfilePage)
+);
