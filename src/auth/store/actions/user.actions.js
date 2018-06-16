@@ -1,15 +1,13 @@
 import history from "history.js"
-import {auth, db} from "firebase-db"
 import {setDefaultSettings} from "store/actions/fuse"
 import {FuseDefaultSettings} from "@fuse"
 import _ from "lodash"
 import store from "store"
 import * as Actions from "store/actions"
-import firebase from "firebase/app"
 
-export const SET_USER_DATA          = "[USER] SET DATA"
-export const REMOVE_USER_DATA       = "[USER] REMOVE DATA"
-export const USER_LOGGED_OUT        = "[USER] LOGGED OUT"
+export const SET_USER_DATA = "[USER] SET DATA"
+export const REMOVE_USER_DATA = "[USER] REMOVE DATA"
+export const USER_LOGGED_OUT = "[USER] LOGGED OUT"
 export const USER_BROWSER_REFERENCE = "hiUser"
 
 
@@ -30,34 +28,7 @@ export function setUserData (user, doNotUpdate) {
 export function updateUserSettings (settings) {
 	return (dispatch, getState) => {
 		const oldUser = getState().auth.user
-		const user    = _.merge({}, oldUser, {data: {settings}})
-		return dispatch(setUserData(user))
-	}
-}
-
-
-export function createUserSettings (authUser) {
-	return (dispatch, getState) => {
-		const guestUser           = getState().auth.user
-		const fuseDefaultSettings = getState().fuse.settings.defaults
-		const currentUser         = firebase.auth().currentUser
-		
-		/**
-		 * Merge with current Settings
-		 */
-		const user = _.merge({}, guestUser,
-		                     {
-			                     uid : authUser.uid,
-			                     from: "firebase",
-			                     role: "admin",
-			                     data: {
-				                     displayName: authUser.displayName,
-				                     email      : authUser.email,
-				                     settings   : {...fuseDefaultSettings}
-			                     }
-		                     }
-		)
-		currentUser.updateProfile(user.data)
+		const user = _.merge({}, oldUser, {data: {settings}})
 		return dispatch(setUserData(user))
 	}
 }
@@ -65,9 +36,9 @@ export function createUserSettings (authUser) {
 
 export function toggleInShortcuts (id) {
 	return (dispatch, getState) => {
-		let user      = getState().auth.user
+		let user = getState().auth.user
 		let shortcuts = user.data.shortcuts
-		shortcuts     = shortcuts.includes(id) ? shortcuts.filter(_id => id !== _id) : [...shortcuts, id]
+		shortcuts = shortcuts.includes(id) ? shortcuts.filter(_id => id !== _id) : [...shortcuts, id]
 		return dispatch(setUserData(
 			{
 				...user,
@@ -97,10 +68,6 @@ export function logoutUser () {
 		
 		localStorage.removeItem(USER_BROWSER_REFERENCE)
 		
-		const user = getState().auth.user
-		
-		user.role !== "guest" && user.from === "firebase" && auth.signOut()
-		
 		dispatch(setDefaultSettings(FuseDefaultSettings))
 		
 		dispatch({
@@ -111,10 +78,12 @@ export function logoutUser () {
 
 function updateUserData (user) {
 	switch (user.from) {
-		case "firebase": {
-			fireBaseUpdateUserData(user)
-			break
-		}
+		/*
+		 An example of how to handle data storage in case multiple provider are used for login
+		 case "firebase": {
+		 fireBaseUpdateUserData(user)
+		 break
+		 }*/
 		default: {
 			localStorage.setItem(USER_BROWSER_REFERENCE, JSON.stringify(user))
 		}
@@ -127,13 +96,3 @@ export function getUserData () {
 	
 }
 
-function fireBaseUpdateUserData (user) {
-	db.ref(`users/${user.uid}`)
-	  .set(user)
-	  .then(() => {
-		  store.dispatch(Actions.showMessage({message: "User data saved to firebase"}))
-	  })
-	  .catch(error => {
-		  store.dispatch(Actions.showMessage({message: error.message}))
-	  })
-}

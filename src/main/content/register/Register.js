@@ -41,7 +41,7 @@ class Register extends Component {
     };
 
     onSubmit = (model) => {
-        this.props.registerWithFirebase(model);
+    //    this.props.registerWithFirebase(model);
     };
 
     componentDidUpdate(prevProps, prevState)
@@ -190,7 +190,7 @@ class Register extends Component {
 function mapDispatchToProps(dispatch)
 {
     return bindActionCreators({
-        registerWithFirebase: Actions.registerWithFirebase
+      //  registerWithFirebase: Actions.registerWithFirebase
     }, dispatch);
 }
 

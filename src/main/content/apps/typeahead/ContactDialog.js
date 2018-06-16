@@ -117,7 +117,7 @@ class ContactDialog extends Component {
 						</div>
 						<FormControl className={classes.formControl} fullWidth>
 							<InputLabel htmlFor="type">Type</InputLabel>
-							<Input id="type" value={this.state.type}/>
+							<Input id="type" value={this.state.type} onChange={this.handleChange}/>
 						</FormControl>
 					</div>
 					

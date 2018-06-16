@@ -10,5 +10,3 @@ import "./knowledge-base-db"
 import "./icons-db"
 import "./analytics-dashboard-db"
 import "./quick-panel-db"
-import "./auth-db"
-
