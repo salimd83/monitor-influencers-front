@@ -1,6 +1,6 @@
 import axios from "axios/index"
 import {getUserData} from "main/content/apps/contacts/store/actions/user.actions"
-import * as Fn from "fn/simpleCall.js"
+import * as Fn from "fn/index"
 
 
 export const GET_CONTACTS                = "[CONTACTS APP] GET CONTACTS"

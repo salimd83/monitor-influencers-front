@@ -16,6 +16,13 @@ const login = function (state = initialState, action) {
 				success: true
 			}
 		}
+		case Actions.REQUEST_SUCCESS: {
+			return {
+				...initialState,
+				phoneNumber: action,
+				success: true
+			}
+		}
 		case Actions.LOGIN_ERROR: {
 			return {
 				success: false,
