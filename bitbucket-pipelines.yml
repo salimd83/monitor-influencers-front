@@ -22,6 +22,8 @@ pipelines:
           script: # Modify the commands below to build your repository.
               - npm install
               - npm run build
+          artifacts:
+              - build/**
       - step:
           # set GCLOUD_PROJECT environment variable to your project ID
           # set GCLOUD_API_KEYFILE environment variable to base64-encoded keyfile as described here: https://confluence.atlassian.com/x/dm2xNQ

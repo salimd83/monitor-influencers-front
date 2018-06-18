@@ -8,7 +8,7 @@ export const SUCCESS = "SUCCESS"
 
 export async function simpleCall (method, endpoint, data, json) {
 	
-	method = method.toLowerCase();
+	method = method.toLowerCase()
 	
 	try {
 		var options = {
@@ -24,6 +24,12 @@ export async function simpleCall (method, endpoint, data, json) {
 		
 		switch (method) {
 			case "post":
+				options.body = data
+				break
+			case "put":
+				options.body = data
+				break
+			case "delete":
 				options.body = data
 				break
 			default:
