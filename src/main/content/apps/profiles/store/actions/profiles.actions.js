@@ -22,13 +22,21 @@ export const REMOVE_PROFILES = '[PROFILES APP] REMOVE PROFILES';
 export const TOGGLE_STARRED_PROFILE = '[PROFILES APP] TOGGLE STARRED PROFILE';
 export const TOGGLE_STARRED_PROFILES = '[PROFILES APP] TOGGLE STARRED PROFILES';
 export const SET_PROFILES_STARRED = '[PROFILES APP] SET PROFILES STARRED ';
+export const RECIEVING_PROFILES = '[PROFILES APP] RECIEVING PROFILES';
+
+function recievingProfiles() {
+  return {
+    type: RECIEVING_PROFILES
+  };
+}
 
 export function getProfiles(routeParams) {
   const request = Fn.simpleCall('get', '/si/leaderboard', {
     params: routeParams
   });
 
-  return dispatch =>
+  return dispatch => {
+    dispatch(recievingProfiles());
     request.then(response =>
       dispatch({
         type: GET_PROFILES,
@@ -36,6 +44,7 @@ export function getProfiles(routeParams) {
         routeParams
       })
     );
+  };
 }
 
 export function setSearchText(event) {

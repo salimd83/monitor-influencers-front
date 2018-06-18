@@ -13,7 +13,8 @@ import {
   Typography,
   Toolbar,
   AppBar,
-  MenuItem
+  MenuItem,
+  InputAdornment
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles/index';
 import { bindActionCreators } from 'redux';
@@ -95,7 +96,14 @@ class LinkDialog extends Component {
   }
 
   render() {
-    const { classes, linkDialog, addLink, updateLink, removeLink } = this.props;
+    const {
+      classes,
+      linkDialog,
+      addLink,
+      updateLink,
+      removeLink,
+      profileId
+    } = this.props;
     const { title, type, link, value } = this.state;
     const typeList = [
       'facebook',
@@ -109,7 +117,6 @@ class LinkDialog extends Component {
       'other'
     ];
 
-    console.log(linkDialog);
     return (
       <Dialog
         className={classes.root}
@@ -177,11 +184,13 @@ class LinkDialog extends Component {
             <FormControl className={classes.formControl} required fullWidth>
               <InputLabel htmlFor="link">Link</InputLabel>
               <Input
-                autoFocus
                 id="link"
                 name="link"
                 value={link}
                 onChange={this.handleChange}
+                startAdornment={
+                  <InputAdornment position="start">http://</InputAdornment>
+                }
               />
             </FormControl>
           </div>
@@ -193,7 +202,6 @@ class LinkDialog extends Component {
             <FormControl className={classes.formControl} required fullWidth>
               <InputLabel htmlFor="value">Value</InputLabel>
               <Input
-                autoFocus
                 id="value"
                 name="value"
                 value={value}
@@ -202,13 +210,13 @@ class LinkDialog extends Component {
             </FormControl>
           </div>
         </DialogContent>
-        {newLinkState.type === 'new' ? (
+        {linkDialog.type === 'new' ? (
           <DialogActions className="justify-between pl-16">
             <Button
               variant="raised"
               color="primary"
               onClick={() => {
-                addLink(this.state);
+                addLink(this.state, profileId);
                 this.closeComposeDialog();
               }}
               disabled={!this.canBeSubmitted()}
@@ -258,7 +266,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({ profileApp }) {
-  return { linkDialog: profileApp.profile.linkDialog };
+  const { profile } = profileApp;
+  return {
+    linkDialog: profile.linkDialog,
+    profileId: profile.routeParams.id
+  };
 }
 
 export default withStyles(styles, { withTheme: true })(

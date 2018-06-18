@@ -3,6 +3,9 @@ import _ from 'lodash';
 
 const initialState = {
   links: [],
+  deletingLink: false,
+  linkDeleted: null,
+  updatingLink: false,
   profile: {},
   linkDialog: {
     type: '',
@@ -71,6 +74,47 @@ const profileReducer = function(state = initialState, action) {
           },
           data: null
         }
+      };
+    }
+    case Actions.ADD_LINK: {
+      const { link } = action;
+      return {
+        ...state,
+        links: [...state.links, link]
+      };
+    }
+    case Actions.DELETING_LINK: {
+      return {
+        ...state,
+        deletingLink: action.id
+      };
+    }
+    case Actions.REMOVE_LINK: {
+      const { id } = action;
+      const newLinks = state.links.filter(link => link.id !== id);
+      return {
+        ...state,
+        links: newLinks,
+        deletingLink: false,
+        linkDeleted: id
+      };
+    }
+    case Actions.UPDATING_LINK: {
+      return {
+        ...state,
+        updatingLink: action.id
+      };
+    }
+    case Actions.UPDATE_LINK: {
+      const newLinks = state.links.map(link => {
+        if (action.link.id === link.id)
+          link = { ...link, title: action.link.title };
+        return link;
+      });
+      return {
+        ...state,
+        links: newLinks,
+        updatingLink: false
       };
     }
     default: {

@@ -8,6 +8,8 @@ export const CLOSE_EDIT_LINK_DIALOG = '[PROFILE APP] CLOSE EDIT LINK DIALOG';
 export const ADD_LINK = '[PROFILE APP] ADD LINK';
 export const REMOVE_LINK = '[PROFILE APP] REMOVE LINK';
 export const UPDATE_LINK = '[PROFILE APP] UPDATE LINK';
+export const DELETING_LINK = '[PROFILE APP] DELETING LINK';
+export const UPDATING_LINK = '[PROFILE APP] UPDATING LINK';
 
 export function getProfile(routeParams) {
   const request = Fn.simpleCall('get', `/si/profiles/${routeParams.id}`);
@@ -47,6 +49,67 @@ export function closeEditLinkDialog() {
   };
 }
 
-export function addLink() {}
-export function removeLink() {}
-export function updateLink() {}
+export function addLink(link, profileId) {
+  return async dispatch => {
+    try {
+      const response = await Fn.simpleCall(
+        'post',
+        `si/profile/${profileId}/links`,
+        { ...link }
+      );
+      dispatch({
+        type: ADD_LINK,
+        link: response.data
+      });
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+}
+
+function deletingLink(id) {
+  return {
+    type: DELETING_LINK,
+    id
+  };
+}
+
+export function removeLink(id) {
+  return async dispatch => {
+    dispatch(deletingLink(id));
+    try {
+      await Fn.simpleCall('delete', `si/link/${id}`);
+      dispatch({
+        type: REMOVE_LINK,
+        id
+      });
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+}
+
+function updatingLink(id) {
+  return {
+    type: UPDATING_LINK,
+    id
+  };
+}
+
+export function updateLink(link) {
+  return async dispatch => {
+    dispatch(updatingLink(link.id));
+    try {
+      const response = await Fn.simpleCall('put', `si/link/${link.id}`, {
+        ...link
+      });
+      console.log('response.data', response.data);
+      dispatch({
+        type: UPDATE_LINK,
+        link: link
+      });
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+}
