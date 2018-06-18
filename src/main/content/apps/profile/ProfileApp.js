@@ -58,7 +58,8 @@ class ProfilePage extends Component {
       profile,
       links,
       openNewLinkDialog,
-      linkDialog
+      removeLink,
+      updateLink
     } = this.props;
     const { value } = this.state;
 
@@ -94,7 +95,11 @@ class ProfilePage extends Component {
 
             <div className="">
               {links.map(link => (
-                <div style={{ textAlign: 'right' }} className="md:mb-8">
+                <div
+                  key={link.id}
+                  style={{ textAlign: 'right' }}
+                  className="md:mb-8"
+                >
                   <a href="#">
                     {link.value}
                     <i className={`fab fa-${link.type} md:ml-8`} />
@@ -140,7 +145,12 @@ class ProfilePage extends Component {
           <div className="p-24">
             {value === 0 && <TimelineTab />}
             {value === 1 && (
-              <AboutTab {...{ links, profile, openNewLinkDialog }} />
+              <AboutTab
+                {...{
+                  links,
+                  profile
+                }}
+              />
             )}
             {value === 2 && <PhotosVideosTab />}
           </div>
@@ -154,8 +164,7 @@ function mapDispatchToProdps(dispatch) {
   return bindActionCreators(
     {
       getProfile: Actions.getProfile,
-      getUserData: Actions.getUserData,
-      openNewLinkDialog: Actions.openNewLinkDialog
+      getUserData: Actions.getUserData
     },
     dispatch
   );

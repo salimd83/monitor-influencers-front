@@ -13,7 +13,8 @@ import {
   Menu,
   MenuItem,
   MenuList,
-  Typography
+  Typography,
+  CircularProgress
 } from '@material-ui/core';
 import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
@@ -67,12 +68,22 @@ class ProfilesList extends Component {
       removeProfile,
       toggleStarredProfile,
       setProfilesUnstarred,
-      setProfilesStarred
+      setProfilesStarred,
+      loadingProfiles
     } = this.props;
     const data = this.getFilteredArray(profiles, searchText);
     const { selectedProfilesMenu } = this.state;
 
-    if (!data && data.length === 0) {
+    if (loadingProfiles) {
+      return (
+        <div
+          className="flex items-center justify-center h-full"
+          style={{ margin: '20px' }}
+        >
+          <CircularProgress className={classes.progress} />
+        </div>
+      );
+    } else if (!data && data.length === 0) {
       return (
         <div className="flex items-center justify-center h-full">
           <Typography color="textSecondary" variant="headline">
@@ -294,10 +305,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({ profilesApp }) {
+  const { profiles } = profilesApp;
   return {
-    profiles: profilesApp.profiles.entities,
-    selectedProfileIds: profilesApp.profiles.selectedProfileIds,
-    searchText: profilesApp.profiles.searchText,
+    profiles: profiles.entities,
+    selectedProfileIds: profiles.selectedProfileIds,
+    loadingProfiles: profiles.loadingProfiles,
+    searchText: profiles.searchText,
     user: profilesApp.user
   };
 }

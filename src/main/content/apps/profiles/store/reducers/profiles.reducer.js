@@ -5,6 +5,7 @@ const initialState = {
   entities: [],
   searchText: '',
   selectedProfileIds: [],
+  loadingProfiles: false,
   routeParams: {},
   profileDialog: {
     type: 'new',
@@ -17,11 +18,18 @@ const initialState = {
 
 const profilesReducer = function(state = initialState, action) {
   switch (action.type) {
+    case Actions.RECIEVING_PROFILES: {
+      return {
+        ...state,
+        loadingProfiles: true
+      };
+    }
     case Actions.GET_PROFILES: {
       return {
         ...state,
         entities: _.keyBy(action.payload, 'id'),
-        routeParams: action.routeParams
+        routeParams: action.routeParams,
+        loadingProfiles: false
       };
     }
     case Actions.SET_SEARCH_TEXT: {
