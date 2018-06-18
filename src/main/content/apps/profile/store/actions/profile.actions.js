@@ -10,6 +10,8 @@ export const REMOVE_LINK = '[PROFILE APP] REMOVE LINK';
 export const UPDATE_LINK = '[PROFILE APP] UPDATE LINK';
 export const DELETING_LINK = '[PROFILE APP] DELETING LINK';
 export const UPDATING_LINK = '[PROFILE APP] UPDATING LINK';
+export const ADD_TAG = '[PROFILE APP] ADD TAG';
+export const DELETE_TAG = '[PROFILE APP] DELETE TAG';
 
 export function getProfile(routeParams) {
   const request = Fn.simpleCall('get', `/si/profiles/${routeParams.id}`);
@@ -107,6 +109,44 @@ export function updateLink(link) {
       dispatch({
         type: UPDATE_LINK,
         link: link
+      });
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+}
+
+export function addTag(tag, profileId) {
+  console.log('action tag:', tag);
+  return async dispatch => {
+    try {
+      const response = await Fn.simpleCall(
+        'post',
+        `si/profile/${profileId}/tags`,
+        { tag_id: tag.id }
+      );
+      dispatch({
+        type: ADD_TAG,
+        tag: tag
+      });
+    } catch (e) {
+      console.log(e.response);
+    }
+  };
+}
+
+export function deleteTag(id, profileId) {
+  return async dispatch => {
+    try {
+      const response = await Fn.simpleCall(
+        'delete',
+        `si/profile/${profileId}/tags`,
+        { tag_id: id }
+      );
+      console.log(id);
+      dispatch({
+        type: DELETE_TAG,
+        id
       });
     } catch (e) {
       console.log(e.response);

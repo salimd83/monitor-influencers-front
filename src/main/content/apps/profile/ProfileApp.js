@@ -37,11 +37,7 @@ const styles = theme => ({
 
 class ProfilePage extends Component {
   state = {
-    value: 0,
-    first_name: null,
-    last_name: null,
-    profile_picture: null,
-    links: []
+    value: 0
   };
 
   componentDidMount() {
@@ -53,15 +49,11 @@ class ProfilePage extends Component {
   };
 
   render() {
-    const {
-      classes,
-      profile,
-      links,
-      openNewLinkDialog,
-      removeLink,
-      updateLink
-    } = this.props;
+    const { classes, profile, links, tags } = this.props;
+    // const { links, tags } = profile;
     const { value } = this.state;
+
+    console.log('my profile', this.props);
 
     return (
       <FusePageSimple
@@ -147,7 +139,7 @@ class ProfilePage extends Component {
             {value === 1 && (
               <AboutTab
                 {...{
-                  links,
+                  tags,
                   profile
                 }}
               />
@@ -171,8 +163,8 @@ function mapDispatchToProdps(dispatch) {
 }
 
 function mapStateToProps({ profileApp }) {
-  const { profile, linkDialog } = profileApp;
-  return { ...profile, linkDialog };
+  const { profile, links, tags } = profileApp.profile;
+  return { profile, links, tags };
 }
 
 export default withStyles(styles, { withTheme: true })(
