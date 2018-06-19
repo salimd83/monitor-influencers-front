@@ -91,7 +91,7 @@ class Tags extends Component {
               {!tags.length && (
                 <Typography className="mb-4 text-15">No tags.</Typography>
               )}
-              {tags.length !== 0 &&
+              {/* {tags.length !== 0 &&
                 tags.map(tag => (
                   <Chip
                     key={tag.id}
@@ -100,7 +100,7 @@ class Tags extends Component {
                     onDelete={() => this.handleTagDelete(tag)}
                     className="m-4"
                   />
-                ))}
+                ))} */}
             </div>
 
             <Async
