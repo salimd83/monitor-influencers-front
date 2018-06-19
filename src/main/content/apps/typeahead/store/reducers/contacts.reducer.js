@@ -1,134 +1,125 @@
-import * as Actions from '../actions';
-import _ from 'lodash';
+import * as Actions from "../actions"
+import _ from "lodash"
 
 const initialState = {
-    entities          : [],
-    searchText        : '',
+    entities: [],
+    searchText: "",
+    searchType: "",
     selectedContactIds: [],
-    routeParams       : {},
-    contactDialog     : {
-        type : 'new',
+    routeParams: {},
+    contactDialog: {
+        type: "new",
         props: {
             open: false
         },
-        data : null
+        data: null
     }
-};
+}
 
 const contactsReducer = function (state = initialState, action) {
-    switch ( action.type )
-    {
-        case Actions.GET_CONTACTS:
-        {
+    switch (action.type) {
+        case Actions.GET_CONTACTS: {
             return {
                 ...state,
-                entities   : action.payload,
+                entities: action.payload,
                 routeParams: action.routeParams
-            };
+            }
         }
-        case Actions.SET_SEARCH_TEXT:
-        {
+        case Actions.SET_SEARCH_TEXT: {
             return {
                 ...state,
-                searchText: action.searchText
-            };
-        }
-        case Actions.TOGGLE_IN_SELECTED_CONTACTS:
-        {
-
-            const contactId = action.contactId;
-
-            let selectedContactIds = [...state.selectedContactIds];
-
-            if ( selectedContactIds.find(id => id === contactId) !== undefined )
-            {
-                selectedContactIds = selectedContactIds.filter(id => id !== contactId);
+                searchText: action.searchText,
+                searchType: action.searchType,
+                entities: action.payload
             }
-            else
-            {
-                selectedContactIds = [...selectedContactIds, contactId];
+        }
+        case Actions.TOGGLE_IN_SELECTED_CONTACTS: {
+
+            const contactId = action.contactId
+
+            let selectedContactIds = [...state.selectedContactIds]
+
+            if (selectedContactIds.find(id => id === contactId) !== undefined) {
+                selectedContactIds = selectedContactIds.filter(id => id !== contactId)
+            }
+            else {
+                selectedContactIds = [...selectedContactIds, contactId]
             }
 
             return {
                 ...state,
                 selectedContactIds: selectedContactIds
-            };
+            }
         }
-        case Actions.SELECT_ALL_CONTACTS:
-        {
-            const arr = Object.keys(state.entities).map(k => state.entities[k]);
+        case Actions.SELECT_ALL_CONTACTS: {
+            const arr = Object.keys(state.entities)
+                .map(k => state.entities[k])
 
-            const selectedContactIds = arr.map(contact => contact.id);
+            const selectedContactIds = arr.map(contact => contact.id)
 
             return {
                 ...state,
                 selectedContactIds: selectedContactIds
-            };
+            }
         }
-        case Actions.DESELECT_ALL_CONTACTS:
-        {
+        case Actions.DESELECT_ALL_CONTACTS: {
             return {
                 ...state,
                 selectedContactIds: []
-            };
+            }
         }
-        case Actions.OPEN_NEW_CONTACT_DIALOG:
-        {
+        case Actions.OPEN_NEW_CONTACT_DIALOG: {
             return {
                 ...state,
                 contactDialog: {
-                    type : 'new',
+                    type: "new",
                     props: {
                         open: true
                     },
-                    data : null
+                    data: null
                 }
-            };
+            }
         }
-        case Actions.CLOSE_NEW_CONTACT_DIALOG:
-        {
+        case Actions.CLOSE_NEW_CONTACT_DIALOG: {
             return {
                 ...state,
                 contactDialog: {
-                    type : 'new',
+                    type: "new",
                     props: {
                         open: false
                     },
-                    data : null
+                    data: null
                 }
-            };
+            }
         }
-        case Actions.OPEN_EDIT_CONTACT_DIALOG:
-        {
+        case Actions.OPEN_EDIT_CONTACT_DIALOG: {
             return {
                 ...state,
                 contactDialog: {
-                    type : 'edit',
+                    type: "edit",
                     props: {
                         open: true
                     },
-                    data : action.data
+                    data: action.data
                 }
-            };
+            }
         }
-        case Actions.CLOSE_EDIT_CONTACT_DIALOG:
-        {
+        case Actions.CLOSE_EDIT_CONTACT_DIALOG: {
             return {
                 ...state,
                 contactDialog: {
-                    type : 'edit',
+                    type: "edit",
                     props: {
                         open: false
                     },
-                    data : null
+                    data: null
                 }
-            };
+            }
         }
-        default:
-        {
-            return state;
+        default: {
+            return state
         }
     }
-};
+}
 
-export default contactsReducer;
+export default contactsReducer
