@@ -9,6 +9,7 @@ import contactsApp from 'main/content/apps/contacts/store/reducers/index';
 import calendarApp from 'main/content/apps/calendar/store/reducers/index';
 import profilesApp from 'main/content/apps/profiles/store/reducers/index';
 import profileApp from 'main/content/apps/profile/store/reducers/index';
+import typeaheadsApp from 'main/content/apps/typeaheads/store/reducers/index';
 
 const rootReducer = combineReducers({
   auth,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   calendarApp,
   quickPanel,
   profilesApp,
-  profileApp
+  profileApp,
+  typeaheadsApp
 });
 
 export default rootReducer;
