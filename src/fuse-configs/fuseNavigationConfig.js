@@ -23,8 +23,8 @@ export const fuseNavigationConfig = [
         url: '/apps/typeahead/all'
       },
       {
-        id: 'leaderboard',
-        title: 'leaderboard',
+        id: 'social_profiles',
+        title: 'Social Profiles',
         type: 'item',
         icon: 'star_rate',
         url: '/apps/profiles/all'
