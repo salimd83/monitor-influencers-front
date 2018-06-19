@@ -30,7 +30,7 @@ export async function simpleCall (method, endpoint, data, json) {
 				options.body = data
 				break
 			case "delete":
-				options.qs = data
+				options.body = data
 				break
 			default:
 				options.qs = data

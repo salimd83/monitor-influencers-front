@@ -8,6 +8,7 @@ import AboutTab from 'main/content/apps/profile/tabs/AboutTab';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from './store/actions';
+import _ from 'lodash';
 
 const styles = theme => ({
   layoutRoot: {},
@@ -37,11 +38,7 @@ const styles = theme => ({
 
 class ProfilePage extends Component {
   state = {
-    value: 0,
-    first_name: null,
-    last_name: null,
-    profile_picture: null,
-    links: []
+    value: 0
   };
 
   componentDidMount() {
@@ -53,15 +50,12 @@ class ProfilePage extends Component {
   };
 
   render() {
-    const {
-      classes,
-      profile,
-      links,
-      openNewLinkDialog,
-      removeLink,
-      updateLink
-    } = this.props;
+    const { classes, profile, links, tags } = this.props;
     const { value } = this.state;
+
+    const uniqueLinks = _.uniqBy(links, 'type');
+
+    console.log('my profile', this.props);
 
     return (
       <FusePageSimple
@@ -86,21 +80,21 @@ class ProfilePage extends Component {
                   >
                     {profile.first_name} {profile.last_name}
                   </Typography>
-                  <Typography className="md:ml-24" variant="subheading">
-                    820 Folowers
-                  </Typography>
                 </span>
               </FuseAnimate>
             </div>
 
             <div className="">
-              {links.map(link => (
+              {uniqueLinks.map(link => (
                 <div
                   key={link.id}
                   style={{ textAlign: 'right' }}
                   className="md:mb-8"
                 >
-                  <a href="#">
+                  <a
+                    href={`http://www.${link.type}.com/${link.value}`}
+                    target="_blank"
+                  >
                     {link.value}
                     <i className={`fab fa-${link.type} md:ml-8`} />
                   </a>
@@ -147,7 +141,7 @@ class ProfilePage extends Component {
             {value === 1 && (
               <AboutTab
                 {...{
-                  links,
+                  tags,
                   profile
                 }}
               />
@@ -171,8 +165,8 @@ function mapDispatchToProdps(dispatch) {
 }
 
 function mapStateToProps({ profileApp }) {
-  const { profile, linkDialog } = profileApp;
-  return { ...profile, linkDialog };
+  const { profile, links, tags } = profileApp.profile;
+  return { profile, links, tags };
 }
 
 export default withStyles(styles, { withTheme: true })(

@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 const initialState = {
   links: [],
+  tags: [],
   deletingLink: false,
   linkDeleted: null,
   updatingLink: false,
@@ -20,10 +21,12 @@ const initialState = {
 const profileReducer = function(state = initialState, action) {
   switch (action.type) {
     case Actions.GET_PROFILE: {
-      const { links, ...profile } = action.payload;
+      console.log(action.payload);
+      const { links, tags, ...profile } = action.payload;
       return {
         ...state,
         links: links,
+        tags: tags,
         profile: profile,
         routeParams: action.routeParams
       };
@@ -115,6 +118,22 @@ const profileReducer = function(state = initialState, action) {
         ...state,
         links: newLinks,
         updatingLink: false
+      };
+    }
+    case Actions.ADD_TAG: {
+      const { tag } = action;
+      return {
+        ...state,
+        tags: [...state.tags, tag]
+      };
+    }
+    case Actions.DELETE_TAG: {
+      const { id } = action;
+      console.log('reducer tag id:', action);
+      const newTags = state.tags.filter(tag => tag.id !== id);
+      return {
+        ...state,
+        tags: newTags
       };
     }
     default: {

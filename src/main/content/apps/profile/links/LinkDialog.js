@@ -18,9 +18,10 @@ import {
 } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles/index';
 import { bindActionCreators } from 'redux';
-import * as Actions from './store/actions';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+
+import * as Actions from '../store/actions';
 
 const styles = theme => ({
   root: {},
