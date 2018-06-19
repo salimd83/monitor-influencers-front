@@ -12,10 +12,8 @@ import {
   FormControl,
   Input
 } from '@material-ui/core';
-import classNames from 'classnames';
 import { FuseAnimateGroup } from '@fuse';
 import Popover from '@material-ui/core/Popover';
-import green from '@material-ui/core/colors/green';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';

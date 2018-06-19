@@ -135,7 +135,8 @@ export function addTag(tag, profileId) {
   };
 }
 
-export function deleteTag(id, profileId) {
+export function deleteTag({ id, relation_id }, profileId) {
+  console.log('action tag id', relation_id);
   return async dispatch => {
     try {
       const response = await Fn.simpleCall(

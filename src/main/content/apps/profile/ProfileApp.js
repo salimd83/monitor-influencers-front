@@ -8,6 +8,7 @@ import AboutTab from 'main/content/apps/profile/tabs/AboutTab';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from './store/actions';
+import _ from 'lodash';
 
 const styles = theme => ({
   layoutRoot: {},
@@ -50,8 +51,9 @@ class ProfilePage extends Component {
 
   render() {
     const { classes, profile, links, tags } = this.props;
-    // const { links, tags } = profile;
     const { value } = this.state;
+
+    const uniqueLinks = _.uniqBy(links, 'type');
 
     console.log('my profile', this.props);
 
@@ -78,21 +80,21 @@ class ProfilePage extends Component {
                   >
                     {profile.first_name} {profile.last_name}
                   </Typography>
-                  <Typography className="md:ml-24" variant="subheading">
-                    820 Folowers
-                  </Typography>
                 </span>
               </FuseAnimate>
             </div>
 
             <div className="">
-              {links.map(link => (
+              {uniqueLinks.map(link => (
                 <div
                   key={link.id}
                   style={{ textAlign: 'right' }}
                   className="md:mb-8"
                 >
-                  <a href="#">
+                  <a
+                    href={`http://www.${link.type}.com/${link.value}`}
+                    target="_blank"
+                  >
                     {link.value}
                     <i className={`fab fa-${link.type} md:ml-8`} />
                   </a>
