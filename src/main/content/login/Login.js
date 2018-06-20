@@ -15,7 +15,7 @@ import Formsy from "formsy-react"
 
 const styles = theme => ({
 	root : {
-		background    : "url('/assets/images/backgrounds/dark-material-bg.jpg') no-repeat",
+		background    : "url('/assets/images/backgrounds/white-material-bg.jpg') no-repeat",
 		backgroundSize: "cover"
 	},
 	intro: {
