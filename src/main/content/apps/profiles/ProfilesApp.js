@@ -42,7 +42,8 @@ class ProfilesApp extends Component {
     industries: [],
     countries: [],
     categories: [],
-    genders: []
+    genders: [],
+    languages: []
   };
 
   componentDidMount() {
@@ -64,12 +65,6 @@ class ProfilesApp extends Component {
     Fn.simpleCall('get', 'typeahead/category').then(res => {
       this.setState({
         categories: res.data
-      });
-    });
-
-    Fn.simpleCall('get', 'typeahead/gender').then(res => {
-      this.setState({
-        genders: _.isEmpty(res.data) ? [] : res.data
       });
     });
   }

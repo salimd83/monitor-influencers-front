@@ -16,6 +16,7 @@ export const OPEN_EDIT_PROFILE_DIALOG =
 export const CLOSE_EDIT_PROFILE_DIALOG =
   '[PROFILES APP] CLOSE EDIT PROFILE DIALOG';
 export const ADD_PROFILE = '[PROFILES APP] ADD PROFILE';
+export const ADDING_PROFILE = '[PROFILES APP] ADDING PROFILE';
 export const UPDATE_PROFILE = '[PROFILES APP] UPDATE PROFILE';
 export const REMOVE_PROFILE = '[PROFILES APP] REMOVE PROFILE';
 export const REMOVE_PROFILES = '[PROFILES APP] REMOVE PROFILES';
@@ -23,6 +24,7 @@ export const TOGGLE_STARRED_PROFILE = '[PROFILES APP] TOGGLE STARRED PROFILE';
 export const TOGGLE_STARRED_PROFILES = '[PROFILES APP] TOGGLE STARRED PROFILES';
 export const SET_PROFILES_STARRED = '[PROFILES APP] SET PROFILES STARRED ';
 export const RECIEVING_PROFILES = '[PROFILES APP] RECIEVING PROFILES';
+export const RESET_ADD_PROFILE = '[PROFILES APP] RESET ADD PROFILE';
 
 function recievingProfiles() {
   return {
@@ -32,7 +34,7 @@ function recievingProfiles() {
 
 export function getProfiles(routeParams) {
   const request = Fn.simpleCall('get', '/si/leaderboard', {
-    params: routeParams
+    params: { routeParams }
   });
 
   return dispatch => {
@@ -98,21 +100,42 @@ export function closeEditProfileDialog() {
   };
 }
 
+export function resetAddProfile() {
+  return {
+    type: RESET_ADD_PROFILE
+  };
+}
+
 export function addProfile(newProfile) {
   return (dispatch, getState) => {
     const { routeParams } = getState().profilesApp.profiles;
 
-    const request = axios.post('/api/profiles-app/add-profile', {
-      newProfile
+    const request = Fn.simpleCall('post', 'si/profiles', newProfile);
+    // const request = new Promise((resolve, reject) => {
+    //   setTimeout(
+    //     () =>
+    //       resolve({
+    //         code: 200,
+    //         data: { id: '42ig8yrfd5jhwrmy83' },
+    //         message: 'the profile was successfully created'
+    //       }),
+    //     1000
+    //   );
+    // });
+
+    dispatch({
+      type: ADDING_PROFILE
     });
 
-    return request.then(response =>
+    return request.then(response => {
       Promise.all([
         dispatch({
-          type: ADD_PROFILE
+          type: ADD_PROFILE,
+          message: response.message,
+          id: response.data.id
         })
-      ]).then(() => dispatch(getProfiles(routeParams)))
-    );
+      ]);
+    });
   };
 }
 
@@ -120,7 +143,7 @@ export function updateProfile(profile) {
   return (dispatch, getState) => {
     const { routeParams } = getState().profilesApp.profiles;
 
-    const request = axios.post('/api/profiles-app/update-profile', {
+    const request = Fn.simpleCall('put', `si/profiles/${profile.id}`, {
       profile
     });
 

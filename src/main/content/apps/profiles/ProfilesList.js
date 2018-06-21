@@ -92,57 +92,18 @@ class ProfilesList extends Component {
         </div>
       );
     }
-
+    // console.log(Object.values(profiles));
     return (
       <FuseAnimate animation="transition.slideUpIn" delay={300}>
         <ReactTable
           className={classNames(classes.root, '-striped -highlight')}
-          getTrProps={(state, rowInfo, column) => {
+          getTrProps={() => {
             return {
               className: 'cursor-pointer'
             };
           }}
-          data={data}
+          data={Object.values(profiles)}
           columns={[
-            {
-              Header: () => (
-                <Checkbox
-                  onClick={event => {
-                    event.stopPropagation();
-                  }}
-                  onChange={event => {
-                    event.target.checked
-                      ? selectAllProfiles()
-                      : deSelectAllProfiles();
-                  }}
-                  checked={
-                    selectedProfileIds.length ===
-                      Object.keys(profiles).length &&
-                    selectedProfileIds.length > 0
-                  }
-                  indeterminate={
-                    selectedProfileIds.length !==
-                      Object.keys(profiles).length &&
-                    selectedProfileIds.length > 0
-                  }
-                />
-              ),
-              accessor: '',
-              Cell: row => {
-                return (
-                  <Checkbox
-                    onClick={event => {
-                      event.stopPropagation();
-                    }}
-                    checked={selectedProfileIds.includes(row.value.id)}
-                    onChange={() => toggleInSelectedProfiles(row.value.id)}
-                  />
-                );
-              },
-              className: 'justify-center',
-              sortable: false,
-              width: 64
-            },
             {
               Header: () =>
                 selectedProfileIds.length > 0 && (
@@ -267,10 +228,10 @@ class ProfilesList extends Component {
                   <IconButton
                     onClick={ev => {
                       ev.stopPropagation();
-                      removeProfile(row.original.id);
+                      openEditProfileDialog(row.original);
                     }}
                   >
-                    <Icon>delete</Icon>
+                    <Icon>edit</Icon>
                   </IconButton>
                 </div>
               )
@@ -278,6 +239,11 @@ class ProfilesList extends Component {
           ]}
           defaultPageSize={10}
           noDataText="No profiles found"
+          manual // informs React Table that you'll be handling sorting and pagination server-side
+          onFetchData={(state, instance) => {
+            // show the loading overlay
+            // fetch your data
+          }}
         />
       </FuseAnimate>
     );

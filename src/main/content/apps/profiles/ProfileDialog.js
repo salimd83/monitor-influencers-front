@@ -15,46 +15,65 @@ import {
   Toolbar,
   AppBar,
   Avatar,
-  MenuItem
+  MenuItem,
+  CircularProgress
 } from '@material-ui/core';
+import { FuseAnimate } from '@fuse';
+import green from '@material-ui/core/colors/green';
 import { withStyles } from '@material-ui/core/styles/index';
 import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { Link } from 'react-router-dom';
+
+import ProfileForm from './ProfileForm';
 
 const styles = theme => ({
   root: {},
   formControl: {
     marginBottom: 24
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12
+  },
+  wrapper: {
+    margin: theme.spacing.unit,
+    position: 'relative'
+  },
+  rightIcon: {
+    marginLeft: theme.spacing.unit
   }
 });
+
 const newProfileState = {
   id: '',
   first_name: '',
   last_name: '',
-  avatar: 'assets/images/avatars/profile.jpg',
-  // nickname: '',
   industry: '',
   category: '',
   location: '',
   country: '',
-  gender: '',
-  primary_language: '',
-  facebook_username: '',
-  twitter_username: '',
-  instagram_username: '',
-  snapchat_username: '',
-  primary_platform: '',
   internal_notes: '',
-  active: true,
-  categoryList: [],
-  genderList: [],
-  languageList: []
+  active: true
 };
 
 class ProfileDialog extends Component {
-  state = { ...newProfileState };
+  state = {
+    ...newProfileState,
+    errors: {
+      first_name: null,
+      last_name: null,
+      description: null,
+      email: false,
+      internat_note: false
+    }
+  };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     /**
@@ -73,7 +92,12 @@ class ProfileDialog extends Component {
         this.props.profileDialog.data &&
         !_.isEqual(this.props.profileDialog.data, prevState)
       ) {
-        this.setState({ ...this.props.profileDialog.data });
+        this.setState({
+          ...this.state,
+          ...this.props.profileDialog.data,
+          industry: this.props.profileDialog.data.industry.id,
+          category: this.props.profileDialog.data.category.id
+        });
       }
 
       /**
@@ -84,10 +108,47 @@ class ProfileDialog extends Component {
         this.props.profileDialog.type === 'new' &&
         !_.isEqual(newProfileState, prevState)
       ) {
-        this.setState({ ...newProfileState });
+        this.setState({ ...this.state, ...newProfileState });
       }
     }
   }
+
+  validate = ({
+    name,
+    type = '',
+    required = false,
+    min = false,
+    max = false
+  }) => {
+    const errors = {};
+    let value = this.state[name] || '';
+    value = value.trim();
+
+    if (required && (!value || value === '')) errors[name] = 'Required';
+    else if (required) errors[name] = false;
+
+    if (value !== '' && value != null) {
+      if (min && value.length < min)
+        errors[name] = `must be less than ${min} characters.`;
+      else errors[name] = false;
+
+      if (max && value.length > max)
+        errors[name] = `must be less than ${max} characters.`;
+      else errors[name] = false;
+
+      if (
+        type === 'email' &&
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
+      )
+        errors.email = 'Invalid email address';
+      else errors.email = false;
+    }
+
+    this.setState({
+      ...this.state,
+      errors: { ...this.state.errors, ...errors }
+    });
+  };
 
   handleChange = event => {
     this.setState(
@@ -105,11 +166,13 @@ class ProfileDialog extends Component {
     this.props.profileDialog.type === 'edit'
       ? this.props.closeEditProfileDialog()
       : this.props.closeNewProfileDialog();
+    this.props.resetAddProfile();
   };
 
   canBeSubmitted() {
-    const { first_name } = this.state;
-    return first_name.length > 0;
+    const { first_name, last_name, description } = this.state.errors;
+    console.log(this.state.errors);
+    return !(first_name || last_name || description);
   }
 
   render() {
@@ -118,12 +181,76 @@ class ProfileDialog extends Component {
       profileDialog,
       addProfile,
       updateProfile,
-      removeProfile,
       industries,
       countries,
       categories,
-      genders
+      addingProfile,
+      addedProfile,
+      addedProfileId,
+      resetAddProfile
     } = this.props;
+
+    let actionButtons;
+
+    if (profileDialog.type === 'new') {
+      if (addedProfile) {
+        actionButtons = (
+          <div className={classes.wrapper} justify="center">
+            <Button
+              variant="raised"
+              color="primary"
+              className="mr-8 ml-16"
+              onClick={() => {
+                this.setState({ ...newProfileState, ...this.state });
+                resetAddProfile();
+              }}
+            >
+              Add Another
+            </Button>
+            <Button
+              href={`/apps/profile/${addedProfileId}`}
+              className={classes.button}
+              color="primary"
+            >
+              View Profile{' '}
+              <Icon className={classes.rightIcon}>exit_to_app</Icon>
+            </Button>
+          </div>
+        );
+      } else {
+        actionButtons = (
+          <div className={classes.wrapper}>
+            <Button
+              variant="raised"
+              color="primary"
+              onClick={() => {
+                addProfile(this.state);
+              }}
+              disabled={!this.canBeSubmitted() || addingProfile}
+            >
+              Add
+            </Button>
+            {addingProfile && (
+              <CircularProgress size={24} className={classes.buttonProgress} />
+            )}
+          </div>
+        );
+      }
+    } else {
+      actionButtons = (
+        <Button
+          variant="raised"
+          color="primary"
+          onClick={() => {
+            updateProfile(this.state);
+            this.closeComposeDialog();
+          }}
+          disabled={!this.canBeSubmitted()}
+        >
+          Save
+        </Button>
+      );
+    }
 
     return (
       <Dialog
@@ -133,7 +260,11 @@ class ProfileDialog extends Component {
         fullWidth
         maxWidth="xs"
       >
-        <AppBar position="static">
+        <AppBar
+          position="static"
+          color={addedProfile ? 'secondary' : 'primary'}
+          style={{ transition: 'color 0.2s' }}
+        >
           <Toolbar className="flex w-full">
             <Typography variant="subheading" color="inherit">
               {profileDialog.type === 'new' ? 'New Profile' : 'Edit Profile'}
@@ -143,7 +274,10 @@ class ProfileDialog extends Component {
             <Avatar
               className="w-96 h-96"
               alt="profile avatar"
-              src={this.state.avatar}
+              src={
+                this.state.profile_picture ||
+                'assets/images/avatars/profile.jpg'
+              }
             />
             {profileDialog.type === 'edit' && (
               <Typography variant="title" color="inherit" className="pt-8">
@@ -154,256 +288,44 @@ class ProfileDialog extends Component {
         </AppBar>
 
         <DialogContent classes={{ root: 'p-24' }}>
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">account_circle</Icon>
-            </div>
-            <FormControl className={classes.formControl} required fullWidth>
-              <InputLabel htmlFor="first_name">First Name</InputLabel>
-              <Input
-                autoFocus
-                id="first_name"
-                name="first_name"
-                value={this.state.first_name}
-                onChange={this.handleChange}
-              />
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">account_circle</Icon>
-            </div>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel htmlFor="last_name">Last name</InputLabel>
-              <Input
-                id="last_name"
-                name="last_name"
-                value={this.state.last_name}
-                onChange={this.handleChange}
-              />
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">domain</Icon>
-            </div>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel htmlFor="nickname">Industry</InputLabel>
-
-              <Select
-                value={this.state.industry}
-                onChange={this.handleChange}
-                inputProps={{
-                  name: 'industry',
-                  id: 'industry'
-                }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {industries.map(industry => (
-                  <MenuItem key={industry.id} value={industry.id}>
-                    {industry.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">note</Icon>
-            </div>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel htmlFor="description">Description</InputLabel>
-              <Input
-                id="description"
-                name="description"
-                multiline
-                rows="2"
-                rowsMax="4"
-                value={this.state.description}
-                onChange={this.handleChange}
-              />
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">email</Icon>
-            </div>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel htmlFor="email">Email</InputLabel>
-              <Input
-                id="email"
-                name="email"
-                value={this.state.email}
-                onChange={this.handleChange}
-              />
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">location_on</Icon>
-            </div>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel htmlFor="country">country</InputLabel>
-              <Select
-                value={this.state.industry}
-                onChange={this.handleChange}
-                inputProps={{
-                  name: 'country',
-                  id: 'country'
-                }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {countries.map(country => (
-                  <MenuItem key={country.id} value={country.id}>
-                    {country.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">home</Icon>
-            </div>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel htmlFor="location">Location</InputLabel>
-              <Select
-                value={this.state.industry}
-                onChange={this.handleChange}
-                inputProps={{
-                  name: 'location',
-                  id: 'location'
-                }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {countries.map(location => (
-                  <MenuItem key={location.id} value={location.id}>
-                    {location.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">category</Icon>
-            </div>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel htmlFor="location">Category</InputLabel>
-              <Select
-                value={this.state.category}
-                onChange={this.handleChange}
-                inputProps={{
-                  name: 'category',
-                  id: 'category'
-                }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {categories.map(category => (
-                  <MenuItem key={category.id} value={category.id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">home</Icon>
-            </div>
-            <FormControl className={classes.formControl} fullWidth>
-              <InputLabel htmlFor="gender">Gender</InputLabel>
-              <Select
-                value={this.state.gender}
-                onChange={this.handleChange}
-                inputProps={{
-                  name: 'gender',
-                  id: 'gender'
-                }}
-              >
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {genders.map(gender => (
-                  <MenuItem key={gender.id} value={gender.id}>
-                    {gender.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          </div>
-
-          <div className="flex">
-            <div className="min-w-48 pt-20">
-              <Icon color="action">note</Icon>
-            </div>
-            <TextField
-              className={classes.formControl}
-              id="internat_note"
-              label="internat_note"
-              type="text"
-              value={this.state.internat_note}
-              multiline
-              rows={2}
-              maxRows="5"
-              fullWidth
+          {addedProfile ? (
+            <FuseAnimate animation="transition.expandIn" delay={300}>
+              <div align="center">
+                <Icon
+                  className="mt-8"
+                  style={{ fontSize: 36 }}
+                  color="secondary"
+                >
+                  check_circle
+                </Icon>
+                <Typography
+                  variant="subheading"
+                  align="center"
+                  className="pt-8"
+                  color="secondary"
+                >
+                  {addedProfile}
+                </Typography>
+              </div>
+            </FuseAnimate>
+          ) : (
+            <ProfileForm
+              {...{
+                industries,
+                countries,
+                categories,
+                addingProfile,
+                validate: this.validate,
+                handleChange: this.handleChange,
+                ...this.state
+              }}
             />
-          </div>
+          )}
         </DialogContent>
 
-        {profileDialog.type === 'new' ? (
-          <DialogActions className="justify-between pl-16">
-            <Button
-              variant="raised"
-              color="primary"
-              onClick={() => {
-                addProfile(this.state);
-                this.closeComposeDialog();
-              }}
-              disabled={!this.canBeSubmitted()}
-            >
-              Add
-            </Button>
-          </DialogActions>
-        ) : (
-          <DialogActions className="justify-between pl-16">
-            <Button
-              variant="raised"
-              color="primary"
-              onClick={() => {
-                updateProfile(this.state);
-                this.closeComposeDialog();
-              }}
-              disabled={!this.canBeSubmitted()}
-            >
-              Save
-            </Button>
-            <IconButton
-              onClick={() => {
-                removeProfile(this.state.id);
-                this.closeComposeDialog();
-              }}
-            >
-              <Icon>delete</Icon>
-            </IconButton>
-          </DialogActions>
-        )}
+        <DialogActions className="justify-between pl-16">
+          {actionButtons}
+        </DialogActions>
       </Dialog>
     );
   }
@@ -416,7 +338,8 @@ function mapDispatchToProps(dispatch) {
       closeNewProfileDialog: Actions.closeNewProfileDialog,
       addProfile: Actions.addProfile,
       updateProfile: Actions.updateProfile,
-      removeProfile: Actions.removeProfile
+      removeProfile: Actions.removeProfile,
+      resetAddProfile: Actions.resetAddProfile
     },
     dispatch
   );
@@ -424,7 +347,10 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({ profilesApp }) {
   return {
-    profileDialog: profilesApp.profiles.profileDialog
+    profileDialog: profilesApp.profiles.profileDialog,
+    addingProfile: profilesApp.profiles.addingProfile,
+    addedProfile: profilesApp.profiles.addedProfile,
+    addedProfileId: profilesApp.profiles.addedProfileId
   };
 }
 
