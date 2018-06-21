@@ -33,9 +33,7 @@ function recievingProfiles() {
 }
 
 export function getProfiles(routeParams) {
-  const request = Fn.simpleCall('get', '/si/leaderboard', {
-    params: { routeParams }
-  });
+  const request = Fn.simpleCall('get', '/si/leaderboard?limit=100');
 
   return dispatch => {
     dispatch(recievingProfiles());
@@ -129,7 +127,7 @@ export function addProfile(newProfile) {
     });
 
     return request.then(response => {
-      console.log(request);
+      console.log(response);
       Promise.all([
         dispatch({
           type: ADD_PROFILE,
