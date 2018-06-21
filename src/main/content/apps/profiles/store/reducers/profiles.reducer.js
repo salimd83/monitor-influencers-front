@@ -6,6 +6,7 @@ const initialState = {
   searchText: '',
   selectedProfileIds: [],
   loadingProfiles: false,
+  pages: -1,
   routeParams: {},
   profileDialog: {
     type: 'new',

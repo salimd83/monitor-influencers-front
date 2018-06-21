@@ -34,6 +34,18 @@ const styles = theme => ({
     right: 12,
     bottom: 12,
     zIndex: 99
+  },
+  addButton: {
+    position: 'absolute',
+    right: 12,
+    bottom: 12,
+    zIndex: 99,
+    margin: 0,
+    top: 'auto',
+    right: 60,
+    bottom: 40,
+    left: 'auto',
+    position: 'fixed'
   }
 });
 
