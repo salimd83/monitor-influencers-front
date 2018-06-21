@@ -2,13 +2,15 @@ import * as Actions from '../actions';
 import _ from 'lodash';
 
 const initialState = {
-  entities: [],
-  searchText: '',
+    entities        : [],
+    searchText      : '',
   selectedProfileIds: [],
-  loadingProfiles: false,
-  pages: -1,
-  routeParams: {},
-  profileDialog: {
+    loadingProfiles : false,
+    addingProfile   : false,
+    addedProfile    : false,
+    addedProfileId  : '',
+    routeParams     : {},
+    profileDialog   : {
     type: 'new',
     props: {
       open: false
@@ -28,9 +30,11 @@ const profilesReducer = function(state = initialState, action) {
     case Actions.GET_PROFILES: {
       return {
         ...state,
-        entities: _.keyBy(action.payload, 'id'),
-        routeParams: action.routeParams,
-        loadingProfiles: false
+          entities       : _.keyBy(action.payload, 'id'),
+          routeParams    : action.routeParams,
+          loadingProfiles: false,
+          addingProfile  : false,
+          addedProfile   : false
       };
     }
     case Actions.SET_SEARCH_TEXT: {
@@ -39,6 +43,29 @@ const profilesReducer = function(state = initialState, action) {
         searchText: action.searchText
       };
     }
+      case Actions.ADDING_PROFILE: {
+          return {
+              ...state,
+              addingProfile: true,
+              addedProfile : false
+          }
+      }
+      case Actions.ADD_PROFILE: {
+          return {
+              ...state,
+              addingProfile : false,
+              addedProfile  : action.message,
+              addedProfileId: action.id
+          }
+      }
+      case Actions.RESET_ADD_PROFILE: {
+          return {
+              ...state,
+              addingProfile : false,
+              addedProfile  : false,
+              addedProfileId: ''
+          }
+      }
     case Actions.TOGGLE_IN_SELECTED_PROFILES: {
       const profileId = action.profileId;
 
