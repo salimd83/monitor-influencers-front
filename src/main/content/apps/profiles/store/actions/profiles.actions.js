@@ -111,6 +111,7 @@ export function addProfile(newProfile) {
     const { routeParams } = getState().profilesApp.profiles;
 
     const request = Fn.simpleCall('post', 'si/profiles', newProfile);
+
     // const request = new Promise((resolve, reject) => {
     //   setTimeout(
     //     () =>
@@ -128,6 +129,7 @@ export function addProfile(newProfile) {
     });
 
     return request.then(response => {
+      console.log(request);
       Promise.all([
         dispatch({
           type: ADD_PROFILE,
