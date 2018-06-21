@@ -54,6 +54,7 @@ class ProfilesList extends Component {
   };
 
   render() {
+    console.log('profiles', profiles);
     const {
       classes,
       profiles,
@@ -69,7 +70,8 @@ class ProfilesList extends Component {
       toggleStarredProfile,
       setProfilesUnstarred,
       setProfilesStarred,
-      loadingProfiles
+      loadingProfiles,
+      pages
     } = this.props;
     const data = this.getFilteredArray(profiles, searchText);
     const { selectedProfilesMenu } = this.state;
@@ -105,101 +107,7 @@ class ProfilesList extends Component {
           data={data}
           columns={[
             {
-              Header: () => (
-                <Checkbox
-                  onClick={event => {
-                    event.stopPropagation();
-                  }}
-                  onChange={event => {
-                    event.target.checked
-                      ? selectAllProfiles()
-                      : deSelectAllProfiles();
-                  }}
-                  checked={
-                    selectedProfileIds.length ===
-                      Object.keys(profiles).length &&
-                    selectedProfileIds.length > 0
-                  }
-                  indeterminate={
-                    selectedProfileIds.length !==
-                      Object.keys(profiles).length &&
-                    selectedProfileIds.length > 0
-                  }
-                />
-              ),
-              accessor: '',
-              Cell: row => {
-                return (
-                  <Checkbox
-                    onClick={event => {
-                      event.stopPropagation();
-                    }}
-                    checked={selectedProfileIds.includes(row.value.id)}
-                    onChange={() => toggleInSelectedProfiles(row.value.id)}
-                  />
-                );
-              },
-              className: 'justify-center',
-              sortable: false,
-              width: 64
-            },
-            {
-              Header: () =>
-                selectedProfileIds.length > 0 && (
-                  <React.Fragment>
-                    <IconButton
-                      aria-owns={
-                        selectedProfilesMenu ? 'selectedProfilesMenu' : null
-                      }
-                      aria-haspopup="true"
-                      onClick={this.openSelectedProfileMenu}
-                    >
-                      <Icon>more_horiz</Icon>
-                    </IconButton>
-                    <Menu
-                      id="selectedProfilesMenu"
-                      anchorEl={selectedProfilesMenu}
-                      open={Boolean(selectedProfilesMenu)}
-                      onClose={this.closeSelectedProfilesMenu}
-                    >
-                      <MenuList>
-                        <MenuItem
-                          onClick={() => {
-                            removeProfiles(selectedProfileIds);
-                            this.closeSelectedProfilesMenu();
-                          }}
-                        >
-                          <ListItemIcon className={classes.icon}>
-                            <Icon>delete</Icon>
-                          </ListItemIcon>
-                          <ListItemText inset primary="Remove" />
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            setProfilesStarred(selectedProfileIds);
-                            this.closeSelectedProfilesMenu();
-                          }}
-                        >
-                          <ListItemIcon className={classes.icon}>
-                            <Icon>star</Icon>
-                          </ListItemIcon>
-                          <ListItemText inset primary="Starred" />
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            setProfilesUnstarred(selectedProfileIds);
-                            this.closeSelectedProfilesMenu();
-                          }}
-                        >
-                          <ListItemIcon className={classes.icon}>
-                            <Icon>star_border</Icon>
-                          </ListItemIcon>
-                          <ListItemText inset primary="Unstarred" />
-                        </MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </React.Fragment>
-                ),
+              Header: '',
               accessor: 'profile_picture',
               Cell: row => (
                 <Link to={`/apps/profile/${row.original.id}`}>
@@ -211,11 +119,11 @@ class ProfilesList extends Component {
                 </Link>
               ),
               className: 'justify-center',
-              width: 64,
+              width: 96,
               sortable: false
             },
             {
-              Header: 'First Name',
+              Header: () => <div className="my-12">First Name</div>,
               accessor: 'first_name',
               filterable: true,
               Cell: row => (
@@ -311,7 +219,8 @@ function mapStateToProps({ profilesApp }) {
     selectedProfileIds: profiles.selectedProfileIds,
     loadingProfiles: profiles.loadingProfiles,
     searchText: profiles.searchText,
-    user: profilesApp.user
+    user: profilesApp.user,
+    pages: profilesApp.pages
   };
 }
 
