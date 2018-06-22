@@ -69,7 +69,7 @@ class ProfilesList extends Component {
       toggleStarredProfile,
       setProfilesUnstarred,
       setProfilesStarred,
-              loadingProfiles
+      loadingProfiles
     } = this.props;
     const data = this.getFilteredArray(profiles, searchText);
     const { selectedProfilesMenu } = this.state;
@@ -92,77 +92,77 @@ class ProfilesList extends Component {
         </div>
       );
     }
-      // console.log(Object.values(profiles));
+    // console.log(Object.values(profiles));
     return (
       <FuseAnimate animation="transition.slideUpIn" delay={300}>
         <ReactTable
-            className={classNames(classes.root, '-striped -highlight')}
-            getTrProps={() => {
+          className={classNames(classes.root, '-striped -highlight')}
+          getTrProps={() => {
             return {
               className: 'cursor-pointer'
             };
           }}
-            data={Object.values(profiles)}
-            columns={[
+          data={Object.values(profiles)}
+          columns={[
             {
-                Header   : () =>
-                    selectedProfileIds.length > 0 && (
-                                                  <React.Fragment>
-                                                      <IconButton
-                                                          aria-owns={
-                                                              selectedProfilesMenu ? 'selectedProfilesMenu' : null
-                                                          }
-                                                          aria-haspopup="true"
-                                                          onClick={this.openSelectedProfileMenu}
-                                                      >
-                                                          <Icon>more_horiz</Icon>
-                                                      </IconButton>
-                                                      <Menu
-                                                          id="selectedProfilesMenu"
-                                                          anchorEl={selectedProfilesMenu}
-                                                          open={Boolean(selectedProfilesMenu)}
-                                                          onClose={this.closeSelectedProfilesMenu}
-                                                      >
-                                                          <MenuList>
-                                                              <MenuItem
-                                                                  onClick={() => {
-                                                                      removeProfiles(selectedProfileIds)
-                                                                      this.closeSelectedProfilesMenu()
-                                                                  }}
-                                                              >
-                                                                  <ListItemIcon className={classes.icon}>
-                                                                      <Icon>delete</Icon>
-                                                                  </ListItemIcon>
-                                                                  <ListItemText inset primary="Remove"/>
-                                                              </MenuItem>
-                                                              <MenuItem
-                                                                  onClick={() => {
-                                                                      setProfilesStarred(selectedProfileIds)
-                                                                      this.closeSelectedProfilesMenu()
-                                                                  }}
-                                                              >
-                                                                  <ListItemIcon className={classes.icon}>
-                                                                      <Icon>star</Icon>
-                                                                  </ListItemIcon>
-                                                                  <ListItemText inset primary="Starred"/>
-                                                              </MenuItem>
-                                                              <MenuItem
-                                                                  onClick={() => {
-                                                                      setProfilesUnstarred(selectedProfileIds)
-                                                                      this.closeSelectedProfilesMenu()
-                                                                  }}
-                                                              >
-                                                                  <ListItemIcon className={classes.icon}>
-                                                                      <Icon>star_border</Icon>
-                                                                  </ListItemIcon>
-                                                                  <ListItemText inset primary="Unstarred"/>
-                                                              </MenuItem>
-                                                          </MenuList>
-                                                      </Menu>
-                                                  </React.Fragment>
-                                              ),
-                accessor : 'profile_picture',
-                Cell     : row => (
+              Header: () =>
+                selectedProfileIds.length > 0 && (
+                  <React.Fragment>
+                    <IconButton
+                      aria-owns={
+                        selectedProfilesMenu ? 'selectedProfilesMenu' : null
+                      }
+                      aria-haspopup="true"
+                      onClick={this.openSelectedProfileMenu}
+                    >
+                      <Icon>more_horiz</Icon>
+                    </IconButton>
+                    <Menu
+                      id="selectedProfilesMenu"
+                      anchorEl={selectedProfilesMenu}
+                      open={Boolean(selectedProfilesMenu)}
+                      onClose={this.closeSelectedProfilesMenu}
+                    >
+                      <MenuList>
+                        <MenuItem
+                          onClick={() => {
+                            removeProfiles(selectedProfileIds);
+                            this.closeSelectedProfilesMenu();
+                          }}
+                        >
+                          <ListItemIcon className={classes.icon}>
+                            <Icon>delete</Icon>
+                          </ListItemIcon>
+                          <ListItemText inset primary="Remove" />
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            setProfilesStarred(selectedProfileIds);
+                            this.closeSelectedProfilesMenu();
+                          }}
+                        >
+                          <ListItemIcon className={classes.icon}>
+                            <Icon>star</Icon>
+                          </ListItemIcon>
+                          <ListItemText inset primary="Starred" />
+                        </MenuItem>
+                        <MenuItem
+                          onClick={() => {
+                            setProfilesUnstarred(selectedProfileIds);
+                            this.closeSelectedProfilesMenu();
+                          }}
+                        >
+                          <ListItemIcon className={classes.icon}>
+                            <Icon>star_border</Icon>
+                          </ListItemIcon>
+                          <ListItemText inset primary="Unstarred" />
+                        </MenuItem>
+                      </MenuList>
+                    </Menu>
+                  </React.Fragment>
+                ),
+              accessor: 'profile_picture',
+              Cell: row => (
                 <Link to={`/apps/profile/${row.original.id}`}>
                   <Avatar
                     className="mr-8"
@@ -171,18 +171,18 @@ class ProfilesList extends Component {
                   />
                 </Link>
               ),
-                className: 'justify-center',
-                width    : 64,
-                sortable : false
+              className: 'justify-center',
+              width: 64,
+              sortable: false
             },
             {
-                Header    : 'First Name',
-                accessor  : 'first_name',
-                filterable: true,
-                Cell      : row => (
+              Header: 'First Name',
+              accessor: 'first_name',
+              filterable: true,
+              Cell: row => (
                 <Link to={`/apps/profile/${row.original.id}`}>{row.value}</Link>
               ),
-                className : 'font-bold'
+              className: 'font-bold'
             },
             {
               Header: 'Last Name',
@@ -228,22 +228,25 @@ class ProfilesList extends Component {
                   <IconButton
                     onClick={ev => {
                       ev.stopPropagation();
-                        openEditProfileDialog(row.original)
+                      openEditProfileDialog(row.original);
                     }}
                   >
-                      <Icon>edit</Icon>
+                    <Icon>edit</Icon>
                   </IconButton>
                 </div>
               )
             }
           ]}
-            defaultPageSize={10}
-            noDataText="No profiles found"
-            manual // informs React Table that you'll be handling sorting and pagination server-side
-            onFetchData={(state, instance) => {
-                // show the loading overlay
-                // fetch your data
-            }}
+          defaultPageSize={10}
+          noDataText="No profiles found"
+          pages="10"
+          manual // informs React Table that you'll be handling sorting and pagination server-side
+          onFetchData={(state, instance) => {
+            // show the loading overlay
+            // fetch your data
+            console.log(state);
+            console.log(instance);
+          }}
         />
       </FuseAnimate>
     );
@@ -273,11 +276,11 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps({ profilesApp }) {
   const { profiles } = profilesApp;
   return {
-      profiles        : profiles.entities,
+    profiles: profiles.entities,
     selectedProfileIds: profiles.selectedProfileIds,
-      loadingProfiles : profiles.loadingProfiles,
-      searchText      : profiles.searchText,
-      user            : profilesApp.user
+    loadingProfiles: profiles.loadingProfiles,
+    searchText: profiles.searchText,
+    user: profilesApp.user
   };
 }
 

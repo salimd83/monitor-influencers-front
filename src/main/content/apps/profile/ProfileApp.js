@@ -5,6 +5,7 @@ import { Avatar, Button, Tab, Tabs, Typography } from '@material-ui/core';
 import TimelineTab from 'main/content/apps/profile/tabs/TimelineTab';
 import PhotosVideosTab from 'main/content/apps/profile/tabs/PhotosVideosTab';
 import AboutTab from 'main/content/apps/profile/tabs/AboutTab';
+import InsightTab from 'main/content/apps/profile/tabs/InsightTab';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as Actions from './store/actions';
@@ -133,6 +134,12 @@ class ProfilePage extends Component {
               }}
               label="Photos & Videos"
             />
+            <Tab
+              classes={{
+                root: classes.tabRoot
+              }}
+              label="Insight"
+            />
           </Tabs>
         }
         content={
@@ -147,6 +154,7 @@ class ProfilePage extends Component {
               />
             )}
             {value === 2 && <PhotosVideosTab />}
+            {value === 3 && <InsightTab />}
           </div>
         }
       />
