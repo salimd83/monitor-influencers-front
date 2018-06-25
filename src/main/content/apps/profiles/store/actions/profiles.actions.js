@@ -139,7 +139,8 @@ export function addProfile(newProfile) {
   };
 }
 
-export function updateProfile(profile) {
+export function updateProfile({errors, ...profile}) {
+  console.log('Updating profile:', profile);
   return (dispatch, getState) => {
     const { routeParams } = getState().profilesApp.profiles;
 

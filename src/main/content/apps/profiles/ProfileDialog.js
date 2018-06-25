@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
 import {
-  TextField,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
-  InputLabel,
-  Input,
-  Select,
   Icon,
-  IconButton,
   Typography,
   Toolbar,
   AppBar,
   Avatar,
-  MenuItem,
   CircularProgress
 } from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
@@ -25,7 +18,6 @@ import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 
 import ProfileForm from './ProfileForm';
 
