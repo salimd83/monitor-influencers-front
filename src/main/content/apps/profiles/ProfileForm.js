@@ -1,14 +1,5 @@
 import React, { Component } from 'react';
-import {
-  TextField,
-  Button,
-  FormControl,
-  InputLabel,
-  Icon,
-  Typography,
-  MenuItem
-} from '@material-ui/core';
-import _ from 'lodash';
+import { Icon } from '@material-ui/core';
 import { Select, Input } from '@fuse';
 
 class ProfileForm extends Component {
@@ -17,8 +8,6 @@ class ProfileForm extends Component {
       industries,
       countries,
       categories,
-      genders,
-      languages,
       handleChange,
       errors,
       validate
@@ -81,7 +70,7 @@ class ProfileForm extends Component {
             onChange={handleChange}
             name="industry"
             id="industry"
-            data={industries}
+            data={industries || []}
           />
         </div>
 
@@ -142,7 +131,7 @@ class ProfileForm extends Component {
             value={this.props.country}
             onChange={handleChange}
             id="country"
-            data={countries}
+            data={countries || []}
           />
         </div>
 
@@ -155,7 +144,7 @@ class ProfileForm extends Component {
             value={this.props.location}
             onChange={handleChange}
             id="location"
-            data={countries}
+            data={countries || []}
           />
         </div>
 
@@ -169,7 +158,7 @@ class ProfileForm extends Component {
             value={this.props.category}
             onChange={handleChange}
             id="category"
-            data={categories}
+            data={categories || []}
           />
         </div>
 

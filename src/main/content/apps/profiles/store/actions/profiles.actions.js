@@ -139,7 +139,7 @@ export function addProfile(newProfile) {
   };
 }
 
-export function updateProfile({errors, ...profile}) {
+export function updateProfile(profile) {
   console.log('Updating profile:', profile);
   return (dispatch, getState) => {
     const { routeParams } = getState().profilesApp.profiles;
@@ -148,13 +148,14 @@ export function updateProfile({errors, ...profile}) {
       profile
     });
 
-    return request.then(response =>
+    return request.then(response => {
+      console.log(response);
       Promise.all([
         dispatch({
           type: UPDATE_PROFILE
         })
-      ]).then(() => dispatch(getProfiles(routeParams)))
-    );
+      ]).then(() => dispatch(getProfiles(routeParams)));
+    });
   };
 }
 

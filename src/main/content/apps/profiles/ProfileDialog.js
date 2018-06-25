@@ -51,8 +51,7 @@ const newProfileState = {
   category: '',
   location: '',
   country: '',
-  internal_notes: '',
-  active: true
+  internal_notes: ''
 };
 
 class ProfileDialog extends Component {
@@ -233,7 +232,7 @@ class ProfileDialog extends Component {
           variant="raised"
           color="primary"
           onClick={() => {
-            updateProfile(this.state);
+            updateProfile(_.omit(this.state, ['errors', 'tags', 'active']));
             this.closeComposeDialog();
           }}
           disabled={!this.canBeSubmitted()}
