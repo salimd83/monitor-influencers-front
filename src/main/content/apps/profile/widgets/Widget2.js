@@ -6,7 +6,11 @@ import classNames from 'classnames';
 import Popover from '@material-ui/core/Popover';
 
 const styles = theme => ({
-  root: {}
+  root: {},
+  typography: {
+    margin: theme.spacing.unit,
+    fontSize: '14px'
+  }
 });
 
 class Widget2 extends Component {
@@ -32,12 +36,19 @@ class Widget2 extends Component {
       borderColor: theme.palette.secondary.main,
       backgroundColor: theme.palette.secondary.main
     }));
+    const { anchorEl } = this.state;
     return (
       <Card className={classNames(classes.root, 'w-full')}>
         <div className="p-16 pb-0 flex flex-row flex-wrap items-end">
           <div className="pr-16">
             <Typography className="h3" color="textSecondary">
-              Conversion
+              Conversion{' '}
+              <Icon
+                style={{ fontSixe: '21px', verticalAlign: 'middle' }}
+                onClick={this.handleClick}
+              >
+                info
+              </Icon>
             </Typography>
             <Typography className="text-56 font-300 leading-none mt-8">
               {data.conversion.value}
@@ -69,6 +80,24 @@ class Widget2 extends Component {
             options={data.options}
           />
         </div>
+
+        <Popover
+          open={Boolean(anchorEl)}
+          anchorEl={anchorEl}
+          onClose={this.handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left'
+          }}
+        >
+          <Typography className={classes.typography}>
+            The content of the Popover.
+          </Typography>
+        </Popover>
       </Card>
     );
   }

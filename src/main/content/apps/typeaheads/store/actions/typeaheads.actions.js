@@ -146,9 +146,13 @@ export function removeTypeahead(typeaheadId) {
   return (dispatch, getState) => {
     const { routeParams } = getState().typeaheadsApp.typeaheads;
 
-    const request = axios.post('/api/typeaheads-app/remove-typeahead', {
-      typeaheadId
-    });
+    const request = Fn.simpleCall(
+      'delete',
+      '/api/typeaheads-app/remove-typeahead',
+      {
+        typeaheadId
+      }
+    );
 
     return request.then(response =>
       Promise.all([

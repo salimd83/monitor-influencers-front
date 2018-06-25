@@ -1,21 +1,14 @@
 import React, { Component } from 'react';
 import {
-  TextField,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  FormControl,
-  InputLabel,
-  Input,
-  Select,
   Icon,
-  IconButton,
   Typography,
   Toolbar,
   AppBar,
   Avatar,
-  MenuItem,
   CircularProgress
 } from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
@@ -25,7 +18,6 @@ import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import { Link } from 'react-router-dom';
 
 import ProfileForm from './ProfileForm';
 
@@ -59,8 +51,7 @@ const newProfileState = {
   category: '',
   location: '',
   country: '',
-  internal_notes: '',
-  active: true
+  internal_notes: ''
 };
 
 class ProfileDialog extends Component {
@@ -171,7 +162,6 @@ class ProfileDialog extends Component {
 
   canBeSubmitted() {
     const { first_name, last_name, description } = this.state.errors;
-    console.log(this.state.errors);
     return !(first_name || last_name || description);
   }
 
@@ -242,7 +232,14 @@ class ProfileDialog extends Component {
           variant="raised"
           color="primary"
           onClick={() => {
-            updateProfile(this.state);
+            updateProfile(
+              _.omit(this.state, [
+                'errors',
+                'tags',
+                'active',
+                'profile_picture'
+              ])
+            );
             this.closeComposeDialog();
           }}
           disabled={!this.canBeSubmitted()}
