@@ -144,9 +144,7 @@ export function updateProfile({ id, ...profile }) {
   return (dispatch, getState) => {
     const { routeParams } = getState().profilesApp.profiles;
 
-    const request = Fn.simpleCall('put', `si/profiles/${id}`, {
-      profile
-    });
+    const request = Fn.simpleCall('put', `si/profiles/${id}`, profile);
 
     return request.then(response => {
       console.log(response);
