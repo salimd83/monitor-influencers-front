@@ -5,17 +5,69 @@ import {
   GridList,
   Grid,
   Paper,
-  GridListTile,
-  GridListTileBar,
   Icon,
-  IconButton,
   Typography,
-  ListSubheader,
   TextField
 } from '@material-ui/core';
 import classNames from 'classnames';
 import { FuseAnimateGroup } from '@fuse';
 import _ from 'lodash';
+
+import Widget2 from '../widgets/Widget2';
+
+const widget2 = {
+  conversion: {
+    value: 492,
+    ofTarget: 13
+  },
+  chartType: 'bar',
+  datasets: [
+    {
+      label: 'Conversion',
+      data: [221, 428, 492, 471, 413, 344, 294]
+    }
+  ],
+  labels: [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ],
+  options: {
+    spanGaps: false,
+    legend: {
+      display: false
+    },
+    maintainAspectRatio: false,
+    layout: {
+      padding: {
+        top: 24,
+        left: 16,
+        right: 16,
+        bottom: 16
+      }
+    },
+    scales: {
+      xAxes: [
+        {
+          display: false
+        }
+      ],
+      yAxes: [
+        {
+          display: false,
+          ticks: {
+            min: 100,
+            max: 500
+          }
+        }
+      ]
+    }
+  }
+};
 
 const styles = theme => ({
   root: {
@@ -24,6 +76,10 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
     color: theme.palette.text.secondary
+  },
+  typography: {
+    margin: theme.spacing.unit,
+    fontSize: '14px'
   }
 });
 
@@ -32,12 +88,6 @@ class InsightTab extends Component {
     dateFrom: Date.now(),
     dateTo: Date.now() + 1
   };
-
-  componentDidMount() {
-    axios.get('/api/profile/photos-videos').then(res => {
-      this.setState({ photosVideos: res.data });
-    });
-  }
 
   handleChange = event => {
     this.setState(
@@ -53,7 +103,7 @@ class InsightTab extends Component {
 
   render() {
     const { classes } = this.props;
-    const { photosVideos } = this.state;
+    const { anchorEl } = this.state;
 
     return (
       <div className={classes.root}>
@@ -110,16 +160,10 @@ class InsightTab extends Component {
                 animation: 'transition.slideUpBigIn'
               }}
             >
-              <Paper className={classes.paper}>
-                <div className="pr-16">
-                  <Typography className="h3" color="textSecondary">
-                    Conversion
-                  </Typography>
-                  <Typography className="text-56 font-300 leading-none mt-8">
-                    567
-                  </Typography>
-                </div>
-              </Paper>
+              <Widget2
+                data={widget2}
+                popoverText="the content of the popover"
+              />
             </FuseAnimateGroup>
           </Grid>
         </Grid>

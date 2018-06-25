@@ -171,7 +171,6 @@ class ProfileDialog extends Component {
 
   canBeSubmitted() {
     const { first_name, last_name, description } = this.state.errors;
-    console.log(this.state.errors);
     return !(first_name || last_name || description);
   }
 
