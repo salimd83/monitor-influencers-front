@@ -33,7 +33,7 @@ function recievingProfiles() {
 }
 
 export function getProfiles(routeParams) {
-  const request = Fn.simpleCall('get', '/si/leaderboard?limit=100');
+  const request = Fn.simpleCall('get', '/si/leaderboard');
 
   return dispatch => {
     dispatch(recievingProfiles());
@@ -139,12 +139,12 @@ export function addProfile(newProfile) {
   };
 }
 
-export function updateProfile(profile) {
+export function updateProfile({ id, ...profile }) {
   console.log('Updating profile:', profile);
   return (dispatch, getState) => {
     const { routeParams } = getState().profilesApp.profiles;
 
-    const request = Fn.simpleCall('put', `si/profiles/${profile.id}`, {
+    const request = Fn.simpleCall('put', `si/profiles/${id}`, {
       profile
     });
 

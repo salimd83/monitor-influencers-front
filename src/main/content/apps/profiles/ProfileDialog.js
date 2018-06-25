@@ -232,7 +232,14 @@ class ProfileDialog extends Component {
           variant="raised"
           color="primary"
           onClick={() => {
-            updateProfile(_.omit(this.state, ['errors', 'tags', 'active']));
+            updateProfile(
+              _.omit(this.state, [
+                'errors',
+                'tags',
+                'active',
+                'profile_picture'
+              ])
+            );
             this.closeComposeDialog();
           }}
           disabled={!this.canBeSubmitted()}
