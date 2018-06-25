@@ -48,5 +48,4 @@ export async function simpleCall(method, endpoint, data, json) {
         }
         return error.response
     }
-
 }
