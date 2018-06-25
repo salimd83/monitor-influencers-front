@@ -25,6 +25,7 @@ export const TOGGLE_STARRED_PROFILES = '[PROFILES APP] TOGGLE STARRED PROFILES';
 export const SET_PROFILES_STARRED = '[PROFILES APP] SET PROFILES STARRED ';
 export const RECIEVING_PROFILES = '[PROFILES APP] RECIEVING PROFILES';
 export const RESET_ADD_PROFILE = '[PROFILES APP] RESET ADD PROFILE';
+export const PROFILE_ERROR = '[PROFILES APP] PROFILE ERROR';
 
 function recievingProfiles() {
   return {
@@ -140,20 +141,38 @@ export function addProfile(newProfile) {
 }
 
 export function updateProfile({ id, ...profile }) {
-  console.log('Updating profile:', profile);
-  return (dispatch, getState) => {
+  const filteredProfile = {};
+  for (let key in profile) {
+    if (profile[key] !== '') {
+      filteredProfile[key] = profile[key];
+    }
+  }
+  console.log('Updating profile:', filteredProfile);
+  return async (dispatch, getState) => {
+    filteredProfile.first_name = '';
+    filteredProfile.last_name = '';
     const { routeParams } = getState().profilesApp.profiles;
+    const response = await Fn.simpleCall(
+      'put',
+      `si/profiles/${id}`,
+      filteredProfile
+    );
 
-    const request = Fn.simpleCall('put', `si/profiles/${id}`, profile);
+    console.log(
+      'the error:',
+      Object.values(response.error.error).map(er => er[0])
+    );
+    const errors = Object.values(response.error.error).map(er => er[0]);
+    if (response.error) {
+      dispatch({
+        type: PROFILE_ERROR,
+        errors
+      });
+    } else {
+      await Promise.all([dispatch({ type: UPDATE_PROFILE })]);
 
-    return request.then(response => {
-      console.log(response);
-      Promise.all([
-        dispatch({
-          type: UPDATE_PROFILE
-        })
-      ]).then(() => dispatch(getProfiles(routeParams)));
-    });
+      dispatch(getProfiles(routeParams));
+    }
   };
 }
 
@@ -165,13 +184,17 @@ export function removeProfile(profileId) {
       profileId
     });
 
-    return request.then(response =>
-      Promise.all([
-        dispatch({
-          type: REMOVE_PROFILE
-        })
-      ]).then(() => dispatch(getProfiles(routeParams)))
-    );
+    return request
+      .then(response =>
+        Promise.all([
+          dispatch({
+            type: REMOVE_PROFILE
+          })
+        ]).then(() => dispatch(getProfiles(routeParams)))
+      )
+      .catch(e => {
+        console.log('error:', e);
+      });
   };
 }
 

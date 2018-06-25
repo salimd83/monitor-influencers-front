@@ -177,7 +177,8 @@ class ProfileDialog extends Component {
       addingProfile,
       addedProfile,
       addedProfileId,
-      resetAddProfile
+      resetAddProfile,
+      errors
     } = this.props;
 
     let actionButtons;
@@ -240,7 +241,6 @@ class ProfileDialog extends Component {
                 'profile_picture'
               ])
             );
-            this.closeComposeDialog();
           }}
           disabled={!this.canBeSubmitted()}
         >
@@ -285,6 +285,8 @@ class ProfileDialog extends Component {
         </AppBar>
 
         <DialogContent classes={{ root: 'p-24' }}>
+          {errors.length &&
+            errors.map(err => <Typography color="error">{err}</Typography>)}
           {addedProfile ? (
             <FuseAnimate animation="transition.expandIn" delay={300}>
               <div align="center">
@@ -343,11 +345,20 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({ profilesApp }) {
+  const { profiles } = profilesApp;
+  const {
+    profileDialog,
+    addingProfile,
+    addedProfile,
+    addedProfileId,
+    errors
+  } = profilesApp.profiles;
   return {
-    profileDialog: profilesApp.profiles.profileDialog,
-    addingProfile: profilesApp.profiles.addingProfile,
-    addedProfile: profilesApp.profiles.addedProfile,
-    addedProfileId: profilesApp.profiles.addedProfileId
+    profileDialog,
+    addingProfile,
+    addedProfile,
+    addedProfileId,
+    errors
   };
 }
 
