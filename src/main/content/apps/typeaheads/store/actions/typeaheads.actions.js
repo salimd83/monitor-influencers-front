@@ -1,6 +1,7 @@
 import axios from 'axios/index';
 import { getUserData } from 'main/content/apps/typeaheads/store/actions/user.actions';
 import * as Fn from 'fn/index';
+import MapsMyLocation from 'material-ui/SvgIcon';
 
 export const GET_TYPEAHEADS = '[TYPEAHEADS APP] GET TYPEAHEADS';
 export const SET_SEARCH_TEXT = '[TYPEAHEADS APP] SET SEARCH TEXT';
@@ -103,9 +104,11 @@ export function closeEditTypeaheadDialog() {
 }
 
 export function addTypeahead(newTypeahead) {
-  console.log(newTypeahead);
   return (dispatch, getState) => {
     const { routeParams } = getState().typeaheadsApp.typeaheads;
+    newTypeahead.meta = JSON.stringify(newTypeahead.meta);
+
+    console.log(newTypeahead);
 
     const request = Fn.simpleCall('post', 'typeahead', newTypeahead);
 
@@ -127,7 +130,6 @@ export function updateTypeahead(typeahead) {
   return (dispatch, getState) => {
     const { routeParams } = getState().typeaheadsApp.typeaheads;
 
-    console.log('Update Item', typeahead);
     const { id, ...rest } = typeahead;
 
     const request = Fn.simpleCall('put', `typeahead/${id}`, rest);
