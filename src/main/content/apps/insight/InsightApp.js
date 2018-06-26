@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FusePageSimple, FuseAnimate } from '@fuse';
+import { FusePageCarded, FuseAnimate } from '@fuse';
 import { withStyles } from '@material-ui/core/styles';
 
 import InsightHeader from './InsightHeader';
@@ -9,7 +9,7 @@ class InsightApp extends Component {
   render() {
     const { classes } = this.props;
     return (
-      <FusePageSimple
+      <FusePageCarded
         className={classes.root}
         classes={{
           root: classes.layoutRoot,
