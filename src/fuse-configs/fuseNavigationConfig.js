@@ -10,6 +10,13 @@ export const fuseNavigationConfig = [
     url: '/si/leaderboard'
   },
   {
+    id: 'insight',
+    title: 'Insight',
+    type: 'item',
+    icon: 'bubble_chart',
+    url: '/apps/insight'
+  },
+  {
     id: 'admin',
     title: 'Admin Options',
     type: 'group',

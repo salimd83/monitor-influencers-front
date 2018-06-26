@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles/index';
-import axios from 'axios/index';
 import {
-  GridList,
   Grid,
   Paper,
-  Icon,
   Typography,
   TextField
 } from '@material-ui/core';
-import classNames from 'classnames';
 import { FuseAnimateGroup } from '@fuse';
 import _ from 'lodash';
 
@@ -103,8 +99,7 @@ class InsightTab extends Component {
 
   render() {
     const { classes } = this.props;
-    const { anchorEl } = this.state;
-
+    
     return (
       <div className={classes.root}>
         <Grid container spacing={24}>

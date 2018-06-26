@@ -6,6 +6,7 @@ import { FileManagerAppConfig } from 'main/content/apps/file-manager/FileManager
 import { CalendarAppConfig } from 'main/content/apps/calendar/CalendarAppConfig';
 import { ProfilesAppConfig } from 'main/content/apps/profiles/ProfilesAppConfig';
 import { ProfileAppConfig } from 'main/content/apps/profile/ProfileAppConfig';
+import { InsightAppConfig } from 'main/content/apps/insight/InsightAppConfig';
 
 export const appsConfigs = [
   AnalyticsDashboardAppConfig,
@@ -15,5 +16,6 @@ export const appsConfigs = [
   TypeaheadsAppConfig,
   CalendarAppConfig,
   ProfilesAppConfig,
-  ProfileAppConfig
+  ProfileAppConfig,
+  InsightAppConfig
 ];
