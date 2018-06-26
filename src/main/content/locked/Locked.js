@@ -1,6 +1,8 @@
 import React, {Component}   from 'react'
 import {connect}            from 'react-redux'
+import {Redirect}           from 'react-router-dom'
 import * as Actions         from 'auth/store/actions/index'
+import {getUserData}        from 'auth/store/actions'
 import {bindActionCreators} from 'redux'
 import {
     Link,
@@ -8,9 +10,11 @@ import {
 }                           from 'react-router-dom'
 import {withStyles}         from '@material-ui/core/styles/index'
 import {
+    Avatar,
     Button,
     Card,
     CardContent,
+    Icon,
     Typography
 }                           from '@material-ui/core'
 import InputAdornment       from '@material-ui/core/InputAdornment'
@@ -38,10 +42,11 @@ const styles = theme => ({
 })
 
 
-class Login extends Component {
+class Locked extends Component {
     state = {
         canSubmit: false,
-        step     : 1
+        step     : 1,
+        user     : getUserData()
     }
 
 
@@ -103,6 +108,11 @@ class Login extends Component {
     }
 
     renderStep() {
+
+        if (!sessionStorage.username) {
+            return <Redirect to="/login"/>
+        }
+
         const {step, canSubmit} = this.state
         let content             = null
         const {classes}         = this.props
@@ -116,26 +126,11 @@ class Login extends Component {
                         ref={(form) => this.form = form}
                         className="flex flex-col justify-center w-full">
                         <TextFieldFormsy
-                            className="mb-16 mt16"
-                            type="number"
+                            className="hidden"
+                            type="hidden"
                             name="username"
-                            label="Phone Number"
                             value={sessionStorage.username}
-                            validations={{
-                                isNumeric: true,
-                                minLength: 10
-                            }}
-                            validationErrors={{
-                                isNumber : 'This doesn\'t seem to be a valid phone number',
-                                minLength: 'This doesn\'t look like a valid phone number'
-                            }}
-                            required
-                            InputProps={{
-                                startAdornment: <InputAdornment position="start">+</InputAdornment>
-                            }}
-
                         />
-
                         <Button
                             type="submit"
                             variant="raised"
@@ -147,10 +142,6 @@ class Login extends Component {
                         >
                             Get Password
                         </Button>
-                        <div className="flex flex-col items-center justify-center pt-32">
-                            <span className="font-medium">Don't have an account?</span>
-                            <Link className="font-medium" to="/register">Request an account</Link>
-                        </div>
                     </Formsy>
 
                 break
@@ -163,20 +154,18 @@ class Login extends Component {
                         ref={(form) => this.form = form}
                         className="flex flex-col justify-center w-full"
                     >
-                        <span className="font-small">Please check your mobile for a one time password</span>
-
                         <TextFieldFormsy
                             className="hidden"
                             type="hidden"
                             name="username"
                             value={sessionStorage.username}
                         />
-
                         <TextFieldFormsy
                             className="mb-16 mt-16"
                             type="text"
                             name="password"
                             label="Passcode"
+                            helperText={'Please check your mobile for a one time passcode.'}
                             validations={{
                                 minLength: 2
                             }}
@@ -197,10 +186,6 @@ class Login extends Component {
                         >
                             Login
                         </Button>
-                        <div className="flex flex-col items-center justify-center pt-32">
-                            <span className="font-medium">Didn't get a text?</span>
-                            <Link className="font-small" to="/login?retry">Change Number or Try Again</Link>
-                        </div>
                     </Formsy>
                 break
         }
@@ -208,8 +193,8 @@ class Login extends Component {
     }
 
     render() {
-        const {classes} = this.props
-        const {step}    = this.state
+        const {classes}    = this.props
+        const {step, user} = this.state
 
 
         return (
@@ -224,9 +209,20 @@ class Login extends Component {
 
                             <CardContent className="flex flex-col items-center justify-center p-32">
 
-                                <img className="w-128 m-32" src="assets/images/logos/fuse.svg" alt="logo"/>
+                                <div
+                                    className="w-full flex flex-col items-center justify-center sm:flex-row sm:justify-start sm:items-center">
+                                    <div className="relative mr-16">
+                                        <Avatar className="w-72 h-72" src={user.data.photoURL}/>
+                                        <Icon className="text-36 absolute pin-r pin-b" color="error">lock</Icon>
+                                    </div>
 
-                                <Typography variant="title" className="mt-16 mb-16">LOGIN TO YOUR ACCOUNT</Typography>
+                                    <div>
+                                        <Typography variant="title" className="mb-8">YOUR SESSION IS LOCKED</Typography>
+                                        <Typography color="textSecondary">
+                                            Due to inactivity or login from another device, your session is locked.
+                                        </Typography>
+                                    </div>
+                                </div>
                                 {this.renderStep(step)}
                             </CardContent>
                         </Card>
@@ -252,4 +248,4 @@ function mapStateToProps({auth}) {
 }
 
 
-export default withStyles(styles, {withTheme: true})(withRouter(connect(mapStateToProps, mapDispatchToProps)(Login)))
+export default withStyles(styles, {withTheme: true})(withRouter(connect(mapStateToProps, mapDispatchToProps)(Locked)))
