@@ -1,6 +1,7 @@
 import axios from 'axios/index';
 import { getUserData } from 'main/content/apps/profiles/store/actions/user.actions';
 import * as Fn from 'fn/simpleCall.js';
+import _ from 'lodash';
 
 export const GET_PROFILES = '[PROFILES APP] GET PROFILES';
 export const SET_SEARCH_TEXT = '[PROFILES APP] SET SEARCH TEXT';
@@ -147,10 +148,7 @@ export function updateProfile({ id, ...profile }) {
       filteredProfile[key] = profile[key];
     }
   }
-  console.log('Updating profile:', filteredProfile);
   return async (dispatch, getState) => {
-    filteredProfile.first_name = '';
-    filteredProfile.last_name = '';
     const { routeParams } = getState().profilesApp.profiles;
     const response = await Fn.simpleCall(
       'put',
@@ -158,20 +156,21 @@ export function updateProfile({ id, ...profile }) {
       filteredProfile
     );
 
-    console.log(
-      'the error:',
-      Object.values(response.error.error).map(er => er[0])
-    );
-    const errors = Object.values(response.error.error).map(er => er[0]);
-    if (response.error) {
+    console.log('response', response);
+
+    if (response.body) {
+      const errors = Object.values(_.omit(response.body.error, ['code'])).map(
+        er => er[0]
+      );
       dispatch({
         type: PROFILE_ERROR,
         errors
       });
     } else {
-      await Promise.all([dispatch({ type: UPDATE_PROFILE })]);
+      await Promise.all([dispatch({ type: UPDATE_PROFILE, profile, id })]);
 
-      dispatch(getProfiles(routeParams));
+      // dispatch(getProfiles(routeParams));
+      dispatch({ type: CLOSE_EDIT_PROFILE_DIALOG });
     }
   };
 }

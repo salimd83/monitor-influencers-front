@@ -37,12 +37,11 @@ export async function simpleCall(method, endpoint, data, json) {
 
     return request;
   } catch (error) {
-    console.error(error);
     let errData = error.response.body;
     let errMsg = 'Unknown Error';
     if (errData.error.message) {
       errMsg = errData.error.message;
     }
-    return error;
+    return error.response;
   }
 }
