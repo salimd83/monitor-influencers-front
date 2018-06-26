@@ -21,6 +21,8 @@ import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { JsonEditor as Editor } from 'jsoneditor-react';
+import 'jsoneditor-react/es/editor.min.css';
 
 const styles = theme => ({
   root: {},
@@ -28,17 +30,38 @@ const styles = theme => ({
     marginBottom: 24
   }
 });
+
 const newTypeaheadState = {
   id: '',
   name: '',
   type: '',
   note: '',
   description: '',
-  related_link: ''
+  related_link: '',
+  meta: {}
 };
 
 class TypeaheadDialog extends Component {
-  state = { ...newTypeaheadState };
+  state = {
+    ...newTypeaheadState
+  };
+
+  JsonEditorTemplate = [
+    {
+      text: 'Brand Search',
+      title: 'Add fields required for Brand search action',
+      field: 'search',
+      value: {
+        query: '',
+        exactMatch: '',
+        pageCount: 50,
+        lookupSize: 'large',
+        color: true,
+        black: false
+      }
+    }
+  ];
+
   handleChange = event => {
     this.setState(
       _.set(
@@ -49,6 +72,11 @@ class TypeaheadDialog extends Component {
           : event.target.value
       )
     );
+  };
+  handleJsonEditor = value => {
+    this.setState({
+      meta: value
+    });
   };
   closeComposeDialog = () => {
     this.props.typeaheadDialog.type === 'edit'
@@ -73,7 +101,8 @@ class TypeaheadDialog extends Component {
         this.props.typeaheadDialog.data &&
         !_.isEqual(this.props.typeaheadDialog.data, prevState)
       ) {
-        this.setState({ ...this.props.typeaheadDialog.data });
+        const meta = JSON.parse(this.props.typeaheadDialog.data.meta);
+        this.setState({ ...this.props.typeaheadDialog.data, meta });
       }
 
       /**
@@ -84,7 +113,8 @@ class TypeaheadDialog extends Component {
         this.props.typeaheadDialog.type === 'new' &&
         !_.isEqual(newTypeaheadState, prevState)
       ) {
-        this.setState({ ...newTypeaheadState });
+        const meta = JSON.parse(newTypeaheadState.meta);
+        this.setState({ ...newTypeaheadState, meta });
       }
     }
   }
@@ -109,7 +139,8 @@ class TypeaheadDialog extends Component {
         {...typeaheadDialog.props}
         onClose={this.closeComposeDialog}
         fullWidth
-        maxWidth="xs"
+        style={{ minWidth: '300px' }}
+        maxWidth="sm"
       >
         <AppBar position="static">
           <Toolbar className="flex w-full">
@@ -215,6 +246,23 @@ class TypeaheadDialog extends Component {
               multiline
               rows={2}
               fullWidth
+            />
+          </div>
+          <div
+            className="flex"
+            style={{
+              width: '100%',
+              height: '300px'
+            }}
+          >
+            <div className="min-w-48 pt-20">
+              <Icon color="action">code</Icon>
+            </div>
+            <Editor
+              id="meta"
+              value={this.state.meta}
+              onChange={this.handleJsonEditor}
+              templates={this.JsonEditorTemplate}
             />
           </div>
         </DialogContent>
