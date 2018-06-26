@@ -1,6 +1,7 @@
 import axios from 'axios/index';
 import { getUserData } from 'main/content/apps/profiles/store/actions/user.actions';
 import * as Fn from 'fn/simpleCall.js';
+import _ from 'lodash';
 
 export const GET_PROFILES = '[PROFILES APP] GET PROFILES';
 export const SET_SEARCH_TEXT = '[PROFILES APP] SET SEARCH TEXT';
@@ -25,6 +26,7 @@ export const TOGGLE_STARRED_PROFILES = '[PROFILES APP] TOGGLE STARRED PROFILES';
 export const SET_PROFILES_STARRED = '[PROFILES APP] SET PROFILES STARRED ';
 export const RECIEVING_PROFILES = '[PROFILES APP] RECIEVING PROFILES';
 export const RESET_ADD_PROFILE = '[PROFILES APP] RESET ADD PROFILE';
+export const PROFILE_ERROR = '[PROFILES APP] PROFILE ERROR';
 
 function recievingProfiles() {
   return {
@@ -140,20 +142,36 @@ export function addProfile(newProfile) {
 }
 
 export function updateProfile({ id, ...profile }) {
-  console.log('Updating profile:', profile);
-  return (dispatch, getState) => {
+  const filteredProfile = {};
+  for (let key in profile) {
+    if (profile[key] !== '') {
+      filteredProfile[key] = profile[key];
+    }
+  }
+  return async (dispatch, getState) => {
     const { routeParams } = getState().profilesApp.profiles;
+    const response = await Fn.simpleCall(
+      'put',
+      `si/profiles/${id}`,
+      filteredProfile
+    );
 
-    const request = Fn.simpleCall('put', `si/profiles/${id}`, profile);
+    console.log('response', response);
 
-    return request.then(response => {
-      console.log(response);
-      Promise.all([
-        dispatch({
-          type: UPDATE_PROFILE
-        })
-      ]).then(() => dispatch(getProfiles(routeParams)));
-    });
+    if (response.body) {
+      const errors = Object.values(_.omit(response.body.error, ['code'])).map(
+        er => er[0]
+      );
+      dispatch({
+        type: PROFILE_ERROR,
+        errors
+      });
+    } else {
+      await Promise.all([dispatch({ type: UPDATE_PROFILE, profile, id })]);
+
+      // dispatch(getProfiles(routeParams));
+      dispatch({ type: CLOSE_EDIT_PROFILE_DIALOG });
+    }
   };
 }
 
@@ -165,13 +183,17 @@ export function removeProfile(profileId) {
       profileId
     });
 
-    return request.then(response =>
-      Promise.all([
-        dispatch({
-          type: REMOVE_PROFILE
-        })
-      ]).then(() => dispatch(getProfiles(routeParams)))
-    );
+    return request
+      .then(response =>
+        Promise.all([
+          dispatch({
+            type: REMOVE_PROFILE
+          })
+        ]).then(() => dispatch(getProfiles(routeParams)))
+      )
+      .catch(e => {
+        console.log('error:', e);
+      });
   };
 }
 
