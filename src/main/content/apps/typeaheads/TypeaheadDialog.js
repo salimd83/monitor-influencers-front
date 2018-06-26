@@ -21,6 +21,8 @@ import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { JsonEditor as Editor } from 'jsoneditor-react';
+import 'jsoneditor-react/es/editor.min.css';
 
 const styles = theme => ({
   root: {},
@@ -28,13 +30,16 @@ const styles = theme => ({
     marginBottom: 24
   }
 });
+
 const newTypeaheadState = {
   id: '',
   name: '',
   type: '',
   note: '',
   description: '',
-  related_link: ''
+  related_link: '',
+  meta:
+    "{presence: true, length: { minimum: 1, tooShort: 'must be at least 1 characters.', maximum: 32, tooLong: 'must be less than 30 characters.'}}"
 };
 
 class TypeaheadDialog extends Component {
@@ -109,7 +114,8 @@ class TypeaheadDialog extends Component {
         {...typeaheadDialog.props}
         onClose={this.closeComposeDialog}
         fullWidth
-        maxWidth="xs"
+        style={{ minWidth: '300px' }}
+        maxWidth="sm"
       >
         <AppBar position="static">
           <Toolbar className="flex w-full">
@@ -216,6 +222,12 @@ class TypeaheadDialog extends Component {
               rows={2}
               fullWidth
             />
+          </div>
+          <div className="flex" style={{ width: '100%', height: '200px' }}>
+            <div className="min-w-48 pt-20">
+              <Icon color="action">speaker_notes_off</Icon>
+            </div>
+            <Editor value={this.state.meta} onChange={this.handleChange} />
           </div>
         </DialogContent>
 
