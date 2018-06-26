@@ -68,7 +68,7 @@ class ProfilesList extends Component {
     } = this.props;
     const data = this.getFilteredArray(profiles, searchText);
     const { selectedProfilesMenu } = this.state;
-    console.log(profiles);
+      console.log(profiles)
 
     if (loadingProfiles) {
       return (
