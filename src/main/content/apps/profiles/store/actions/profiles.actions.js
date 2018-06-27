@@ -31,9 +31,10 @@ function recievingProfiles() {
 }
 
 export function getProfiles(routeParams) {
-  const request = Fn.simpleCall('get', '/si/leaderboard', {
-    params: routeParams
-  });
+  const request = Fn.simpleCall('get', '/si/leaderboard?limit=100');
+  // const request = Fn.simpleCall('get', '/si/leaderboard', {
+  //   params: routeParams
+  // });
 
   return dispatch => {
     dispatch(recievingProfiles());
