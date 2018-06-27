@@ -9,6 +9,7 @@ import {
   Toolbar,
   AppBar,
   Avatar,
+    SnackbarContent,
   CircularProgress
 } from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
@@ -22,8 +23,8 @@ import _ from 'lodash';
 import ProfileForm from './ProfileForm';
 
 const styles = theme => ({
-  root: {},
-  formControl: {
+    root        : {},
+    formControl : {
     marginBottom: 24
   },
   buttonProgress: {
@@ -34,36 +35,48 @@ const styles = theme => ({
     marginTop: -12,
     marginLeft: -12
   },
-  wrapper: {
+    wrapper     : {
     margin: theme.spacing.unit,
     position: 'relative'
   },
-  rightIcon: {
+    rightIcon   : {
     marginLeft: theme.spacing.unit
-  }
+  },
+    error       : {
+        backgroundColor: theme.palette.error.dark,
+        margin         : theme.spacing.unit,
+        padding        : '3px 12px'
+    },
+    message     : {
+        display   : 'flex',
+        alignItems: 'center'
+    }
 });
 
 const newProfileState = {
-  id: '',
-  first_name: '',
-  last_name: '',
-  industry: '',
-  category: '',
-  location: '',
-  country: '',
+    id          : '',
+    first_name  : '',
+    last_name   : '',
+    description : '',
+    industry    : '',
+    category    : '',
+    location    : '',
+    country     : '',
   internal_notes: ''
 };
+
+const initErrors = {
+    first_name   : false,
+    last_name    : false,
+    description  : false,
+    email        : false,
+    internat_note: false
+}
 
 class ProfileDialog extends Component {
   state = {
     ...newProfileState,
-    errors: {
-      first_name: null,
-      last_name: null,
-      description: null,
-      email: false,
-      internat_note: false
-    }
+      errors: initErrors
   };
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -86,8 +99,9 @@ class ProfileDialog extends Component {
         this.setState({
           ...this.state,
           ...this.props.profileDialog.data,
-          industry: this.props.profileDialog.data.industry.id,
-          category: this.props.profileDialog.data.category.id
+                          errors  : initErrors,
+                          industry: this.props.profileDialog.data.industry.id,
+                          category: this.props.profileDialog.data.category.id
         });
       }
 
@@ -99,7 +113,10 @@ class ProfileDialog extends Component {
         this.props.profileDialog.type === 'new' &&
         !_.isEqual(newProfileState, prevState)
       ) {
-        this.setState({ ...this.state, ...newProfileState });
+          this.setState({
+                            ...this.state,
+                            errors: initErrors, ...newProfileState
+                        })
       }
     }
   }
@@ -161,8 +178,8 @@ class ProfileDialog extends Component {
   };
 
   canBeSubmitted() {
-    const { first_name, last_name, description } = this.state.errors;
-    return !(first_name || last_name || description);
+      const {first_name, last_name, description} = this.state
+      return first_name.trim() && last_name.trim() && description.trim()
   }
 
   render() {
@@ -175,13 +192,10 @@ class ProfileDialog extends Component {
       countries,
       categories,
       addingProfile,
-      addedProfile,
-      addedProfileId,
-      resetAddProfile
+      addedProfile, addedProfileId, resetAddProfile, errors
     } = this.props;
 
     let actionButtons;
-
     if (profileDialog.type === 'new') {
       if (addedProfile) {
         actionButtons = (
@@ -240,7 +254,6 @@ class ProfileDialog extends Component {
                 'profile_picture'
               ])
             );
-            this.closeComposeDialog();
           }}
           disabled={!this.canBeSubmitted()}
         >
@@ -285,6 +298,12 @@ class ProfileDialog extends Component {
         </AppBar>
 
         <DialogContent classes={{ root: 'p-24' }}>
+            {errors && errors.map(err => (<SnackbarContent
+                className={classes.error}
+                aria-describedby="client-snackbar"
+                message={err}
+            />))}
+            <br/>
           {addedProfile ? (
             <FuseAnimate animation="transition.expandIn" delay={300}>
               <div align="center">
@@ -343,11 +362,16 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps({ profilesApp }) {
+    const {profiles} = profilesApp
+    const {
+              profileDialog, addingProfile, addedProfile, addedProfileId, errors
+          }          = profilesApp.profiles
   return {
-    profileDialog: profilesApp.profiles.profileDialog,
-    addingProfile: profilesApp.profiles.addingProfile,
-    addedProfile: profilesApp.profiles.addedProfile,
-    addedProfileId: profilesApp.profiles.addedProfileId
+      profileDialog,
+      addingProfile,
+      addedProfile,
+      addedProfileId,
+      errors
   };
 }
 

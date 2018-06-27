@@ -1,9 +1,17 @@
-import {getUserData} from '../auth/store/actions'
-import * as rp       from 'request-promise'
-import _             from 'lodash'
+import {
+    getUserData,
+    lockUser
+}              from '../auth/store/actions'
+import * as rp from 'request-promise'
+import _       from 'lodash'
 
-export const ERROR   = 'ERROR'
-export const SUCCESS = 'SUCCESS'
+
+import * as Actions  from 'store/actions'
+import {LOGIN_ERROR} from '../auth/store/actions/login.actions'
+
+export const ERROR         = 'ERROR'
+export const SUCCESS       = 'SUCCESS'
+export const ERROR_SESSION = 'ERROR_SESSION'
 
 
 export async function simpleCall(method, endpoint, data, json) {
@@ -19,7 +27,6 @@ export async function simpleCall(method, endpoint, data, json) {
 
         if (!_.isEmpty(getUserData())) {
             options.headers = {'BA-Token': getUserData().baToken}
-
         }
 
         switch (method) {
@@ -46,7 +53,17 @@ export async function simpleCall(method, endpoint, data, json) {
         if (errData.error.message) {
             errMsg = errData.error.message
         }
-        return error.response
-    }
 
+        /**
+         * Handle invalid sessions.
+         */
+        if (error.response.statusCode === 402) {
+            lockUser()
+            return []
+        }
+        else {
+            return error.response
+        }
+
+    }
 }

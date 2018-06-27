@@ -1,16 +1,17 @@
 import React from "react"
 import {Redirect} from "react-router-dom"
 import {FuseUtils} from "@fuse/index"
-import {appsConfigs} from "main/content/apps/appsConfigs"
-import {pagesConfigs} from "main/content/pages/pagesConfigs"
-import {authRoleExamplesConfigs} from "main/content/auth/authRoleExamplesConfigs"
-import {UserInterfaceConfig} from "main/content/user-interface/UserInterfaceConfig"
-import {ComponentsConfig} from "main/content/components/ComponentsConfig"
+import {appsConfigs}                from "main/content/apps/appsConfigs"
+import {pagesConfigs}               from "main/content/pages/pagesConfigs"
+import {authRoleExamplesConfigs}    from "main/content/auth/authRoleExamplesConfigs"
+import {UserInterfaceConfig}        from "main/content/user-interface/UserInterfaceConfig"
+import {ComponentsConfig}           from "main/content/components/ComponentsConfig"
 import {ComponentsThirdPartyConfig} from "main/content/components-third-party/ComponentsThirdPartyConfig"
-import {GettingStartedConfig} from "main/content/getting-started/GettingStartedConfig"
-import {LoginConfig} from "main/content/login/LoginConfig"
-import {RegisterConfig} from "main/content/register/RegisterConfig"
-import {LogoutConfig} from "main/content/logout/LogoutConfig"
+import {GettingStartedConfig}       from "main/content/getting-started/GettingStartedConfig"
+import {LockedConfig}               from 'main/content/locked/LockedConfig'
+import {LoginConfig}                from "main/content/login/LoginConfig"
+import {RegisterConfig}             from "main/content/register/RegisterConfig"
+import {LogoutConfig}               from "main/content/logout/LogoutConfig"
 
 
 import {authRoles} from "auth/auth"
@@ -34,7 +35,7 @@ const routeConfigsOrigin = [
 ]
 
 const routeConfigs = [
-	...setAdminAuth([
+    ...setAdminAuth([
 		                ...appsConfigs,
 		                ...pagesConfigs,
 		                ...authRoleExamplesConfigs,
@@ -43,8 +44,9 @@ const routeConfigs = [
 		                UserInterfaceConfig,
 		                GettingStartedConfig
 	                ]),
-	LoginConfig,
-	LogoutConfig
+    LoginConfig,
+    LogoutConfig,
+    LockedConfig
 ]
 
 

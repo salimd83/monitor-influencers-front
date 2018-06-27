@@ -5,7 +5,6 @@ import { withRouter, Link } from 'react-router-dom';
 import { FuseUtils, FuseAnimate } from '@fuse';
 import {
   Avatar,
-  Checkbox,
   Icon,
   IconButton,
   ListItemIcon,
@@ -60,12 +59,8 @@ class ProfilesList extends Component {
       user,
       searchText,
       selectedProfileIds,
-      selectAllProfiles,
-      deSelectAllProfiles,
-      toggleInSelectedProfiles,
       openEditProfileDialog,
       removeProfiles,
-      removeProfile,
       toggleStarredProfile,
       setProfilesUnstarred,
       setProfilesStarred,
@@ -73,6 +68,7 @@ class ProfilesList extends Component {
     } = this.props;
     const data = this.getFilteredArray(profiles, searchText);
     const { selectedProfilesMenu } = this.state;
+      console.log(profiles)
 
     if (loadingProfiles) {
       return (
@@ -239,14 +235,6 @@ class ProfilesList extends Component {
           ]}
           defaultPageSize={10}
           noDataText="No profiles found"
-          pages="10"
-          manual // informs React Table that you'll be handling sorting and pagination server-side
-          onFetchData={(state, instance) => {
-            // show the loading overlay
-            // fetch your data
-            console.log(state);
-            console.log(instance);
-          }}
         />
       </FuseAnimate>
     );

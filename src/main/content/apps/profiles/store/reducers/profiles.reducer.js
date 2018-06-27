@@ -10,6 +10,7 @@ const initialState = {
     addedProfile    : false,
     addedProfileId  : '',
     routeParams     : {},
+    errors          : [],
     profileDialog   : {
     type: 'new',
     props: {
@@ -47,7 +48,8 @@ const profilesReducer = function(state = initialState, action) {
           return {
               ...state,
               addingProfile: true,
-              addedProfile : false
+              addedProfile : false,
+              errors       : []
           }
       }
       case Actions.ADD_PROFILE: {
@@ -55,7 +57,22 @@ const profilesReducer = function(state = initialState, action) {
               ...state,
               addingProfile : false,
               addedProfile  : action.message,
-              addedProfileId: action.id
+              addedProfileId: action.id,
+              errors        : []
+          }
+      }
+      case Actions.UPDATE_PROFILE: {
+          const {profile, id} = action
+          console.log(state.entities[id])
+          const newProfile  = {...state.entities[id], ...profile}
+          const newEntities = {...state.entities}
+
+          newEntities[action.id] = newProfile
+
+          console.log(newEntities)
+          return {
+              ...state,
+              entities: newEntities
           }
       }
       case Actions.RESET_ADD_PROFILE: {
@@ -63,7 +80,14 @@ const profilesReducer = function(state = initialState, action) {
               ...state,
               addingProfile : false,
               addedProfile  : false,
-              addedProfileId: ''
+              addedProfileId: '',
+              errors        : []
+          }
+      }
+      case Actions.PROFILE_ERROR: {
+          return {
+              ...state,
+              errors: action.errors
           }
       }
     case Actions.TOGGLE_IN_SELECTED_PROFILES: {
