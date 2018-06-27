@@ -12,8 +12,8 @@ class InsightApp extends Component {
       <FusePageCarded
         className={classes.root}
         classes={{
-          root: classes.layoutRoot,
-          contentCardWrapper: classes.layoutContentCardWrapper
+          root: classes.layoutRoot
+          // contentCardWrapper: classes.layoutContentCardWrapper
         }}
         header={<InsightHeader pageLayout={() => this.pageLayout} />}
         content={<InsightGrid />}

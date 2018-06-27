@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Card, Icon, Typography } from '@material-ui/core';
 import { Bar } from 'react-chartjs-2';
 import { withStyles } from '@material-ui/core/styles/index';
-import classNames from 'classnames';
 import Popover from '@material-ui/core/Popover';
 
 const styles = theme => ({
@@ -30,7 +29,7 @@ class Widget2 extends Component {
     });
   };
   render() {
-    const { classes, data, theme, ...restProps } = this.props;
+    const { classes, data, theme, popovertext, ...restProps } = this.props;
     const dataWithColors = data.datasets.map(obj => ({
       ...obj,
       borderColor: theme.palette.secondary.main,
@@ -94,9 +93,7 @@ class Widget2 extends Component {
             horizontal: 'left'
           }}
         >
-          <Typography className={classes.typography}>
-            The content of the Popover.
-          </Typography>
+          <Typography className={classes.typography}>{popovertext}</Typography>
         </Popover>
       </Card>
     );
