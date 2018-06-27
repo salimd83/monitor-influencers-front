@@ -1,37 +1,43 @@
-import React, {Component} from 'react';
-import {AppBar, Card, Icon, IconButton, Tab, Tabs, Typography} from '@material-ui/core';
-import {Line} from 'react-chartjs-2';
-import {withStyles} from '@material-ui/core/styles/index';
-import classNames from 'classnames';
+import React, {Component} from 'react'
+import {
+    AppBar,
+    Card,
+    Icon,
+    IconButton,
+    Tab,
+    Tabs,
+    Typography
+}                         from '@material-ui/core'
+import {Line}             from 'react-chartjs-2'
+import {withStyles}       from '@material-ui/core/styles/index'
+import classNames         from 'classnames'
 
 const styles = theme => ({
     root: {}
-});
+})
 
 class Widget8 extends Component {
 
     state = {
         tabIndex: 0
-    };
+    }
 
     handleChange = (event, tabIndex) => {
-        this.setState({tabIndex});
-    };
+        this.setState({tabIndex})
+    }
 
     handleChangeIndex = index => {
-        this.setState({tabIndex: index});
-    };
+        this.setState({tabIndex: index})
+    }
 
-    render()
-    {
-        const {data, classes, theme} = this.props;
-        const {tabIndex} = this.state;
-        const dataWithColors = data.datasets[tabIndex].map(obj => ({
+    render() {
+        const {data, classes, theme} = this.props
+        const {tabIndex}             = this.state
+        const dataWithColors         = data.datasets[tabIndex].map(obj => ({
             ...obj,
             borderColor: theme.palette.secondary.main
-        }));
-        return (
-            <Card className={classNames(classes.root, "w-full")}>
+        }))
+        return (<Card className={classNames(classes.root, 'w-full')}>
                 <AppBar position="static">
                     <div className="p-16 pr-4 flex flex-row items-center justify-between">
 
@@ -49,12 +55,8 @@ class Widget8 extends Component {
                     <div className="p-16 pt-8 flex flex-row justify-between items-end">
                         <Typography className="text-48 font-300 leading-none" color="inherit">{data.today}</Typography>
                         <div className="flex flex-row items-center">
-                            {data.change.value > 0 && (
-                                <Icon className="text-green">trending_up</Icon>
-                            )}
-                            {data.change.value < 0 && (
-                                <Icon className="text-red">trending_down</Icon>
-                            )}
+                            {data.change.value > 0 && (<Icon className="text-green">trending_up</Icon>)}
+                            {data.change.value < 0 && (<Icon className="text-red">trending_down</Icon>)}
                             <div className="ml-8">
                                 {data.change.value}
                                 ({data.change.percentage}%)
@@ -78,9 +80,8 @@ class Widget8 extends Component {
                     }}
                     options={data.options}
                 />
-            </Card>
-        );
+        </Card>)
     }
 }
 
-export default withStyles(styles, {withTheme: true})(Widget8);
+export default withStyles(styles, {withTheme: true})(Widget8)

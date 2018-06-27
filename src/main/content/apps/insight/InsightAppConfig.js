@@ -1,15 +1,15 @@
-import InsightApp from 'main/content/apps/insight/InsightApp';
+import InsightApp from 'main/content/apps/insight/InsightApp'
 
 export const InsightAppConfig = {
-  settings: {
-    layout: {
-      config: {}
-    }
-  },
-  routes: [
-    {
-      path: '/apps/insight',
-      component: InsightApp
-    }
-  ]
-};
+    settings: {
+        layout: {
+            config: {}
+        }
+    },
+    routes  : [
+        {
+            path     : '/apps/insight',
+            component: InsightApp
+        }
+    ]
+}

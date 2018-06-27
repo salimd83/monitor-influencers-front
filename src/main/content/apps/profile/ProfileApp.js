@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import { FusePageSimple, FuseAnimate } from '@fuse';
-import { Avatar, Tab, Tabs, Typography } from '@material-ui/core';
+import {
+    Avatar,
+    Tab,
+    Tabs,
+    Typography
+} from '@material-ui/core'
 import TimelineTab from 'main/content/apps/profile/tabs/TimelineTab';
 import PhotosVideosTab from 'main/content/apps/profile/tabs/PhotosVideosTab';
 import AboutTab from 'main/content/apps/profile/tabs/AboutTab';

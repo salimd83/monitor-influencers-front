@@ -1,15 +1,20 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles/index';
-import { Icon, TextField, Typography, Grid } from '@material-ui/core';
-import * as Actions from './store/actions';
+import React, {Component}     from 'react'
+import {withStyles}           from '@material-ui/core/styles/index'
+import {
+    Icon,
+    TextField,
+    Typography,
+    Grid
+}                             from '@material-ui/core'
+import * as Actions           from './store/actions'
 import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import { FuseAnimate } from '@fuse';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import _ from 'lodash';
+import {connect}              from 'react-redux'
+import classNames             from 'classnames'
+import {FuseAnimate}          from '@fuse'
+import MenuItem               from '@material-ui/core/MenuItem'
+import Select                 from '@material-ui/core/Select'
+import FormControl            from '@material-ui/core/FormControl'
+import _                      from 'lodash'
 
 const styles = theme => ({
   root: {}
@@ -39,7 +44,7 @@ class TypeaheadsHeader extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+      const {classes} = this.props
 
     return (
       <div

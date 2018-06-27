@@ -99,8 +99,8 @@ class InsightTab extends Component {
 
   render() {
     const { classes } = this.props;
-    
-    return (
+
+      return (
       <div className={classes.root}>
         <Grid container spacing={24}>
           <Grid item xs={12}>

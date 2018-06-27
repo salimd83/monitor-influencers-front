@@ -1,5 +1,5 @@
-import { MaterialUINavigation } from 'main/content/components/material-ui/MaterialUINavigation';
-import { authRoles } from 'auth/auth';
+import {MaterialUINavigation} from 'main/content/components/material-ui/MaterialUINavigation'
+import {authRoles}            from 'auth/auth'
 
 export const fuseNavigationConfig = [
     {
@@ -11,11 +11,11 @@ export const fuseNavigationConfig = [
         url  : '/si/leaderboard'
     },
     {
-        id: 'insight',
+        id   : 'insight',
         title: 'Insight',
-        type: 'item',
-        icon: 'bubble_chart',
-        url: '/apps/insight'
+        type : 'item',
+        icon : 'bubble_chart',
+        url  : '/apps/insight'
     },
     {
         id      : 'admin',
