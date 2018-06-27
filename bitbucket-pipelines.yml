@@ -32,8 +32,8 @@ pipelines:
           # trigger: manual  # uncomment to have a manual step
           image: google/cloud-sdk:latest
           script:
-            - VAR_VERSION = cut $BITBUCKET_COMMIT -c1-3
+            - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
             - echo $GCLOUD_API_KEYFILE | base64 --decode --ignore-garbage > ./gcloud-api-key.json
             - gcloud auth activate-service-account --key-file gcloud-api-key.json
             - gcloud config set project $GCLOUD_PROJECT
-            - gcloud -q app deploy app.yaml --version VAR_VERSION
+            - gcloud -q app deploy app.yaml --version "c"$VAR_VERSION
