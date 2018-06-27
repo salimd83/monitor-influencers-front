@@ -43,7 +43,7 @@ class Widget2 extends Component {
             <Typography className="h3" color="textSecondary">
               Conversion{' '}
               <Icon
-                style={{ fontSixe: '21px', verticalAlign: 'middle' }}
+                style={{ fontSize: '19px', verticalAlign: 'middle' }}
                 onClick={this.handleClick}
               >
                 info

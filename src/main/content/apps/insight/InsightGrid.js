@@ -7,618 +7,16 @@ import 'react-resizable/css/styles.css';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
 
-import Widget1 from './widgets/Widget2';
-import Widget2 from './widgets/Widget3';
+import Card1 from './InsightCards/Card1';
+import Card2 from './InsightCards/Card2';
+import ActivityTypeCard from './InsightCards/ActivityTypeCard';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-const widgets = [
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget2,
-    popovertext: 'the content of widget2 popover',
-    data: {
-      impressions: {
-        value: '87k',
-        ofTarget: 12
-      },
-      chartType: 'line',
-      datasets: [
-        {
-          label: 'Impression',
-          data: [
-            67000,
-            54000,
-            82000,
-            57000,
-            72000,
-            57000,
-            87000,
-            72000,
-            89000,
-            98700,
-            112000,
-            136000,
-            110000,
-            149000,
-            98000
-          ],
-          fill: false
-        }
-      ],
-      labels: [
-        'Jan 1',
-        'Jan 2',
-        'Jan 3',
-        'Jan 4',
-        'Jan 5',
-        'Jan 6',
-        'Jan 7',
-        'Jan 8',
-        'Jan 9',
-        'Jan 10',
-        'Jan 11',
-        'Jan 12',
-        'Jan 13',
-        'Jan 14',
-        'Jan 15'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        elements: {
-          point: {
-            radius: 2,
-            borderWidth: 1,
-            hoverRadius: 2,
-            hoverBorderWidth: 1
-          },
-          line: {
-            tension: 0
-          }
-        },
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                // min: 100,
-                // max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  },
-  {
-    component: Widget1,
-    popovertext: 'the content of widget1 popover',
-    data: {
-      conversion: {
-        value: 492,
-        ofTarget: 13
-      },
-      chartType: 'bar',
-      datasets: [
-        {
-          label: 'Conversion',
-          data: [221, 428, 492, 471, 413, 344, 294]
-        }
-      ],
-      labels: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-      ],
-      options: {
-        spanGaps: false,
-        legend: {
-          display: false
-        },
-        maintainAspectRatio: false,
-        layout: {
-          padding: {
-            top: 24,
-            left: 16,
-            right: 16,
-            bottom: 16
-          }
-        },
-        scales: {
-          xAxes: [
-            {
-              display: false
-            }
-          ],
-          yAxes: [
-            {
-              display: false,
-              ticks: {
-                min: 100,
-                max: 500
-              }
-            }
-          ]
-        }
-      }
-    }
-  }
+const cards = [
+  { component: Card1, w: 3, h: 2 },
+  { component: Card2, w: 3, h: 2 },
+  { component: ActivityTypeCard, w: 3, h: 4 }
 ];
 
 class InsightGrid extends Component {
@@ -628,8 +26,8 @@ class InsightGrid extends Component {
         i: i.toString(),
         x: i * 3,
         y: 0,
-        w: 3,
-        h: 2,
+        w: cards[i].w,
+        h: cards[i].h,
         add: i === (list.length - 1).toString()
       };
     }),
@@ -651,11 +49,11 @@ class InsightGrid extends Component {
     };
     console.log('widget name:', el.i);
     const i = el.add ? '+' : el.i;
-    const { component: Widget, ...rest } = widgets[Number(el.i)];
+    const Card = cards[Number(el.i)].component;
 
     return (
       <div key={i} data-grid={el}>
-        <Widget {...rest} />
+        <Card />
         <span
           className="remove"
           style={removeStyle}
@@ -670,18 +68,19 @@ class InsightGrid extends Component {
   onAddItem = () => {
     /*eslint no-console: 0*/
     console.log('adding', 'n' + this.state.newCounter);
+    const { newCounter, items, cols } = this.state;
     const newItem = {
-      i: String(this.state.newCounter),
-      x: (this.state.items.length * 3) % (this.state.cols || 12),
+      i: String(newCounter),
+      x: (items.length * 3) % (cols || 12),
       y: Infinity, // puts it at the bottom
-      w: 3,
-      h: 2
+      w: cards[newCounter].w,
+      h: cards[newCounter].h
     };
     this.setState({
       // Add a new item. It must have a unique key!
-      items: [...this.state.items, newItem],
+      items: [...items, newItem],
       // Increment the counter to ensure key is always unique.
-      newCounter: this.state.newCounter + 1
+      newCounter: newCounter + 1
     });
   };
 
@@ -699,7 +98,8 @@ class InsightGrid extends Component {
 
   onRemoveItem = i => {
     console.log('removing', i);
-    this.setState({ items: _.reject(this.state.items, { i: i }) });
+    const {newCounter, items} = this.state;
+    this.setState({ items: _.reject(items, { i: i }), newCounter: newCounter - 1 });
   };
 
   render() {
@@ -717,7 +117,7 @@ class InsightGrid extends Component {
           className={classes.button}
           variant="outlined"
           color="primary"
-          disabled={Number(newCounter) < 8 ? false : true}
+          disabled={Number(newCounter) < 3 ? false : true}
         >
           Add Item
         </Button>

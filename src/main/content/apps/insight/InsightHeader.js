@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles/index';
 import classNames from 'classnames';
-import { Icon, Typography, TextField } from '@material-ui/core';
+import { Icon, Typography, TextField, IconButton } from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as Actions from './store/actions';
 
 class InsightHeader extends Component {
   state = {
@@ -21,6 +24,10 @@ class InsightHeader extends Component {
           : event.target.value
       )
     );
+  };
+
+  handleClick = () => {
+    this.props.setDate(this.state.dateFrom, this.state.dateTo);
   };
 
   render() {
@@ -70,6 +77,9 @@ class InsightHeader extends Component {
                   shrink: true
                 }}
               />
+              <IconButton aria-label="Delete">
+                <Icon style={{marginTop: '14px'}}>check_circle</Icon>
+              </IconButton>
             </React.Fragment>
           </FuseAnimate>
         </div>
@@ -93,4 +103,18 @@ const styles = theme => ({
   root: {}
 });
 
-export default withStyles(styles, { withTheme: true })(InsightHeader);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(
+    {
+      setDate: Actions.setDate
+    },
+    dispatch
+  );
+}
+
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    null,
+    mapDispatchToProps
+  )(InsightHeader)
+);
