@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles/index';
-import {
-  Hidden,
-  Icon,
-  IconButton,
-  TextField,
-  Typography,
-  Grid
-} from '@material-ui/core';
+import { Icon, TextField, Typography, Grid } from '@material-ui/core';
 import * as Actions from './store/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -15,7 +8,6 @@ import classNames from 'classnames';
 import { FuseAnimate } from '@fuse';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
-import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import _ from 'lodash';
 
@@ -47,14 +39,7 @@ class TypeaheadsHeader extends Component {
   };
 
   render() {
-    const {
-      classes,
-      setSearchText,
-      searchText,
-      searchType,
-      setSearchType,
-      pageLayout
-    } = this.props;
+    const { classes } = this.props;
 
     return (
       <div
