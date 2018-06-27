@@ -15,16 +15,16 @@ import * as Fn from 'fn/simpleCall.js';
 class Tags extends Component {
   state = {
     selectedTags: this.props.tags.map(tag => ({
-      label: `${tag.type}/${tag.name}`,
-      value: tag.name,
-      name: tag.name,
-      type: tag.type,
-      id: tag.id
+        label: tag.name,
+      value  : tag.name,
+      name   : tag.name,
+      type   : tag.type,
+      id     : tag.id
     }))
   };
 
   getTagsOptions = (input, callback) => {
-    const request = Fn.simpleCall('get', `typeahead/all?q=${input}`);
+      const request = Fn.simpleCall('get', `typeahead/profile_tag?q=${input}`)
 
     request.then(response => {
       const ids = this.props.tags.map(tag => tag.id);
