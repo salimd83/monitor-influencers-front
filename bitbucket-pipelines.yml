@@ -12,14 +12,7 @@ pipelines:
           - node
         script: # Modify the commands below to build your repository.
           - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-          - echo '{
-                   "commit":$BITBUCKET_COMMIT,
-                   "version":$VAR_VERSION,
-                   "build":$BITBUCKET_BUILD_NUMBER,
-                   "repo":[
-                           "branch":$BITBUCKET_BRANCH
-                         ]
-                  }' > src/.env.json
+          - echo {"commit":$BITBUCKET_COMMIT, "version":$VAR_VERSION, "build":$BITBUCKET_BUILD_NUMBER,"repo":{"branch":$BITBUCKET_BRANCH}} > src/.env.json
           - npm install
           - npm run build
 
@@ -30,14 +23,7 @@ pipelines:
             - node
           script: # Modify the commands below to build your repository.
               - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-              - echo '{
-                     "commit":$BITBUCKET_COMMIT,
-                     "version":$VAR_VERSION,
-                     "build":$BITBUCKET_BUILD_NUMBER,
-                     "repo":[
-                            "branch":$BITBUCKET_BRANCH
-                          ]
-                      }' > src/.env.json
+              - echo {"commit":$BITBUCKET_COMMIT, "version":$VAR_VERSION, "build":$BITBUCKET_BUILD_NUMBER,"repo":{"branch":$BITBUCKET_BRANCH}} > src/.env.json
               - npm install
               - npm run build
           artifacts:
