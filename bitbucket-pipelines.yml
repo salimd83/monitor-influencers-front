@@ -11,6 +11,15 @@ pipelines:
         caches:
           - node
         script: # Modify the commands below to build your repository.
+          - echo '{
+                   "commit":$BITBUCKET_COMMIT,
+                   "version":$VAR_VERSION,
+                   "build":$BITBUCKET_BUILD_NUMBER,
+                   "repo":{
+                           "branch":$BITBUCKET_BRANCH,
+                           "tag":$BITBUCKET_TAG
+                         }
+                  }' > ./env.json
           - npm install
           - npm run build
 
