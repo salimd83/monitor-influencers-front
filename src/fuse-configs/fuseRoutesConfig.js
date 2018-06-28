@@ -51,9 +51,9 @@ const routeConfigs = [
 
 
 export const routes = [
-	...FuseUtils.generateRoutesFromConfigs(routeConfigs),
-	{
-		path     : "/",
-		component: () => <Redirect to="/apps/dashboards/analytics"/>
-	}
-]
+    ...FuseUtils.generateRoutesFromConfigs(routeConfigs),
+    {
+        path     : '/',
+        component: () => <Redirect to="/apps/dashboards/analytics"/>
+    }
+];

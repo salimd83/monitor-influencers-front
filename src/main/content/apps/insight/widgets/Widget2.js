@@ -14,7 +14,7 @@ const styles = theme => ({
         margin  : theme.spacing.unit,
         fontSize: '14px'
     }
-})
+});
 
 class Widget2 extends Component {
     state = {
@@ -48,7 +48,7 @@ class Widget2 extends Component {
                         Conversion{' '}
                         <Icon
                             style={{
-                                fontSixe     : '21px',
+                                fontSize     : '19px',
                                 verticalAlign: 'middle'
                             }}
                             onClick={this.handleClick}

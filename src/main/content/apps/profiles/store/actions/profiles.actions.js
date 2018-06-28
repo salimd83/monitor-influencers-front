@@ -149,8 +149,8 @@ export function updateProfile({ id, ...profile }) {
         }
     }
     return async (dispatch, getState) => {
-    const { routeParams } = getState().profilesApp.profiles;
-        const response    = await Fn.simpleCall('put', `si/profiles/${id}`, filteredProfile)
+        // const { routeParams } = getState().profilesApp.profiles;
+        const response = await Fn.simpleCall('put', `si/profiles/${id}`, filteredProfile)
 
         console.log('response', response)
 

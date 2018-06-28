@@ -120,7 +120,7 @@ export function addTag(tag, profileId) {
   console.log('action tag:', tag);
   return async dispatch => {
     try {
-      const response = await Fn.simpleCall(
+        await Fn.simpleCall(
         'post',
         `si/profile/${profileId}/tags`,
         { tag_id: tag.id }
@@ -139,7 +139,7 @@ export function deleteTag({ id, relation_id }, profileId) {
   console.log('action tag id', relation_id);
   return async dispatch => {
     try {
-      const response = await Fn.simpleCall(
+        await Fn.simpleCall(
         'delete',
         `si/profile/${profileId}/tags`,
         { tag_id: id }

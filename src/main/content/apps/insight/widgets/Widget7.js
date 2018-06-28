@@ -1,37 +1,51 @@
 import React, {Component} from 'react'
 import {
-    Select,
-    Button,
     Card,
-    Divider,
-    FormControl,
-    Icon,
-    MenuItem,
-    Typography
+    Typography,
+    Icon
 }                         from '@material-ui/core'
 import {Doughnut}         from 'react-chartjs-2'
 import {withStyles}       from '@material-ui/core/styles/index'
 import classNames         from 'classnames'
 import _                  from 'lodash'
+import Popover            from '@material-ui/core/Popover'
 
 const styles = theme => ({
-    root: {}
-})
+    root      : {},
+    typography: {
+        margin  : theme.spacing.unit,
+        fontSize: '14px'
+    }
+});
 
 class Widget7 extends Component {
     state = {
-        dataset: 'Today'
+        dataset : 'Today',
+        anchorEl: null
     }
 
-    setDataSet = (ev) => {
+    handleClick = event => {
+        this.setState({
+                          anchorEl: event.currentTarget
+                      })
+    }
+
+    handleClose = () => {
+        this.setState({
+                          anchorEl: null
+                      })
+    }
+
+    setDataSet = ev => {
         this.setState({dataset: ev.target.value})
     }
 
     render() {
-        const {classes, data: dataRaw, theme} = this.props
-        const {dataset}                       = this.state
-        const data                            = _.merge({}, dataRaw)
-        const dataWithColors                  = data.datasets[dataset].map(obj => ({
+        const {anchorEl}                                   = this.state
+        const {classes, data: dataRaw, popovertext, theme} = this.props
+        const {dataset}                                    = this.state
+        const data                                         = _.merge({}, dataRaw)
+        const dataWithColors                               = data.datasets[dataset].map(obj => ({
             ...obj,
             borderColor         : theme.palette.divider,
             backgroundColor     : [
@@ -46,60 +60,91 @@ class Widget7 extends Component {
             ]
         }))
         return (<Card className={classNames(classes.root, 'w-full')}>
-
-                <div className="p-16">
-                    <Typography className="h1 font-300">Sessions by device</Typography>
-                </div>
-
-                <div className="h-224 relative">
-                    <Doughnut
-                        data={{
-                            labels  : data.labels,
-                            datasets: dataWithColors
+            <div className="p-16">
+                <Typography className="h1 font-300">
+                    Sessions by activities
+                    <Icon
+                        style={{
+                            fontSize     : '21px',
+                            verticalAlign: 'middle',
+                            color        : '#666'
                         }}
-                        options={data.options}/>
-                </div>
+                        onClick={this.handleClick}
+                    >
+                        info
+                    </Icon>
+                </Typography>
+            </div>
 
-                <div className="p-16 flex flex-row items-center justify-center">
+            <div className="h-224 relative mb-8" style={{height: '256px'}}>
+                <Doughnut
+                    data={{
+                        labels  : data.labels,
+                        datasets: dataWithColors
+                    }}
+                    options={data.options}
+                />
+            </div>
 
-                    {data.labels.map((label, index) => (<div key={label} className="px-16 flex flex-col items-center">
+            <div className="p-16 flex flex-row items-center justify-center">
+                {data.labels.map((label, index) => (<div key={label} className="px-16 flex flex-col items-center">
+                    <Typography className="h4" color="textSecondary">
+                        {label}
+                    </Typography>
+                    <Typography className="h2 font-300 py-8">
+                        {data.datasets[dataset][0].data[index]}%
+                    </Typography>
 
-                            <Typography className="h4" color="textSecondary">{label}</Typography>
-                        <Typography
-                            className="h2 font-300 py-8">{data.datasets[dataset][0].data[index]}%</Typography>
-
-                            <div className="flex flex-row items-center justify-center">
+                    {/* <div className="flex flex-row items-center justify-center">
 
                                 {data.datasets[dataset][0].change[index] < 0 && (
                                     <Icon className="text-18 pr-4 text-red">
                                         arrow_downward
-                                    </Icon>)}
+                                    </Icon>
+                                )}
 
                                 {data.datasets[dataset][0].change[index] > 0 && (
                                     <Icon className="text-18 pr-4 text-green">
                                         arrow_upward
-                                    </Icon>)}
+                                    </Icon>
+                                )}
                                 <div className="h5">
                                     {data.datasets[dataset][0].change[index]}%
                                 </div>
-                            </div>
-                    </div>))}
-                </div>
+                            </div> */}
+                </div>))}
+            </div>
 
-                <Divider className="mx-16"/>
+            {/* <Divider className="mx-16"/> */}
 
-                <div className="p-16 flex flex-row items-center justify-between">
+            {/* <div className="p-16 flex flex-row items-center justify-between">
                     <div>
                         <FormControl className="">
                             <Select value={dataset} onChange={this.setDataSet}>
-                                {Object.keys(data.datasets)
-                                       .map(key => (<MenuItem key={key} value={key}>{key}</MenuItem>))}
+                                {Object.keys(data.datasets).map(key => (
+                                    <MenuItem key={key} value={key}>{key}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </div>
                     <Button size="small">OVERVIEW</Button>
-                </div>
-        </Card>)
+                </div> */}
+            <Popover
+                open={Boolean(anchorEl)}
+                anchorEl={anchorEl}
+                onClose={this.handleClose}
+                anchorOrigin={{
+                    vertical  : 'bottom',
+                    horizontal: 'left'
+                }}
+                transformOrigin={{
+                    vertical  : 'top',
+                    horizontal: 'left'
+                }}
+            >
+                <Typography className={classes.typography}>{popovertext}</Typography>
+            </Popover>
+        </Card>);
     }
 }
 
