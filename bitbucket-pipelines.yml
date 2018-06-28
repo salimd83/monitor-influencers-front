@@ -11,6 +11,15 @@ pipelines:
         caches:
           - node
         script: # Modify the commands below to build your repository.
+          - echo '{
+                   "commit":$BITBUCKET_COMMIT,
+                   "version":$VAR_VERSION,
+                   "build":$BITBUCKET_BUILD_NUMBER,
+                   "repo":{
+                           "branch":$BITBUCKET_BRANCH,
+                           "tag":$BITBUCKET_TAG
+                         }
+                  }' > ./env.json
           - npm install
           - npm run build
 
@@ -32,7 +41,8 @@ pipelines:
           # trigger: manual  # uncomment to have a manual step
           image: google/cloud-sdk:latest
           script:
+            - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
             - echo $GCLOUD_API_KEYFILE | base64 --decode --ignore-garbage > ./gcloud-api-key.json
             - gcloud auth activate-service-account --key-file gcloud-api-key.json
             - gcloud config set project $GCLOUD_PROJECT
-            - gcloud -q app deploy app.yaml --version $BITBUCKET_COMMIT
+            - gcloud -q app deploy app.yaml --version "c"$VAR_VERSION
