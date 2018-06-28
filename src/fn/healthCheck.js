@@ -1,9 +1,26 @@
 import _ from 'lodash'
 
-import envJson from '../.env.json'
+let envJson = {}
+try {
+    envJson = require('../.env.json')
+}
+catch (err) {
 
-export const envDetails = envJson
-const hiUserStorage     = JSON.parse(localStorage.getItem('hiUser'))
+}
+
+const defaultEnv = {
+    'commit' : 'NA',
+    'build'  : 'NA',
+    'version': 'NA',
+    'repo'   : {
+        'branch': 'NA',
+        'tag'   : 'NA'
+    }
+}
+
+export const envDetails = {...defaultEnv, ...envJson}
+
+const hiUserStorage = JSON.parse(localStorage.getItem('hiUser'))
 
 const defaultUser = {
     baToken: '',
