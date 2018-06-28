@@ -11,7 +11,7 @@ pipelines:
         caches:
           - node
         script: # Modify the commands below to build your repository.
-          - apt-get install jq -y
+          - apt-get update && apt-get install jq -y
           - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
           - echo | jq -n env
           - npm install
