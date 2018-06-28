@@ -25,9 +25,6 @@ const styles = theme => ({
     paddingBottom: 80
   },
   addButton: {
-    position: 'absolute',
-    right: 12,
-    bottom: 12,
     zIndex: 99,
     margin: 0,
     top: 'auto',

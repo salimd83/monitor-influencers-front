@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import GridLayout from 'react-grid-layout';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import 'react-grid-layout/css/styles.css';
@@ -47,7 +46,6 @@ class InsightGrid extends Component {
       top: 0,
       cursor: 'pointer'
     };
-    console.log('widget name:', el.i);
     const i = el.add ? '+' : el.i;
     const Card = cards[Number(el.i)].component;
 
@@ -105,11 +103,11 @@ class InsightGrid extends Component {
   render() {
     const { classes } = this.props;
     const { newCounter, items } = this.state;
-    let layout = [
-      { i: 'a', x: 0, y: 0, w: 4, h: 6, minH: 6, maxH: 6 },
-      { i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
-      { i: 'c', x: 4, y: 0, w: 1, h: 2 }
-    ];
+    // let layout = [
+    //   { i: 'a', x: 0, y: 0, w: 4, h: 6, minH: 6, maxH: 6 },
+    //   { i: 'b', x: 1, y: 0, w: 3, h: 2, minW: 2, maxW: 4 },
+    //   { i: 'c', x: 4, y: 0, w: 1, h: 2 }
+    // ];
     return (
       <div>
         <Button

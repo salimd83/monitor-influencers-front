@@ -8,12 +8,7 @@ import * as Actions from '../store/actions';
 
 class ActivityTypeCard extends Component {
   componentDidMount() {
-    if (!this.props.data.length)
-      this.props.getData(
-        '42ig8yrfd5jhwrmy83',
-        this.props.from,
-        this.props.to
-      );
+    this.props.getData('42ig8yrfd5jhwrmy83', this.props.from, this.props.to);
   }
   render() {
     const { loading, data } = this.props;
@@ -21,8 +16,6 @@ class ActivityTypeCard extends Component {
       popovertext: 'the content of activity type popover',
       data: dataParser(data)
     };
-
-    console.log(data);
 
     return (
       <React.Fragment>
@@ -52,7 +45,7 @@ function mapStateToProps({ insightApp }) {
     data: insightApp.insight.activityData,
     loading: insightApp.insight.activityFetching,
     from: insightApp.insight.from,
-    to: insightApp.insight.to,
+    to: insightApp.insight.to
   };
 }
 

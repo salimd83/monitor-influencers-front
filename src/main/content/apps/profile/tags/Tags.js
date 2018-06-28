@@ -4,8 +4,7 @@ import {
   Card,
   CardContent,
   Toolbar,
-  Typography,
-  Chip
+  Typography
 } from '@material-ui/core';
 import { Async } from 'react-select';
 import 'react-select/dist/react-select.css';

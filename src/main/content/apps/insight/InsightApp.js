@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FusePageCarded, FuseAnimate } from '@fuse';
+import { FusePageCarded } from '@fuse';
 import { withStyles } from '@material-ui/core/styles';
 
 import InsightHeader from './InsightHeader';

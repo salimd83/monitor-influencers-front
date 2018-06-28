@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles/index';
-import classNames from 'classnames';
-import { Icon, Typography, TextField, IconButton } from '@material-ui/core';
+import { Icon, Typography, IconButton, Grid } from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
+import 'react-select/dist/react-select.css';
+
+import ProfileFilter from './filters/ProfileFilter';
+import DateFilter from './filters/DateFilter';
 
 class InsightHeader extends Component {
   state = {
-    dateFrom: inputDateFormat(),
-    dateTo: inputDateFormat(1)
+    from: inputDateFormat(0, -1),
+    to: inputDateFormat(),
+    selectedProfile: '42ig8yrfd5jhwrmy83'
   };
+
+  componentDidMount() {
+    const { from, to, selectedProfile } = this.state;
+    this.props.setDate(selectedProfile, from, to, false);
+  }
 
   handleChange = event => {
     this.setState(
@@ -26,20 +35,28 @@ class InsightHeader extends Component {
     );
   };
 
+  handleProfileChange = profile => {
+    this.setState({ selectedProfile: profile.value });
+  };
+
   handleClick = () => {
-    this.props.setDate(this.state.dateFrom, this.state.dateTo);
+    const { from, to, selectedProfile } = this.state;
+    this.props.setDate(selectedProfile, from, to);
   };
 
   render() {
-    const { classes } = this.props;
+    const { selectedProfile, to, from } = this.state;
+    const { handleChange, handleClick } = this;
     return (
-      <div
-        className={classNames(
-          classes.root,
-          'flex flex-1 flex-col sm:flex-row items-center justify-between p-24'
-        )}
+      <Grid
+        container
+        spacing={16}
+        alignItems="center"
+        direction="row"
+        justify="space-between"
+        style={{ height: 'calc(100% + 16px)', zIndex: '1000' }}
       >
-        <div className="flex flex-1 items-center">
+        <Grid item>
           <div className="flex items-center">
             <FuseAnimate animation="transition.expandIn" delay={300}>
               <Icon className="text-32 mr-12">account_box</Icon>
@@ -48,59 +65,51 @@ class InsightHeader extends Component {
               <Typography variant="title">Insights</Typography>
             </FuseAnimate>
           </div>
-        </div>
-
-        <div className="flex items-end">
+        </Grid>
+        <Grid item>
           <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-            <React.Fragment>
-              <TextField
-                id="date"
-                label="From"
-                name="from"
-                onChange={this.handleChange}
-                type="date"
-                defaultValue={this.state.dateFrom}
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-              <TextField
-                id="date"
-                label="To"
-                name="to"
-                onChange={this.handleChange}
-                type="date"
-                defaultValue={this.state.dateTo}
-                className={classes.textField}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-              <IconButton aria-label="Delete">
-                <Icon style={{marginTop: '14px'}}>check_circle</Icon>
-              </IconButton>
-            </React.Fragment>
+            <Grid container spacing={16} alignItems="center" direction="row">
+              <Grid item>
+                <ProfileFilter
+                  handleChange={this.handleProfileChange}
+                  selected={selectedProfile}
+                />
+              </Grid>
+              <Grid item>
+                <DateFilter
+                  {...{ to, from, handleChange }}
+                  maxFrom={inputDateFormat(-1)}
+                  maxTo={inputDateFormat()}
+                />
+              </Grid>
+              <Grid>
+                <IconButton onClick={handleClick} aria-label="Delete">
+                  <Icon>check_circle</Icon>
+                </IconButton>
+              </Grid>
+            </Grid>
           </FuseAnimate>
-        </div>
-      </div>
+        </Grid>
+      </Grid>
     );
   }
 }
 
-function inputDateFormat(addDay = 0) {
+function inputDateFormat(addDays = 0, addMonths = 0) {
   var x = new Date();
   var y = x.getFullYear().toString();
-  var m = (x.getMonth() + 1).toString();
-  var d = (x.getDate() + addDay).toString();
-  d.length == 1 && (d = '0' + d);
-  m.length == 1 && (m = '0' + m);
+  var m = (x.getMonth() + 1 + addMonths).toString();
+  var d = (x.getDate() + addDays).toString();
+  d.length === 1 && (d = '0' + d);
+  m.length === 1 && (m = '0' + m);
   var yyyymmdd = `${y}-${m}-${d}`;
   return yyyymmdd;
 }
 
 const styles = theme => ({
-  root: {}
+  root: {
+    flexGrow: 1
+  }
 });
 
 function mapDispatchToProps(dispatch) {

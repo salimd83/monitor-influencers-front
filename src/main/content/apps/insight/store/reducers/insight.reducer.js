@@ -3,8 +3,8 @@ import * as Actions from '../actions';
 const initialState = {
   activityData: [],
   activityFetching: false,
-  from: null,
-  to: null
+  from: Date.now(),
+  to: Date.now()
 };
 
 const insightReducer = function(state = initialState, action) {
