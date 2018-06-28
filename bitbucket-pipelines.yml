@@ -11,8 +11,9 @@ pipelines:
         caches:
           - node
         script: # Modify the commands below to build your repository.
+          - apt-get install jq -y
           - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-          - echo {"commit":"c_'$BITBUCKET_COMMIT'", "version":"v_'$VAR_VERSION'", "build":"b_'$BITBUCKET_BUILD_NUMBER'","repo":{"branch":"rb_'$BITBUCKET_BRANCH'"}} > src/.env.json
+          - echo | jq -n env
           - npm install
           - npm run build
 
@@ -22,8 +23,7 @@ pipelines:
           caches:
             - node
           script: # Modify the commands below to build your repository.
-              - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-              - echo {"commit":"c_'$BITBUCKET_COMMIT'", "version":"v_'$VAR_VERSION'", "build":"b_'$BITBUCKET_BUILD_NUMBER'","repo":{"branch":"rb_'$BITBUCKET_BRANCH'"}} > src/.env.json
+              - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7
               - npm install
               - npm run build
           artifacts:
@@ -37,6 +37,9 @@ pipelines:
           image: google/cloud-sdk:latest
           script:
             - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
+            - apt-get install jq -y
+            - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
+            - echo | jq -n env
             - echo $GCLOUD_API_KEYFILE | base64 --decode --ignore-garbage > ./gcloud-api-key.json
             - gcloud auth activate-service-account --key-file gcloud-api-key.json
             - gcloud config set project $GCLOUD_PROJECT
