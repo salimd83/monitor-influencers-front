@@ -24,7 +24,7 @@ const fuseSettingsConfig = {
 	theme           : {
 		main   : "greeny",
 		navbar : "mainThemeLight",
-		toolbar: "defaultDark",
+        toolbar: 'sweetHues',
 		footer : "mainThemeDark"
 	}
 }

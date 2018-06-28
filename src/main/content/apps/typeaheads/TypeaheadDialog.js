@@ -86,7 +86,7 @@ class TypeaheadDialog extends Component {
              * Update State
              */
             if (this.props.typeaheadDialog.type === 'edit' && this.props.typeaheadDialog.data && !_.isEqual(this.props.typeaheadDialog.data, prevState)) {
-                const meta = JSON.parse(this.props.typeaheadDialog.data.meta)
+                const meta = this.props.typeaheadDialog.data.meta
                 this.setState({
                                   ...this.props.typeaheadDialog.data,
                                   meta
@@ -98,7 +98,7 @@ class TypeaheadDialog extends Component {
              * Update State
              */
             if (this.props.typeaheadDialog.type === 'new' && !_.isEqual(newTypeaheadState, prevState)) {
-                const meta = JSON.parse(newTypeaheadState.meta)
+                const meta = newTypeaheadState.meta
                 this.setState({
                                   ...newTypeaheadState,
                                   meta

@@ -115,12 +115,6 @@ class TypeaheadsList extends Component {
               accessor: 'related_link',
               filterable: false,
               className: 'font-bold ml-16'
-            },
-            {
-              Header: 'Metadata',
-              accessor: 'meta',
-              filterable: false,
-              className: 'font-bold ml-16'
             }
           ]}
           //	manual
