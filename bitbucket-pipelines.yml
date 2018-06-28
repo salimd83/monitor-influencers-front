@@ -16,9 +16,9 @@ pipelines:
                    "commit":$BITBUCKET_COMMIT,
                    "version":$VAR_VERSION,
                    "build":$BITBUCKET_BUILD_NUMBER,
-                   "repo":{
+                   "repo":[
                            "branch":$BITBUCKET_BRANCH
-                         }
+                         ]
                   }' > src/.env.json
           - npm install
           - npm run build
@@ -34,9 +34,9 @@ pipelines:
                      "commit":$BITBUCKET_COMMIT,
                      "version":$VAR_VERSION,
                      "build":$BITBUCKET_BUILD_NUMBER,
-                     "repo":{
+                     "repo":[
                             "branch":$BITBUCKET_BRANCH
-                          }
+                          ]
                       }' > src/.env.json
               - npm install
               - npm run build
