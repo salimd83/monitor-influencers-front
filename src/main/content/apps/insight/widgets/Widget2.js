@@ -27,11 +27,44 @@ class Widget2 extends Component {
                       })
     }
 
+<<<<<<< HEAD
     handleClose = () => {
         this.setState({
                           anchorEl: null
                       })
     }
+=======
+  handleClose = () => {
+    this.setState({
+      anchorEl: null
+    });
+  };
+  render() {
+    const { classes, data, theme, popovertext, ...restProps } = this.props;
+    const dataWithColors = data.datasets.map(obj => ({
+      ...obj,
+      borderColor: theme.palette.secondary.main,
+      backgroundColor: theme.palette.secondary.main
+    }));
+    const { anchorEl } = this.state;
+    return (
+      <Card {...restProps}>
+        <div className="p-16 pb-0 flex flex-row flex-wrap items-end">
+          <div className="pr-16">
+            <Typography className="h3" color="textSecondary">
+              Conversion{' '}
+              <Icon
+                style={{ fontSize: '19px', verticalAlign: 'middle' }}
+                onClick={this.handleClick}
+              >
+                info
+              </Icon>
+            </Typography>
+            <Typography className="text-56 font-300 leading-none mt-8">
+              {data.conversion.value}
+            </Typography>
+          </div>
+>>>>>>> SHI-42-time-selection
 
     render() {
         const {classes, data, theme, popovertext, ...restProps} = this.props

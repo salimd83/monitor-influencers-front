@@ -1,14 +1,13 @@
 import React, {Component} from 'react'
 import {
-    AppBar,
-    Card,
-    CardContent,
-    Toolbar,
-    Typography,
-    Chip
-}                         from '@material-ui/core'
-import {Async}            from 'react-select'
-import 'react-select/dist/react-select.css'
+  AppBar,
+  Card,
+  CardContent,
+  Toolbar,
+  Typography
+} from '@material-ui/core';
+import { Async } from 'react-select';
+import 'react-select/dist/react-select.css';
 
 import * as Fn from 'fn/simpleCall.js'
 

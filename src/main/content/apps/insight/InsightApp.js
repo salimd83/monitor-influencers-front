@@ -1,9 +1,6 @@
-import React, {Component} from 'react'
-import {
-    FusePageCarded,
-    FuseAnimate
-}                         from '@fuse'
-import {withStyles}       from '@material-ui/core/styles'
+import React, { Component } from 'react';
+import { FusePageCarded } from '@fuse';
+import { withStyles } from '@material-ui/core/styles';
 
 import InsightHeader from './InsightHeader'
 import InsightGrid   from './InsightGrid'

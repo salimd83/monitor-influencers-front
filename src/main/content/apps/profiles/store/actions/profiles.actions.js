@@ -111,7 +111,7 @@ export function resetAddProfile() {
 
 export function addProfile(newProfile) {
   return (dispatch, getState) => {
-    const { routeParams } = getState().profilesApp.profiles;
+    // const { routeParams } = getState().profilesApp.profiles;
 
     const request = Fn.simpleCall('post', 'si/profiles', newProfile);
 
@@ -152,7 +152,7 @@ export function updateProfile({ id, ...profile }) {
     }
   }
   return async (dispatch, getState) => {
-    const { routeParams } = getState().profilesApp.profiles;
+    // const { routeParams } = getState().profilesApp.profiles;
     const response = await Fn.simpleCall(
       'put',
       `si/profiles/${id}`,

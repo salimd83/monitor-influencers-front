@@ -12,9 +12,6 @@ import classNames from 'classnames';
 import green from '@material-ui/core/colors/green';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import _ from 'lodash';
 
 const styles = theme => ({
   buttonSuccess: {
