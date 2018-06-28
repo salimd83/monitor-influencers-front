@@ -3,10 +3,22 @@ import _ from 'lodash'
 import envJson from '../.env.json'
 
 export const envDetails = envJson
-export const hiUser     = JSON.parse(localStorage.getItem('hiUser'))
-console.log(`You are running version ${envDetails.version} build ${envDetails.build}.`, 'color: #bada55')
-console.log(`Internal none cached version: https://beaux.link/dev/?app=hi&version=${envDetails.version}`, 'color: #bada55')
+const hiUserStorage     = JSON.parse(localStorage.getItem('hiUser'))
 
+const defaultUser = {
+    baToken: '',
+    from   : 'internal',
+    role   : 'guest',
+    data   : {
+        'displayName': 'Not signed in.',
+        'photoURL'   : 'assets/images/avatars/Abbott.jpg',
+        'email'      : 'hello@beaux.media'
+    }
+}
+
+export const hiUser = {...defaultUser, ...hiUserStorage}
+
+console.log(`Hey Devs! You are running version ${envDetails.version} build ${envDetails.build}.`)
 
 export async function healthCheck(dataArr, func, opts = []) {
 
