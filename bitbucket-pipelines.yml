@@ -24,7 +24,7 @@ pipelines:
             - node
           script: # Modify the commands below to build your repository.
               - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-              - apt-get install jq -y
+              - apt-get update && apt-get install jq -y
               - echo | jq -n env
               - npm install
               - npm run build
