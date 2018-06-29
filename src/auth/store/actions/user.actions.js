@@ -4,6 +4,8 @@ import {FuseDefaultSettings} from '@fuse'
 import _                     from 'lodash'
 import store                 from 'store'
 import * as Actions          from 'store/actions'
+import {simpleStore}         from 'fn'
+
 
 export const SET_USER_DATA          = '[USER] SET DATA'
 export const REMOVE_USER_DATA       = '[USER] REMOVE DATA'
@@ -19,9 +21,9 @@ export function setUserData(user, doNotUpdate) {
         dispatch(setDefaultSettings(user.data.settings))
 
         dispatch({
-            type   : SET_USER_DATA,
-            payload: user
-        })
+                     type   : SET_USER_DATA,
+                     payload: user
+                 })
     }
 }
 
@@ -43,21 +45,19 @@ export function toggleInShortcuts(id) {
             ...shortcuts,
             id
         ]
-        return dispatch(setUserData(
-            {
-                ...user,
-                data: {
-                    ...user.data,
-                    shortcuts
-                }
-            }
-        ))
+        return dispatch(setUserData({
+                                        ...user,
+                                        data: {
+                                            ...user.data,
+                                            shortcuts
+                                        }
+                                    }))
     }
 }
 
 export function removeUserData() {
 
-    localStorage.removeItem(USER_BROWSER_REFERENCE)
+    simpleStore.remove(USER_BROWSER_REFERENCE, 'local')
     return {
         type: REMOVE_USER_DATA
     }
@@ -67,40 +67,41 @@ export function removeUserData() {
 export function lockUser() {
     if (_.isObject(getUserData())) {
         updateUserSettings({
-            locked : true,
-            role   : 'guest',
-            baToken: null
-        })
+                               locked : true,
+                               role   : 'guest',
+                               baToken: null
+                           })
 
         history.push({
-            pathname: '/locked'
-        })
+                         pathname: '/locked'
+                     })
     }
     return (dispatch, getState) => {
 
         dispatch(setDefaultSettings(FuseDefaultSettings))
 
         dispatch({
-            type: USER_LOGGED_OUT
-        })
+                     type: USER_LOGGED_OUT
+                 })
     }
 }
 
 export function logoutUser() {
     if (_.isObject(getUserData())) {
-        localStorage.removeItem(USER_BROWSER_REFERENCE)
+        simpleStore.remove(USER_BROWSER_REFERENCE, 'local')
+        simpleStore.remove('hiUsername', 'local')
 
         history.push({
-            pathname: '/'
-        })
+                         pathname: '/'
+                     })
     }
     return (dispatch, getState) => {
 
         dispatch(setDefaultSettings(FuseDefaultSettings))
 
         dispatch({
-            type: USER_LOGGED_OUT
-        })
+                     type: USER_LOGGED_OUT
+                 })
     }
 }
 
@@ -113,14 +114,14 @@ function updateUserData(user) {
          break
          }*/
         default: {
-            localStorage.setItem(USER_BROWSER_REFERENCE, JSON.stringify(user))
+            simpleStore.upsert(USER_BROWSER_REFERENCE, user, 'local')
         }
     }
 }
 
 export function getUserData() {
 
-    return JSON.parse(localStorage.getItem(USER_BROWSER_REFERENCE))
+    return simpleStore.lookup(USER_BROWSER_REFERENCE, 'local')
 
 }
 

@@ -6,7 +6,7 @@ export const LockedConfig = {
         layout: {
             config: {
                 navbar : {
-                    display: true
+                    display: false
                 },
                 toolbar: {
                     display: false

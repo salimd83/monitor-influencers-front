@@ -59,11 +59,8 @@ export async function simpleCall(method, endpoint, data, json) {
          */
         if (error.response.statusCode === 402) {
             lockUser()
-            return []
         }
-        else {
-            return error.response
-        }
+        return Promise.reject(error.response)
 
     }
 }
