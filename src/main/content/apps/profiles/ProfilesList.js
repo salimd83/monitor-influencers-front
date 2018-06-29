@@ -190,8 +190,8 @@ class ProfilesList extends Component {
               className: 'font-bold'
             },
             {
-              Header: 'Country',
-              accessor: 'country',
+              Header    : 'Country',
+                accessor: 'country.name',
               filterable: true
             },
             {

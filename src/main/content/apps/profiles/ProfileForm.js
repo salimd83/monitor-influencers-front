@@ -123,7 +123,7 @@ class ProfileForm extends Component {
 
         <div className="flex mb-16">
           <div className="min-w-48 pt-20">
-            <Icon color="action">location_on</Icon>
+              <Icon color="action">home</Icon>
           </div>
           <Select
             label="Country"
@@ -137,7 +137,7 @@ class ProfileForm extends Component {
 
         <div className="flex mb-16">
           <div className="min-w-48 pt-20">
-            <Icon color="action">home</Icon>
+              <Icon color="action">location_on</Icon>
           </div>
           <Select
             label="Location"
@@ -167,15 +167,15 @@ class ProfileForm extends Component {
             <Icon color="action">note</Icon>
           </div>
           <Input
-            label="Note"
-            id="internat_note"
-            name="internat_note"
-            value={this.props.internat_note}
-            onChange={handleChange}
-            multiline
-            rows="2"
-            rowsMax="5"
-            onBlur={() => {
+              label="Note"
+              id="internal_notes"
+              name="internal_notes"
+              value={this.props.internal_notes}
+              onChange={handleChange}
+              multiline
+              rows="2"
+              rowsMax="5"
+              onBlur={() => {
               validate({
                 target: {
                   name: 'internat_note',
@@ -183,8 +183,8 @@ class ProfileForm extends Component {
                 }
               });
             }}
-            errorText={errors.internat_note}
-            error={errors.internat_note ? true : false}
+              errorText={errors.internal_notes}
+              error={errors.internal_notes ? true : false}
           />
         </div>
       </React.Fragment>
