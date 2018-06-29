@@ -5,7 +5,6 @@ import {
 import * as rp from 'request-promise'
 import _       from 'lodash'
 
-
 import * as Actions  from 'store/actions'
 import {LOGIN_ERROR} from '../auth/store/actions/login.actions'
 
@@ -14,7 +13,7 @@ export const SUCCESS       = 'SUCCESS'
 export const ERROR_SESSION = 'ERROR_SESSION'
 
 
-export async function simpleCall(method, endpoint, data, json) {
+export async function simpleCall(method, endpoint, data, json, errorHandler = true) {
 
     method = method.toLowerCase()
 
@@ -60,7 +59,17 @@ export async function simpleCall(method, endpoint, data, json) {
         if (error.response.statusCode === 402) {
             lockUser()
         }
-        return Promise.reject(error.response)
 
+        if (errorHandler) {
+            Actions.showMessage({
+                                    message     : 'An error has been detected. Please check shortly.',
+                                    anchorOrigin: {
+                                        vertical  : 'top',
+                                        horizontal: 'right'
+                                    }
+                                })
+        }
+
+        return Promise.reject(error.response)
     }
 }
