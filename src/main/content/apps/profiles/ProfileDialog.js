@@ -142,7 +142,10 @@ class ProfileDialog extends Component {
                                   ...this.state, ...this.props.profileDialog.data,
                                   errors  : initErrors,
                                   industry: this.props.profileDialog.data.industry.id,
-                                  category: this.props.profileDialog.data.category.id
+                                  category: this.props.profileDialog.data.category.id,
+                                  country : this.props.profileDialog.data.country.id,
+                                  location: this.props.profileDialog.data.location.id
+
                               })
             }
 
