@@ -71,16 +71,16 @@ class LinkDialog extends Component {
     }
 
     canBeSubmitted() {
-        const {title, type, link, value} = this.state
-        return (title.length > 0 && type.length > 0 && link.length > 0 && value.length > 0)
+        const {title, type, value} = this.state
+        return (title.length > 0 && type.length > 0 && value.length > 0)
     }
 
     render() {
         const {
                   classes, linkDialog, addLink, updateLink, removeLink, profileId
-              }                          = this.props
-        const {title, type, link, value} = this.state
-        const typeList                   = [
+              }                    = this.props
+        const {title, type, value} = this.state
+        const typeList             = [
             'facebook',
             'instagram',
             'twitter',
@@ -126,7 +126,7 @@ class LinkDialog extends Component {
 
                 <div className="flex">
                     <div className="min-w-48 pt-20">
-                        <Icon color="action">Category</Icon>
+                        <Icon color="action">category</Icon>
                     </div>
                     <FormControl className={classes.formControl} fullWidth>
                         <InputLabel htmlFor="type">Type</InputLabel>
