@@ -5,8 +5,11 @@ import {
 import * as rp from 'request-promise'
 import _       from 'lodash'
 
-import * as Actions  from 'store/actions'
-import {LOGIN_ERROR} from '../auth/store/actions/login.actions'
+import * as Actions from 'store/actions'
+import {
+    LOGIN_ERROR,
+    REQUEST_SUCCESS
+}                   from '../auth/store/actions/login.actions'
 
 export const ERROR         = 'ERROR'
 export const SUCCESS       = 'SUCCESS'
@@ -61,15 +64,33 @@ export async function simpleCall(method, endpoint, data, json, errorHandler = tr
         }
 
         if (errorHandler) {
-            Actions.showMessage({
-                                    message     : 'An error has been detected. Please check shortly.',
-                                    anchorOrigin: {
-                                        vertical  : 'top',
-                                        horizontal: 'right'
-                                    }
-                                })
+            error.response = 'A unexpected error has occurred. A better message will be added later. '
         }
 
         return Promise.reject(error.response)
+    }
+}
+
+
+export async function simpleCallWA(method, endpoint, data, json) {
+
+    return async (dispatch) => {
+        try {
+            const request = await Fn.simpleCall(method, endpoint, data, json, true)
+            return dispatch({
+                                type   : SUCCESS,
+                                payload: request,
+                                success: true
+                            })
+        }
+        catch (error) {
+
+            dispatch(Actions.showMessage({message: error}))
+            return dispatch({
+                                type   : ERROR,
+                                payload: error,
+                                success: false
+                            })
+        }
     }
 }
