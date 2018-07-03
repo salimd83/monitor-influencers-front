@@ -1,8 +1,6 @@
 export default dataObjs => {
   let data = [],
     labels = [];
-  console.log('dataobj:', dataObjs);
-  // const sortedArray = dataObjs.sort((a, b) => b.count - a.count);
   dataObjs.forEach(dataObj => {
     labels.push(dataObj.type);
     data.push(dataObj.count);
