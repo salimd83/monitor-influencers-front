@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { FusePageCarded } from '@fuse';
-import { withStyles } from '@material-ui/core/styles';
+import React, {Component} from 'react'
+import {FusePageCarded}   from '@fuse'
+import {withStyles}       from '@material-ui/core/styles'
 
 import InsightHeader from './InsightHeader'
 import InsightGrid   from './InsightGrid'
@@ -36,6 +36,6 @@ const styles = theme => ({
         padding      : 24,
         paddingBottom: 80
     }
-})
+});
 
 export default withStyles(styles, {withTheme: true})(InsightApp)

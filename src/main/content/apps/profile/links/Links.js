@@ -139,7 +139,7 @@ class Links extends Component {
                       value={this.state.title}
                       onChange={this.handleChange}
                       onKeyPress={e => {
-                        if (e.key === 'Enter') {
+                          if (e.key === 'Enter') {
                           updateLink({ title, id });
                           this.handleClose();
                         }

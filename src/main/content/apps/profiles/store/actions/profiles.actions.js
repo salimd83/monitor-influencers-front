@@ -111,7 +111,7 @@ export function resetAddProfile() {
 
 export function addProfile(newProfile) {
   return (dispatch, getState) => {
-    // const { routeParams } = getState().profilesApp.profiles;
+    const { routeParams } = getState().profilesApp.profiles;
 
     const request = Fn.simpleCall('post', 'si/profiles', newProfile);
 
@@ -150,37 +150,32 @@ export function updateProfile({ id, ...profile }) {
     if (profile[key] !== '') {
       filteredProfile[key] = profile[key];
     }
-  }
-  return async (dispatch, getState) => {
-    // const { routeParams } = getState().profilesApp.profiles;
-    const response = await Fn.simpleCall(
-      'put',
-      `si/profiles/${id}`,
-      filteredProfile
-    );
+    return async (dispatch, getState) => {
+        // const { routeParams } = getState().profilesApp.profiles;
+        const response = await Fn.simpleCall('put', `si/profiles/${id}`, filteredProfile)
 
-    console.log('response', response);
+        console.log('response', response)
 
-    if (response.body) {
-      const errors = Object.values(_.omit(response.body.error, ['code'])).map(
-        er => er[0]
-      );
-      dispatch({
-        type: PROFILE_ERROR,
-        errors
-      });
-    } else {
-      await Promise.all([
-        dispatch({
-          type: UPDATE_PROFILE,
-          profile,
-          id
-        })
-      ]);
+        if (response.body) {
+            const errors = Object.values(_.omit(response.body.error, ['code']))
+                                 .map(er => er[0])
+            dispatch({
+                         type: PROFILE_ERROR,
+                         errors
+                     })
+        }
+        else {
+            await Promise.all([
+                                  dispatch({
+                                               type: UPDATE_PROFILE,
+                                               profile,
+                                               id
+                                           })
+                              ])
 
-      // dispatch(getProfiles(routeParams));
-      dispatch({ type: CLOSE_EDIT_PROFILE_DIALOG });
-    }
+            // dispatch(getProfiles(routeParams));
+            dispatch({type: CLOSE_EDIT_PROFILE_DIALOG})
+        }
   };
 }
 

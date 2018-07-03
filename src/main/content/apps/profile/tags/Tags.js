@@ -1,20 +1,21 @@
 import React, {Component} from 'react'
 import {
-  AppBar,
-  Card,
-  CardContent,
-  Toolbar,
-  Typography
-} from '@material-ui/core';
-import { Async } from 'react-select';
-import 'react-select/dist/react-select.css';
+    AppBar,
+    Card,
+    CardContent,
+    Toolbar,
+    Typography,
+    Chip
+}                         from '@material-ui/core';
+import {Async}            from 'react-select'
+import 'react-select/dist/react-select.css'
 
 import * as Fn from 'fn/simpleCall.js'
 
 class Tags extends Component {
     state = {
         selectedTags: this.props.tags.map(tag => ({
-            label: tag.name,
+            label: `${tag.type}/${tag.name}`,
             value: tag.name,
             name : tag.name,
             type : tag.type,
@@ -34,7 +35,7 @@ class Tags extends Component {
 
             callback(null, {
                 options : filteredTags.map(tag => ({
-                    label: `${tag.type}/${tag.name}`,
+                    label: tag.name,
                     value: tag.name,
                     name : tag.name,
                     type : tag.type,
@@ -43,7 +44,7 @@ class Tags extends Component {
                 complete: true
             })
         })
-    }
+    };
 
     handleAsyncSelectChange = selectedOptions => {
         const stateTags = this.state.selectedTags
@@ -110,7 +111,7 @@ class Tags extends Component {
                     />
                 </div>
             </CardContent>
-        </Card>)
+        </Card>);
     }
 }
 
