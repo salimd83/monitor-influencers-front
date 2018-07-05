@@ -16,7 +16,7 @@ const initialState = {
     props: {
       open: false
     },
-    data: null
+    data: {}
   }
 };
 
@@ -72,13 +72,11 @@ const profilesReducer = function(state = initialState, action) {
     }
     case Actions.UPDATE_PROFILE: {
       const { profile, id } = action;
-      console.log(state.entities[id]);
       const newProfile = { ...state.entities[id], ...profile };
       const newEntities = { ...state.entities };
 
       newEntities[action.id] = newProfile;
 
-      console.log(newEntities);
       return {
         ...state,
         entities: newEntities
@@ -139,7 +137,7 @@ const profilesReducer = function(state = initialState, action) {
           props: {
             open: true
           },
-          data: null
+          data: {}
         }
       };
     }
@@ -151,7 +149,7 @@ const profilesReducer = function(state = initialState, action) {
           props: {
             open: false
           },
-          data: null
+          data: {}
         }
       };
     }
@@ -175,7 +173,7 @@ const profilesReducer = function(state = initialState, action) {
           props: {
             open: false
           },
-          data: null
+          data: {}
         }
       };
     }
