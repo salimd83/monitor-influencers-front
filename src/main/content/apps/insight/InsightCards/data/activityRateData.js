@@ -5,6 +5,7 @@ export default dataObjs => {
     labels.push(dataObj.type);
     data.push(dataObj.count);
   });
+  
   return {
     chartType: "line",
     datasets : {
