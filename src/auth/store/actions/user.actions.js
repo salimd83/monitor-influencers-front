@@ -2,8 +2,6 @@ import history               from 'history.js'
 import {setDefaultSettings}  from 'store/actions/fuse'
 import {FuseDefaultSettings} from '@fuse'
 import _                     from 'lodash'
-import store                 from 'store'
-import * as Actions          from 'store/actions'
 import {simpleStore}         from 'fn'
 
 

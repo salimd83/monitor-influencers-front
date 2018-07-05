@@ -14,9 +14,8 @@ export const ADD_TAG = '[PROFILE APP] ADD TAG';
 export const DELETE_TAG = '[PROFILE APP] DELETE TAG';
 
 export function getProfile(routeParams) {
-  const request = Fn.simpleCall('get', `/si/profiles/${routeParams.id}`);
-
-  return dispatch =>
+  return dispatch => {
+    const request = Fn.simpleCallWA(dispatch, 'get', `/si/profiles/${routeParams.id}`);
     request.then(response =>
       dispatch({
         type: GET_PROFILE,
@@ -24,6 +23,7 @@ export function getProfile(routeParams) {
         routeParams
       })
     );
+  };
 }
 
 export function openNewLinkDialog() {
@@ -54,7 +54,8 @@ export function closeEditLinkDialog() {
 export function addLink(link, profileId) {
   return async dispatch => {
     try {
-      const response = await Fn.simpleCall(
+      const response = await Fn.simpleCallWA(
+        dispatch,
         'post',
         `si/profile/${profileId}/links`,
         { ...link }
@@ -64,7 +65,7 @@ export function addLink(link, profileId) {
         link: response.data
       });
     } catch (e) {
-      console.log(e.response);
+      console.log(e);
     }
   };
 }
@@ -80,7 +81,7 @@ export function removeLink(id) {
   return async dispatch => {
     dispatch(deletingLink(id));
     try {
-      await Fn.simpleCall('delete', `si/link/${id}`);
+      await Fn.simpleCallWA(dispatch, 'delete', `si/link/${id}`);
       dispatch({
         type: REMOVE_LINK,
         id
@@ -102,10 +103,14 @@ export function updateLink(link) {
   return async dispatch => {
     dispatch(updatingLink(link.id));
     try {
-      const response = await Fn.simpleCall('put', `si/link/${link.id}`, {
-        ...link
-      });
-      console.log('response.data', response.data);
+      const response = await Fn.simpleCallWA(
+        dispatch,
+        'put',
+        `si/link/${link.id}`,
+        {
+          ...link
+        }
+      );
       dispatch({
         type: UPDATE_LINK,
         link: link
@@ -117,14 +122,11 @@ export function updateLink(link) {
 }
 
 export function addTag(tag, profileId) {
-  console.log('action tag:', tag);
   return async dispatch => {
     try {
-        await Fn.simpleCall(
-        'post',
-        `si/profile/${profileId}/tags`,
-        { tag_id: tag.id }
-      );
+      await Fn.simpleCallWA(dispatch, 'post', `si/profile/${profileId}/tags`, {
+        tag_id: tag.id
+      });
       dispatch({
         type: ADD_TAG,
         tag: tag
@@ -136,15 +138,16 @@ export function addTag(tag, profileId) {
 }
 
 export function deleteTag({ id, relation_id }, profileId) {
-  console.log('action tag id', relation_id);
   return async dispatch => {
     try {
-        await Fn.simpleCall(
+      await Fn.simpleCallWA(
+        dispatch,
         'delete',
         `si/profile/${profileId}/tags`,
-        { tag_id: id }
+        {
+          tag_id: id
+        }
       );
-      console.log(id);
       dispatch({
         type: DELETE_TAG,
         id

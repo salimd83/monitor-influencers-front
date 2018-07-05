@@ -10,7 +10,7 @@ export function getActivityData(profileId, from, to) {
             dispatch({
                          type: ACTIVITY_FETCHING
                      })
-            const response = await Fn.simpleCall('get', `/si/insights/activity_type?profile_id=${profileId}&since=${from}&until=${to}`)
+            const response = await Fn.simpleCallWA(dispatch, 'get', `/si/insights/activity_type?profile_id=${profileId}&since=${from}&until=${to}`)
             dispatch({
                          type   : GET_ACTIVITY_INSIGHT,
                          payload: response.data

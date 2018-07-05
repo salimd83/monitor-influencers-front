@@ -3,23 +3,11 @@ import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { FuseUtils, FuseAnimate } from '@fuse';
-import {
-  Avatar,
-  Checkbox,
-  Icon,
-  IconButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  MenuList,
-  Typography
-} from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
 import ReactTable from 'react-table';
 import classNames from 'classnames';
-import * as Fn from 'fn/index';
 
 const styles = theme => ({
   labels: {}
@@ -47,19 +35,7 @@ class TypeaheadsList extends Component {
     const {
       classes,
       typeaheads,
-      user,
-      searchText,
-      searchType,
-      selectedTypeaheadIds,
-      selectAllTypeaheads,
-      deSelectAllTypeaheads,
-      toggleInSelectedTypeaheads,
-      openEditTypeaheadDialog,
-      removeTypeaheads,
-      removeTypeahead,
-      toggleStarredTypeahead,
-      setTypeaheadsUnstarred,
-      setTypeaheadsStarred
+      openEditTypeaheadDialog
     } = this.props;
     const data = this.getFilteredArray(typeaheads, '');
 
@@ -70,7 +46,7 @@ class TypeaheadsList extends Component {
           getTrProps={(state, rowInfo, column) => {
             return {
               className: 'cursor-pointer',
-              onClick: (e, handleOriginal) => {
+              onClick: () => {
                 if (rowInfo) {
                   openEditTypeaheadDialog(rowInfo.original);
                 }
