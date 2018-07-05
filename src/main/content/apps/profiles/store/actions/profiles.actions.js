@@ -111,9 +111,8 @@ export function resetAddProfile() {
 }
 
 export function addProfile(newProfile) {
-  return (dispatch, getState) => {
-    const { routeParams } = getState().profilesApp.profiles;
-    newProfile.first_name = '';
+  return (dispatch) => {
+    // const { routeParams } = getState().profilesApp.profiles;
 
     const request = Fn.simpleCallWA(
       dispatch,
@@ -164,16 +163,13 @@ export function updateProfile({ id, ...profile }) {
     if (profile[key] !== '') {
       filteredProfile[key] = profile[key];
     }
-    return async (dispatch, getState) => {
-      // const { routeParams } = getState().profilesApp.profiles;
+    return async (dispatch) => {
       const response = await Fn.simpleCallWA(
         dispatch,
         'put',
         `si/profiles/${id}`,
         filteredProfile
       );
-
-      console.log('response', response);
 
       if (response.body) {
         const errors = Object.values(_.omit(response.body.error, ['code'])).map(
@@ -187,7 +183,7 @@ export function updateProfile({ id, ...profile }) {
         await Promise.all([
           dispatch({
             type: UPDATE_PROFILE,
-            profile,
+            profile: response.data,
             id
           })
         ]);
