@@ -33,6 +33,7 @@ class Widget2 extends Component {
                       })
     }
 
+
     render() {
         const {classes, data, theme, popovertext, ...restProps} = this.props
         const dataWithColors                                    = data.datasets.map(obj => ({

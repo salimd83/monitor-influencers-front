@@ -70,13 +70,6 @@ class ProfileForm extends Component {
                     multiline
                     rows="2"
                     rowsMax="4"
-                    onBlur={() => {
-                        validate({
-                                     name    : 'description',
-                                     max     : 128,
-                                     required: true
-                                 })
-                    }}
                     errorText={errors.description}
                     error={errors.description ? true : false}
                 />

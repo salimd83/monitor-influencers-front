@@ -61,8 +61,6 @@ class ProfilePage extends Component {
 
     const uniqueLinks = _.uniqBy(links, 'type');
 
-    console.log('my profile', this.props);
-
     return (
       <FusePageSimple
         classes={{

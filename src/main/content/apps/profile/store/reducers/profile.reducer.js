@@ -20,7 +20,6 @@ const initialState = {
 const profileReducer = function(state = initialState, action) {
   switch (action.type) {
     case Actions.GET_PROFILE: {
-      console.log(action.payload);
       const { links, tags, ...profile } = action.payload;
       return {
         ...state,
@@ -128,7 +127,6 @@ const profileReducer = function(state = initialState, action) {
     }
     case Actions.DELETE_TAG: {
       const { id } = action;
-      console.log('reducer tag id:', action);
       const newTags = state.tags.filter(tag => tag.id !== id);
       return {
         ...state,

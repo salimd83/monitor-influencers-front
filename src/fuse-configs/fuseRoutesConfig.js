@@ -14,6 +14,7 @@ import {RegisterConfig}             from "main/content/register/RegisterConfig"
 import {LogoutConfig}               from "main/content/logout/LogoutConfig"
 
 
+
 import {authRoles} from "auth/auth"
 import _ from "lodash"
 
@@ -48,7 +49,6 @@ const routeConfigs = [
     LogoutConfig,
     LockedConfig
 ]
-
 
 export const routes = [
     ...FuseUtils.generateRoutesFromConfigs(routeConfigs),

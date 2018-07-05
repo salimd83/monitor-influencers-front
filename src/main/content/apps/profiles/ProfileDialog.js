@@ -164,7 +164,7 @@ class ProfileDialog extends Component {
 
     canBeSubmitted() {
         const {first_name, last_name, description} = this.state
-        return first_name.trim() && last_name.trim() && description.trim()
+        return first_name.trim() && last_name.trim()
     }
 
     render() {
