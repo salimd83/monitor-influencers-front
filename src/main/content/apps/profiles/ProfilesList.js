@@ -7,11 +7,6 @@ import {
   Avatar,
   Icon,
   IconButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  MenuList,
   Typography,
   CircularProgress
 } from '@material-ui/core';
@@ -32,9 +27,6 @@ const styles = theme => ({
 });
 
 class ProfilesList extends Component {
-  state = {
-    selectedProfilesMenu: null
-  };
 
   getFilteredArray = (entities, searchText) => {
     const arr = Object.keys(entities).map(id => entities[id]);
@@ -44,31 +36,16 @@ class ProfilesList extends Component {
     return FuseUtils.filterArrayByString(arr, searchText);
   };
 
-  openSelectedProfileMenu = event => {
-    this.setState({ selectedProfilesMenu: event.currentTarget });
-  };
-
-  closeSelectedProfilesMenu = () => {
-    this.setState({ selectedProfilesMenu: null });
-  };
-
   render() {
     const {
       classes,
       profiles,
-      user,
       searchText,
-      selectedProfileIds,
       openEditProfileDialog,
-      removeProfiles,
-      toggleStarredProfile,
-      setProfilesUnstarred,
-      setProfilesStarred,
       loadingProfiles
     } = this.props;
+
     const data = this.getFilteredArray(profiles, searchText);
-    const { selectedProfilesMenu } = this.state;
-      console.log(profiles)
 
     if (loadingProfiles) {
       return (
@@ -88,7 +65,6 @@ class ProfilesList extends Component {
         </div>
       );
     }
-    // console.log(Object.values(profiles));
     return (
       <FuseAnimate animation="transition.slideUpIn" delay={300}>
         <ReactTable
@@ -101,62 +77,7 @@ class ProfilesList extends Component {
           data={Object.values(profiles)}
           columns={[
             {
-              Header: () =>
-                selectedProfileIds.length > 0 && (
-                  <React.Fragment>
-                    <IconButton
-                      aria-owns={
-                        selectedProfilesMenu ? 'selectedProfilesMenu' : null
-                      }
-                      aria-haspopup="true"
-                      onClick={this.openSelectedProfileMenu}
-                    >
-                      <Icon>more_horiz</Icon>
-                    </IconButton>
-                    <Menu
-                      id="selectedProfilesMenu"
-                      anchorEl={selectedProfilesMenu}
-                      open={Boolean(selectedProfilesMenu)}
-                      onClose={this.closeSelectedProfilesMenu}
-                    >
-                      <MenuList>
-                        <MenuItem
-                          onClick={() => {
-                            removeProfiles(selectedProfileIds);
-                            this.closeSelectedProfilesMenu();
-                          }}
-                        >
-                          <ListItemIcon className={classes.icon}>
-                            <Icon>delete</Icon>
-                          </ListItemIcon>
-                          <ListItemText inset primary="Remove" />
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            setProfilesStarred(selectedProfileIds);
-                            this.closeSelectedProfilesMenu();
-                          }}
-                        >
-                          <ListItemIcon className={classes.icon}>
-                            <Icon>star</Icon>
-                          </ListItemIcon>
-                          <ListItemText inset primary="Starred" />
-                        </MenuItem>
-                        <MenuItem
-                          onClick={() => {
-                            setProfilesUnstarred(selectedProfileIds);
-                            this.closeSelectedProfilesMenu();
-                          }}
-                        >
-                          <ListItemIcon className={classes.icon}>
-                            <Icon>star_border</Icon>
-                          </ListItemIcon>
-                          <ListItemText inset primary="Unstarred" />
-                        </MenuItem>
-                      </MenuList>
-                    </Menu>
-                  </React.Fragment>
-                ),
+              Header: '',
               accessor: 'profile_picture',
               Cell: row => (
                 <Link to={`/apps/profile/${row.original.id}`}>
@@ -168,11 +89,11 @@ class ProfilesList extends Component {
                 </Link>
               ),
               className: 'justify-center',
-              width: 64,
+              width: 80,
               sortable: false
             },
             {
-              Header: 'First Name',
+              Header: () => <div className="py-8">First Name</div>,
               accessor: 'first_name',
               filterable: true,
               Cell: row => (
@@ -206,21 +127,9 @@ class ProfilesList extends Component {
             },
             {
               Header: '',
-              width: 128,
+              width: 64,
               Cell: row => (
                 <div className="flex items-center">
-                  <IconButton
-                    onClick={ev => {
-                      ev.stopPropagation();
-                      toggleStarredProfile(row.original.id);
-                    }}
-                  >
-                    {user.starred && user.starred.includes(row.original.id) ? (
-                      <Icon>star</Icon>
-                    ) : (
-                      <Icon>star_border</Icon>
-                    )}
-                  </IconButton>
                   <IconButton
                     onClick={ev => {
                       ev.stopPropagation();
@@ -246,16 +155,8 @@ function mapDispatchToProps(dispatch) {
     {
       getProfiles: Actions.getProfiles,
       getUserData: Actions.getUserData,
-      toggleInSelectedProfiles: Actions.toggleInSelectedProfiles,
-      selectAllProfiles: Actions.selectAllProfiles,
-      deSelectAllProfiles: Actions.deSelectAllProfiles,
       openEditProfileDialog: Actions.openEditProfileDialog,
-      removeProfiles: Actions.removeProfiles,
       removeProfile: Actions.removeProfile,
-      toggleStarredProfile: Actions.toggleStarredProfile,
-      toggleStarredProfiles: Actions.toggleStarredProfiles,
-      setProfilesStarred: Actions.setProfilesStarred,
-      setProfilesUnstarred: Actions.setProfilesUnstarred
     },
     dispatch
   );
