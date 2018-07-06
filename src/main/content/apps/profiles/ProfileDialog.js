@@ -1,71 +1,30 @@
 import React, { Component } from 'react';
 import {
-  Button,
   Dialog,
   DialogContent,
-  Icon,
   Typography,
   Toolbar,
   AppBar,
   Avatar
 } from '@material-ui/core';
 import { FuseAnimate } from '@fuse';
-import green from '@material-ui/core/colors/green';
-import { withStyles } from '@material-ui/core/styles/index';
 import { bindActionCreators } from 'redux';
 import * as Actions from './store/actions';
 import { connect } from 'react-redux';
 
 import ProfileForm from './ProfileForm';
-
-const styles = theme => ({
-  root: {},
-  formControl: {
-    marginBottom: 24
-  },
-  buttonProgress: {
-    color: green[500],
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    marginTop: -12,
-    marginLeft: -12
-  },
-  wrapper: {
-    margin: theme.spacing.unit,
-    position: 'relative'
-  },
-  rightIcon: {
-    marginLeft: theme.spacing.unit
-  },
-  error: {
-    backgroundColor: theme.palette.error.dark,
-    margin: theme.spacing.unit,
-    padding: '3px 12px'
-  },
-  message: {
-    display: 'flex',
-    alignItems: 'center'
-  }
-});
+import ProfileAddSuccess from './ProfileAddSuccess';
 
 class ProfileDialog extends Component {
   closeComposeDialog = () => {
     this.props.profileDialog.type === 'edit'
       ? this.props.closeEditProfileDialog()
       : this.props.closeNewProfileDialog();
-    this.props.resetAddProfile();
+      this.props.resetAddProfile()
   };
-
-  canBeSubmitted() {
-    // const { first_name, last_name, description } = this.state;
-    // return first_name.trim() && last_name.trim();
-    return false;
-  }
 
   render() {
     const {
-      classes,
       profileDialog: { data, type, props: dialogProps },
       addProfile,
       updateProfile,
@@ -89,7 +48,6 @@ class ProfileDialog extends Component {
 
     return (
       <Dialog
-        className={classes.root}
         {...dialogProps}
         onClose={this.closeComposeDialog}
         fullWidth
@@ -119,42 +77,10 @@ class ProfileDialog extends Component {
           </div>
         </AppBar>
 
-        <DialogContent classes={{ root: 'p-24' }}>
+        <DialogContent className='p-24'>
           {addedProfile ? (
             <FuseAnimate animation="transition.expandIn" delay={300}>
-              <React.Fragment>
-                <div align="center">
-                  <Icon className="mt-8" style={{ fontSize: 36 }} color="secondary">
-                    check_circle
-                  </Icon>
-                  <Typography
-                    variant="subheading"
-                    align="center"
-                    className="py-8"
-                    color="secondary"
-                  >
-                    {addedProfile}
-                  </Typography>
-                </div>
-                <div className={classes.wrapper} justify="center">
-                  <Button
-                    variant="raised"
-                    color="primary"
-                    onClick={() => {
-                      resetAddProfile();
-                    }}
-                  >
-                    Add Another
-                  </Button>
-                  <Button
-                    href={`/apps/profile/${addedProfileId}`}
-                    className={classes.button}
-                    color="primary"
-                  >
-                    View Profile <Icon className={classes.rightIcon}>exit_to_app</Icon>
-                  </Button>
-                </div>
-              </React.Fragment>
+              <ProfileAddSuccess {...{addedProfileId, resetAddProfile, addedProfile}} />
             </FuseAnimate>
           ) : (
             <ProfileForm
@@ -189,27 +115,19 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-function mapStateToProps({ profilesApp }) {
-  const { profiles } = profilesApp;
+function mapStateToProps({ profilesApp: {profiles} }) {
   const {
     profileDialog,
     addingProfile,
     addedProfile,
-    addedProfileId,
-    errors
-  } = profilesApp.profiles;
+    addedProfileId
+  } = profiles;
   return {
     profileDialog,
     addingProfile,
     addedProfile,
-    addedProfileId,
-    errors
+    addedProfileId
   };
 }
 
-export default withStyles(styles, { withTheme: true })(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(ProfileDialog)
-);
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileDialog);
