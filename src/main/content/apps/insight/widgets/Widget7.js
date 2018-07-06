@@ -56,22 +56,15 @@ class Widget7 extends Component {
       ]
     }));
 
-    console.log('size',size)
+    console.log('size', size);
     return (
       <Card className={classNames(classes.root, 'w-full')}>
         <div className="p-16">
           <Typography className="h1 font-300">
-            Activity Type
-            <Icon
-              style={{
-                fontSize: '21px',
-                verticalAlign: 'middle',
-                color: '#666'
-              }}
-              onClick={this.handleClick}
-            >
+            <Icon className="tooltips" onClick={this.handleClick}>
               info
             </Icon>
+            Activity Type
           </Typography>
         </div>
 
