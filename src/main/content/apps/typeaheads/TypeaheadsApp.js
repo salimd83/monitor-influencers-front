@@ -25,14 +25,20 @@ const styles = theme => ({
     paddingBottom: 80
   },
   addButton: {
-    zIndex: 99,
-    margin: 0,
-    top: 'auto',
-    right: 60,
-    bottom: 40,
-    left: 'auto',
-    position: 'fixed'
+    position: 'absolute',
+    right: 12,
+    bottom: 12,
+    zIndex: 99
   }
+  // addButton: {
+  //   zIndex: 99,
+  //   margin: 0,
+  //   top: 'auto',
+  //   right: 60,
+  //   bottom: 40,
+  //   left: 'auto',
+  //   position: 'fixed'
+  // }
 });
 
 class TypeaheadApp extends Component {
