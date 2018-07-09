@@ -5,6 +5,7 @@ const initialState = {
   searchText: '',
   searchType: '',
   selectedTypeaheadIds: [],
+  types: [],
   routeParams: {},
   typeaheadDialog: {
     type: 'new',
@@ -23,6 +24,13 @@ const typeaheadsReducer = function(state = initialState, action) {
         entities: action.payload,
         routeParams: action.routeParams
       };
+    }
+    case Actions.GET_TYPES: {
+      console.log(action.types)
+      return {
+        ...state,
+        types: action.types
+      }
     }
     // case Actions.ADD_TYPEAHEADS: {
     //   console.log('typeahead ADD action:', action.typeahead);
