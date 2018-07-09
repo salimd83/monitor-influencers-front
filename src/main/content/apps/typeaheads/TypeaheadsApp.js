@@ -38,6 +38,8 @@ const styles = theme => ({
 class TypeaheadApp extends Component {
   componentDidMount() {
     this.props.getTypeaheads(this.props.match.params);
+    this.props.getTypes(this.props.match.params);
+    
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -85,7 +87,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       getTypeaheads: Actions.getTypeaheads,
-      openNewTypeaheadDialog: Actions.openNewTypeaheadDialog
+      openNewTypeaheadDialog: Actions.openNewTypeaheadDialog,
+      getTypes: Actions.getTypes
     },
     dispatch
   );

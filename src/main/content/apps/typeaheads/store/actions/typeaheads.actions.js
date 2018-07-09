@@ -5,34 +5,25 @@ import MapsMyLocation from 'material-ui/SvgIcon';
 
 export const GET_TYPEAHEADS = '[TYPEAHEADS APP] GET TYPEAHEADS';
 export const SET_SEARCH_TEXT = '[TYPEAHEADS APP] SET SEARCH TEXT';
-export const TOGGLE_IN_SELECTED_TYPEAHEADS =
-  '[TYPEAHEADS APP] TOGGLE IN SELECTED TYPEAHEADS';
+export const TOGGLE_IN_SELECTED_TYPEAHEADS = '[TYPEAHEADS APP] TOGGLE IN SELECTED TYPEAHEADS';
 export const SELECT_ALL_TYPEAHEADS = '[TYPEAHEADS APP] SELECT ALL TYPEAHEADS';
-export const DESELECT_ALL_TYPEAHEADS =
-  '[TYPEAHEADS APP] DESELECT ALL TYPEAHEADS';
-export const OPEN_NEW_TYPEAHEAD_DIALOG =
-  '[TYPEAHEADS APP] OPEN NEW TYPEAHEAD DIALOG';
-export const CLOSE_NEW_TYPEAHEAD_DIALOG =
-  '[TYPEAHEADS APP] CLOSE NEW TYPEAHEAD DIALOG';
-export const OPEN_EDIT_TYPEAHEAD_DIALOG =
-  '[TYPEAHEADS APP] OPEN EDIT TYPEAHEAD DIALOG';
-export const CLOSE_EDIT_TYPEAHEAD_DIALOG =
-  '[TYPEAHEADS APP] CLOSE EDIT TYPEAHEAD DIALOG';
+export const DESELECT_ALL_TYPEAHEADS = '[TYPEAHEADS APP] DESELECT ALL TYPEAHEADS';
+export const OPEN_NEW_TYPEAHEAD_DIALOG = '[TYPEAHEADS APP] OPEN NEW TYPEAHEAD DIALOG';
+export const CLOSE_NEW_TYPEAHEAD_DIALOG = '[TYPEAHEADS APP] CLOSE NEW TYPEAHEAD DIALOG';
+export const OPEN_EDIT_TYPEAHEAD_DIALOG = '[TYPEAHEADS APP] OPEN EDIT TYPEAHEAD DIALOG';
+export const CLOSE_EDIT_TYPEAHEAD_DIALOG = '[TYPEAHEADS APP] CLOSE EDIT TYPEAHEAD DIALOG';
 export const ADD_TYPEAHEAD = '[TYPEAHEADS APP] ADD TYPEAHEAD';
 export const UPDATE_TYPEAHEAD = '[TYPEAHEADS APP] UPDATE TYPEAHEAD';
 export const REMOVE_TYPEAHEAD = '[TYPEAHEADS APP] REMOVE TYPEAHEAD';
 export const REMOVE_TYPEAHEADS = '[TYPEAHEADS APP] REMOVE TYPEAHEADS';
-export const TOGGLE_STARRED_TYPEAHEAD =
-  '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEAD';
-export const TOGGLE_STARRED_TYPEAHEADS =
-  '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEADS';
-export const SET_TYPEAHEADS_STARRED =
-  '[TYPEAHEADS APP] SET TYPEAHEADS STARRED ';
+export const TOGGLE_STARRED_TYPEAHEAD = '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEAD';
+export const TOGGLE_STARRED_TYPEAHEADS = '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEADS';
+export const SET_TYPEAHEADS_STARRED = '[TYPEAHEADS APP] SET TYPEAHEADS STARRED ';
+export const GET_TYPES = '[TYPEAHEADS APP] GET TYPES';
 
 export function getTypeaheads(routeParams) {
-  const request = Fn.simpleCallWA('get', 'typeahead/all');
-
-  return dispatch =>
+  return dispatch => {
+    const request = Fn.simpleCallWA(dispatch, 'get', 'typeahead/all');
     request.then(response =>
       dispatch({
         type: GET_TYPEAHEADS,
@@ -40,19 +31,25 @@ export function getTypeaheads(routeParams) {
         routeParams
       })
     );
+  };
+}
+
+export function getTypes() {
+  return async dispatch => {
+    const response = await Fn.simpleCallWA(dispatch, 'get', 'typeahead/ta_type');
+    dispatch({
+      type: GET_TYPES,
+      types: response.data
+    })
+  }
 }
 
 export function setSearchText(searchFields) {
   return dispatch => {
     const { searchText, searchType } = searchFields;
-    const request = Fn.simpleCallWA(
-      dispatch,
-      'get',
-      `typeahead/${searchType}`,
-      {
-        q: searchText
-      }
-    );
+    const request = Fn.simpleCallWA(dispatch, 'get', `typeahead/${searchType}`, {
+      q: searchText
+    });
     request.then(response =>
       dispatch({
         type: GET_TYPEAHEADS,
@@ -108,27 +105,16 @@ export function closeEditTypeaheadDialog() {
 }
 
 export function addTypeahead(newTypeahead) {
-  return (dispatch, getState) => {
-    const { routeParams } = getState().typeaheadsApp.typeaheads;
+  return async dispatch => {
+    // const { routeParams } = getState().typeaheadsApp.typeaheads;
 
-    const request = Fn.simpleCallWA(
-      dispatch,
-      'post',
-      'typeahead',
-      newTypeahead
-    );
+    try {
+      const response = await Fn.simpleCallWA(dispatch, 'post', 'typeahead', newTypeahead);
 
-    return request.then(response =>
-      Promise.all([
-        dispatch({
-          type: ADD_TYPEAHEAD
-        })
-      ])
-        .then(() => dispatch(getTypeaheads(routeParams)))
-        .catch(e => {
-          console.log('error: ', e.response);
-        })
-    );
+      dispatch({ type: ADD_TYPEAHEAD, typeahead: response.data });
+    } catch (e) {
+      console.log('error: ', e.response);
+    }
   };
 }
 
@@ -140,7 +126,7 @@ export function updateTypeahead(typeahead) {
 
     const request = Fn.simpleCallWA(dispatch, 'put', `typeahead/${id}`, rest);
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: UPDATE_TYPEAHEAD
@@ -154,16 +140,11 @@ export function removeTypeahead(typeaheadId) {
   return (dispatch, getState) => {
     const { routeParams } = getState().typeaheadsApp.typeaheads;
 
-    const request = Fn.simpleCallWA(
-      dispatch,
-      'delete',
-      '/api/typeaheads-app/remove-typeahead',
-      {
-        typeaheadId
-      }
-    );
+    const request = Fn.simpleCallWA(dispatch, 'delete', '/api/typeaheads-app/remove-typeahead', {
+      typeaheadId
+    });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: REMOVE_TYPEAHEAD
@@ -181,7 +162,7 @@ export function removeTypeaheads(typeaheadIds) {
       typeaheadIds
     });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: REMOVE_TYPEAHEADS
@@ -217,14 +198,11 @@ export function toggleStarredTypeaheads(typeaheadIds) {
   return (dispatch, getState) => {
     const { routeParams } = getState().typeaheadsApp.typeaheads;
 
-    const request = axios.post(
-      '/api/typeaheads-app/toggle-starred-typeaheads',
-      {
-        typeaheadIds
-      }
-    );
+    const request = axios.post('/api/typeaheads-app/toggle-starred-typeaheads', {
+      typeaheadIds
+    });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: TOGGLE_STARRED_TYPEAHEADS
@@ -246,7 +224,7 @@ export function setTypeaheadsStarred(typeaheadIds) {
       typeaheadIds
     });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: SET_TYPEAHEADS_STARRED
@@ -268,7 +246,7 @@ export function setTypeaheadsUnstarred(typeaheadIds) {
       typeaheadIds
     });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: SET_TYPEAHEADS_STARRED

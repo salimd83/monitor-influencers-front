@@ -5,6 +5,7 @@ const initialState = {
   searchText: '',
   searchType: '',
   selectedTypeaheadIds: [],
+  types: [],
   routeParams: {},
   typeaheadDialog: {
     type: 'new',
@@ -24,14 +25,20 @@ const typeaheadsReducer = function(state = initialState, action) {
         routeParams: action.routeParams
       };
     }
-    // case Actions.ADD_TYPEAHEADS: {
-    //   console.log('typeahead ADD action:', action.typeahead);
-    //   return {
-    //     ...state,
-    //     entities: [action.typeahead, ...state.entities],
-    //     routeParams: action.routeParams
-    //   };
-    // }
+    case Actions.getTypes: {
+      return {
+        ...state,
+        types: action.types
+      }
+    }
+    case Actions.ADD_TYPEAHEAD: {
+      console.log('typeahead ADD action:', action.typeahead);
+
+      return {
+        ...state,
+        entities: [Object.assign({}, action.typeahead), ...state.entities]
+      };
+    }
     case Actions.SET_SEARCH_TEXT: {
       return {
         ...state,
