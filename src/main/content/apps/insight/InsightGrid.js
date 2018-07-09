@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -9,39 +8,62 @@ import _ from 'lodash';
 import Card1 from './InsightCards/Card1';
 import Card2 from './InsightCards/Card2';
 import ActivityTypeCard from './InsightCards/ActivityTypeCard';
+import ActivityRateCard from './InsightCards/ActivityRateCard';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const cards = [
   {
+    id: 'card1',
     component: Card1,
     w: 3,
     h: 2,
-    minH: 2
+    minH: 2,
+    minW: 2,
+    hidden: true
   },
   {
+    id: 'card2',
     component: Card2,
     w: 3,
     h: 2,
-    minH: 2
+    minH: 2,
+    minW: 2,
+    hidden: true
   },
   {
+    id: 'ActivityRateCard',
+    component: ActivityRateCard,
+    w: 6,
+    h: 4,
+    minH: 4,
+    minW: 4,
+    hidden: true
+  },
+  {
+    id: 'ActivityTypeCard',
     component: ActivityTypeCard,
     w: 4,
     h: 4,
-    minH: 4
+    minH: 4,
+    minW: 2,
+    hidden: true
   }
 ];
 
-const initialItems = [0, 1].map((i, key, list) => {
+const initialItems = [0, 1, 2, 3].map((i, key, list) => {
+  cards[i].hidden = false;
   return {
     i: i.toString(),
-    x: i * 3,
+    x: i * cards[i].w,
     y: 0,
     w: cards[i].w,
     h: cards[i].h,
     minH: cards[i].minH,
-    add: i === (list.length - 1).toString()
+    minW: cards[i].minW,
+    add: i === (list.length - 1).toString(),
+    component: cards[i].component,
+    id: cards[i].id
   };
 });
 
@@ -60,23 +82,19 @@ class InsightGrid extends Component {
 
   state = {
     items: initialItems,
-    newCounter: 2,
+    newCounter: initialItems.length,
     layout: initialItems // set layout to initial items tilla layout change occures
   };
-  createElement = el => {
-    const removeStyle = {
-      position: 'absolute',
-      right: '2px',
-      top: 0,
-      cursor: 'pointer'
-    };
-    const i = el.add ? '+' : el.i;
-    const Card = cards[Number(el.i)].component;
+
+  createElement = (item, index) => {
+    const i = item.add ? '+' : item.i;
+    console.log('item.i', item.component);
+    const Card = item.component;
 
     return (
-      <div key={i} data-grid={el}>
-        <Card size={this.state.layout[el.i].w} />
-        <span className="remove" style={removeStyle} onClick={this.onRemoveItem.bind(this, i)}>
+      <div key={i} data-grid={item}>
+        <Card size={this.state.layout[index] ? this.state.layout[index].w : 2} />
+        <span className="remove" onClick={this.onRemoveItem(i)}>
           x
         </span>
       </div>
@@ -85,21 +103,27 @@ class InsightGrid extends Component {
 
   onAddItem = () => {
     /*eslint no-console: 0*/
-    console.log('adding', 'n' + this.state.newCounter);
+    console.log(cards);
     const { newCounter, items, cols } = this.state;
+    const card = cards.filter(card => card.hidden).slice(0, 1)[0];
+    card.hidden = false;
+
     const newItem = {
       i: String(newCounter),
-      x: (items.length * 3) % (cols || 12),
+      x: (items.length * card.w) % (cols || 12),
       y: Infinity, // puts it at the bottom
-      w: cards[newCounter].w,
-      h: cards[newCounter].h,
-      minH: cards[newCounter].minH
+      w: card.w,
+      h: card.h,
+      minH: card.minH,
+      minW: card.minW,
+      component: card.component,
+      id: card.id
     };
+
     this.setState({
       // Add a new item. It must have a unique key!
-      items: [...items, newItem], // Increment the counter to ensure key is always unique.
-      newCounter: newCounter + 1,
-      layout: [...items, newItem]
+      items: [...this.state.items, newItem], // Increment the counter to ensure key is always unique.
+      newCounter: newCounter + 1
     });
   };
 
@@ -115,27 +139,29 @@ class InsightGrid extends Component {
     this.setState({ layout: layout });
   };
 
-  onRemoveItem = i => {
+  onRemoveItem = i => () => {
     console.log('removing', i);
-    const { newCounter, items } = this.state;
+    const { items } = this.state;
+    const item = items.filter(item => item.i === i)[0];
+    console.log(item);
+    const card = cards.filter(card => card.id === item.id)[0];
+    card.hidden = true;
     this.setState({
-      items: _.reject(items, { i: i }),
-      newCounter: newCounter - 1
+      items: _.reject(items, { i: i })
     });
   };
 
   render() {
-    const { classes } = this.props;
     const { newCounter, items } = this.state;
 
     return (
       <div>
         <Button
           onClick={this.onAddItem}
-          className={classes.button}
+          className="my-16 mx-16"
           variant="outlined"
           color="primary"
-          disabled={Number(newCounter) < 3 ? false : true}
+          disabled={items < cards.length ? true : false}
         >
           Add Item
         </Button>
@@ -144,29 +170,11 @@ class InsightGrid extends Component {
           onBreakpointChange={this.onBreakpointChange}
           {...this.props}
         >
-          {_.map(items, el => this.createElement(el))}
+          {items.map((item, i) => this.createElement(item, i))}
         </ResponsiveReactGridLayout>
       </div>
     );
   }
 }
 
-const styles = theme => ({
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)'
-  },
-  title: {
-    marginBottom: 16,
-    fontSize: 14
-  },
-  pos: {
-    marginBottom: 12
-  },
-  button: {
-    margin: theme.spacing.unit
-  }
-});
-
-export default withStyles(styles, { withTheme: true })(InsightGrid);
+export default InsightGrid;

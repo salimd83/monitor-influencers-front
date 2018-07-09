@@ -8,7 +8,11 @@ import * as Actions from '../store/actions';
 
 class ActivityTypeCard extends Component {
   componentDidMount() {
-    this.props.getData('42ig8yrfd5jhwrmy83', this.props.from, this.props.to);
+    if (!(this.props.data.length > 0)) {
+      const { from, to } = this.props;
+      console.log('from', from);
+      this.props.getData('42ig8yrfd5jhwrmy83', from, to);
+    }
   }
 
   render() {

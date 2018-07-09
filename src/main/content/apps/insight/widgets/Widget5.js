@@ -39,12 +39,12 @@ class Widget5 extends Component {
                 pointHoverBorderColor    : palette.contrastText
             }
         })
-        return (<Card className={classNames(classes.root, 'w-full')}>
+        return (<Card className={classNames(classes.root, 'w-full', 'h-full')}>
                 <div className="relative p-24 flex flex-row items-center justify-between">
                     <div className="flex flex-col">
                         <Typography className="h2">Visitors & Page views</Typography>
                     </div>
-                    <div className="flex flex-row items-center">
+                    {/* <div className="flex flex-row items-center">
                         {Object.keys(data.datasets)
                                .map((key) => (<Button
                                    key={key}
@@ -55,10 +55,10 @@ class Widget5 extends Component {
                                >
                                    {key}
                                </Button>))}
-                    </div>
+                    </div> */}
                 </div>
 
-                <Typography className="relative h-320 pb-16">
+                <Typography className="relative pb-16" style={{ minHeight: '347px' }}>
                     <Line
                         data={{
                             labels  : data.labels,

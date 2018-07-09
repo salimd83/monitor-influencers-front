@@ -38,7 +38,7 @@ class Widget2 extends Component {
     }));
     const { anchorEl } = this.state;
     return (
-      <Card {...restProps}>
+      <Card {...restProps}  className='w-full h-full'>
         <div className="p-16 pb-0 flex flex-row flex-wrap items-end">
           <div className="pr-16">
             <Typography className="h3" color="textSecondary">
@@ -62,7 +62,7 @@ class Widget2 extends Component {
           </div>
         </div>
 
-        <div className="h-96 w-100-p" style={{ height: 105 }}>
+        <div className="h-96 w-100-p" style={{ minHeight: 105 }}>
           <Bar
             data={{
               labels: data.labels,

@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
-import Widget from '../widgets/Widget7';
-import dataParser from './data/activityTypeData';
+import Widget from '../widgets/Widget5';
+import dataParser from './data/activityRateData';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { CircularProgress, Card } from '@material-ui/core';
 import * as Actions from '../store/actions';
 
-class ActivityTypeCard extends Component {
+class ActivityRateCard extends Component {
   componentDidMount() {
-    this.props.getData('42ig8yrfd5jhwrmy83', this.props.from, this.props.to);
+    const {from, to} = this.props;
+    console.log('from', from)
+    this.props.getData('42ig8yrfd5jhwrmy83', from, to);
   }
   render() {
     const { loading, data } = this.props;
+    console.log('data', data)
     const options = {
       popovertext: 'the content of activity type popover',
       data: dataParser(data)
@@ -34,7 +37,7 @@ class ActivityTypeCard extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      getData: Actions.getActivityData
+      getData: Actions.getActivityRateData
     },
     dispatch
   );
@@ -42,14 +45,11 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({ insightApp }) {
   return {
-    data: insightApp.insight.activityData,
-    loading: insightApp.insight.activityFetching,
+    data: insightApp.insight.activityRate,
+    loading: insightApp.insight.activityRateFetching,
     from: insightApp.insight.from,
     to: insightApp.insight.to
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(ActivityTypeCard);
+export default connect(mapStateToProps, mapDispatchToProps)(ActivityRateCard);

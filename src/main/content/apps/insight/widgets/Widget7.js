@@ -58,7 +58,7 @@ class Widget7 extends Component {
 
     console.log('size', size);
     return (
-      <Card className={classNames(classes.root, 'w-full')}>
+      <Card className={classNames(classes.root, 'w-full', 'h-full')}>
         <div className="p-16">
           <Typography className="h1 font-300">
             <Icon className="tooltips" onClick={this.handleClick}>
@@ -68,7 +68,7 @@ class Widget7 extends Component {
           </Typography>
         </div>
 
-        <div className="h-224 relative mb-8" style={{ height: '256px' }}>
+        <div className="h-224 relative mb-8" style={{ minHeight: '256px' }}>
           <Doughnut
             data={{
               labels: data.labels,

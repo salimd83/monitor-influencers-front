@@ -64,7 +64,7 @@ class Widget1 extends Component {
                                    </Button>))}
                         </div>
                     </div>
-                    <div className="relative h-256 pb-16">
+                    <div className="relative h-256 pb-16" style={{ minHeight: 105 }}>
                         <Line
                             data={{
                                 labels  : data.labels,
