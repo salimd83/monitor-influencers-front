@@ -48,15 +48,14 @@ export async function simpleCall(method, endpoint, data, json, errorHandler = tr
       if (errData.error.message) {
         errMsg = errData.error.message;
       }
-    
 
-    /**
-     * Handle invalid sessions.
-     */
-    if (error.response.statusCode === 402) {
-      lockUser();
+      /**
+       * Handle invalid sessions.
+       */
+      if (error.response.statusCode === 402) {
+        lockUser();
+      }
     }
-  }
 
     if (errorHandler) {
       error.response = 'A unexpected error has occurred. A better message will be added later. ';
