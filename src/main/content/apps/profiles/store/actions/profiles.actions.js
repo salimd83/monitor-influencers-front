@@ -1,7 +1,8 @@
 import axios from 'axios/index';
-import { getUserData } from 'main/content/apps/profiles/store/actions/user.actions';
+// import { getUserData } from 'main/content/apps/profiles/store/actions/user.actions';
 import * as Fn from 'fn/simpleCall.js';
-import _ from 'lodash';
+// import _ from 'lodash';
+// import { getTypeaheads } from '../../../typeaheads/store/actions';
 
 export const GET_PROFILES = '[PROFILES APP] GET PROFILES';
 export const SET_SEARCH_TEXT = '[PROFILES APP] SET SEARCH TEXT';
@@ -16,6 +17,7 @@ export const UPDATE_PROFILE = '[PROFILES APP] UPDATE PROFILE';
 export const REMOVE_PROFILE = '[PROFILES APP] REMOVE PROFILE';
 export const RECIEVING_PROFILES = '[PROFILES APP] RECIEVING PROFILES';
 export const RESET_ADD_PROFILE = '[PROFILES APP] RESET ADD PROFILE';
+export const FETCH_TYPEAHEADS = '[PROFILES APP] FETCH_TYPEAHEADS';
 
 export function getProfiles(routeParams) {
   return dispatch => {
@@ -28,6 +30,26 @@ export function getProfiles(routeParams) {
         routeParams
       })
     );
+  };
+}
+
+export function getTypeaheads() {
+  return async dispatch => {
+    try {
+      const industries = await Fn.simpleCallWA(dispatch, 'get', 'typeahead/industry');
+      const countries = await Fn.simpleCallWA(dispatch, 'get', 'typeahead/country');
+      const categories = await Fn.simpleCallWA(dispatch, 'get', 'typeahead/category');
+      dispatch({
+        type: FETCH_TYPEAHEADS,
+        payload: {
+          industries: industries.data,
+          countries: countries.data,
+          categories: categories.data
+        }
+      });
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 }
 

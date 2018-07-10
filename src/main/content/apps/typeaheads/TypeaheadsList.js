@@ -32,11 +32,7 @@ class TypeaheadsList extends Component {
   };
 
   render() {
-    const {
-      classes,
-      typeaheads,
-      openEditTypeaheadDialog
-    } = this.props;
+    const { classes, typeaheads, openEditTypeaheadDialog } = this.props;
     const data = this.getFilteredArray(typeaheads, '');
 
     return (
@@ -73,23 +69,27 @@ class TypeaheadsList extends Component {
               Header: 'Status',
               accessor: 'status',
               filterable: false,
+              sortable: false,
               className: 'font-bold ml-16'
             },
             {
               Header: 'Public Description',
               accessor: 'description',
-              filterable: false
+              filterable: false,
+              sortable: false
             },
             {
               Header: 'Internal Note',
               accessor: 'note',
               filterable: false,
+              sortable: false,
               className: 'font-bold ml-16'
             },
             {
               Header: 'Related Link',
               accessor: 'related_link',
               filterable: false,
+              sortable: false,
               className: 'font-bold ml-16'
             }
           ]}
