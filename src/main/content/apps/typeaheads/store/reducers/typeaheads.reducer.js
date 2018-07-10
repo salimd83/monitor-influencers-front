@@ -1,13 +1,13 @@
 import * as Actions from '../actions';
 
 const initialState = {
-  entities: [],
-  searchText: '',
-  searchType: '',
+    entities          : [],
+    searchText        : '',
+    searchType        : '',
   selectedTypeaheadIds: [],
-  types: [],
-  routeParams: {},
-  typeaheadDialog: {
+    types             : [],
+    routeParams       : {},
+    typeaheadDialog   : {
     type: 'new',
     props: {
       open: false
@@ -25,13 +25,13 @@ const typeaheadsReducer = function(state = initialState, action) {
         routeParams: action.routeParams
       };
     }
-    case Actions.GET_TYPES: {
-      console.log(action.types)
-      return {
-        ...state,
-        types: action.types
+      case Actions.GET_TYPES: {
+          console.log(action.types)
+          return {
+              ...state,
+              types: action.types
+          }
       }
-    }
     // case Actions.ADD_TYPEAHEADS: {
     //   console.log('typeahead ADD action:', action.typeahead);
     //   return {
