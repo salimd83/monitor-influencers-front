@@ -19,6 +19,7 @@ export const REMOVE_TYPEAHEADS = '[TYPEAHEADS APP] REMOVE TYPEAHEADS';
 export const TOGGLE_STARRED_TYPEAHEAD = '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEAD';
 export const TOGGLE_STARRED_TYPEAHEADS = '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEADS';
 export const SET_TYPEAHEADS_STARRED = '[TYPEAHEADS APP] SET TYPEAHEADS STARRED ';
+export const GET_TYPES = '[TYPEAHEADS APP] GET TYPES';
 
 export function getTypeaheads(routeParams) {
   return dispatch => {
@@ -30,6 +31,16 @@ export function getTypeaheads(routeParams) {
         routeParams
       })
     );
+  };
+}
+
+export function getTypes() {
+  return async dispatch => {
+    const response = await Fn.simpleCallWA(dispatch, 'get', 'typeahead/ta_type');
+    dispatch({
+      type: GET_TYPES,
+      types: response.data
+    });
   };
 }
 
@@ -94,16 +105,22 @@ export function closeEditTypeaheadDialog() {
 }
 
 export function addTypeahead(newTypeahead) {
-  return async dispatch => {
-    // const { routeParams } = getState().typeaheadsApp.typeaheads;
+  return (dispatch, getState) => {
+    const { routeParams } = getState().typeaheadsApp.typeaheads;
 
-    try {
-      const response = await Fn.simpleCallWA(dispatch, 'post', 'typeahead', newTypeahead);
+    const request = Fn.simpleCallWA(dispatch, 'post', 'typeahead', newTypeahead);
 
-      dispatch({ type: ADD_TYPEAHEAD, typeahead: response.data });
-    } catch (e) {
-      console.log('error: ', e.response);
-    }
+    return request.then(response =>
+      Promise.all([
+        dispatch({
+          type: ADD_TYPEAHEAD
+        })
+      ])
+        .then(() => dispatch(getTypeaheads(routeParams)))
+        .catch(e => {
+          console.log('error: ', e.response);
+        })
+    );
   };
 }
 

@@ -3,7 +3,10 @@ import * as rp from 'request-promise';
 import _ from 'lodash';
 
 import * as Actions from 'store/actions';
-// import { LOGIN_ERROR, REQUEST_SUCCESS } from '../auth/store/actions/login.actions';
+import {
+    LOGIN_ERROR,
+    REQUEST_SUCCESS
+}                   from '../auth/store/actions/login.actions'
 
 export const ERROR = 'ERROR';
 export const SUCCESS = 'SUCCESS';
@@ -41,24 +44,24 @@ export async function simpleCall(method, endpoint, data, json, errorHandler = tr
 
     return request;
   } catch (error) {
-    if (typeof error.response != 'undefined') {
-      let errData = error.response.body;
-      console.log(error);
-      let errMsg = 'Unknown Error';
-      if (errData.error.message) {
-        errMsg = errData.error.message;
-      }
+      if (typeof error.response != 'undefined') {
+          let errData = error.response.body
+          console.log(error)
+          let errMsg = 'Unknown Error'
+          if (errData.error.message) {
+              errMsg = errData.error.message
+          }
 
-      /**
-       * Handle invalid sessions.
-       */
-      if (error.response.statusCode === 402) {
-        lockUser();
-      }
+          /**
+           * Handle invalid sessions.
+           */
+          if (error.response.statusCode === 402) {
+              lockUser()
+          }
     }
 
     if (errorHandler) {
-      error.response = 'A unexpected error has occurred. A better message will be added later. ';
+        error.response = 'A unexpected error has occurred. A better message will be added later. '
     }
 
     return Promise.reject(error.response);
@@ -79,15 +82,15 @@ export async function simpleCallWA(dispatch, method, endpoint, data, json) {
     console.log('WA error:', error);
     dispatch(
       Actions.showMessage({
-        message: String(error),
-        anchorOrigin: {
+                              message         : String(error),
+                              anchorOrigin    : {
           vertical: 'bottom',
           horizontal: 'left'
         },
-        autoHideDuration: 60000
+                              autoHideDuration: 60000
       })
     );
-    throw error;
+      throw error
     // return dispatch({
     //                     type   : ERROR,
     //                     payload: error,
