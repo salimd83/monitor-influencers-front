@@ -11,6 +11,7 @@ const initialState = {
   addedProfileId: '',
   routeParams: {},
   errors: [],
+  typeaheads: {},
   profileDialog: {
     type: 'new',
     props: {
@@ -30,6 +31,13 @@ const profilesReducer = function(state = initialState, action) {
         loadingProfiles: false,
         addingProfile: false,
         addedProfile: false
+      };
+    }
+    case Actions.FETCH_TYPEAHEADS: {
+      const {industries} = action.payload;
+      return {
+        ...state,
+        typeaheads: {industries}
       };
     }
     case Actions.RECIEVING_PROFILES: {

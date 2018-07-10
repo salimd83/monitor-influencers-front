@@ -24,6 +24,14 @@ const typeaheadsReducer = function(state = initialState, action) {
         routeParams: action.routeParams
       };
     }
+    case Actions.ADD_TYPEAHEAD: {
+      console.log('typeahead ADD action:', action.typeahead);
+
+      return {
+        ...state,
+        entities: [Object.assign({}, action.typeahead), ...state.entities]
+      };
+    }
     // case Actions.ADD_TYPEAHEADS: {
     //   console.log('typeahead ADD action:', action.typeahead);
     //   return {

@@ -50,8 +50,15 @@ class ProfilesApp extends Component {
   };
 
   componentDidMount() {
-    this.props.getProfiles(this.props.match.params);
-    this.props.getUserData();
+    const {getProfiles, getUserData, match} = this.props
+
+    getProfiles(match.params);
+    getUserData();
+
+
+    // if(Object.keys(typeaheads).length === 0 && typeaheads.constructor === Object){
+    //   getTypeaheads();
+    // }
 
     Fn.simpleCall('get', 'typeahead/industry').then(res => {
       this.setState({
@@ -119,7 +126,8 @@ function mapDispatchToProps(dispatch) {
     {
       getProfiles: Actions.getProfiles,
       getUserData: Actions.getUserData,
-      openNewProfileDialog: Actions.openNewProfileDialog
+      openNewProfileDialog: Actions.openNewProfileDialog,
+      // getTypeaheads: Actions.getTypeaheads
     },
     dispatch
   );
@@ -130,7 +138,8 @@ function mapStateToProps({ profilesApp }) {
     profiles: profilesApp.profiles.entities,
     selectedProfileIds: profilesApp.profiles.selectedProfileIds,
     searchText: profilesApp.profiles.searchText,
-    user: profilesApp.user
+    user: profilesApp.user,
+    // typeaheads: profilesApp.profiles.typeaheads
   };
 }
 
