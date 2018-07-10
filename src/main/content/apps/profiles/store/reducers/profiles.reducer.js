@@ -22,12 +22,6 @@ const initialState = {
 
 const profilesReducer = function(state = initialState, action) {
   switch (action.type) {
-    case Actions.RECIEVING_PROFILES: {
-      return {
-        ...state,
-        loadingProfiles: true
-      };
-    }
     case Actions.GET_PROFILES: {
       return {
         ...state,
@@ -36,6 +30,12 @@ const profilesReducer = function(state = initialState, action) {
         loadingProfiles: false,
         addingProfile: false,
         addedProfile: false
+      };
+    }
+    case Actions.RECIEVING_PROFILES: {
+      return {
+        ...state,
+        loadingProfiles: true
       };
     }
     case Actions.SET_SEARCH_TEXT: {
@@ -89,44 +89,6 @@ const profilesReducer = function(state = initialState, action) {
         addedProfile: false,
         addedProfileId: '',
         errors: []
-      };
-    }
-    case Actions.PROFILE_ERROR: {
-      return {
-        ...state,
-        errors: action.errors
-      };
-    }
-    case Actions.TOGGLE_IN_SELECTED_PROFILES: {
-      const profileId = action.profileId;
-
-      let selectedProfileIds = [...state.selectedProfileIds];
-
-      if (selectedProfileIds.find(id => id === profileId) !== undefined) {
-        selectedProfileIds = selectedProfileIds.filter(id => id !== profileId);
-      } else {
-        selectedProfileIds = [...selectedProfileIds, profileId];
-      }
-
-      return {
-        ...state,
-        selectedProfileIds: selectedProfileIds
-      };
-    }
-    case Actions.SELECT_ALL_PROFILES: {
-      const arr = Object.keys(state.entities).map(k => state.entities[k]);
-
-      const selectedProfileIds = arr.map(profile => profile.id);
-
-      return {
-        ...state,
-        selectedProfileIds: selectedProfileIds
-      };
-    }
-    case Actions.DESELECT_ALL_PROFILES: {
-      return {
-        ...state,
-        selectedProfileIds: []
       };
     }
     case Actions.OPEN_NEW_PROFILE_DIALOG: {

@@ -72,7 +72,7 @@ class ProfilesApp extends Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (!_.isEqual(this.props.location, prevProps.location)) {
       this.props.getProfiles(this.props.match.params);
     }
@@ -92,7 +92,6 @@ class ProfilesApp extends Component {
           }}
           header={<ProfilesHeader pageLayout={() => this.pageLayout} />}
           content={<ProfilesList />}
-          leftSidebarContent={<ProfilesSidebarContent />}
           sidebarInner
           onRef={instance => {
             this.pageLayout = instance;
