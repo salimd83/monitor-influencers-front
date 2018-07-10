@@ -44,6 +44,7 @@ const styles = theme => ({
 class TypeaheadApp extends Component {
   componentDidMount() {
     this.props.getTypeaheads(this.props.match.params);
+    if (this.props.types.length === 0) this.props.getTypes(this.props.match.params);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -53,7 +54,7 @@ class TypeaheadApp extends Component {
   }
 
   render() {
-    const { classes, openNewTypeaheadDialog } = this.props;
+    const { classes, openNewTypeaheadDialog, types } = this.props;
 
     return (
       <React.Fragment>
@@ -63,7 +64,7 @@ class TypeaheadApp extends Component {
             root: classes.layoutRoot,
             contentCardWrapper: classes.layoutContentCardWrapper
           }}
-          header={<TypeaheadsHeader pageLayout={() => this.pageLayout} />}
+          header={<TypeaheadsHeader types={types} pageLayout={() => this.pageLayout} />}
           content={<TypeaheadsList />}
           sidebarInner
           onRef={instance => {
@@ -91,7 +92,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       getTypeaheads: Actions.getTypeaheads,
-      openNewTypeaheadDialog: Actions.openNewTypeaheadDialog
+      openNewTypeaheadDialog: Actions.openNewTypeaheadDialog,
+      getTypes: Actions.getTypes
     },
     dispatch
   );
@@ -103,7 +105,8 @@ function mapStateToProps({ typeaheadsApp }) {
     selectedTypeaheadsIds: typeaheadsApp.typeaheads.selectedTypeaheadsIds,
     searchText: typeaheadsApp.typeaheads.searchText,
     searchType: typeaheadsApp.typeaheads.searchType,
-    user: typeaheadsApp.user
+    user: typeaheadsApp.user,
+    types: typeaheadsApp.typeaheads.types
   };
 }
 

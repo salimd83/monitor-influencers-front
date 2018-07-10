@@ -19,6 +19,7 @@ export const REMOVE_TYPEAHEADS = '[TYPEAHEADS APP] REMOVE TYPEAHEADS';
 export const TOGGLE_STARRED_TYPEAHEAD = '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEAD';
 export const TOGGLE_STARRED_TYPEAHEADS = '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEADS';
 export const SET_TYPEAHEADS_STARRED = '[TYPEAHEADS APP] SET TYPEAHEADS STARRED ';
+export const GET_TYPES = '[TYPEAHEADS APP] GET TYPES';
 
 export function getTypeaheads(routeParams) {
   return dispatch => {
@@ -30,6 +31,16 @@ export function getTypeaheads(routeParams) {
         routeParams
       })
     );
+  };
+}
+
+export function getTypes() {
+  return async dispatch => {
+    const response = await Fn.simpleCallWA(dispatch, 'get', 'typeahead/ta_type');
+    dispatch({
+      type: GET_TYPES,
+      types: response.data
+    });
   };
 }
 
