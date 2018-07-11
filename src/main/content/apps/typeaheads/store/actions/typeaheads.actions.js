@@ -144,7 +144,7 @@ export function removeTypeahead(typeaheadId) {
       typeaheadId
     });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: REMOVE_TYPEAHEAD
@@ -162,7 +162,7 @@ export function removeTypeaheads(typeaheadIds) {
       typeaheadIds
     });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: REMOVE_TYPEAHEADS
@@ -202,7 +202,7 @@ export function toggleStarredTypeaheads(typeaheadIds) {
       typeaheadIds
     });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: TOGGLE_STARRED_TYPEAHEADS
@@ -224,7 +224,7 @@ export function setTypeaheadsStarred(typeaheadIds) {
       typeaheadIds
     });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: SET_TYPEAHEADS_STARRED
@@ -246,7 +246,7 @@ export function setTypeaheadsUnstarred(typeaheadIds) {
       typeaheadIds
     });
 
-    return request.then(response =>
+    return request.then(() =>
       Promise.all([
         dispatch({
           type: SET_TYPEAHEADS_STARRED

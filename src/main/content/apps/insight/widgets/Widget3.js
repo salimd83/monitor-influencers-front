@@ -43,7 +43,7 @@ class Widget3 extends Component {
             borderColor: theme.palette.secondary.main
         }))
         const {anchorEl}                          = this.state
-        return (<Card className={classNames(classes.root, 'w-full')}>
+        return (<Card className={classNames(classes.root, 'w-full', 'h-full')}>
             <div className="p-16 pb-0 flex flex-row items-end flex-wrap">
                 <div className="pr-16">
                     <Typography className="h3" color="textSecondary">

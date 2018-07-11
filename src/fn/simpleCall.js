@@ -76,10 +76,8 @@ export async function simpleCallWA(dispatch, method, endpoint, data, json) {
     //                     payload: request,
     //                     success: true
     //                 })
-    console.log('WA request:', request);
     return request;
   } catch (error) {
-    console.log('WA error:', error);
     dispatch(
       Actions.showMessage({
                               message         : String(error),

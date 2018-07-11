@@ -43,7 +43,7 @@ export function setSearchText(keyword) {
       searchText: keyword
     });
     try {
-      const response = await Fn.simpleCallWA(dispatch, 'get', `/si/leaderboard?search=${keyword}`);
+      const response = await Fn.simpleCallWA(dispatch, 'get', `/si/leaderboard?limit=100&search=${keyword}`);
       dispatch(recievingProfiles());
       dispatch({
         type: GET_PROFILES,

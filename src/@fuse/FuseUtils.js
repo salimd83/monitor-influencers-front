@@ -202,7 +202,18 @@ class FuseUtils {
 		}
 		
 		return changes(object, base)
-	}
+  }
+  
+  static currentDateFormat(addDays = 0, addMonths = 0) {
+    var x = new Date();
+    var y = x.getFullYear().toString();
+    var m = (x.getMonth() + 1 + addMonths).toString();
+    var d = (x.getDate() + addDays).toString();
+    d.length === 1 && (d = '0' + d);
+    m.length === 1 && (m = '0' + m);
+    var yyyymmdd = `${y}-${m}-${d}`;
+    return yyyymmdd;
+  }
 }
 
 export default FuseUtils
