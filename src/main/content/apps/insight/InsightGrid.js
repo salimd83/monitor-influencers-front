@@ -14,21 +14,21 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const cards = [
   {
+    id: 'ActivityTypeCard',
+    component: ActivityTypeCard,
+    w: 3,
+    h: 4,
+    minH: 4,
+    minW: 2,
+    hidden: true
+  },
+  {
     id: 'card1',
     component: Card1,
     w: 3,
     h: 2,
     minH: 2,
-    minW: 2,
-    hidden: true
-  },
-  {
-    id: 'card2',
-    component: Card2,
-    w: 3,
-    h: 2,
-    minH: 2,
-    minW: 2,
+    minW: 3,
     hidden: true
   },
   {
@@ -41,12 +41,12 @@ const cards = [
     hidden: true
   },
   {
-    id: 'ActivityTypeCard',
-    component: ActivityTypeCard,
-    w: 4,
-    h: 4,
-    minH: 4,
-    minW: 2,
+    id: 'card2',
+    component: Card2,
+    w: 3,
+    h: 2,
+    minH: 2,
+    minW: 3,
     hidden: true
   }
 ];
@@ -88,7 +88,6 @@ class InsightGrid extends Component {
 
   createElement = (item, index) => {
     const i = item.add ? '+' : item.i;
-    console.log('item.i', item.component);
     const Card = item.component;
 
     return (
@@ -103,7 +102,6 @@ class InsightGrid extends Component {
 
   onAddItem = () => {
     /*eslint no-console: 0*/
-    console.log(cards);
     const { newCounter, items, cols } = this.state;
     const card = cards.filter(card => card.hidden).slice(0, 1)[0];
     card.hidden = false;
@@ -140,10 +138,8 @@ class InsightGrid extends Component {
   };
 
   onRemoveItem = i => () => {
-    console.log('removing', i);
     const { items } = this.state;
     const item = items.filter(item => item.i === i)[0];
-    console.log(item);
     const card = cards.filter(card => card.id === item.id)[0];
     card.hidden = true;
     this.setState({
@@ -161,7 +157,7 @@ class InsightGrid extends Component {
           className="my-16 mx-16"
           variant="outlined"
           color="primary"
-          disabled={items < cards.length ? true : false}
+          disabled={items.length < cards.length ? false : true}
         >
           Add Item
         </Button>

@@ -1,54 +1,53 @@
+import format from 'date-fns/format';
+
 export default dataObjs => {
-  let data = [],
+  console.log(dataObjs);
+  let dataRate = [],
+    dataEngagement = [],
     labels = [];
-  console.log('dataObj', dataObjs);
-  // dataObjs.forEach(dataObj => {
-  //   labels.push(dataObj.type);
-  //   data.push(dataObj.count);
-  // });
+
+  if (dataObjs != 'undefined') {
+    dataObjs[0].forEach(dataObj => {
+      labels.push(format(dataObj.date, 'D MMM'));
+      dataRate.push(dataObj.count);
+    });
+
+    dataObjs[1].forEach(dataObj => {
+      dataEngagement.push(dataObj.count);
+    });
+  }
+
+  const maxVal = Math.max([...dataRate, ...dataEngagement]);
 
   return {
     chartType: 'line',
     datasets: {
       yesterday: [
         {
-          label: 'Visitors',
-          data: [190, 300, 340, 220, 290, 390, 250, 380, 410, 380, 320, 290],
+          label: 'Activity Rate',
+          data: dataRate,
           fill: 'start'
         },
         {
-          label: 'Page views',
-          data: [2200, 2900, 3900, 2500, 3800, 3200, 2900, 1900, 3000, 3400, 4100, 3800],
+          label: 'Activity Engagment',
+          data: dataEngagement,
           fill: 'start'
         }
       ],
       today: [
         {
-          label: 'Visitors',
-          data: [410, 380, 320, 290, 190, 390, 250, 380, 300, 340, 220, 290],
+          label: 'Activity Rate',
+          data: dataRate,
           fill: 'start'
         },
         {
-          label: 'Page Views',
-          data: [3000, 3400, 4100, 3800, 2200, 3200, 2900, 1900, 2900, 3900, 2500, 3800],
+          label: 'Activity Engagment',
+          data: dataEngagement,
           fill: 'start'
         }
       ]
     },
-    labels: [
-      '12am',
-      '2am',
-      '4am',
-      '6am',
-      '8am',
-      '10am',
-      '12pm',
-      '2pm',
-      '4pm',
-      '6pm',
-      '8pm',
-      '10pm'
-    ],
+    labels,
     options: {
       spanGaps: false,
       legend: {
@@ -91,7 +90,7 @@ export default dataObjs => {
               tickMarkLength: 16
             },
             ticks: {
-              stepSize: 1000
+              stepSize: maxVal
             }
           }
         ]

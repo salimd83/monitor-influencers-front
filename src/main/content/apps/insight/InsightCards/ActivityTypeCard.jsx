@@ -10,7 +10,6 @@ class ActivityTypeCard extends Component {
   componentDidMount() {
     if (!(this.props.data.length > 0)) {
       const { from, to } = this.props;
-      console.log('from', from);
       this.props.getData('42ig8yrfd5jhwrmy83', from, to);
     }
   }

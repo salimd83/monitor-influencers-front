@@ -107,10 +107,11 @@ input[type='date']::-webkit-calendar-picker-indicator {
 
 .react-grid-item .tooltips {
   font-size: 18px;
-  vertical-align: middle;
   line-height: 15px;
-  margin-right: 4px;
   color: #757575;
+  position: absolute;
+  right: 20px;
+  top: 20px;
 }
 
 .react-grid-item .remove {
@@ -124,8 +125,12 @@ input[type='date']::-webkit-calendar-picker-indicator {
   height: calc(100% + 16px);
   z-index: 1000;
 }
+#insightHeader .react-datepicker-wrapper {
+  margin-top: -4px;
+  padding-bottom: 4px;
+}
 #insightHeader .react-datepicker-wrapper input {
-  height: 45px;
+  height: 35px;
   background: transparent;
   color: #f5f5f5;
   border-bottom: #fff 1px solid !important;
@@ -144,7 +149,8 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .react-datepicker__month {
   margin: 0.4em 1em !important;
 }
-.react-datepicker__day-name, .react-datepicker__day {
+.react-datepicker__day-name,
+.react-datepicker__day {
   width: 1.9em !important;
   line-height: 1.9em !important;
   margin: 0.166em !important;

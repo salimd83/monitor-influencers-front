@@ -37,10 +37,10 @@ class Widget7 extends Component {
   };
 
   render() {
-    const { anchorEl } = this.state;
+    const { anchorEl, dataset } = this.state;
     const { classes, data: dataRaw, popovertext, theme, size } = this.props;
-    const { dataset } = this.state;
     const data = _.merge({}, dataRaw);
+
     const dataWithColors = data.datasets[dataset].map(obj => ({
       ...obj,
       borderColor: theme.palette.divider,
@@ -56,7 +56,6 @@ class Widget7 extends Component {
       ]
     }));
 
-    console.log('size', size);
     return (
       <Card className={classNames(classes.root, 'w-full', 'h-full')}>
         <div className="p-16">
@@ -129,11 +128,11 @@ class Widget7 extends Component {
           onClose={this.handleClose}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left'
+            horizontal: 'right'
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left'
+            horizontal: 'right'
           }}
         >
           <Typography className={classes.typography}>{popovertext}</Typography>

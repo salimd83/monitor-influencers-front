@@ -2,10 +2,12 @@ export default dataObjs => {
   let data = [],
     labels = [];
   // const sortedArray = dataObjs.sort((a, b) => b.count - a.count);
-  dataObjs.forEach(dataObj => {
-    labels.push(dataObj.label);
-    data.push(dataObj.percentage);
-  });
+  if (dataObjs != 'undefined') {
+    dataObjs.forEach(dataObj => {
+      labels.push(dataObj.label);
+      data.push(dataObj.percentage);
+    });
+  }
   return {
     labels,
     datasets: {

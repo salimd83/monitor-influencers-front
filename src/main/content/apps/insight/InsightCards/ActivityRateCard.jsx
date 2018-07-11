@@ -9,15 +9,14 @@ import * as Actions from '../store/actions';
 class ActivityRateCard extends Component {
   componentDidMount() {
     const {from, to} = this.props;
-    console.log('from', from)
-    this.props.getData('42ig8yrfd5jhwrmy83', from, to);
+    this.props.getRateData('42ig8yrfd5jhwrmy83', from, to);
+    this.props.getEngagementData('42ig8yrfd5jhwrmy83', from, to);
   }
   render() {
-    const { loading, data } = this.props;
-    console.log('data', data)
+    const { loading, dataRate, dataEngagement } = this.props;
     const options = {
-      popovertext: 'the content of activity type popover',
-      data: dataParser(data)
+      popovertext: 'the content of activity rate/engagement popover',
+      data: dataParser([dataRate, dataEngagement])
     };
 
     return (
@@ -37,7 +36,8 @@ class ActivityRateCard extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      getData: Actions.getActivityRateData
+      getRateData: Actions.getActivityRateData,
+      getEngagementData: Actions.getActivityEngagementData
     },
     dispatch
   );
@@ -45,7 +45,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({ insightApp }) {
   return {
-    data: insightApp.insight.activityRate,
+    dataRate: insightApp.insight.activityRateData,
+    dataEngagement: insightApp.insight.activityEngagementData,
     loading: insightApp.insight.activityRateFetching,
     from: insightApp.insight.from,
     to: insightApp.insight.to

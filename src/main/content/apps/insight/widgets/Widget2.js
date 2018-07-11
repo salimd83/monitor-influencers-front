@@ -78,11 +78,11 @@ class Widget2 extends Component {
           onClose={this.handleClose}
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left'
+            horizontal: 'right'
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left'
+            horizontal: 'right'
           }}
         >
           <Typography className={classes.typography}>{popovertext}</Typography>
