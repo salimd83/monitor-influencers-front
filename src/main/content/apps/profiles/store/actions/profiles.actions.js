@@ -1,7 +1,5 @@
 import axios from 'axios/index';
-import { getUserData } from 'main/content/apps/profiles/store/actions/user.actions';
 import * as Fn from 'fn/simpleCall.js';
-import _ from 'lodash';
 
 export const GET_PROFILES = '[PROFILES APP] GET PROFILES';
 export const SET_SEARCH_TEXT = '[PROFILES APP] SET SEARCH TEXT';
@@ -17,9 +15,9 @@ export const REMOVE_PROFILE = '[PROFILES APP] REMOVE PROFILE';
 export const RECIEVING_PROFILES = '[PROFILES APP] RECIEVING PROFILES';
 export const RESET_ADD_PROFILE = '[PROFILES APP] RESET ADD PROFILE';
 
-export function getProfiles(routeParams) {
+export function getProfiles(routeParams, keyword = '') {
   return dispatch => {
-    const request = Fn.simpleCallWA(dispatch, 'get', '/si/leaderboard?limit=100');
+    const request = Fn.simpleCallWA(dispatch, 'get', `/si/leaderboard?limit=100&search=${keyword}`);
     dispatch(recievingProfiles());
     request.then(response =>
       dispatch({
@@ -37,10 +35,24 @@ function recievingProfiles() {
   };
 }
 
-export function setSearchText(event) {
-  return {
-    type: SET_SEARCH_TEXT,
-    searchText: event.target.value
+export function setSearchText(keyword) {
+  return async (dispatch, getState) => {
+    const { routeParams } = getState().profilesApp.profiles;
+    dispatch({
+      type: SET_SEARCH_TEXT,
+      searchText: keyword
+    });
+    try {
+      const response = await Fn.simpleCallWA(dispatch, 'get', `/si/leaderboard?search=${keyword}`);
+      dispatch(recievingProfiles());
+      dispatch({
+        type: GET_PROFILES,
+        payload: response.data,
+        routeParams
+      });
+    } catch (e) {
+      console.log(e.response);
+    }
   };
 }
 

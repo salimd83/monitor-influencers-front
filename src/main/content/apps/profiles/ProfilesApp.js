@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import * as Actions from './store/actions';
 import ProfilesList from 'main/content/apps/profiles/ProfilesList';
 import ProfilesHeader from 'main/content/apps/profiles/ProfilesHeader';
-import ProfilesSidebarContent from 'main/content/apps/profiles/ProfilesSidebarContent';
 import _ from 'lodash';
 import { Button, Icon } from '@material-ui/core';
 import ProfileDialog from 'main/content/apps/profiles/ProfileDialog';
