@@ -1,4 +1,4 @@
-import React, {Component}     from 'react'
+import React, { Component } from 'react';
 import {
     TextField,
     Button,
@@ -15,7 +15,7 @@ import {
     AppBar,
     Select,
     MenuItem
-}                             from '@material-ui/core'
+}                             from '@material-ui/core';
 import {withStyles}           from '@material-ui/core/styles/index'
 import {bindActionCreators}   from 'redux'
 import * as Actions           from './store/actions'
@@ -29,7 +29,7 @@ const styles = theme => ({
     formControl: {
         marginBottom: 24
     }
-})
+});
 
 const newTypeaheadState = {
     id          : '',
@@ -39,121 +39,132 @@ const newTypeaheadState = {
     description : '',
     related_link: '',
     meta        : {}
-}
+};
 
 class TypeaheadDialog extends Component {
-    state = {
-        ...newTypeaheadState
-    }
+  state = {
+    ...newTypeaheadState
+  };
 
-    JsonEditorTemplate = [
-        {
-            text : 'Brand Search',
-            title: 'Add fields required for Brand search action',
-            field: 'search',
-            value: {
-                query     : '',
-                exactMatch: '',
-                pageCount : 50,
-                lookupSize: 'large',
-                color     : true,
-                black     : false
-            }
-        }
-    ]
-
-    handleChange       = event => {
-        this.setState(_.set({...this.state}, event.target.name, event.target.type === 'checkbox' ? event.target.checked
-                                                                                                 : event.target.value))
+  JsonEditorTemplate = [
+    {
+      text: 'Brand Search',
+      title: 'Add fields required for Brand search action',
+      field: 'search',
+      value: {
+        query: '',
+        exactMatch: '',
+        pageCount: 50,
+        lookupSize: 'large',
+        color: true,
+        black: false
+      }
     }
-    handleJsonEditor   = value => {
+  ];
+
+  handleChange = event => {
+    this.setState(
+      _.set(
+        { ...this.state },
+        event.target.name,
+        event.target.type === 'checkbox' ? event.target.checked : event.target.value
+      )
+    );
+  };
+  handleJsonEditor = value => {
+    this.setState({
+      meta: value
+    });
+  };
+  closeComposeDialog = () => {
+    this.props.typeaheadDialog.type === 'edit'
+      ? this.props.closeEditTypeaheadDialog()
+      : this.props.closeNewTypeaheadDialog();
+  };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    /**
+     * After Dialog Open
+     */
+    if (!prevProps.typeaheadDialog.props.open && this.props.typeaheadDialog.props.open) {
+      /**
+       * Dialog type: 'edit'
+       * Update State
+       */
+      if (
+        this.props.typeaheadDialog.type === 'edit' &&
+        this.props.typeaheadDialog.data &&
+        !_.isEqual(this.props.typeaheadDialog.data, prevState)
+      ) {
+        const meta = this.props.typeaheadDialog.data.meta;
         this.setState({
-                          meta: value
-                      })
-    }
-    closeComposeDialog = () => {
-        this.props.typeaheadDialog.type === 'edit' ? this.props.closeEditTypeaheadDialog()
-                                                   : this.props.closeNewTypeaheadDialog()
-    }
+          ...this.props.typeaheadDialog.data,
+          meta
+        });
+      }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        /**
-         * After Dialog Open
-         */
-        if (!prevProps.typeaheadDialog.props.open && this.props.typeaheadDialog.props.open) {
-            /**
-             * Dialog type: 'edit'
-             * Update State
-             */
-            if (this.props.typeaheadDialog.type === 'edit' && this.props.typeaheadDialog.data && !_.isEqual(this.props.typeaheadDialog.data, prevState)) {
-                const meta = this.props.typeaheadDialog.data.meta
-                this.setState({
-                                  ...this.props.typeaheadDialog.data,
-                                  meta
-                              })
-            }
-
-            /**
-             * Dialog type: 'new'
-             * Update State
-             */
-            if (this.props.typeaheadDialog.type === 'new' && !_.isEqual(newTypeaheadState, prevState)) {
-                const meta = newTypeaheadState.meta
-                this.setState({
-                                  ...newTypeaheadState,
-                                  meta
-                              })
-            }
-        }
+      /**
+       * Dialog type: 'new'
+       * Update State
+       */
+      if (this.props.typeaheadDialog.type === 'new' && !_.isEqual(newTypeaheadState, prevState)) {
+        const meta = newTypeaheadState.meta;
+        this.setState({
+          ...newTypeaheadState,
+          meta
+        });
+      }
     }
+  }
 
-    canBeSubmitted() {
-        const {name} = this.state
-        return name.length > 0
-    }
+  canBeSubmitted() {
+    const { name } = this.state;
+    return name.length > 0;
+  }
 
     render() {
-        const {
-                  classes, typeaheadDialog, addTypeahead, updateTypeahead, removeTypeahead
-              } = this.props
+        const {classes, typeaheadDialog, addTypeahead, updateTypeahead, removeTypeahead, types} = this.props
 
-        return (<Dialog
-            className={classes.root}
-            {...typeaheadDialog.props}
-            onClose={this.closeComposeDialog}
-            fullWidth
-            style={{minWidth: '300px'}}
-            maxWidth="sm"
-        >
-            <AppBar position="static">
-                <Toolbar className="flex w-full">
-                    <Typography variant="subheading" color="inherit">
-                        {typeaheadDialog.type === 'new' ? 'New Typeahead' : 'Edit Typeahead'}
-                    </Typography>
-                </Toolbar>
-                <div className="flex flex-col items-center justify-center pb-24">
-                    {typeaheadDialog.type === 'edit' && (<Typography variant="title" color="inherit" className="pt-8">
-                        {this.state.name}
-                    </Typography>)}
-                </div>
-            </AppBar>
+    return (
+      <Dialog
+        className={classes.root}
+        {...typeaheadDialog.props}
+        onClose={this.closeComposeDialog}
+        fullWidth
+        style={{ minWidth: '300px' }}
+        maxWidth="sm"
+      >
+        <AppBar position="static">
+          <Toolbar className="flex w-full">
+            <Typography variant="subheading" color="inherit">
+              {typeaheadDialog.type === 'new' ? 'New Typeahead' : 'Edit Typeahead'}
+            </Typography>
+          </Toolbar>
+          <div className="flex flex-col items-center justify-center pb-24">
+            {typeaheadDialog.type === 'edit' && (
+              <Typography variant="title" color="inherit" className="pt-8">
+                {this.state.name}
+              </Typography>
+            )}
+          </div>
+        </AppBar>
 
-            <DialogContent classes={{root: 'p-24'}}>
-                <div className="flex">
-                    <div className="min-w-48 pt-20">
-                        <Icon color="action">account_circle</Icon>
-                    </div>
-                    <FormControl className={classes.formControl} required fullWidth>
-                        <InputLabel htmlFor="name">Name</InputLabel>
-                        <Input
-                            autoFocus
-                            id="name"
-                            name="name"
-                            value={this.state.name}
-                            onChange={this.handleChange}
-                        />
-                    </FormControl>
-                </div>
+        <DialogContent classes={{ root: 'p-24' }}>
+          <div className="flex">
+            <div className="min-w-48 pt-20">
+              <Icon color="action">account_circle</Icon>
+            </div>
+            <FormControl className={classes.formControl} required fullWidth>
+              <InputLabel htmlFor="name">Name</InputLabel>
+              <Input
+                autoFocus
+                id="name"
+                name="name"
+                value={this.state.name}
+                onChange={this.handleChange}
+              />
+            </FormControl>
+          </div>
 
                 <div className="flex">
                     <div className="min-w-48 pt-20">
@@ -169,17 +180,7 @@ class TypeaheadDialog extends Component {
                                 id  : 'type'
                             }}
                         >
-                            <MenuItem value="">
-                                <em>None</em>
-                            </MenuItem>
-                            <MenuItem value="brand">Brand</MenuItem>
-                            <MenuItem value="profile_tag">Profile Tag</MenuItem>
-                            <MenuItem value="hashtag">Hashtag</MenuItem>
-                            <MenuItem value="industry">Industry</MenuItem>
-                            <MenuItem value="category">Category</MenuItem>
-                            <MenuItem value="gender">Gender</MenuItem>
-                            <MenuItem value="language">language</MenuItem>
-                            <MenuItem value="country">Country</MenuItem>
+                            {types && types.map(type => <MenuItem key={type.id} value={type.name}>{type.description}</MenuItem>)}
                         </Select>
                     </FormControl>
                 </div>
@@ -250,57 +251,71 @@ class TypeaheadDialog extends Component {
                 </div>
             </DialogContent>
 
-            {typeaheadDialog.type === 'new' ? (<DialogActions className="justify-between pl-16">
-                <Button
-                    variant="raised"
-                    color="primary"
-                    onClick={() => {
-                        addTypeahead(this.state)
-                        this.closeComposeDialog()
-                    }}
-                    disabled={!this.canBeSubmitted()}
-                >
-                    Add
-                </Button>
-            </DialogActions>) : (<DialogActions className="justify-between pl-16">
-                <Button
-                    variant="raised"
-                    color="primary"
-                    onClick={() => {
-                        updateTypeahead(this.state)
-                        this.closeComposeDialog()
-                    }}
-                    disabled={!this.canBeSubmitted()}
-                >
-                    Save
-                </Button>
-                <IconButton
-                    onClick={() => {
-                        removeTypeahead(this.state.id)
-                        this.closeComposeDialog()
-                    }}
-                >
-                    <Icon>delete</Icon>
-                </IconButton>
-            </DialogActions>)}
-        </Dialog>)
-    }
+        {typeaheadDialog.type === 'new' ? (
+          <DialogActions className="justify-between pl-16">
+            <Button
+              variant="raised"
+              color="primary"
+              onClick={() => {
+                addTypeahead(this.state);
+                this.closeComposeDialog();
+              }}
+              disabled={!this.canBeSubmitted()}
+            >
+              Add
+            </Button>
+          </DialogActions>
+        ) : (
+          <DialogActions className="justify-between pl-16">
+            <Button
+              variant="raised"
+              color="primary"
+              onClick={() => {
+                updateTypeahead(this.state);
+                this.closeComposeDialog();
+              }}
+              disabled={!this.canBeSubmitted()}
+            >
+              Save
+            </Button>
+            <IconButton
+              onClick={() => {
+                removeTypeahead(this.state.id);
+                this.closeComposeDialog();
+              }}
+            >
+              <Icon>delete</Icon>
+            </IconButton>
+          </DialogActions>
+        )}
+      </Dialog>
+    );
+  }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-                                  closeEditTypeaheadDialog: Actions.closeEditTypeaheadDialog,
-                                  closeNewTypeaheadDialog : Actions.closeNewTypeaheadDialog,
-                                  addTypeahead            : Actions.addTypeahead,
-                                  updateTypeahead         : Actions.updateTypeahead,
-                                  removeTypeahead         : Actions.removeTypeahead
-                              }, dispatch)
+  return bindActionCreators(
+    {
+      closeEditTypeaheadDialog: Actions.closeEditTypeaheadDialog,
+      closeNewTypeaheadDialog: Actions.closeNewTypeaheadDialog,
+      addTypeahead: Actions.addTypeahead,
+      updateTypeahead: Actions.updateTypeahead,
+      removeTypeahead: Actions.removeTypeahead
+    },
+    dispatch
+  );
 }
 
 function mapStateToProps({typeaheadsApp}) {
     return {
-        typeaheadDialog: typeaheadsApp.typeaheads.typeaheadDialog
+        typeaheadDialog: typeaheadsApp.typeaheads.typeaheadDialog,
+        types          : typeaheadsApp.typeaheads.types
     }
 }
 
-export default withStyles(styles, {withTheme: true})(connect(mapStateToProps, mapDispatchToProps)(TypeaheadDialog))
+export default withStyles(styles, { withTheme: true })(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(TypeaheadDialog)
+);

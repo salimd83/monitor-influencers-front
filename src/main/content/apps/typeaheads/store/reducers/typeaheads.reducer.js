@@ -5,6 +5,7 @@ const initialState = {
   searchText: '',
   searchType: '',
   selectedTypeaheadIds: [],
+  types: [],
   routeParams: {},
   typeaheadDialog: {
     type: 'new',
@@ -24,14 +25,27 @@ const typeaheadsReducer = function(state = initialState, action) {
         routeParams: action.routeParams
       };
     }
-    // case Actions.ADD_TYPEAHEADS: {
-    //   console.log('typeahead ADD action:', action.typeahead);
-    //   return {
-    //     ...state,
-    //     entities: [action.typeahead, ...state.entities],
-    //     routeParams: action.routeParams
-    //   };
-    // }
+    case Actions.GET_TYPES: {
+      console.log(action.types);
+      return {
+        ...state,
+        types: action.types
+      };
+    }
+    case Actions.UPDATE_TYPEAHEAD: {
+      const { payload } = action;
+      return {
+        ...state,
+        entities: [payload, ...state.entities.filter(type => type.id !== payload.id)]
+      };
+    }
+    case Actions.ADD_TYPEAHEAD: {
+      console.log(action.payload);
+      return {
+        ...state,
+        entities: [action.payload, ...state.entities]
+      };
+    }
     case Actions.SET_SEARCH_TEXT: {
       return {
         ...state,
@@ -46,9 +60,7 @@ const typeaheadsReducer = function(state = initialState, action) {
       let selectedTypeaheadIds = [...state.selectedTypeaheadIds];
 
       if (selectedTypeaheadIds.find(id => id === typeaheadId) !== undefined) {
-        selectedTypeaheadIds = selectedTypeaheadIds.filter(
-          id => id !== typeaheadId
-        );
+        selectedTypeaheadIds = selectedTypeaheadIds.filter(id => id !== typeaheadId);
       } else {
         selectedTypeaheadIds = [...selectedTypeaheadIds, typeaheadId];
       }

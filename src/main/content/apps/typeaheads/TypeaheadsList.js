@@ -73,6 +73,7 @@ class TypeaheadsList extends Component {
               Header: 'Status',
               accessor: 'status',
               filterable: false,
+              sortable: false,
               className: 'font-bold ml-16'
             },
             {
@@ -84,12 +85,14 @@ class TypeaheadsList extends Component {
               Header: 'Internal Note',
               accessor: 'note',
               filterable: false,
+              sortable: false,
               className: 'font-bold ml-16'
             },
             {
               Header: 'Related Link',
               accessor: 'related_link',
               filterable: false,
+              sortable: false,
               className: 'font-bold ml-16'
             }
           ]}

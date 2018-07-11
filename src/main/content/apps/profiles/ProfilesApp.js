@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import * as Actions from './store/actions';
 import ProfilesList from 'main/content/apps/profiles/ProfilesList';
 import ProfilesHeader from 'main/content/apps/profiles/ProfilesHeader';
-import ProfilesSidebarContent from 'main/content/apps/profiles/ProfilesSidebarContent';
 import _ from 'lodash';
 import { Button, Icon } from '@material-ui/core';
 import ProfileDialog from 'main/content/apps/profiles/ProfileDialog';
@@ -72,7 +71,7 @@ class ProfilesApp extends Component {
     });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (!_.isEqual(this.props.location, prevProps.location)) {
       this.props.getProfiles(this.props.match.params);
     }
@@ -92,7 +91,6 @@ class ProfilesApp extends Component {
           }}
           header={<ProfilesHeader pageLayout={() => this.pageLayout} />}
           content={<ProfilesList />}
-          leftSidebarContent={<ProfilesSidebarContent />}
           sidebarInner
           onRef={instance => {
             this.pageLayout = instance;

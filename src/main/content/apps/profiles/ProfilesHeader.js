@@ -1,25 +1,33 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles/index';
-import {
-  Hidden,
-  Icon,
-  IconButton,
-  TextField,
-  Typography
-} from '@material-ui/core';
+import { Hidden, Icon, IconButton, TextField, Typography } from '@material-ui/core';
 import * as Actions from './store/actions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 import { FuseAnimate } from '@fuse';
+import { debounce } from 'lodash';
 
 const styles = theme => ({
   root: {}
 });
 
 class ProfilesHeader extends Component {
+  state = {
+    keyword: ''
+  };
+
+  searchWhenStopTyping = debounce(() => {
+    this.props.setSearchText(this.state.keyword);
+  }, 300);
+
+  handleChange = e => {
+    this.setState({ keyword: e.target.value }, () => {
+      this.searchWhenStopTyping();
+    });
+  };
   render() {
-    const { classes, setSearchText, searchText, pageLayout } = this.props;
+    const { classes, pageLayout } = this.props;
     return (
       <div
         className={classNames(
@@ -57,11 +65,11 @@ class ProfilesHeader extends Component {
               placeholder="Search for anything"
               className="pl-16"
               fullWidth
-              value={searchText}
+              value={this.state.keyword}
               inputProps={{
                 'aria-label': 'Search'
               }}
-              onChange={setSearchText}
+              onChange={this.handleChange}
             />
           </FuseAnimate>
         </div>
