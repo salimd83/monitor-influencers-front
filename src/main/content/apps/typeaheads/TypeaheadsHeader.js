@@ -9,7 +9,7 @@ import { FuseAnimate } from '@fuse';
 import MenuItem from '@material-ui/core/MenuItem';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
-import _ from 'lodash';
+import { set, debounce } from 'lodash';
 
 const styles = theme => ({
   root: {}
@@ -21,20 +21,20 @@ class TypeaheadsHeader extends Component {
     searchText: ''
   };
 
-  handleChange = event => {
-    this.setState(
-      _.set(
-        { ...this.state },
-        event.target.name,
-        event.target.type === 'checkbox' ? event.target.checked : event.target.value
-      ),
-      () => {
-        this.props.setSearchText(this.state);
-      }
-    );
+  searchWhenStopTyping = debounce(() => {
+    this.props.setSearchText(this.state);
+  }, 300);
 
-    // this.props.setSearchText(this.state);
+  handleTextChange = event => {
+    this.setState({searchText: event.target.value}, () => {
+      this.searchWhenStopTyping();
+    });
   };
+  handleTypeChange = event => {
+    this.setState({searchType: event.target.value}, () => {
+      this.props.setSearchText(this.state);
+    });
+  }
 
   render() {
     const { classes, types } = this.props;
@@ -63,29 +63,30 @@ class TypeaheadsHeader extends Component {
           </FuseAnimate>
 
           <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-            <FormControl className={classes.container + ' ml-12'} noValidate autoComplete="off">
+            <FormControl className={classes.container} noValidate autoComplete="off">
               <Grid container spacing={8}>
-                <Grid item md={7}>
+                <Grid item>
                   <Select
-                    style={{ width: '100%' }}
+                    style={{ width: '160px' }}
                     value={this.state.searchType}
                     name="searchType"
                     id="searchType"
-                    onChange={this.handleChange}
+                    onChange={this.handleTypeChange}
                     inputProps={{
                       name: 'searchType',
                       id: 'searchType'
                     }}
                   >
-                    {types && types.map(type => <MenuItem value={type.name}>{type.description}</MenuItem>)}
+                    {types &&
+                      types.map(type => <MenuItem key={type.id} value={type.name}>{type.description}</MenuItem>)}
                   </Select>
                 </Grid>
-                <Grid item md={5}>
+                <Grid item>
                   <TextField
-                    style={{ width: '100%' }}
+                    style={{ width: '140px' }}
                     placeholder="Search Name"
                     value={this.state.searchText}
-                    onChange={this.handleChange}
+                    onChange={this.handleTextChange}
                     name="searchText"
                     id="searchText"
                     inputProps={{
