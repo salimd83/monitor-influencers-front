@@ -180,7 +180,7 @@ class TypeaheadDialog extends Component {
                                 id  : 'type'
                             }}
                         >
-                            {types && types.map(type => <MenuItem value={type.name}>{type.description}</MenuItem>)}
+                            {types && types.map(type => <MenuItem key={type.id} value={type.name}>{type.description}</MenuItem>)}
                         </Select>
                     </FormControl>
                 </div>

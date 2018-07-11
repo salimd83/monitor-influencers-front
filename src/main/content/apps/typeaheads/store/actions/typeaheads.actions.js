@@ -1,7 +1,6 @@
 import axios from 'axios/index';
 import { getUserData } from 'main/content/apps/typeaheads/store/actions/user.actions';
 import * as Fn from 'fn/index';
-import MapsMyLocation from 'material-ui/SvgIcon';
 
 export const GET_TYPEAHEADS = '[TYPEAHEADS APP] GET TYPEAHEADS';
 export const SET_SEARCH_TEXT = '[TYPEAHEADS APP] SET SEARCH TEXT';
@@ -45,6 +44,7 @@ export function getTypes() {
 }
 
 export function setSearchText(searchFields) {
+  console.log('search:', searchFields);
   return dispatch => {
     const { searchText, searchType } = searchFields;
     const request = Fn.simpleCallWA(dispatch, 'get', `typeahead/${searchType}`, {
@@ -106,12 +106,13 @@ export function closeEditTypeaheadDialog() {
 
 export function addTypeahead(newTypeahead) {
   return async dispatch => {
-    // const { routeParams } = getState().typeaheadsApp.typeaheads;
-
     try {
       const response = await Fn.simpleCallWA(dispatch, 'post', 'typeahead', newTypeahead);
 
-      dispatch({ type: ADD_TYPEAHEAD, typeahead: response.data });
+      dispatch({
+        type: ADD_TYPEAHEAD,
+        payload: response.data
+      });
     } catch (e) {
       console.log('error: ', e.response);
     }
@@ -119,20 +120,19 @@ export function addTypeahead(newTypeahead) {
 }
 
 export function updateTypeahead(typeahead) {
-  return (dispatch, getState) => {
-    const { routeParams } = getState().typeaheadsApp.typeaheads;
+  return async dispatch => {
+    try {
+      const { id, ...rest } = typeahead;
 
-    const { id, ...rest } = typeahead;
+      const response = await Fn.simpleCallWA(dispatch, 'put', `typeahead/${id}`, rest);
 
-    const request = Fn.simpleCallWA(dispatch, 'put', `typeahead/${id}`, rest);
-
-    return request.then(() =>
-      Promise.all([
-        dispatch({
-          type: UPDATE_TYPEAHEAD
-        })
-      ]).then(() => dispatch(getTypeaheads(routeParams)))
-    );
+      dispatch({
+        type: UPDATE_TYPEAHEAD,
+        payload: response.data
+      });
+    } catch (e) {
+      console.log('error: ', e.response);
+    }
   };
 }
 
