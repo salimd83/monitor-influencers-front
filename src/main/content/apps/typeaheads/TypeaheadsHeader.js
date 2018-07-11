@@ -37,7 +37,7 @@ class TypeaheadsHeader extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes, types } = this.props;
 
     return (
       <div
@@ -63,11 +63,11 @@ class TypeaheadsHeader extends Component {
           </FuseAnimate>
 
           <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-            <FormControl className={classes.container} noValidate autoComplete="off">
+            <FormControl className={classes.container + ' ml-12'} noValidate autoComplete="off">
               <Grid container spacing={8}>
-                <Grid item>
+                <Grid item md={7}>
                   <Select
-                    style={{ width: '160px' }}
+                    style={{ width: '100%' }}
                     value={this.state.searchType}
                     name="searchType"
                     id="searchType"
@@ -77,22 +77,12 @@ class TypeaheadsHeader extends Component {
                       id: 'searchType'
                     }}
                   >
-                    <MenuItem value="all">
-                      <strong>All</strong>
-                    </MenuItem>
-                    <MenuItem value="brand">Brand</MenuItem>
-                    <MenuItem value="profile_tag">Profile Tag</MenuItem>
-                    <MenuItem value="hashtag">Hashtag</MenuItem>
-                    <MenuItem value="industry">Industry</MenuItem>
-                    <MenuItem value="category">Category</MenuItem>
-                    <MenuItem value="gender">Gender</MenuItem>
-                    <MenuItem value="language">language</MenuItem>
-                    <MenuItem value="country">Country</MenuItem>
+                    {types && types.map(type => <MenuItem value={type.name}>{type.description}</MenuItem>)}
                   </Select>
                 </Grid>
-                <Grid item>
+                <Grid item md={5}>
                   <TextField
-                    style={{ width: '140px' }}
+                    style={{ width: '100%' }}
                     placeholder="Search Name"
                     value={this.state.searchText}
                     onChange={this.handleChange}
@@ -124,7 +114,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps({ typeaheadsApp }) {
   return {
     searchText: typeaheadsApp.typeaheads.searchText,
-    searchType: typeaheadsApp.typeaheads.searchType
+    searchType: typeaheadsApp.typeaheads.searchType,
+    types: typeaheadsApp.typeaheads.types
   };
 }
 

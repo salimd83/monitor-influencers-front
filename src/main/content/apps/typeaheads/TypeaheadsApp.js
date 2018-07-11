@@ -44,6 +44,7 @@ const styles = theme => ({
 class TypeaheadApp extends Component {
   componentDidMount() {
     this.props.getTypeaheads(this.props.match.params);
+      if (this.props.types.length === 0) this.props.getTypes(this.props.match.params)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -53,20 +54,20 @@ class TypeaheadApp extends Component {
   }
 
   render() {
-    const { classes, openNewTypeaheadDialog } = this.props;
+      const {classes, openNewTypeaheadDialog, types} = this.props
 
     return (
       <React.Fragment>
         <FusePageSimple
-          className={classes.root}
-          classes={{
+            className={classes.root}
+            classes={{
             root: classes.layoutRoot,
             contentCardWrapper: classes.layoutContentCardWrapper
           }}
-          header={<TypeaheadsHeader pageLayout={() => this.pageLayout} />}
-          content={<TypeaheadsList />}
-          sidebarInner
-          onRef={instance => {
+            header={<TypeaheadsHeader types={types} pageLayout={() => this.pageLayout}/>}
+            content={<TypeaheadsList/>}
+            sidebarInner
+            onRef={instance => {
             this.pageLayout = instance;
           }}
         />
@@ -90,8 +91,9 @@ class TypeaheadApp extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      getTypeaheads: Actions.getTypeaheads,
-      openNewTypeaheadDialog: Actions.openNewTypeaheadDialog
+        getTypeaheads         : Actions.getTypeaheads,
+        openNewTypeaheadDialog: Actions.openNewTypeaheadDialog,
+        getTypes              : Actions.getTypes
     },
     dispatch
   );
@@ -99,11 +101,12 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({ typeaheadsApp }) {
   return {
-    typeaheads: typeaheadsApp.typeaheads.entities,
+      typeaheads         : typeaheadsApp.typeaheads.entities,
     selectedTypeaheadsIds: typeaheadsApp.typeaheads.selectedTypeaheadsIds,
-    searchText: typeaheadsApp.typeaheads.searchText,
-    searchType: typeaheadsApp.typeaheads.searchType,
-    user: typeaheadsApp.user
+      searchText         : typeaheadsApp.typeaheads.searchText,
+      searchType         : typeaheadsApp.typeaheads.searchType,
+      user               : typeaheadsApp.user,
+      types              : typeaheadsApp.typeaheads.types
   };
 }
 
