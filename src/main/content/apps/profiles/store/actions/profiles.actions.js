@@ -17,7 +17,7 @@ export const RESET_ADD_PROFILE = '[PROFILES APP] RESET ADD PROFILE';
 
 export function getProfiles(routeParams, keyword = '') {
   return dispatch => {
-    const request = Fn.simpleCallWA(dispatch, 'get', `/si/leaderboard?limit=100&search=${keyword}`);
+    const request = Fn.simpleCallWA(dispatch, 'get', `/si/leaderboard?limit=100&search=${keyword}`, undefined, undefined, false);
     dispatch(recievingProfiles());
     request.then(response =>
       dispatch({

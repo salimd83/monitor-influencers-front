@@ -78,7 +78,7 @@ export function removeLink(id) {
   return async dispatch => {
     dispatch(deletingLink(id));
     try {
-      await Fn.simpleCallWA(dispatch, 'delete', `si/link/${id}`);
+      await Fn.simpleCallWA(dispatch, 'delete', `si/link/${id}`, undefined, undefined, false);
       dispatch({
         type: REMOVE_LINK,
         id
