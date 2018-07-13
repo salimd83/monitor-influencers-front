@@ -43,7 +43,11 @@ export function setSearchText(keyword) {
       searchText: keyword
     });
     try {
-      const response = await Fn.simpleCallWA(dispatch, 'get', `/si/leaderboard?limit=100&search=${keyword}`);
+      const response = await Fn.simpleCallWA(
+        dispatch,
+        'get',
+        `/si/leaderboard?limit=100&search=${keyword}`
+      );
       dispatch(recievingProfiles());
       dispatch({
         type: GET_PROFILES,
@@ -130,24 +134,16 @@ export function updateProfile({ id, ...profile }) {
   };
 }
 
-export function removeProfile(profileId) {
-  return (dispatch, getState) => {
-    const { routeParams } = getState().profilesApp.profiles;
-
-    const request = axios.post('/api/profiles-app/remove-profile', {
-      profileId
-    });
-
-    return request
-      .then(response =>
-        Promise.all([
-          dispatch({
-            type: REMOVE_PROFILE
-          })
-        ]).then(() => dispatch(getProfiles(routeParams)))
-      )
-      .catch(e => {
-        console.log('error:', e);
+export function removeProfile(id) {
+  return async dispatch => {
+    try {
+      await Fn.simpleCallWA(dispatch, 'delete', `si/profiles/${id}`);
+      return dispatch({
+        type: REMOVE_PROFILE,
+        id
       });
+    } catch (e) {
+      console.log('error:', e.response);
+    }
   };
 }
