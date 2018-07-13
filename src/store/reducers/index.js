@@ -11,6 +11,7 @@ import profilesApp from 'main/content/apps/profiles/store/reducers/index';
 import profileApp from 'main/content/apps/profile/store/reducers/index';
 import typeaheadsApp from 'main/content/apps/typeaheads/store/reducers/index';
 import insightApp from 'main/content/apps/insight/store/reducers/index';
+import asyncReducer from '../../main/content/features/async/asyncReducer';
 import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
@@ -26,7 +27,8 @@ const rootReducer = combineReducers({
   profileApp,
   typeaheadsApp,
   insightApp,
-  form: formReducer
+  form: formReducer,
+  async: asyncReducer
 });
 
 export default rootReducer;
