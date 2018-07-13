@@ -91,6 +91,13 @@ const profilesReducer = function(state = initialState, action) {
         errors: []
       };
     }
+    case Actions.REMOVE_PROFILE: {
+      delete state.entities[action.id]
+      return {
+        ...state,
+        entities: {...state.entities}
+      };
+    }
     case Actions.OPEN_NEW_PROFILE_DIALOG: {
       return {
         ...state,
