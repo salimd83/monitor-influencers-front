@@ -5,6 +5,7 @@ import 'react-resizable/css/styles.css';
 import { WidthProvider, Responsive } from 'react-grid-layout';
 import _ from 'lodash';
 
+import {simpleStore} from '../../../../fn/simpleStore'
 import Card1 from './InsightCards/Card1';
 import Card2 from './InsightCards/Card2';
 import ActivityTypeCard from './InsightCards/ActivityTypeCard';
@@ -67,9 +68,13 @@ const initialItems = [0, 1, 2, 3].map((i, key, list) => {
   };
 });
 
+const originalLayouts = simpleStore.lookup('siInsightsGrid', 'simple') || {}
+
+
 class InsightGrid extends Component {
-  static defaultProps = {
-    className: 'layout',
+  static get defaultProps() {
+    return {
+      className: 'layout',
     cols: {
       lg: 12,
       md: 9,
@@ -78,12 +83,14 @@ class InsightGrid extends Component {
       xxs: 3
     },
     rowHeight: 100
+    }
   };
 
   state = {
     items: initialItems,
     newCounter: initialItems.length,
-    layout: initialItems // set layout to initial items tilla layout change occures
+    layouts: originalLayouts, // set layout to initial items tilla layout change occures
+    layout: InsightGrid
   };
 
   createElement = (item, index) => {
@@ -132,9 +139,13 @@ class InsightGrid extends Component {
     });
   };
 
-  onLayoutChange = layout => {
+  onLayoutChange = (layout, layouts) => {
     // this.props.onLayoutChange(layout);
-    this.setState({ layout: layout });
+    console.log('asdasd')
+    simpleStore.upsert('siInsightsGrid', layouts, 'simple')
+      console.log('layout to store:',  layout)
+    this.setState({ layouts, layout });
+    // this.props.onLayoutChange(layout); // updates status display
   };
 
   onRemoveItem = i => () => {
@@ -149,6 +160,7 @@ class InsightGrid extends Component {
 
   render() {
     const { newCounter, items } = this.state;
+    console.log('original layout', originalLayouts)
 
     return (
       <div>
@@ -162,8 +174,11 @@ class InsightGrid extends Component {
           Add Item
         </Button>
         <ResponsiveReactGridLayout
-          onLayoutChange={this.onLayoutChange}
           onBreakpointChange={this.onBreakpointChange}
+          layouts={this.state.layouts}
+          onLayoutChange={(layout, layouts) =>
+            this.onLayoutChange(layout, layouts)
+          }
           {...this.props}
         >
           {items.map((item, i) => this.createElement(item, i))}
