@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles/index';
-import { Icon, Typography, IconButton, Grid } from '@material-ui/core';
-import { FuseAnimate } from '@fuse';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as Actions from './store/actions';
-import 'react-select/dist/react-select.css';
-import ProfileFilter from './filters/ProfileFilter';
-import DateFilter from './filters/DateFilter';
-import moment from 'moment';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles/index";
+import { Icon, Typography, IconButton, Grid } from "@material-ui/core";
+import { FuseAnimate } from "@fuse";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as Actions from "./store/actions";
+import "react-select/dist/react-select.css";
+import ProfileFilter from "./filters/ProfileFilter";
+import DateFilter from "./filters/DateFilter";
+import moment from "moment";
 
 class InsightHeader extends Component {
   state = {
     from: this.props.from,
     to: this.props.to,
-    selectedProfile: '42ig8yrfd5jhwrmy83'
+    selectedProfile: "42ig8yrfd5jhwrmy83"
   };
 
   componentDidMount() {
@@ -25,7 +25,8 @@ class InsightHeader extends Component {
   handleDateFromChange = from => this.setState({ from });
   handleDateToChange = to => this.setState({ to });
   handleProfileChange = profile => {
-    this.setState({ selectedProfile: profile.value });
+    console.log("on profile change", profile);
+    this.setState({ selectedProfile: profile });
   };
   handleClick = () => {
     const { from, to, selectedProfile } = this.state;
