@@ -7,6 +7,7 @@ import {CalendarAppConfig}             from 'main/content/apps/calendar/Calendar
 import {ProfilesAppConfig}             from 'main/content/apps/profiles/ProfilesAppConfig'
 import {ProfileAppConfig}              from 'main/content/apps/profile/ProfileAppConfig'
 import {InsightAppConfig}              from 'main/content/apps/insight/InsightAppConfig'
+import {LeaderboardAppConfig}              from 'main/content/apps/leaderboard/LeaderboardAppConfig'
 
 export const appsConfigs = [
     AnalyticsDashboardAppConfig,
@@ -17,5 +18,6 @@ export const appsConfigs = [
     CalendarAppConfig,
     ProfilesAppConfig,
     ProfileAppConfig,
-    InsightAppConfig
+    InsightAppConfig,
+    LeaderboardAppConfig
 ];
