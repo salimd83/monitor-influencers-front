@@ -127,7 +127,7 @@ class ProfilesList extends Component {
                     <IconButton
                       onClick={e => {
                         e.stopPropagation();
-                        openEditProfileDialog(row.original);
+                        openEditProfileDialog(row.original.id);
                       }}
                     >
                       <Icon>edit</Icon>
