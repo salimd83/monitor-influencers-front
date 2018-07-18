@@ -1,4 +1,4 @@
-@import 'normalize.css';
+@import "normalize.css";
 
 * {
   outline: none !important;
@@ -59,15 +59,15 @@ h6,
   z-index: 99;
 }
 
-a[role='button'] {
+a[role="button"] {
   text-decoration: none;
 }
 
-input[type='date']::-webkit-inner-spin-button {
+input[type="date"]::-webkit-inner-spin-button {
   display: none;
 }
 
-input[type='date']::-webkit-calendar-picker-indicator {
+input[type="date"]::-webkit-calendar-picker-indicator {
   background: transparent;
 }
 
@@ -95,15 +95,15 @@ input[type='date']::-webkit-calendar-picker-indicator {
 .Select--single > .Select-control .Select-value {
   padding-left: 0 !important;
 }
-@import 'print.css';
+@import "print.css";
 
-@import 'tables.css';
+@import "tables.css";
 
-@import 'react-table.css';
+@import "react-table.css";
 
-@import 'prism.css';
+@import "prism.css";
 
-@import 'fuse-helpers.css';
+@import "fuse-helpers.css";
 
 .jsoneditor {
   min-width: 440px;
@@ -160,6 +160,120 @@ input[type='date']::-webkit-calendar-picker-indicator {
   -moz-transform: translate(-50%, -50%);
   -webkit-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
+}
+#leaderboard-header {
+  position: relative;
+  width: 100%;
+  margin-left: 20px;
+}
+#leaderboard-header h1 {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  width: 100%;
+}
+
+.leaderboard-profile-row {
+  padding: 0;
+  margin: 20px;
+}
+.leaderboard-profile-row .photo {
+  height: 240px;
+  width: 300px;
+  position: relative;
+  overflow: hidden;
+  background: #f5f5f5;
+}
+.leaderboard-profile-row .photo img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+}
+.leaderboard-profile-row .info {
+  padding: 20px;
+}
+.leaderboard-profile-row .info h4 {
+  color: #55c39e;
+}
+.leaderboard-profile-row .info .links a {
+  display: inline-block;
+  margin-right: 5px;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  position: relative;
+  color: #fff;
+  font-size: 14px;
+}
+.leaderboard-profile-row .info .links a i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+}
+.leaderboard-profile-row .info .links a.facebook {
+  background-color: #3b5998;
+}
+.leaderboard-profile-row .info .links a.twitter {
+  background-color: #1da1f2;
+}
+.leaderboard-profile-row .info .links a.youtube {
+  background-color: #ff0000;
+}
+.leaderboard-profile-row .info .links a.instagram {
+  background-color: #c32aa3;
+}
+.leaderboard-profile-row .info .links a.pinterest {
+  background-color: #bd081c;
+}
+.leaderboard-profile-row .info .links a.linkedin {
+  background-color: #007bb5;
+}
+.leaderboard-profile-row .info .links a.googleplus {
+  background-color: #db4437;
+}
+.leaderboard-profile-row .info .links a.snapchat {
+  background-color: #fffc00;
+  color: #111;
+  font-size: 18px;
+}
+.leaderboard-profile-row .info .links a.rss,
+.leaderboard-profile-row .info .links a.website {
+  background-color: #f26522;
+}
+.leaderboard-profile-row .info .tags>div {
+  font-size: 13px;
+  margin-right: 2px;
+}
+.leaderboard-profile-row .info .statics {
+  text-align: right;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #55c39e;
+}
+.leaderboard-profile-row .info .statics span.material-icons {
+  font-size: 21px;
+  vertical-align: bottom;
+  margin-left: 12px;
+}
+.leaderboard-profile-row p span.material-icons {
+  font-size: 21px;
+  vertical-align: text-bottom;
+  color: #ccc;
 }
 
 .react-datepicker {

@@ -8,7 +8,7 @@ export const fuseNavigationConfig = [
         type : 'item',
         auth : authRoles.user,
         icon : 'bubble_chart',
-        url  : '/si/leaderboard'
+        url  : '/apps/leaderboard'
     },
     {
         id   : 'insight',
