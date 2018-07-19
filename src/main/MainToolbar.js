@@ -21,6 +21,7 @@ import {
 }                             from '@fuse'
 import {Link}                 from 'react-router-dom'
 import HelpDialog             from './HelpDialog.js'
+import SettingsPanel          from './SettingsPanel.js'
 
 const styles = theme => ({
     root     : {
@@ -48,13 +49,11 @@ class MainToolbar extends Component {
         this.setState({userMenu: null})
     }
 
-
     render() {
-        const {classes, toggleQuickPanel, user, logout} = this.props
-        const {userMenu}                                = this.state
+        const {classes, toggleQuickPanel, user, logout, SettingsPanel} = this.props
+        const {userMenu}                                               = this.state
 
         return (<div className={classNames(classes.root, 'flex flex-row')}>
-
             <div className="flex flex-1">
                 <FuseShortcuts/>
             </div>
@@ -62,10 +61,7 @@ class MainToolbar extends Component {
             <div className="flex">
                 <FuseAnimate delay={300}>
                     <Button className="h-64" onClick={this.userMenuClick}>
-                        {user.data.photoURL ? (<Avatar className="" alt="user photo" src={user.data.photoURL}/>) : (
-                            <Avatar className="">
-                                {user.data.displayName[0]}
-                            </Avatar>)}
+                        {user.data.photoURL ? (<Avatar className="" alt="user photo" src={user.data.photoURL}/>) : (<Avatar className="">{user.data.displayName[0]}</Avatar>)}
 
                         <div className="hidden md:flex flex-col ml-12 items-start">
                             <Typography component="span" className="normal-case font-500 flex">
@@ -76,7 +72,9 @@ class MainToolbar extends Component {
                             </Typography>
                         </div>
 
-                        <Icon className="text-16 ml-12 hidden sm:flex" variant="action">keyboard_arrow_down</Icon>
+                        <Icon className="text-16 ml-12 hidden sm:flex" variant="action">
+                            keyboard_arrow_down
+                        </Icon>
                     </Button>
                 </FuseAnimate>
 
@@ -121,6 +119,7 @@ class MainToolbar extends Component {
                             </ListItemIcon>
                             <ListItemText className="pl-0" primary="Logout"/>
                         </MenuItem>
+
                     </React.Fragment>)}
                 </Popover>
 
@@ -146,7 +145,6 @@ function mapDispatchToProps(dispatch) {
                                   logout          : authActions.logoutUser
                               }, dispatch)
 }
-
 
 function mapStateToProps({auth}) {
     return {

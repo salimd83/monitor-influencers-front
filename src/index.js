@@ -29,6 +29,7 @@ import jssExtend             from 'jss-extend'
 import QuickPanel            from 'main/quickPanel/QuickPanel'
 import store                 from 'store'
 import SettingsPanel         from 'main/SettingsPanel'
+import Loading               from './main/Loading'
 
 const jss = create({
                        ...jssPreset(),
@@ -45,6 +46,7 @@ ReactDOM.render(<JssProvider jss={jss} generateClassName={generateClassName}>
     <Provider store={store}>
         <Router history={history}>
             <FuseAuthorization routes={routes}>
+                <Loading/>
                 <FuseTheme>
                     <FuseLayout
                         routes={routes}
@@ -53,7 +55,6 @@ ReactDOM.render(<JssProvider jss={jss} generateClassName={generateClassName}>
                         navbarContent={<MainNavbarContent/>}
                         footer={<MainFooter/>}
                     />
-                    <SettingsPanel/>
                     <QuickPanel/>
                 </FuseTheme>
             </FuseAuthorization>
