@@ -20,22 +20,33 @@ const defaultEnv = {
 
 export const envDetails = {...defaultEnv, ...envJson}
 
-const hiUserStorage = JSON.parse(localStorage.getItem('hiUser'))
+export function hiUser() {
+    const hiUserStorage = JSON.parse(localStorage.getItem('hiUser'))
 
-const defaultUser = {
-    baToken: '',
-    from   : 'internal',
-    role   : 'guest',
-    data   : {
-        'displayName': 'Not signed in.',
-        'photoURL'   : 'assets/images/avatars/Abbott.jpg',
-        'email'      : 'hello@beaux.media'
+    const defaultUser = {
+        baToken         : '',
+        baTokenReference: 'NA',
+        from            : 'internal',
+        role            : 'guest',
+        data            : {
+            'displayName': 'Not signed in.',
+            'photoURL'   : 'assets/images/avatars/Abbott.jpg',
+            'email'      : 'hello@beaux.media'
+        }
     }
+
+    //Short reference to BA-Token, used in Help Dialog
+    if (!_.isEmpty(hiUserStorage) && !_.isEmpty(hiUserStorage.baToken)) {
+        defaultUser.baTokenReference = hiUserStorage.baToken.slice(-8)
+    }
+
+    return {...defaultUser, ...hiUserStorage}
 }
 
-export const hiUser = {...defaultUser, ...hiUserStorage}
+//export const hiUser = {...defaultUser, ...hiUserStorage}
 
-console.log(`Hey Devs! You are running version ${envDetails.version} build ${envDetails.build}.`)
+
+//console.log(`Hey Devs! You are running version ${envDetails.version} build ${envDetails.build}.`)
 
 export async function healthCheck(dataArr, func, opts = []) {
 
