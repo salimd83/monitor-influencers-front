@@ -14,18 +14,24 @@ export function submitLogin({username, password}) {
     return async (dispatch) => {
         try {
 
-            const request = await Fn.simpleCall('post', 'account/auth', {
-                mobile  : username,
-                passcode: password
-            })
+            const request = await Fn.simpleCallNative({
+                                                          method           : 'post',
+                                                          endpoint         : 'account/auth',
+                                                          authenticatedCall: false,
+                                                          errorHandler     : false,
+                                                          data             : {
+                                                              mobile  : username,
+                                                              passcode: password
+                                                          }
+                                                      })
 
             const sessionToken = request.data.access_token
-            const userProfile  = await rp({
-                                              method : 'get',
-                                              uri    : 'https://simple.beaux.media/v3.0/account',
-                                              headers: {'BA-Token': sessionToken},
-                                              json   : true // Automatically stringifies the body to JSON
-                                          })
+            const userProfile  = await Fn.simpleCallNative({
+                                                               method           : 'get',
+                                                               endpoint         : 'account',
+                                                               authenticatedCall: false,
+                                                               headers          : {'BA-Token': sessionToken}
+                                                           })
 
 
             const res = {
@@ -75,9 +81,15 @@ export function submitRequest({username}) {
 
     return async (dispatch) => {
         try {
-            const request = await Fn.simpleCall('post', 'account/login', {
-                mobile: username
-            })
+            const request = await Fn.simpleCallNative({
+                                                          method           : 'post',
+                                                          endpoint         : 'account/login',
+                                                          authenticatedCall: false,
+                                                          errorHandler     : false,
+                                                          data             : {
+                                                              mobile: username
+                                                          }
+                                                      })
             dispatch(Actions.showMessage({message: request.message}))
             return dispatch({
                                 type    : REQUEST_SUCCESS,

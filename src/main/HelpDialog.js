@@ -53,7 +53,7 @@ export default class HelpDialog extends Component {
                     <pre className={'language-markup'}>
                         Version: {envDetails.version};
                         Build: {envDetails.build};
-                        Session: {hiUser.baToken.slice(-8)}
+                        Session: {hiUser().baTokenReference}
                     </pre>
                 </DialogContent>
                 <DialogActions>
