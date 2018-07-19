@@ -37,7 +37,7 @@ class Widget5 extends Component {
   };
 
   render() {
-    const { classes, data: dataRaw, theme, popovertext } = this.props;
+    const { classes, data: dataRaw, theme, popovertext, title } = this.props;
     const { dataset, anchorEl } = this.state;
 
     const data = _.merge({}, dataRaw);
@@ -63,7 +63,7 @@ class Widget5 extends Component {
             <Icon className="tooltips" onClick={this.handleClick}>
               info
             </Icon>
-            <Typography className="h2">Activity Rate & Engagement</Typography>
+            <Typography className="h2">{title}</Typography>
           </div>
           {/* <div className="flex flex-row items-center">
                         {Object.keys(data.datasets)
