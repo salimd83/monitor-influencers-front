@@ -46,7 +46,6 @@ ReactDOM.render(
               navbarContent={<MainNavbarContent />}
               footer={<MainFooter />}
             />
-            <SettingsPanel />
             <QuickPanel />
           </FuseTheme>
         </FuseAuthorization>
