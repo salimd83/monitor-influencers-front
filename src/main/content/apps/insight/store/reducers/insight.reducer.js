@@ -8,6 +8,8 @@ const initialState = {
   activityRateFetching: false,
   activityEngagementData: [],
   activityEngagementFetching: false,
+  followersRateData: [],
+  followersRateFetching: false,
   from: moment().add(-1, 'months').toISOString(),
   to: moment().toISOString()
 };
@@ -51,6 +53,19 @@ const insightReducer = function(state = initialState, action) {
       return {
         ...state,
         activityEngagementFetching: true
+      };
+    }
+    case Actions.GET_FOLLOWERS_RATE_INSIGHT: {
+      return {
+        ...state,
+        followersRateData: action.payload,
+        followersRateFetching: false
+      };
+    }
+    case Actions.FOLLOWERS_RATE_FETCHING: {
+      return {
+        ...state,
+        followersRateFetching: true
       };
     }
     case Actions.SET_DATE: {

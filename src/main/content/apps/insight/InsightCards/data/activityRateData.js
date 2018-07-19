@@ -1,4 +1,4 @@
-import format from 'date-fns/format';
+import format from "date-fns/format";
 
 export default dataObjs => {
   console.log(dataObjs);
@@ -6,9 +6,9 @@ export default dataObjs => {
     dataEngagement = [],
     labels = [];
 
-  if (dataObjs != 'undefined') {
+  if (typeof dataObjs != "undefined") {
     dataObjs[0].forEach(dataObj => {
-      labels.push(format(dataObj.date, 'D MMM'));
+      labels.push(format(dataObj.date, "D MMM"));
       dataRate.push(dataObj.count);
     });
 
@@ -20,30 +20,22 @@ export default dataObjs => {
   const maxVal = Math.max([...dataRate, ...dataEngagement]);
 
   return {
-    chartType: 'line',
+    chartType: "line",
     datasets: {
-      yesterday: [
-        {
-          label: 'Activity Rate',
-          data: dataRate,
-          fill: 'start'
-        },
-        {
-          label: 'Activity Engagment',
-          data: dataEngagement,
-          fill: 'start'
-        }
-      ],
       today: [
         {
-          label: 'Activity Rate',
+          label: "Activity Rate",
           data: dataRate,
-          fill: 'start'
+          fill: "start",
+          lineColor: "#55c39e",
+          bgColor: "#55c39e"
         },
         {
-          label: 'Activity Engagment',
+          label: "Activity Engagment",
           data: dataEngagement,
-          fill: 'start'
+          fill: "start",
+          lineColor: "#387ca3",
+          bgColor: "#387ca3"
         }
       ]
     },
@@ -55,8 +47,8 @@ export default dataObjs => {
       },
       maintainAspectRatio: false,
       tooltips: {
-        position: 'nearest',
-        mode: 'index',
+        position: "nearest",
+        mode: "index",
         intersect: false
       },
       layout: {
@@ -80,7 +72,7 @@ export default dataObjs => {
               display: false
             },
             ticks: {
-              fontColor: 'rgba(0,0,0,0.54)'
+              fontColor: "rgba(0,0,0,0.54)"
             }
           }
         ],

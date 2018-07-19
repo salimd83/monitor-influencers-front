@@ -14,7 +14,7 @@ class InsightHeader extends Component {
   state = {
     from: this.props.from,
     to: this.props.to,
-    selectedProfile: "42ig8yrfd5jhwrmy83"
+    selectedProfile: {value: "42ig8yrfd5jhwrmy83", label: "Rehab Al Mehairi"}
   };
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class InsightHeader extends Component {
   handleClick = () => {
     const { from, to, selectedProfile } = this.state;
 
-    this.props.setDate(selectedProfile, moment(from).toISOString(), moment(to).toISOString());
+    this.props.setDate(selectedProfile.value, moment(from).toISOString(), moment(to).toISOString());
   };
 
   render() {
@@ -70,7 +70,7 @@ class InsightHeader extends Component {
                   }}
                 />
               </Grid>
-              <Grid item>
+              <Grid item id="profileFilter">
                 <ProfileFilter handleChange={this.handleProfileChange} selected={selectedProfile} />
               </Grid>
               <Grid>

@@ -1,22 +1,21 @@
 import React, { Component } from "react";
 import Widget from "../widgets/Widget5";
-import dataParser from "./data/activityRateData";
+import dataParser from "./data/followersRateData";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { CircularProgress, Card } from "@material-ui/core";
 import * as Actions from "../store/actions";
 
-class ActivityRateCard extends Component {
+class FollowersRateCard extends Component {
   componentDidMount() {
     const { from, to } = this.props;
-    this.props.getRateData("42ig8yrfd5jhwrmy83", from, to);
-    // this.props.getEngagementData("42ig8yrfd5jhwrmy83", from, to);
+    this.props.getData("42ig8yrfd5jhwrmy83", from, to);
   }
   render() {
-    const { loading, dataRate, dataEngagement } = this.props;
+    const { loading, data } = this.props;
     const options = {
       popovertext: "the content of activity rate/engagement popover",
-      data: dataParser([dataRate, dataEngagement])
+      data: dataParser(data)
     };
 
     return (
@@ -36,8 +35,7 @@ class ActivityRateCard extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      getRateData: Actions.getActivityRateData,
-      getEngagementData: Actions.getActivityEngagementData
+      getData: Actions.getFollowersRateData,
     },
     dispatch
   );
@@ -45,8 +43,7 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({ insightApp }) {
   return {
-    dataRate: insightApp.insight.activityRateData,
-    dataEngagement: insightApp.insight.activityEngagementData,
+    data: insightApp.insight.followersRateData,
     loading: insightApp.insight.activityRateFetching,
     from: insightApp.insight.from,
     to: insightApp.insight.to
@@ -56,4 +53,4 @@ function mapStateToProps({ insightApp }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ActivityRateCard);
+)(FollowersRateCard);
