@@ -2,7 +2,10 @@ import history               from 'history.js'
 import {setDefaultSettings}  from 'store/actions/fuse'
 import {FuseDefaultSettings} from '@fuse'
 import _                     from 'lodash'
-import {simpleStore}         from 'fn'
+import {
+    simpleStore,
+    simpleCall
+}                            from 'fn'
 
 
 export const SET_USER_DATA          = '[USER] SET DATA'
@@ -86,6 +89,7 @@ export function lockUser() {
 
 export function logoutUser() {
     if (_.isObject(getUserData())) {
+        simpleCall('delete', 'account/session')
         simpleStore.remove(USER_BROWSER_REFERENCE, 'local')
         simpleStore.remove('hiUsername', 'local')
 

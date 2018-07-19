@@ -42,8 +42,8 @@ export async function simpleCallNative({method = 'get', endpoint, data, json, er
 
         options.headers = headers
 
-        if (!_.isEmpty(getUserData()) && !_.isEmpty(getUserData().baToken)) {
-            options.headers['BA-Token'] = getUserData().baToken
+        if (!_.isEmpty(hiUser()) && !_.isEmpty(hiUser().baToken)) {
+            options.headers['BA-Token'] = hiUser().baToken
         }
 
         switch (method) {
