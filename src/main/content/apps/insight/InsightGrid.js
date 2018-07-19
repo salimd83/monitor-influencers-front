@@ -1,22 +1,25 @@
-import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
-import { WidthProvider, Responsive } from 'react-grid-layout';
-import _ from 'lodash';
+import React, { Component } from "react";
+import Button from "@material-ui/core/Button";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
+import { WidthProvider, Responsive } from "react-grid-layout";
+import _ from "lodash";
 
-import {simpleStore} from '../../../../fn/simpleStore'
-import Card1 from './InsightCards/Card1';
-import Card2 from './InsightCards/Card2';
-import ActivityTypeCard from './InsightCards/ActivityTypeCard';
-import ActivityRateCard from './InsightCards/ActivityRateCard';
-import FollowersRateCard from './InsightCards/FollowersRateCard';
+import { simpleStore } from "../../../../fn/simpleStore";
+import Card1 from "./InsightCards/Card1";
+import Card2 from "./InsightCards/Card2";
+import ActivityTypeCard from "./InsightCards/ActivityTypeCard";
+import ActivityRateCard from "./InsightCards/ActivityRateCard";
+import FollowersRateCard from "./InsightCards/FollowersRateCard";
+import TopHashtagsCard from "./InsightCards/TopHashtagsCard";
+import TopLocationsCard from "./InsightCards/TopLocationsCard";
+import TopMentionsCard from "./InsightCards/TopMentionsCard";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const cards = [
   {
-    id: 'ActivityTypeCard',
+    id: "ActivityTypeCard",
     component: ActivityTypeCard,
     w: 3,
     h: 4,
@@ -25,7 +28,7 @@ const cards = [
     hidden: true
   },
   {
-    id: 'card1',
+    id: "card1",
     component: Card1,
     w: 3,
     h: 2,
@@ -34,7 +37,7 @@ const cards = [
     hidden: true
   },
   {
-    id: 'ActivityRateCard',
+    id: "ActivityRateCard",
     component: ActivityRateCard,
     w: 6,
     h: 4,
@@ -43,7 +46,7 @@ const cards = [
     hidden: true
   },
   {
-    id: 'card2',
+    id: "card2",
     component: Card2,
     w: 3,
     h: 2,
@@ -52,7 +55,7 @@ const cards = [
     hidden: true
   },
   {
-    id: 'FollowersRateCard',
+    id: "FollowersRateCard",
     component: FollowersRateCard,
     w: 6,
     h: 4,
@@ -60,30 +63,52 @@ const cards = [
     minW: 4,
     hidden: true
   },
+  {
+    id: "TopHashtagsCard",
+    component: TopHashtagsCard,
+    w: 3,
+    h: 5,
+    minH: 4,
+    minW: 1,
+    hidden: true
+  },
+  {
+    id: "TopLocationsCard",
+    component: TopLocationsCard,
+    w: 3,
+    h: 5,
+    minH: 4,
+    minW: 1,
+    hidden: true
+  },
+  {
+    id: "TopMentionsCard",
+    component: TopMentionsCard,
+    w: 3,
+    h: 5,
+    minH: 4,
+    minW: 1,
+    hidden: true
+  }
 ];
 
-const originalLayouts = simpleStore.lookup('siInsightsGrid', 'simple') || {}
-let breakpoint; 
-if(window.innerWidth >= 1200) {
-  breakpoint = 'lg'
-} else if(window.innerWidth >= 996) {
-  breakpoint = 'md'
-} else if(window.innerWidth >= 768) {
-  breakpoint = 'sm'
-} else if(window.innerWidth >= 480) {
-  breakpoint = 'xs'
+const originalLayouts = simpleStore.lookup("siInsightsGrid", "simple") || {};
+let breakpoint;
+if (window.innerWidth >= 1200) {
+  breakpoint = "lg";
+} else if (window.innerWidth >= 996) {
+  breakpoint = "md";
+} else if (window.innerWidth >= 768) {
+  breakpoint = "sm";
+} else if (window.innerWidth >= 480) {
+  breakpoint = "xs";
 } else {
-  breakpoint = 'xxs'
+  breakpoint = "xxs";
 }
 let dummyArray = [0, 1, 2, 3];
-if (originalLayouts[breakpoint]){
+if (originalLayouts[breakpoint]) {
   dummyArray = originalLayouts[breakpoint].map((it, index) => index);
 }
-
-// originalLayouts[breakpoint].forEach((item, index) => {
-//   dummyArray.push(index)
-// })
-console.log('dummy array', originalLayouts);
 
 const initialItems = dummyArray.map((i, key, list) => {
   cards[i].hidden = false;
@@ -101,21 +126,20 @@ const initialItems = dummyArray.map((i, key, list) => {
   };
 });
 
-
 class InsightGrid extends Component {
   static get defaultProps() {
     return {
-      className: 'layout',
-    cols: {
-      lg: 12,
-      md: 9,
-      sm: 6,
-      xs: 3,
-      xxs: 3
-    },
-    rowHeight: 100
-    }
-  };
+      className: "layout",
+      cols: {
+        lg: 12,
+        md: 9,
+        sm: 6,
+        xs: 3,
+        xxs: 3
+      },
+      rowHeight: 100
+    };
+  }
 
   state = {
     items: initialItems,
@@ -124,8 +148,16 @@ class InsightGrid extends Component {
     layout: InsightGrid
   };
 
+  componentWillMount() {
+    this.setState({layouts: simpleStore.lookup("siInsightsGrid", "simple") || {}})
+  }
+
+  componentWillUnmount() {
+    simpleStore.upsert("siInsightsGrid", this.state.layouts, "simple");
+  }
+
   createElement = (item, index) => {
-    const i = item.add ? '+' : item.i;
+    const i = item.add ? "+" : item.i;
     const Card = item.component;
 
     return (
@@ -172,7 +204,7 @@ class InsightGrid extends Component {
 
   onLayoutChange = (layout, layouts) => {
     // this.props.onLayoutChange(layout);
-    simpleStore.upsert('siInsightsGrid', layouts, 'simple')
+    simpleStore.upsert("siInsightsGrid", layouts, "simple");
     this.setState({ layouts, layout });
     // this.props.onLayoutChange(layout); // updates status display
   };
@@ -189,7 +221,7 @@ class InsightGrid extends Component {
 
   render() {
     const { newCounter, items } = this.state;
-    console.log('original layout', originalLayouts)
+    console.log("original layout", originalLayouts);
 
     return (
       <div>
@@ -205,9 +237,7 @@ class InsightGrid extends Component {
         <ResponsiveReactGridLayout
           onBreakpointChange={this.onBreakpointChange}
           layouts={this.state.layouts}
-          onLayoutChange={(layout, layouts) =>
-            this.onLayoutChange(layout, layouts)
-          }
+          onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
           {...this.props}
         >
           {items.map((item, i) => this.createElement(item, i))}

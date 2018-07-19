@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Widget from "../widgets/Widget5";
-import dataParser from "./data/followersRateData";
+import Widget from "../widgets/Widget9";
+import dataParser from "./data/topLocationsData";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { CircularProgress, Card } from "@material-ui/core";
 import * as Actions from "../store/actions";
 
-class FollowersRateCard extends Component {
+class TopLocationsCard extends Component {
   componentDidMount() {
     const { from, to } = this.props;
     this.props.getData("42ig8yrfd5jhwrmy83", from, to);
@@ -16,7 +16,8 @@ class FollowersRateCard extends Component {
     const options = {
       popovertext: "the content of activity rate/engagement popover",
       data: dataParser(data),
-      title: 'Followers Rates'
+      title: "Top Locations",
+      name: "Locations"
     };
 
     return (
@@ -36,7 +37,7 @@ class FollowersRateCard extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-      getData: Actions.getFollowersRateData,
+      getData: Actions.getTopLocationsData
     },
     dispatch
   );
@@ -44,8 +45,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({ insightApp }) {
   return {
-    data: insightApp.insight.followersRateData,
-    loading: insightApp.insight.activityRateFetching,
+    data: insightApp.insight.topLocationsData,
+    loading: insightApp.insight.topLocationsFetching,
     from: insightApp.insight.from,
     to: insightApp.insight.to
   };
@@ -54,4 +55,4 @@ function mapStateToProps({ insightApp }) {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(FollowersRateCard);
+)(TopLocationsCard);

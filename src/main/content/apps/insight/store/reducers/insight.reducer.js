@@ -10,6 +10,12 @@ const initialState = {
   activityEngagementFetching: false,
   followersRateData: [],
   followersRateFetching: false,
+  topHashtagsData: [],
+  topHashtagsFetching: false,
+  topLocationsData: [],
+  topLocationsFetching: false,
+  topMentionsData: [],
+  topMentionsFetching: false,
   from: moment().add(-1, 'months').toISOString(),
   to: moment().toISOString()
 };
@@ -66,6 +72,45 @@ const insightReducer = function(state = initialState, action) {
       return {
         ...state,
         followersRateFetching: true
+      };
+    }
+    case Actions.GET_TOP_HASHTAGS_INSIGHT: {
+      return {
+        ...state,
+        topHashtagsData: action.payload,
+        topHashtagsFetching: false
+      };
+    }
+    case Actions.TOP_HASHTAGS_FETCHING: {
+      return {
+        ...state,
+        topHashtagsFetching: true
+      };
+    }
+    case Actions.GET_TOP_LOCATIONS_INSIGHT: {
+      return {
+        ...state,
+        topLocationsData: action.payload,
+        topLocationsFetching: false
+      };
+    }
+    case Actions.TOP_LOCATIONS_FETCHING: {
+      return {
+        ...state,
+        topLocationsFetching: true
+      };
+    }
+    case Actions.GET_TOP_MENTIONS_INSIGHT: {
+      return {
+        ...state,
+        topMentionsData: action.payload,
+        topMentionsFetching: false
+      };
+    }
+    case Actions.TOP_MENTIONS_FETCHING: {
+      return {
+        ...state,
+        topMentionsFetching: true
       };
     }
     case Actions.SET_DATE: {

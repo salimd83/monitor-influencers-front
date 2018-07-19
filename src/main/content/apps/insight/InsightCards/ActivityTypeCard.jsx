@@ -18,7 +18,8 @@ class ActivityTypeCard extends Component {
     const { loading, data, size } = this.props;
     const options = {
       popovertext: 'the content of activity type popover',
-      data: dataParser(data)
+      data: dataParser(data),
+      title: 'activities Types'
     };
 
     return (
