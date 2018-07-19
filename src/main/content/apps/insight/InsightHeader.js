@@ -31,7 +31,7 @@ class InsightHeader extends Component {
   handleClick = () => {
     const { from, to, selectedProfile } = this.state;
 
-    this.props.setDate(selectedProfile, moment(from).toISOString(), moment(to).toISOString());
+    this.props.setDate(selectedProfile.value, moment(from).toISOString(), moment(to).toISOString());
   };
 
   render() {

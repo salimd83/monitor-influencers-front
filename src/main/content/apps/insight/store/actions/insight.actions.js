@@ -78,7 +78,7 @@ export function setDate(profileId, from, to, withData = true) {
     if (withData){ 
       dispatch(getActivityData(profileId, from, to))
       dispatch(getActivityRateData(profileId, from, to))
-      dispatch(getActivityEngagementData(profileId, from, to))
+      // dispatch(getActivityEngagementData(profileId, from, to))
     };
   };
 }

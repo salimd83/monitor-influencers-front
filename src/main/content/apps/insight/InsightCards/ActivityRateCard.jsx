@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
-import Widget from '../widgets/Widget5';
-import dataParser from './data/activityRateData';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { CircularProgress, Card } from '@material-ui/core';
-import * as Actions from '../store/actions';
+import React, { Component } from "react";
+import Widget from "../widgets/Widget5";
+import dataParser from "./data/activityRateData";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { CircularProgress, Card } from "@material-ui/core";
+import * as Actions from "../store/actions";
 
 class ActivityRateCard extends Component {
   componentDidMount() {
-    const {from, to} = this.props;
-    this.props.getRateData('42ig8yrfd5jhwrmy83', from, to);
-    this.props.getEngagementData('42ig8yrfd5jhwrmy83', from, to);
+    const { from, to } = this.props;
+    this.props.getRateData("42ig8yrfd5jhwrmy83", from, to);
+    // this.props.getEngagementData("42ig8yrfd5jhwrmy83", from, to);
   }
   render() {
     const { loading, dataRate, dataEngagement } = this.props;
     const options = {
-      popovertext: 'the content of activity rate/engagement popover',
+      popovertext: "the content of activity rate/engagement popover",
       data: dataParser([dataRate, dataEngagement])
     };
 
     return (
       <React.Fragment>
         {loading ? (
-          <Card style={{ textAlign: 'center' }}>
+          <Card style={{ textAlign: "center" }}>
             <CircularProgress className="my-16" />
           </Card>
         ) : (
@@ -53,4 +53,7 @@ function mapStateToProps({ insightApp }) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActivityRateCard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ActivityRateCard);
