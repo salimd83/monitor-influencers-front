@@ -10,6 +10,7 @@ import Card1 from './InsightCards/Card1';
 import Card2 from './InsightCards/Card2';
 import ActivityTypeCard from './InsightCards/ActivityTypeCard';
 import ActivityRateCard from './InsightCards/ActivityRateCard';
+import FollowersRateCard from './InsightCards/FollowersRateCard';
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -49,10 +50,42 @@ const cards = [
     minH: 2,
     minW: 3,
     hidden: true
-  }
+  },
+  {
+    id: 'FollowersRateCard',
+    component: FollowersRateCard,
+    w: 6,
+    h: 4,
+    minH: 4,
+    minW: 4,
+    hidden: true
+  },
 ];
 
-const initialItems = [0, 1, 2, 3].map((i, key, list) => {
+const originalLayouts = simpleStore.lookup('siInsightsGrid', 'simple') || {}
+let breakpoint; 
+if(window.innerWidth >= 1200) {
+  breakpoint = 'lg'
+} else if(window.innerWidth >= 996) {
+  breakpoint = 'md'
+} else if(window.innerWidth >= 768) {
+  breakpoint = 'sm'
+} else if(window.innerWidth >= 480) {
+  breakpoint = 'xs'
+} else {
+  breakpoint = 'xxs'
+}
+let dummyArray = [0, 1, 2, 3];
+if (originalLayouts[breakpoint]){
+  dummyArray = originalLayouts[breakpoint].map((it, index) => index);
+}
+
+// originalLayouts[breakpoint].forEach((item, index) => {
+//   dummyArray.push(index)
+// })
+console.log('dummy array', originalLayouts);
+
+const initialItems = dummyArray.map((i, key, list) => {
   cards[i].hidden = false;
   return {
     i: i.toString(),
@@ -67,8 +100,6 @@ const initialItems = [0, 1, 2, 3].map((i, key, list) => {
     id: cards[i].id
   };
 });
-
-const originalLayouts = simpleStore.lookup('siInsightsGrid', 'simple') || {}
 
 
 class InsightGrid extends Component {
@@ -141,9 +172,7 @@ class InsightGrid extends Component {
 
   onLayoutChange = (layout, layouts) => {
     // this.props.onLayoutChange(layout);
-    console.log('asdasd')
     simpleStore.upsert('siInsightsGrid', layouts, 'simple')
-      console.log('layout to store:',  layout)
     this.setState({ layouts, layout });
     // this.props.onLayoutChange(layout); // updates status display
   };
