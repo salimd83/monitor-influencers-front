@@ -25,22 +25,6 @@ export class LeaderboardProfile extends Component {
                   <span className="primary">
                     <Icon>people</Icon> 821
                   </span>
-                  {/* <Chip
-                    avatar={
-                      <Avatar>
-                        <Icon>adjust</Icon>
-                      </Avatar>
-                    }
-                    label={500}
-                  />
-                  <Chip
-                    avatar={
-                      <Avatar>
-                        <Icon>people</Icon>
-                      </Avatar>
-                    }
-                    label={821}
-                  /> */}
                 </div>
               </Grid>
             </Grid>
@@ -82,6 +66,7 @@ export class LeaderboardProfile extends Component {
               {profile.tags &&
                 profile.tags.map(tag => (
                   <Chip
+                    key={tag.id}
                     avatar={
                       <Avatar>
                         <Icon style={{fontSize: '17px'}}>local_offer</Icon>
