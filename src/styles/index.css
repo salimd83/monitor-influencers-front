@@ -186,7 +186,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   -webkit-transform: translate(0, -50%);
   width: 100%;
 }
-
+#leaderboard-list .loader{
+  text-align: center
+}
 .leaderboard-profile-row {
   padding: 0;
   margin: 20px;
@@ -200,6 +202,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .leaderboard-profile-row .photo img {
   position: absolute;
+  min-width: 100%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
