@@ -17,7 +17,6 @@ export const TOP_MENTIONS_FETCHING = "[INSIGHT APP] TOP MENTIONS FETCHING";
 export const SET_DATE = "[INSIGHT APP] SET_DATE";
 
 export function getActivityData(profileId, from, to) {
-  console.log("from", from);
   return async dispatch => {
     try {
       dispatch({ type: ACTIVITY_FETCHING });
@@ -28,7 +27,7 @@ export function getActivityData(profileId, from, to) {
       }, undefined, false);
       dispatch({
         type: GET_ACTIVITY_INSIGHT,
-        payload: response.data
+        payload: response
       });
     } catch (e) {
       console.log(e.response);
@@ -45,10 +44,9 @@ export function getActivityRateData(profileId, from, to) {
         since: from,
         until: to
       }, undefined, false);
-
       dispatch({
         type: GET_ACTIVITY_RATE_INSIGHT,
-        payload: response.data
+        payload: response
       });
     } catch (e) {
       console.log(e.response);
@@ -87,7 +85,7 @@ export function getFollowersRateData(profileId, from, to) {
       }, undefined, false);
       dispatch({
         type: GET_FOLLOWERS_RATE_INSIGHT,
-        payload: response.data
+        payload: response
       });
     } catch (error) {
       console.log(error);
@@ -106,7 +104,7 @@ export function getTopHashtagsData(profileId, from, to) {
       });
       dispatch({
         type: GET_TOP_HASHTAGS_INSIGHT,
-        payload: response.data
+        payload: response
       });
     } catch (error) {
       console.log(error);
@@ -125,7 +123,7 @@ export function getTopLocationsData(profileId, from, to) {
       }, undefined, false);
       dispatch({
         type: GET_TOP_LOCATIONS_INSIGHT,
-        payload: response.data
+        payload: response
       });
     } catch (error) {
       console.log(error);
@@ -144,7 +142,7 @@ export function getTopMentionsData(profileId, from, to) {
       }, undefined, false);
       dispatch({
         type: GET_TOP_MENTIONS_INSIGHT,
-        payload: response.data
+        payload: response
       });
     } catch (error) {
       console.log(error);

@@ -7,14 +7,15 @@ export default dataObjs => {
     labels = [];
 
   if (typeof dataObjs != "undefined") {
-    dataObjs[0].forEach(dataObj => {
-      labels.push(format(dataObj.date, "D MMM"));
-      dataRate.push(dataObj.count);
-    });
-
-    dataObjs[1].forEach(dataObj => {
-      dataEngagement.push(dataObj.count);
-    });
+    if (typeof dataObjs[0] != "undefined")
+      dataObjs[0].forEach(dataObj => {
+        labels.push(format(dataObj.date, "D MMM"));
+        dataRate.push(dataObj.count);
+      });
+    if (typeof dataObjs[1] != "undefined")
+      dataObjs[1].forEach(dataObj => {
+        dataEngagement.push(dataObj.count);
+      });
   }
 
   const maxVal = Math.max([...dataRate, ...dataEngagement]);

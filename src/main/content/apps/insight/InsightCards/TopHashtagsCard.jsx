@@ -14,8 +14,8 @@ class TopHashtagsCard extends Component {
   render() {
     const { loading, data } = this.props;
     const options = {
-      popovertext: "the content of activity rate/engagement popover",
-      data: dataParser(data),
+      popovertext: data.message,
+      data: dataParser(data.data ? data.data : []),
       title: 'Top Hashtags',
       name: 'Hashtags'
     };
