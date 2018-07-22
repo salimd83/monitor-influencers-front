@@ -77,9 +77,9 @@ class Widget9 extends Component {
 
         <Divider className="card-divider w-full" />
 
-        <div className="p-8 pt-16 flex flex-row items-center">
+        {/* <div className="p-8 pt-16 flex flex-row items-center">
           <Button>GO TO {name.toUpperCase()}</Button>
-        </div>
+        </div> */}
         <Popover
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}
