@@ -29,7 +29,7 @@ export function getProfiles(routeParams, keyword = "") {
     request.then(response =>
       dispatch({
         type: GET_PROFILES,
-        payload: {profiles: response.data},
+        payload: response.data,
         routeParams
       })
     );

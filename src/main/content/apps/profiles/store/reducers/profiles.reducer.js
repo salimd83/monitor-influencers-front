@@ -25,7 +25,7 @@ const profilesReducer = function(state = initialState, action) {
     case Actions.GET_PROFILES: {
       return {
         ...state,
-        entities: _.keyBy(action.payload.profiles, "id"),
+        entities: _.keyBy(action.payload, "id"),
         routeParams: action.routeParams,
         loadingProfiles: false,
         addingProfile: false,

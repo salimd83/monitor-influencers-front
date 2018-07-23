@@ -1,11 +1,11 @@
 import * as Fn from "fn/simpleCall.js";
 
-export const GET_LEADERS = "[PROFILES APP] GET PROFILES";
-export const SET_TERM = "[PROFILES APP] SET TERM";
-export const SET_INDUSTRY = "[PROFILES APP] SET INDUSTRY";
-export const START_FETCHING = "[PROFILES APP] START_FETCHING";
-export const STOP_FETCHING = "[PROFILES APP] STOP_FETCHING";
-export const ERROR_FETCHING = "[PROFILES APP] ERROR_FETCHING";
+export const GET_LEADERS = "[LEADERBOARD APP] GET LEADER";
+export const SET_TERM = "[LEADERBOARD APP] SET TERM";
+export const SET_INDUSTRY = "[LEADERBOARD APP] SET INDUSTRY";
+export const START_FETCHING = "[LEADERBOARD APP] START_FETCHING";
+export const STOP_FETCHING = "[LEADERBOARD APP] STOP_FETCHING";
+export const ERROR_FETCHING = "[LEADERBOARD APP] ERROR_FETCHING";
 
 export function getLeaders(page = null, search = "", industry) {
   return async dispatch => {
