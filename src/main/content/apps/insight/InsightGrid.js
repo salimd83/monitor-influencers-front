@@ -6,8 +6,6 @@ import { WidthProvider, Responsive } from "react-grid-layout";
 import _ from "lodash";
 
 import { simpleStore } from "../../../../fn/simpleStore";
-import Card1 from "./InsightCards/Card1";
-import Card2 from "./InsightCards/Card2";
 import ActivityTypeCard from "./InsightCards/ActivityTypeCard";
 import ActivityRateCard from "./InsightCards/ActivityRateCard";
 import FollowersRateCard from "./InsightCards/FollowersRateCard";
@@ -19,39 +17,14 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const cards = [
   {
-    id: "ActivityTypeCard",
-    component: ActivityTypeCard,
-    w: 3,
-    h: 4,
-    minH: 4,
-    minW: 2,
-    hidden: true
-  },
-  {
-    id: "card1",
-    component: Card1,
-    w: 3,
-    h: 2,
-    minH: 2,
-    minW: 3,
-    hidden: true
-  },
-  {
     id: "ActivityRateCard",
     component: ActivityRateCard,
     w: 6,
     h: 4,
     minH: 4,
     minW: 4,
-    hidden: true
-  },
-  {
-    id: "card2",
-    component: Card2,
-    w: 3,
-    h: 2,
-    minH: 2,
-    minW: 3,
+    x: 0,
+    y: 0,
     hidden: true
   },
   {
@@ -61,6 +34,19 @@ const cards = [
     h: 4,
     minH: 4,
     minW: 4,
+    x: 6,
+    y: 0,
+    hidden: true
+  },
+  {
+    id: "ActivityTypeCard",
+    component: ActivityTypeCard,
+    w: 3,
+    h: 4,
+    minH: 4,
+    minW: 2,
+    x: 0,
+    y: 1,
     hidden: true
   },
   {
@@ -70,6 +56,8 @@ const cards = [
     h: 5,
     minH: 4,
     minW: 1,
+    x: 3,
+    y: 1,
     hidden: true
   },
   {
@@ -79,6 +67,8 @@ const cards = [
     h: 5,
     minH: 4,
     minW: 1,
+    x: 6,
+    y: 1,
     hidden: true
   },
   {
@@ -88,6 +78,8 @@ const cards = [
     h: 5,
     minH: 4,
     minW: 1,
+    x: 9,
+    y: 1,
     hidden: true
   }
 ];
@@ -105,7 +97,7 @@ if (window.innerWidth >= 1200) {
 } else {
   breakpoint = "xxs";
 }
-let dummyArray = [0, 1, 2, 3];
+let dummyArray = [0, 1, 2, 3, 4, 5];
 if (originalLayouts[breakpoint]) {
   dummyArray = originalLayouts[breakpoint].map((it, index) => index);
 }
@@ -114,8 +106,8 @@ const initialItems = dummyArray.map((i, key, list) => {
   cards[i].hidden = false;
   return {
     i: i.toString(),
-    x: i * cards[i].w,
-    y: 0,
+    x: cards[i].x,
+    y: cards[i].y,
     w: cards[i].w,
     h: cards[i].h,
     minH: cards[i].minH,
@@ -149,7 +141,7 @@ class InsightGrid extends Component {
   };
 
   componentWillMount() {
-    this.setState({layouts: simpleStore.lookup("siInsightsGrid", "simple") || {}})
+    this.setState({ layouts: simpleStore.lookup("siInsightsGrid", "simple") || {} });
   }
 
   componentWillUnmount() {
