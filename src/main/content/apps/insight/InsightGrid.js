@@ -84,7 +84,7 @@ const cards = [
   }
 ];
 
-const originalLayouts = simpleStore.lookup("siInsightsGrid", "simple") || {};
+const originalLayouts = simpleStore.lookup("siInsightsGrid2", "simple") || {};
 let breakpoint;
 if (window.innerWidth >= 1200) {
   breakpoint = "lg";
@@ -141,11 +141,11 @@ class InsightGrid extends Component {
   };
 
   componentWillMount() {
-    this.setState({ layouts: simpleStore.lookup("siInsightsGrid", "simple") || {} });
+    this.setState({ layouts: simpleStore.lookup("siInsightsGrid2", "simple") || {} });
   }
 
   componentWillUnmount() {
-    simpleStore.upsert("siInsightsGrid", this.state.layouts, "simple");
+    simpleStore.upsert("siInsightsGrid2", this.state.layouts, "simple");
   }
 
   createElement = (item, index) => {
@@ -196,7 +196,7 @@ class InsightGrid extends Component {
 
   onLayoutChange = (layout, layouts) => {
     // this.props.onLayoutChange(layout);
-    simpleStore.upsert("siInsightsGrid", layouts, "simple");
+    simpleStore.upsert("siInsightsGrid2", layouts, "simple");
     this.setState({ layouts, layout });
     // this.props.onLayoutChange(layout); // updates status display
   };
