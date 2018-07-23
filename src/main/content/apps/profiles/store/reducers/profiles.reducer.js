@@ -1,18 +1,18 @@
-import * as Actions from '../actions';
-import _ from 'lodash';
+import * as Actions from "../actions";
+import _ from "lodash";
 
 const initialState = {
   entities: [],
-  searchText: '',
+  searchText: "",
   selectedProfileIds: [],
   loadingProfiles: false,
   addingProfile: false,
   addedProfile: false,
-  addedProfileId: '',
+  addedProfileId: "",
   routeParams: {},
   errors: [],
   profileDialog: {
-    type: 'new',
+    type: "new",
     props: {
       open: false
     },
@@ -25,7 +25,7 @@ const profilesReducer = function(state = initialState, action) {
     case Actions.GET_PROFILES: {
       return {
         ...state,
-        entities: _.keyBy(action.payload, 'id'),
+        entities: _.keyBy(action.payload.profiles, "id"),
         routeParams: action.routeParams,
         loadingProfiles: false,
         addingProfile: false,
@@ -53,7 +53,7 @@ const profilesReducer = function(state = initialState, action) {
       };
     }
     case Actions.ERROR_ADDING_PROFILE: {
-      console.log('ERROR_ADDING_PROFILE');
+      console.log("ERROR_ADDING_PROFILE");
       return {
         ...state,
         addingProfile: false,
@@ -87,22 +87,22 @@ const profilesReducer = function(state = initialState, action) {
         ...state,
         addingProfile: false,
         addedProfile: false,
-        addedProfileId: '',
+        addedProfileId: "",
         errors: []
       };
     }
     case Actions.REMOVE_PROFILE: {
-      delete state.entities[action.id]
+      delete state.entities[action.id];
       return {
         ...state,
-        entities: {...state.entities}
+        entities: { ...state.entities }
       };
     }
     case Actions.OPEN_NEW_PROFILE_DIALOG: {
       return {
         ...state,
         profileDialog: {
-          type: 'new',
+          type: "new",
           props: {
             open: true
           },
@@ -114,7 +114,7 @@ const profilesReducer = function(state = initialState, action) {
       return {
         ...state,
         profileDialog: {
-          type: 'new',
+          type: "new",
           props: {
             open: false
           },
@@ -126,7 +126,7 @@ const profilesReducer = function(state = initialState, action) {
       return {
         ...state,
         profileDialog: {
-          type: 'edit',
+          type: "edit",
           props: {
             open: true
           },
@@ -138,7 +138,7 @@ const profilesReducer = function(state = initialState, action) {
       return {
         ...state,
         profileDialog: {
-          type: 'edit',
+          type: "edit",
           props: {
             open: false
           },

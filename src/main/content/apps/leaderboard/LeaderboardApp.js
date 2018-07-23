@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FusePageCarded } from "@fuse";
-import { getProfiles, setTerm, setIndustry } from "./store/actions/leaderboard.actions";
+import { getLeaders, setTerm, setIndustry } from "./store/actions/leaderboard.actions";
 import { debounce } from "lodash";
 
 import IndustriesFilter from "./filters/IndustriesFilter";
@@ -18,14 +18,14 @@ const mapState = ({ leaderboardApp }) => ({
 });
 
 const actions = {
-  getProfiles,
+  getLeaders,
   setTerm,
   setIndustry
 };
 
 export class LeaderboardApp extends Component {
   componentDidMount() {
-    this.props.getProfiles();
+    this.props.getLeaders();
   }
 
   componentDidUpdate(prevProps) {
@@ -36,7 +36,7 @@ export class LeaderboardApp extends Component {
   }
 
   searchWhenStopTyping = debounce(() => {
-    this.props.getProfiles(this.props.page, this.props.term, this.props.industry);
+    this.props.getLeaders(this.props.page, this.props.term, this.props.industry);
   }, 300);
 
   loadNextPage = isVisible => {
