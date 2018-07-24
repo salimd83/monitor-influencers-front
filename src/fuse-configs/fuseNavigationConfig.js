@@ -37,6 +37,13 @@ export const fuseNavigationConfig = [
                 type : 'item',
                 icon : 'star_rate',
                 url  : '/apps/profiles/all'
+            },
+            {
+                id   : 'media_posts',
+                title: 'Media',
+                type : 'item',
+                icon : 'perm_media',
+                url  : '/apps/media'
             }
         ]
     }

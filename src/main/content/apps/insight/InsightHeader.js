@@ -44,7 +44,7 @@ class InsightHeader extends Component {
         alignItems="center"
         direction="row"
         justify="space-between"
-        id="insightHeader"
+        className="cardedPageHeader"
       >
         <Grid item>
           <div className="flex items-center">
