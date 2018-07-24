@@ -1,51 +1,35 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles/index';
-import { Icon, TextField, Typography, Grid } from '@material-ui/core';
-import * as Actions from './store/actions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import { FuseAnimate } from '@fuse';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
-import { set, debounce } from 'lodash';
-
-const styles = theme => ({
-  root: {}
-});
+import React, { Component } from "react";
+import { Icon, TextField, Typography, Grid } from "@material-ui/core";
+import * as Actions from "./store/actions";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { FuseAnimate } from "@fuse";
+import MenuItem from "@material-ui/core/MenuItem";
+import Select from "@material-ui/core/Select";
+import FormControl from "@material-ui/core/FormControl";
+import { debounce } from "lodash";
 
 class TypeaheadsHeader extends Component {
-  state = {
-    searchType: 'all',
-    searchText: ''
-  };
-
   searchWhenStopTyping = debounce(() => {
-    this.props.setSearchText(this.state);
+    const {history, searchText, searchType} = this.props;
+    history.push(`/apps/typeahead/${searchType}/${searchText}`);
   }, 800);
 
   handleTextChange = event => {
-    this.setState({searchText: event.target.value}, () => {
-      this.searchWhenStopTyping();
-    });
+    this.props.setSearchText(event.target.value)
+    this.searchWhenStopTyping();
   };
   handleTypeChange = event => {
-    this.setState({searchType: event.target.value}, () => {
-      this.props.setSearchText(this.state);
-    });
-  }
+    const {history, searchText} = this.props;
+    history.push(`/apps/typeahead/${event.target.value}/${searchText}`);
+  };
 
   render() {
-    const { classes, types } = this.props;
+    const { types, searchType, searchText } = this.props;
 
     return (
-      <div
-        className={classNames(
-          classes.root,
-          'flex flex-1 flex-col sm:flex-row items-center justify-between p-24'
-        )}
-      >
+      <div className="flex flex-1 flex-col sm:flex-row items-center justify-between p-24">
         <div className="flex flex-1 items-center">
           <div className="flex items-center">
             <FuseAnimate animation="transition.expandIn" delay={300}>
@@ -63,34 +47,38 @@ class TypeaheadsHeader extends Component {
           </FuseAnimate>
 
           <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-            <FormControl className={classes.container} noValidate autoComplete="off">
+            <FormControl noValidate autoComplete="off">
               <Grid container spacing={8}>
                 <Grid item>
                   <Select
-                    style={{ width: '160px' }}
-                    value={this.state.searchType}
+                    style={{ width: "160px" }}
+                    value={searchType}
                     name="searchType"
                     id="searchType"
                     onChange={this.handleTypeChange}
                     inputProps={{
-                      name: 'searchType',
-                      id: 'searchType'
+                      name: "searchType",
+                      id: "searchType"
                     }}
                   >
                     {types &&
-                      types.map(type => <MenuItem key={type.id} value={type.name}>{type.description}</MenuItem>)}
+                      types.map(type => (
+                        <MenuItem key={type.id} value={type.name}>
+                          {type.description}
+                        </MenuItem>
+                      ))}
                   </Select>
                 </Grid>
                 <Grid item>
                   <TextField
-                    style={{ width: '140px' }}
+                    style={{ width: "140px" }}
                     placeholder="Search Name"
-                    value={this.state.searchText}
+                    value={searchText}
                     onChange={this.handleTextChange}
                     name="searchText"
                     id="searchText"
                     inputProps={{
-                      'aria-label': 'Search'
+                      "aria-label": "Search"
                     }}
                   />
                 </Grid>
@@ -120,7 +108,7 @@ function mapStateToProps({ typeaheadsApp }) {
   };
 }
 
-export default withStyles(styles, { withTheme: true })(
+export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
