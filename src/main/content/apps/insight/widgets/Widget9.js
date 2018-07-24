@@ -50,7 +50,7 @@ class Widget9 extends Component {
           </div> */}
         </div>
 
-        <table className="simple clickable">
+        <table className="simple">
           <thead>
             <tr>
               <th />
