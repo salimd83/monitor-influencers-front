@@ -18,7 +18,7 @@ class ActivityRateCard extends Component {
     const options = {
       popovertext: dataRate.message,
       data: dataParser([dataRate.data, dataEngagement]),
-      title: 'Activity and Engagement'
+      title: 'Activity & Engagement'
     };
 
     return (
