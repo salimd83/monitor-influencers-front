@@ -15,12 +15,14 @@ export const REMOVE_PROFILE = "[PROFILES APP] REMOVE PROFILE";
 export const RECIEVING_PROFILES = "[PROFILES APP] RECIEVING PROFILES";
 export const RESET_ADD_PROFILE = "[PROFILES APP] RESET ADD PROFILE";
 
-export function getProfiles(routeParams, keyword = "") {
+export function getProfiles(term) {
+  let termInState = term;
+  if (term === "all") termInState = "";
   return dispatch => {
     const request = Fn.simpleCallWA(
       dispatch,
       "get",
-      `/si/leaderboard?limit=100&search=${keyword}`,
+      `/si/leaderboard?limit=100&search=${term}`,
       undefined,
       undefined,
       false
@@ -30,7 +32,7 @@ export function getProfiles(routeParams, keyword = "") {
       dispatch({
         type: GET_PROFILES,
         payload: response.data,
-        routeParams
+        term: termInState
       })
     );
   };
@@ -43,27 +45,9 @@ function recievingProfiles() {
 }
 
 export function setSearchText(keyword) {
-  return async (dispatch, getState) => {
-    const { routeParams } = getState().profilesApp.profiles;
-    dispatch({
-      type: SET_SEARCH_TEXT,
-      searchText: keyword
-    });
-    try {
-      const response = await Fn.simpleCallWA(
-        dispatch,
-        "get",
-        `/si/leaderboard?limit=100&search=${keyword}`
-      );
-      dispatch(recievingProfiles());
-      dispatch({
-        type: GET_PROFILES,
-        payload: response.data,
-        routeParams
-      });
-    } catch (e) {
-      console.log(e.response);
-    }
+  return {
+    type: SET_SEARCH_TEXT,
+    searchText: keyword
   };
 }
 

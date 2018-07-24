@@ -10,7 +10,7 @@ export const ProfilesAppConfig = {
   },
   routes: [
     {
-      path: '/apps/profiles/:id',
+      path: '/apps/profiles/:term',
       component: ProfilesApp
     },
     {

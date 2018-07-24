@@ -1,40 +1,32 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles/index';
-import { Hidden, Icon, IconButton, TextField, Typography } from '@material-ui/core';
-import * as Actions from './store/actions';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import classNames from 'classnames';
-import { FuseAnimate } from '@fuse';
-import { debounce } from 'lodash';
-
-const styles = theme => ({
-  root: {}
-});
+import React, { Component } from "react";
+import { Hidden, Icon, IconButton, TextField, Typography } from "@material-ui/core";
+import * as Actions from "./store/actions";
+import { withRouter } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { FuseAnimate } from "@fuse";
+import { debounce } from "lodash";
 
 class ProfilesHeader extends Component {
   state = {
-    keyword: ''
+    keyword: ""
   };
 
   searchWhenStopTyping = debounce(() => {
-    this.props.setSearchText(this.state.keyword);
+    const {history, searchText} = this.props;
+    history.push(`/apps/profiles/${searchText === '' ? 'all' : searchText}`);
   }, 800);
 
   handleChange = e => {
-    this.setState({ keyword: e.target.value }, () => {
-      this.searchWhenStopTyping();
-    });
+    this.props.setSearchText(e.target.value);
+    this.searchWhenStopTyping();
+    
   };
   render() {
-    const { classes, pageLayout } = this.props;
+    const { pageLayout, searchText } = this.props;
+    let term = searchText==='all' ? '' : searchText;
     return (
-      <div
-        className={classNames(
-          classes.root,
-          'flex flex-1 flex-col sm:flex-row items-center justify-between p-24'
-        )}
-      >
+      <div className="flex flex-1 flex-col sm:flex-row items-center justify-between p-24">
         <div className="flex flex-1 items-center">
           <Hidden lgUp>
             <IconButton
@@ -65,9 +57,9 @@ class ProfilesHeader extends Component {
               placeholder="Search for anything"
               className="pl-16"
               fullWidth
-              value={this.state.keyword}
+              value={term}
               inputProps={{
-                'aria-label': 'Search'
+                "aria-label": "Search"
               }}
               onChange={this.handleChange}
             />
@@ -89,11 +81,11 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({ profilesApp }) {
   return {
-    searchText: profilesApp.profiles.searchText
+    searchText: profilesApp.profiles.searchText,
   };
 }
 
-export default withStyles(styles, { withTheme: true })(
+export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
