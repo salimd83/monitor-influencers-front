@@ -23,7 +23,7 @@ class TypeaheadsHeader extends Component {
 
   searchWhenStopTyping = debounce(() => {
     this.props.setSearchText(this.state);
-  }, 300);
+  }, 800);
 
   handleTextChange = event => {
     this.setState({searchText: event.target.value}, () => {
