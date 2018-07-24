@@ -6,6 +6,13 @@ import * as Fn from "fn/simpleCall.js";
 
 class ProfileFilter extends Component {
   getProfileOptions = (input, callback) => {
+    if (input === "") {
+      console.log("input is:", input);
+      callback(null, {
+        options: [],
+        completed: true
+      });
+    }
     const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
 
     request.then(response => {

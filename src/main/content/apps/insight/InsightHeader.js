@@ -25,7 +25,6 @@ class InsightHeader extends Component {
   handleDateFromChange = from => this.setState({ from });
   handleDateToChange = to => this.setState({ to });
   handleProfileChange = profile => {
-    console.log("on profile change", profile);
     this.setState({ selectedProfile: profile });
   };
   handleClick = () => {
