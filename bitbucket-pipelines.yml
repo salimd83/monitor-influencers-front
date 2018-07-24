@@ -5,29 +5,41 @@
 # You can specify a custom docker image from Docker Hub as your build environment.
 image: node:10.0.0
 
+definitions:
+ step: &Build
+   name: Build
+   caches:
+      - node
+   script: # Modify the commands below to build your repository.
+       - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
+       - node bitbucket-pipelines-parameters.js $BITBUCKET_COMMIT $VAR_VERSION $BITBUCKET_BUILD_NUMBER $BITBUCKET_BRANCH $BITBUCKET_TAG
+       - npm install
+       - npm run build
+   artifacts:
+         - build/**
+
 pipelines:
   default:
-    - step:
-        caches:
-          - node
-        script: # Modify the commands below to build your repository.
-          - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-          - node bitbucket-pipelines-parameters.js $BITBUCKET_COMMIT $VAR_VERSION $BITBUCKET_BUILD_NUMBER $BITBUCKET_BRANCH $BITBUCKET_TAG
-          - npm install
-          - npm run build
+    - step: *Build
 
   branches:
     master:
+      - step: *Build
       - step:
-          caches:
-            - node
-          script: # Modify the commands below to build your repository.
-              - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
-              - node bitbucket-pipelines-parameters.js $BITBUCKET_COMMIT $VAR_VERSION $BITBUCKET_BUILD_NUMBER $BITBUCKET_BRANCH $BITBUCKET_TAG
-              - npm install
-              - npm run build
-          artifacts:
-              - build/**
+          # set GCLOUD_PROJECT environment variable to your project ID
+          # set GCLOUD_API_KEYFILE environment variable to base64-encoded keyfile as described here: https://confluence.atlassian.com/x/dm2xNQ
+          name: Deploy to GCloud
+          deployment: production   # set to test, staging or production
+          # trigger: manual  # uncomment to have a manual step
+          image: google/cloud-sdk:latest
+          script:
+            - VAR_VERSION=$(echo $BITBUCKET_COMMIT | cut -c1-7)
+            - echo $GCLOUD_API_KEYFILE | base64 --decode --ignore-garbage > ./gcloud-api-key.json
+            - gcloud auth activate-service-account --key-file gcloud-api-key.json
+            - gcloud config set project $GCLOUD_PROJECT
+            - gcloud -q app deploy app.yaml --version "c"$VAR_VERSION
+    fasttrack:
+      - step: *Build
       - step:
           # set GCLOUD_PROJECT environment variable to your project ID
           # set GCLOUD_API_KEYFILE environment variable to base64-encoded keyfile as described here: https://confluence.atlassian.com/x/dm2xNQ
@@ -40,4 +52,4 @@ pipelines:
             - echo $GCLOUD_API_KEYFILE | base64 --decode --ignore-garbage > ./gcloud-api-key.json
             - gcloud auth activate-service-account --key-file gcloud-api-key.json
             - gcloud config set project $GCLOUD_PROJECT
-            - gcloud -q app deploy app.yaml --version "c"$VAR_VERSION
+            - gcloud -q app deploy fasttrack.yaml --version "c"$VAR_VERSION
