@@ -19,7 +19,7 @@ class ProfilesHeader extends Component {
 
   searchWhenStopTyping = debounce(() => {
     this.props.setSearchText(this.state.keyword);
-  }, 300);
+  }, 800);
 
   handleChange = e => {
     this.setState({ keyword: e.target.value }, () => {
