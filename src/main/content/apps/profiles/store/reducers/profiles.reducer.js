@@ -9,7 +9,6 @@ const initialState = {
   addingProfile: false,
   addedProfile: false,
   addedProfileId: "",
-  routeParams: {},
   errors: [],
   profileDialog: {
     type: "new",
@@ -26,7 +25,7 @@ const profilesReducer = function(state = initialState, action) {
       return {
         ...state,
         entities: _.keyBy(action.payload, "id"),
-        routeParams: action.routeParams,
+        searchText: action.term,
         loadingProfiles: false,
         addingProfile: false,
         addedProfile: false
