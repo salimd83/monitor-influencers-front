@@ -30,26 +30,17 @@ const styles = theme => ({
     bottom: 12,
     zIndex: 99
   }
-  // addButton: {
-  //   zIndex: 99,
-  //   margin: 0,
-  //   top: 'auto',
-  //   right: 60,
-  //   bottom: 40,
-  //   left: 'auto',
-  //   position: 'fixed'
-  // }
 });
 
 class TypeaheadApp extends Component {
   componentDidMount() {
-    this.props.getTypeaheads(this.props.match.params);
-      if (this.props.types.length === 0) this.props.getTypes(this.props.match.params)
+    this.props.getTypeaheads(this.props.match.params.type, this.props.match.params.term);
+      if (this.props.types.length === 0) this.props.getTypes()
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (!_.isEqual(this.props.location, prevProps.location)) {
-      this.props.getTypeaheads(this.props.match.params);
+      this.props.getTypeaheads(this.props.match.params.type, this.props.match.params.term);
     }
   }
 

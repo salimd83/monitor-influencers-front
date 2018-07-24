@@ -6,7 +6,6 @@ const initialState = {
   searchType: '',
   selectedTypeaheadIds: [],
   types: [],
-  routeParams: {},
   typeaheadDialog: {
     type: 'new',
     props: {
@@ -21,12 +20,12 @@ const typeaheadsReducer = function(state = initialState, action) {
     case Actions.GET_TYPEAHEADS: {
       return {
         ...state,
-        entities: action.payload,
-        routeParams: action.routeParams
+        entities: action.payload.typeahead,
+        searchType: action.payload.type,
+        searchText: action.payload.term
       };
     }
     case Actions.GET_TYPES: {
-      console.log(action.types);
       return {
         ...state,
         types: action.types
@@ -40,7 +39,6 @@ const typeaheadsReducer = function(state = initialState, action) {
       };
     }
     case Actions.ADD_TYPEAHEAD: {
-      console.log(action.payload);
       return {
         ...state,
         entities: [action.payload, ...state.entities]
@@ -49,9 +47,7 @@ const typeaheadsReducer = function(state = initialState, action) {
     case Actions.SET_SEARCH_TEXT: {
       return {
         ...state,
-        searchText: action.searchText,
-        searchType: action.searchType,
-        entities: action.payload
+        searchText: action.term,
       };
     }
     case Actions.TOGGLE_IN_SELECTED_TYPEAHEADS: {

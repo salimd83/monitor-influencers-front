@@ -1,6 +1,6 @@
-import TypeaheadsApp from './TypeaheadsApp';
-import React from 'react';
-import { Redirect } from 'react-router-dom';
+import TypeaheadsApp from "./TypeaheadsApp";
+import React from "react";
+import { Redirect } from "react-router-dom";
 
 export const TypeaheadsAppConfig = {
   settings: {
@@ -10,11 +10,11 @@ export const TypeaheadsAppConfig = {
   },
   routes: [
     {
-      path: '/apps/typeahead/:id',
+      path: "/apps/typeahead/:type/:term?",
       component: TypeaheadsApp
     },
     {
-      path: '/apps/typeahead',
+      path: "/apps/typeahead",
       component: () => <Redirect to="/apps/typeahead/all" />
     }
   ]
