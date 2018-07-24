@@ -38,7 +38,9 @@ pipelines:
             - gcloud auth activate-service-account --key-file gcloud-api-key.json
             - gcloud config set project $GCLOUD_PROJECT
             - gcloud -q app deploy app.yaml --version "c"$VAR_VERSION
-    fasttrack:
+            - gcloud -q app deploy dispatch.yaml
+
+    fast:
       - step: *Build
       - step:
           # set GCLOUD_PROJECT environment variable to your project ID
