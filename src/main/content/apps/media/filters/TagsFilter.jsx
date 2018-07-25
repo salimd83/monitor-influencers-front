@@ -4,21 +4,30 @@ import { InputLabel, FormControl } from "@material-ui/core";
 
 import * as Fn from "fn/simpleCall.js";
 
-class ProfileFilter extends Component {
-  getProfileOptions = (input, callback) => {
+class TagsFilter extends Component {
+  getTagsOptions = (input, callback) => {
     if (input === "") {
       callback(null, {
         options: [],
         completed: true
       });
     }
-    const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
+    const request = Fn.simpleCall("get", `typeahead/profile_tag?q=${input}`);
 
     request.then(response => {
+      // const ids = this.props.tags.map(tag => tag.id);
+
+      // const filteredTags = response.data.filter(tag => {
+      //   return !ids.includes(tag.id);
+      // });
+
       callback(null, {
-        options: response.data.map(profile => ({
-          label: `${profile.first_name} ${profile.last_name}`,
-          value: profile.id
+        options: response.data.map(tag => ({
+          label: tag.name,
+          value: tag.name,
+          name: tag.name,
+          type: tag.type,
+          id: tag.id
         })),
         complete: true
       });
@@ -30,15 +39,16 @@ class ProfileFilter extends Component {
     return (
       <React.Fragment>
         <FormControl>
-          <InputLabel shrink={true}>Profile</InputLabel>
+          <InputLabel shrink={true}>Tags</InputLabel>
           <Async
-            name="profile"
+            name="tags"
             onChange={handleChange}
             value={selected}
+            closeOnSelect={false}
+            multi
             clearable={false}
-            autoBlur={true}
             removeSelected={true}
-            loadOptions={this.getProfileOptions}
+            loadOptions={this.getTagsOptions}
             style={{ width: "160px" }}
           />
         </FormControl>
@@ -47,4 +57,4 @@ class ProfileFilter extends Component {
   }
 }
 
-export default ProfileFilter;
+export default TagsFilter;
