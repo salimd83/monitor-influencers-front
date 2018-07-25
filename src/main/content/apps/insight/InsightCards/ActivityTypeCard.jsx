@@ -7,12 +7,12 @@ import { CircularProgress, Card } from '@material-ui/core';
 import * as Actions from '../store/actions';
 
 class ActivityTypeCard extends Component {
-  componentDidMount() {
-    if (!(this.props.data.length > 0)) {
-      const { from, to } = this.props;
-      this.props.getData('42ig8yrfd5jhwrmy83', from, to);
-    }
-  }
+  // componentDidMount() {
+  //   if (!(this.props.data.length > 0)) {
+  //     const { from, to } = this.props;
+  //     this.props.getData('42ig8yrfd5jhwrmy83', from, to);
+  //   }
+  // }
 
   render() {
     const { loading, data, size } = this.props;
@@ -48,9 +48,7 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps({ insightApp }) {
   return {
     data: insightApp.insight.activityData,
-    loading: insightApp.insight.activityFetching,
-    from: insightApp.insight.from,
-    to: insightApp.insight.to
+    loading: insightApp.insight.activityFetching
   };
 }
 

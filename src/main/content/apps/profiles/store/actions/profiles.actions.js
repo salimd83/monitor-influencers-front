@@ -16,8 +16,6 @@ export const RECIEVING_PROFILES = "[PROFILES APP] RECIEVING PROFILES";
 export const RESET_ADD_PROFILE = "[PROFILES APP] RESET ADD PROFILE";
 
 export function getProfiles(term) {
-  let termInState = term;
-  if (term === "all") termInState = "";
   return dispatch => {
     const request = Fn.simpleCallWA(
       dispatch,
@@ -32,7 +30,7 @@ export function getProfiles(term) {
       dispatch({
         type: GET_PROFILES,
         payload: response.data,
-        term: termInState
+        term
       })
     );
   };

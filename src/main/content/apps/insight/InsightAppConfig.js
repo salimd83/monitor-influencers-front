@@ -8,7 +8,7 @@ export const InsightAppConfig = {
     },
     routes  : [
         {
-            path     : '/apps/insight',
+            path     : '/apps/insight/:id?/:from?/:to?',
             component: InsightApp
         }
     ]

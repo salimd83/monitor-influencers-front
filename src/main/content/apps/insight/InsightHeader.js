@@ -1,40 +1,38 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles/index";
 import { Icon, Typography, IconButton, Grid } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import { FuseAnimate } from "@fuse";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import * as Actions from "./store/actions";
 import "react-select/dist/react-select.css";
 import ProfileFilter from "./filters/ProfileFilter";
 import DateFilter from "./filters/DateFilter";
 import moment from "moment";
 
 class InsightHeader extends Component {
-  state = {
-    from: this.props.from,
-    to: this.props.to,
-    selectedProfile: {value: "42ig8yrfd5jhwrmy83", label: "Rehab Al Mehairi"}
+
+  handleDateFromChange = from => {
+    const { setFilters, to, profile } = this.props;
+    setFilters(profile, from, to, false);
   };
-
-  componentDidMount() {
-    const { from, to, selectedProfile } = this.state;
-    this.props.setDate(selectedProfile, from, to, false);
-  }
-
-  handleDateFromChange = from => this.setState({ from });
-  handleDateToChange = to => this.setState({ to });
+  handleDateToChange = to => {
+    const { setFilters, from, profile } = this.props;
+    setFilters(profile, from, to, false);
+  };
   handleProfileChange = profile => {
-    this.setState({ selectedProfile: profile });
+    const { setFilters, from, to } = this.props;
+    setFilters(profile, from, to, false);
   };
+  
   handleClick = () => {
-    const { from, to, selectedProfile } = this.state;
+    const { from, to, profile } = this.props;
+    const strFrom = moment(from).toISOString();
+    const strTo = moment(to).toISOString();
 
-    this.props.setDate(selectedProfile.value, moment(from).toISOString(), moment(to).toISOString());
+    this.props.history.push(`/apps/insight/${profile.value}/${strFrom}/${strTo}`);
+    this.props.setFilters(profile, strFrom, strTo);
   };
 
   render() {
-    const { selectedProfile, to, from } = this.state;
+    const { profile, to, from } = this.props;
     const { handleDateFromChange, handleDateToChange, handleClick } = this;
 
     return (
@@ -70,7 +68,7 @@ class InsightHeader extends Component {
                 />
               </Grid>
               <Grid item id="profileFilter">
-                <ProfileFilter handleChange={this.handleProfileChange} selected={selectedProfile} />
+                <ProfileFilter handleChange={this.handleProfileChange} selected={profile} />
               </Grid>
               <Grid>
                 <IconButton onClick={handleClick} aria-label="Delete">
@@ -85,26 +83,4 @@ class InsightHeader extends Component {
   }
 }
 
-const styles = theme => ({
-  root: {
-    flexGrow: 1
-  }
-});
-
-function mapActions(dispatch) {
-  return bindActionCreators({ setDate: Actions.setDate }, dispatch);
-}
-
-function mapState({ insightApp }) {
-  return {
-    from: insightApp.insight.from,
-    to: insightApp.insight.to
-  };
-}
-
-export default withStyles(styles, { withTheme: true })(
-  connect(
-    mapState,
-    mapActions
-  )(InsightHeader)
-);
+export default withRouter(InsightHeader);

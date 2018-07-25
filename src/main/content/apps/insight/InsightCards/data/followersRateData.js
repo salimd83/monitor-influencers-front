@@ -1,8 +1,6 @@
 import format from "date-fns/format";
 
 export default linksData => {
-  console.log("followers rate data", linksData);
-
   const brandColors = {
     facebook: "#3b5998",
     twitter: "#1da1f2",
@@ -21,7 +19,6 @@ export default linksData => {
   if (typeof linksData != "undefined") {
     linksData.forEach(link => {
       //get data
-      console.log("followers rate looping", link);
       const obj = {
         label: link.label,
         data: link.data.map(row => row.count),
@@ -39,27 +36,6 @@ export default linksData => {
       });
     });
   }
-
-  console.log("followers rate formated Data", data);
-  console.log("followers rate total Data", data);
-  console.log("followers rate labels", labels);
-
-  // if (linksData != 'undefined') {
-  //   linksData.forEach(link => {
-
-  //   })
-  // }
-
-  // if (linksData != 'undefined') {
-  //   linksData[0].forEach(dataObj => {
-  //     labels.push(format(dataObj.date, 'D MMM'));
-  //     dataRate.push(dataObj.count);
-  //   });
-
-  //   linksData[1].forEach(dataObj => {
-  //     dataEngagement.push(dataObj.count);
-  //   });
-  // }
 
   const maxVal = Math.max(totalData);
 

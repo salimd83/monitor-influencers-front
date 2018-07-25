@@ -7,16 +7,16 @@ import { CircularProgress, Card } from "@material-ui/core";
 import * as Actions from "../store/actions";
 
 class FollowersRateCard extends Component {
-  componentDidMount() {
-    const { from, to } = this.props;
-    this.props.getData("42ig8yrfd5jhwrmy83", from, to);
-  }
+  // componentDidMount() {
+  //   const { from, to } = this.props;
+  //   this.props.getData("42ig8yrfd5jhwrmy83", from, to);
+  // }
   render() {
     const { loading, data } = this.props;
     const options = {
       popovertext: data.message,
       data: dataParser(data.data),
-      title: 'Followers Rates'
+      title: "Followers Rates"
     };
 
     return (
@@ -33,25 +33,11 @@ class FollowersRateCard extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      getData: Actions.getFollowersRateData,
-    },
-    dispatch
-  );
-}
-
 function mapStateToProps({ insightApp }) {
   return {
     data: insightApp.insight.followersRateData,
-    loading: insightApp.insight.activityRateFetching,
-    from: insightApp.insight.from,
-    to: insightApp.insight.to
+    loading: insightApp.insight.activityRateFetching
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(FollowersRateCard);
+export default connect(mapStateToProps)(FollowersRateCard);
