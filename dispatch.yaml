@@ -4,5 +4,5 @@ dispatch:
     service: default
 
   # Default service serves simple hostname request.
-  - url: "beta.mirrorr.com/"
+  - url: "beta.mirrorr.com/*"
     service: fast
