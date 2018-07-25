@@ -8,13 +8,10 @@ import { FuseAnimate } from "@fuse";
 import { debounce } from "lodash";
 
 class ProfilesHeader extends Component {
-  state = {
-    keyword: ""
-  };
 
   searchWhenStopTyping = debounce(() => {
     const {history, searchText} = this.props;
-    history.push(`/apps/profiles/${searchText === '' ? 'all' : searchText}`);
+    history.push(`/apps/profiles/${searchText}`);
   }, 800);
 
   handleChange = e => {
@@ -24,7 +21,6 @@ class ProfilesHeader extends Component {
   };
   render() {
     const { pageLayout, searchText } = this.props;
-    let term = searchText==='all' ? '' : searchText;
     return (
       <div className="flex flex-1 flex-col sm:flex-row items-center justify-between p-24">
         <div className="flex flex-1 items-center">
@@ -57,7 +53,7 @@ class ProfilesHeader extends Component {
               placeholder="Search for anything"
               className="pl-16"
               fullWidth
-              value={term}
+              value={searchText}
               inputProps={{
                 "aria-label": "Search"
               }}

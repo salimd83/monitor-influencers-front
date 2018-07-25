@@ -1,5 +1,4 @@
 import * as Actions from '../actions';
-import moment from 'moment'
 
 const initialState = {
   activityData: [],
@@ -16,8 +15,9 @@ const initialState = {
   topLocationsFetching: false,
   topMentionsData: [],
   topMentionsFetching: false,
-  from: moment().add(-1, 'months').toISOString(),
-  to: moment().toISOString()
+  from: null,
+  to: null,
+  profile: {}
 };
 
 const insightReducer = function(state = initialState, action) {
@@ -113,11 +113,12 @@ const insightReducer = function(state = initialState, action) {
         topMentionsFetching: true
       };
     }
-    case Actions.SET_DATE: {
+    case Actions.SET_FILTERS: {
       return {
         ...state,
         from: action.from,
-        to: action.to
+        to: action.to,
+        profile: action.profile
       };
     }
     default: {
