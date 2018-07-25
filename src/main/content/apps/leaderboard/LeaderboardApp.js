@@ -40,8 +40,9 @@ export class LeaderboardApp extends Component {
   }, 800);
 
   loadNextPage = isVisible => {
-    const { getProfiles, page, term } = this.props;
-    isVisible && page && getProfiles(page, term);
+    const { getLeaders, page, term } = this.props;
+    console.log('isVisible', isVisible)
+    if(isVisible && page) getLeaders(page, term);
   };
 
   render() {

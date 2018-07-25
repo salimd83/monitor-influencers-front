@@ -11,9 +11,10 @@ const initialState = {
 const leaderBoardReducer = function(state = initialState, action) {
     switch (action.type) {
       case Actions.GET_LEADERS: {
+        console.log(Object.assign({}, state.profiles))
         return {
           ...state,
-          profiles: [...Object.assign({}, state.profiles), ...action.payload.profiles],
+          profiles: [...state.profiles, ...action.payload.profiles],
           page: action.payload.page
         };
       }
