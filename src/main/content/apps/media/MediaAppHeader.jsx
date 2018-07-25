@@ -2,8 +2,11 @@ import React from "react";
 import { Icon, Typography, Grid } from "@material-ui/core";
 import { FuseAnimate } from "@fuse";
 import ProfileFilter from "./filters/ProfileFilter";
+import DateFilter from './filters/DateFilter'
+import TagsFilter from './filters/TagsFilter'
+import TypeFilter from './filters/TypeFilter'
 
-const LeaderboardHeader = () => {
+const LeaderboardHeader = ({from, to, fromChange, toChange}) => {
   return (
     <div id="leaderboard-header">
       <Grid
@@ -27,10 +30,29 @@ const LeaderboardHeader = () => {
         <Grid item>
           <div className="flex items-center">
             <Grid container spacing={16} alignItems="center" direction="row">
-              <Grid item> </Grid>
+              <Grid item>
+                <DateFilter
+                  {...{
+                    to,
+                    from,
+                    fromChange,
+                    toChange
+                  }}
+                />
+              </Grid>
               <Grid item id="profileFilter">
                 <FuseAnimate animation="transition.slideLeftIn" delay={300}>
                   <ProfileFilter />
+                </FuseAnimate>
+              </Grid>
+              <Grid item id="tagsFilter">
+                <FuseAnimate animation="transition.slideLeftIn" delay={300}>
+                  <TagsFilter />
+                </FuseAnimate>
+              </Grid>
+              <Grid item id="typeFilter">
+                <FuseAnimate animation="transition.slideLeftIn" delay={300}>
+                  <TypeFilter />
                 </FuseAnimate>
               </Grid>
             </Grid>
