@@ -11,14 +11,15 @@ export function getLeaders(page = null, search = "", industry) {
   return async dispatch => {
     try {
       dispatch({ type: START_FETCHING });
+      console.log('getleader')
       const response = await Fn.simpleCallWA(dispatch, "get", "/si/leaderboard", {
         page,
         search,
         industry: industry ? industry.value : null
-      });
+      }, undefined, false);
       const profiles = await Promise.all(
         response.data.map(async profile => {
-          const details = await Fn.simpleCallWA(dispatch, "get", `si/profiles/${profile.id}`);
+          const details = await Fn.simpleCallWA(dispatch, "get", `si/profiles/${profile.id}`, undefined, undefined, false);
           profile["links"] = details.data.links;
           profile["tags"] = details.data.tags;
           return profile;
