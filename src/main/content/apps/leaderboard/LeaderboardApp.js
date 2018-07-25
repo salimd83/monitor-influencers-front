@@ -30,7 +30,7 @@ export class LeaderboardApp extends Component {
 
   componentDidUpdate(prevProps) {
     const { term, page, industry } = this.props;
-    if (term !== prevProps.term || page !== prevProps.page || industry !== prevProps.industry) {
+    if (term !== prevProps.term || industry !== prevProps.industry) {
       this.searchWhenStopTyping();
     }
   }
