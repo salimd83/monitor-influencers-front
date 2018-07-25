@@ -7,10 +7,6 @@ import { CircularProgress, Card } from "@material-ui/core";
 import * as Actions from "../store/actions";
 
 class TopMentionsCard extends Component {
-  componentDidMount() {
-    const { from, to } = this.props;
-    this.props.getData("42ig8yrfd5jhwrmy83", from, to);
-  }
   render() {
     const { loading, data } = this.props;
     const options = {
@@ -34,25 +30,13 @@ class TopMentionsCard extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      getData: Actions.getTopMentionsData
-    },
-    dispatch
-  );
-}
-
 function mapStateToProps({ insightApp }) {
   return {
     data: insightApp.insight.topMentionsData,
-    loading: insightApp.insight.topMentionsFetching,
-    from: insightApp.insight.from,
-    to: insightApp.insight.to
+    loading: insightApp.insight.topMentionsFetching
   };
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(TopMentionsCard);

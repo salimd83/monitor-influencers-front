@@ -1,21 +1,48 @@
-import React, { Component } from 'react';
-import { FusePageCarded } from '@fuse';
-import { withStyles } from '@material-ui/core/styles';
+import React, { Component } from "react";
+import { FusePageCarded } from "@fuse";
+import { connect } from "react-redux";
+import { setFilters, getProfileById } from "./store/actions";
+import moment from "moment";
+import { simpleCall } from "fn/simpleCall.js";
 
-import InsightHeader from './InsightHeader';
-import InsightGrid from './InsightGrid';
+import InsightHeader from "./InsightHeader";
+import InsightGrid from "./InsightGrid";
+
+const actions = {
+  setFilters
+};
+
+const mapState = ({ insightApp }) => ({
+  from: insightApp.insight.from,
+  to: insightApp.insight.to,
+  profile: insightApp.insight.profile
+});
 
 class InsightApp extends Component {
+  async componentDidMount() {
+    const { match, setFilters } = this.props;
+    const id = match.params.id || "42ig8yrfd5jhwrmy83";
+    const from =
+      match.params.from ||
+      moment()
+        .add(-1, "months")
+        .toISOString();
+    const to = match.params.to || moment().toISOString();
+    const response = await simpleCall("get", `si/profiles/${id}`);
+
+    const profile = {
+      value: response.data.id,
+      label: `${response.data.first_name} ${response.data.last_name}`
+    };
+
+    setFilters(profile, from, to);
+  }
+
   render() {
-    const { classes } = this.props;
+    const { from, to, profile, setFilters } = this.props;
     return (
       <FusePageCarded
-        className={classes.root}
-        classes={{
-          root: classes.layoutRoot
-          // contentCardWrapper: classes.layoutContentCardWrapper
-        }}
-        header={<InsightHeader pageLayout={() => this.pageLayout} />}
+        header={<InsightHeader {...{ from, to, profile, setFilters }} />}
         content={<InsightGrid />}
         sidebarInner
         onRef={instance => {
@@ -26,18 +53,7 @@ class InsightApp extends Component {
   }
 }
 
-const headerHeight = 160;
-
-const styles = theme => ({
-  root: {},
-  layoutHeader: {
-    height: headerHeight,
-    minHeight: headerHeight
-  },
-  layoutContentCardWrapper: {
-    padding: 24,
-    paddingBottom: 80
-  }
-});
-
-export default withStyles(styles, { withTheme: true })(InsightApp);
+export default connect(
+  mapState,
+  actions
+)(InsightApp);

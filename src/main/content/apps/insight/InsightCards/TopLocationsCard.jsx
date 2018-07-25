@@ -7,10 +7,6 @@ import { CircularProgress, Card } from "@material-ui/core";
 import * as Actions from "../store/actions";
 
 class TopLocationsCard extends Component {
-  componentDidMount() {
-    const { from, to } = this.props;
-    this.props.getData("42ig8yrfd5jhwrmy83", from, to);
-  }
   render() {
     const { loading, data } = this.props;
     const options = {
@@ -34,25 +30,11 @@ class TopLocationsCard extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      getData: Actions.getTopLocationsData
-    },
-    dispatch
-  );
-}
-
 function mapStateToProps({ insightApp }) {
   return {
     data: insightApp.insight.topLocationsData,
-    loading: insightApp.insight.topLocationsFetching,
-    from: insightApp.insight.from,
-    to: insightApp.insight.to
+    loading: insightApp.insight.topLocationsFetching
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TopLocationsCard);
+export default connect(mapStateToProps)(TopLocationsCard);

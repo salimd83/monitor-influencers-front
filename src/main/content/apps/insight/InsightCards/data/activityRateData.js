@@ -1,7 +1,6 @@
 import format from "date-fns/format";
 
 export default dataObjs => {
-  console.log(dataObjs);
   let dataRate = [],
     dataEngagement = [],
     labels = [];

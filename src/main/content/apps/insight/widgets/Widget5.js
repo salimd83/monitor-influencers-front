@@ -45,7 +45,6 @@ class Widget5 extends Component {
       const palette = theme.palette[index === 0 ? "primary" : "secondary"];
       const bgColor = obj.bgColor;
       const LineColor = obj.lineColor;
-      console.log("main palette", palette.main);
       return {
         ...obj,
         borderColor: LineColor,

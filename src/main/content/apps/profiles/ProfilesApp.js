@@ -49,7 +49,7 @@ class ProfilesApp extends Component {
   };
 
   componentDidMount() {
-    this.props.getProfiles(this.props.match.params.term);
+    this.props.getProfiles(this.props.match.params.term || '');
     this.props.getUserData();
 
     Fn.simpleCall('get', 'typeahead/industry').then(res => {
@@ -73,7 +73,7 @@ class ProfilesApp extends Component {
 
   componentDidUpdate(prevProps) {
     if (!_.isEqual(this.props.location, prevProps.location)) {
-      this.props.getProfiles(this.props.match.params.term);
+      this.props.getProfiles(this.props.match.params.term || '');
     }
   }
 

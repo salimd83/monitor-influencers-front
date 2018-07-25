@@ -10,12 +10,8 @@ export const ProfilesAppConfig = {
   },
   routes: [
     {
-      path: '/apps/profiles/:term',
+      path: '/apps/profiles/:term?',
       component: ProfilesApp
-    },
-    {
-      path: '/apps/profiles',
-      component: () => <Redirect to="/apps/profiles/all" />
     }
   ]
 };
