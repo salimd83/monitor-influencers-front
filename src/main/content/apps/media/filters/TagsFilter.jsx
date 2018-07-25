@@ -11,7 +11,7 @@ class TagsFilter extends Component {
         options: [],
         completed: true
       });
-    }
+    } else {
     const request = Fn.simpleCall("get", `typeahead/profile_tag?q=${input}`);
 
     request.then(response => {
@@ -32,6 +32,7 @@ class TagsFilter extends Component {
         complete: true
       });
     });
+  }
   };
 
   render() {

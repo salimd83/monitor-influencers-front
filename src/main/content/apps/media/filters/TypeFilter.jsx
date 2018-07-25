@@ -61,7 +61,7 @@ class TypeFilter extends Component {
               types.map(type => (
                 <MenuItem key={type.id} value={type.id}>
                   <Checkbox checked={this.state.type.indexOf(type.name) > -1} />
-                  <ListItemText primary={type.name} />
+                  <ListItemText primary={type.description} />
                 </MenuItem>
               ))}
           </Select>

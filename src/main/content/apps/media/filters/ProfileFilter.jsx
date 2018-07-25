@@ -11,7 +11,7 @@ class ProfileFilter extends Component {
         options: [],
         completed: true
       });
-    }
+    } else {
     const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
 
     request.then(response => {
@@ -23,6 +23,7 @@ class ProfileFilter extends Component {
         complete: true
       });
     });
+  }
   };
 
   render() {
