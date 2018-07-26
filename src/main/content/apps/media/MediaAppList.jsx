@@ -1,33 +1,27 @@
 import React from "react";
-import { Grid } from "@material-ui/core";
+import { Grid, CircularProgress } from "@material-ui/core";
 import MediaAppPost from "./MediaAppPost";
+import VisibilitySensor from "react-visibility-sensor";
 
-const MediaAppList = () => {
+const MediaAppList = ({media, page, loadNextPage}) => {
   return (
-    <div className="m-32">
+    <div className="m-32 lazyloading">
       <Grid container id="mediaList" spacing={32}>
-        <Grid item xs={4}>
-          <MediaAppPost />
-        </Grid>
-        <Grid item xs={4}>
-          <MediaAppPost />
-        </Grid>
-        <Grid item xs={4}>
-          <MediaAppPost />
-        </Grid>
-        <Grid item xs={4}>
-          <MediaAppPost />
-        </Grid>
-        <Grid item xs={4}>
-          <MediaAppPost />
-        </Grid>
-        <Grid item xs={4}>
-          <MediaAppPost />
-        </Grid>
-        <Grid item xs={4}>
-          <MediaAppPost />
-        </Grid>
+      {media && media.length > 0 && media.map(post => <Grid key={post.id} item xs={4}>
+          <MediaAppPost post={post} />
+        </Grid>)
+      }
+        
       </Grid>
+      {
+        (page && (
+          <VisibilitySensor onChange={loadNextPage}>
+            <div className="loader">
+              <CircularProgress size={25} />
+            </div>
+          </VisibilitySensor>
+        ))
+      }
     </div>
   );
 };

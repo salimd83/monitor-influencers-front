@@ -6,7 +6,7 @@ import LeaderboardProfile from "./LeaderboardProfile";
 
 const LeaderboardList = ({ profiles, loadNextPage, page, loading }) => {
   return (
-    <div id="leaderboard-list">
+    <div id="leaderboard-list lazyloading">
       {profiles.length === 0 && !loading && <h4 className="mt-64" style={{textAlign: "center"}}>No profile found</h4>}
       {profiles &&
         profiles.map(profile => (

@@ -6,13 +6,8 @@ import * as Fn from "fn/simpleCall.js";
 
 class TagsFilter extends Component {
   getTagsOptions = (input, callback) => {
-    if (input === "") {
-      callback(null, {
-        options: [],
-        completed: true
-      });
-    } else {
-    const request = Fn.simpleCall("get", `typeahead/profile_tag?q=${input}`);
+
+    const request = Fn.simpleCall("get", `typeahead/simedia_tag?q=${input}`);
 
     request.then(response => {
       // const ids = this.props.tags.map(tag => tag.id);
@@ -32,25 +27,26 @@ class TagsFilter extends Component {
         complete: true
       });
     });
-  }
+  
   };
 
   render() {
-    const { selected, handleChange } = this.props;
+    const { tags, tagsChange } = this.props;
     return (
       <React.Fragment>
         <FormControl>
           <InputLabel shrink={true}>Tags</InputLabel>
           <Async
             name="tags"
-            onChange={handleChange}
-            value={selected}
+            onChange={tagsChange}
+            value={tags}
             closeOnSelect={false}
+            autoload={false}
             multi
             clearable={false}
             removeSelected={true}
             loadOptions={this.getTagsOptions}
-            style={{ width: "160px" }}
+            style={{ width: "200px" }}
           />
         </FormControl>
       </React.Fragment>

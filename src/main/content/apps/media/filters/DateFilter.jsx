@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 
 const DateFilter = props => {
-  const { handleDateFromChange, handleDateToChange, from, to } = props;
+  const { fromChange, toChange, from, to } = props;
   return (
     <React.Fragment>
       <Grid container>
@@ -15,7 +15,7 @@ const DateFilter = props => {
               id="date"
               label="From"
               name="from"
-              onChange={handleDateFromChange}
+              onChange={fromChange}
               type="text"
               dateFormat="DD-MM-YYYY HH:mm"
               timeFormat="HH:mm"
@@ -31,7 +31,7 @@ const DateFilter = props => {
               id="date"
               label="to"
               name="to"
-              onChange={handleDateToChange}
+              onChange={toChange}
               type="text"
               dateFormat="DD-MM-YYYY HH:mm"
               timeFormat="HH:mm"
