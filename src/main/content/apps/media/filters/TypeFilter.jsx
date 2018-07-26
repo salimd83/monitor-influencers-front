@@ -25,12 +25,7 @@ const MenuProps = {
 
 class TypeFilter extends Component {
   state = {
-    type: [],
     types: []
-  };
-
-  handleChange = event => {
-    this.setState({ type: event.target.value });
   };
 
   async componentDidMount() {
@@ -41,26 +36,25 @@ class TypeFilter extends Component {
   }
 
   render() {
-    const { selected, handleChange } = this.props;
-    const { types } = this.state;
+    const { types, typesChange } = this.props;
     return (
       <React.Fragment>
         <FormControl>
           <InputLabel shrink={true}>Media Type</InputLabel>
           <Select
             multiple
-            value={this.state.type}
-            onChange={this.handleChange}
+            value={types}
+            onChange={typesChange}
             input={<Input id="select-multiple-checkbox" />}
             renderValue={selected => selected.join(", ")}
             MenuProps={MenuProps}
-            style={{ width: "160px", fontSize: '13px' }}
+            style={{ width: "160px", fontSize: "13px" }}
           >
-            {types &&
-              types.length > 0 &&
-              types.map(type => (
+            {this.state.types &&
+              this.state.types.length > 0 &&
+              this.state.types.map(type => (
                 <MenuItem key={type.id} value={type.id}>
-                  <Checkbox checked={this.state.type.indexOf(type.name) > -1} />
+                  <Checkbox checked={types.indexOf(type.name) > -1} />
                   <ListItemText primary={type.description} />
                 </MenuItem>
               ))}

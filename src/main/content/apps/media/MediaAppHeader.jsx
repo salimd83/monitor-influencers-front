@@ -1,12 +1,12 @@
 import React from "react";
-import { Icon, Typography, Grid } from "@material-ui/core";
+import { Icon, Typography, Grid, IconButton } from "@material-ui/core";
 import { FuseAnimate } from "@fuse";
 import ProfileFilter from "./filters/ProfileFilter";
 import DateFilter from './filters/DateFilter'
 import TagsFilter from './filters/TagsFilter'
 import TypeFilter from './filters/TypeFilter'
 
-const LeaderboardHeader = ({from, to, fromChange, toChange}) => {
+const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange, profileChange, tagsChange, typesChange, handleClick}) => {
   return (
     <div id="leaderboard-header">
       <Grid
@@ -29,7 +29,7 @@ const LeaderboardHeader = ({from, to, fromChange, toChange}) => {
         </Grid>
         <Grid item>
           <div className="flex items-center">
-            <Grid container spacing={16} alignItems="center" direction="row">
+            <Grid container spacing={16} alignItems="center" direction="row" style={{zIndex: 1000}}>
               <Grid item>
                 <DateFilter
                   {...{
@@ -42,17 +42,24 @@ const LeaderboardHeader = ({from, to, fromChange, toChange}) => {
               </Grid>
               <Grid item id="profileFilter">
                 <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-                  <ProfileFilter />
+                  <ProfileFilter profileChange={profileChange} profile={profile} />
                 </FuseAnimate>
               </Grid>
               <Grid item id="tagsFilter">
                 <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-                  <TagsFilter />
+                  <TagsFilter tagsChange={tagsChange} tags={tags} />
                 </FuseAnimate>
               </Grid>
               <Grid item id="typeFilter">
                 <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-                  <TypeFilter />
+                  <TypeFilter typesChange={typesChange} types={types} />
+                </FuseAnimate>
+              </Grid>
+              <Grid item id="typeFilter">
+                <FuseAnimate animation="transition.slideLeftIn" delay={300}>
+                <IconButton onClick={handleClick} aria-label="Delete">
+                  <Icon>check_circle</Icon>
+                </IconButton>
                 </FuseAnimate>
               </Grid>
             </Grid>

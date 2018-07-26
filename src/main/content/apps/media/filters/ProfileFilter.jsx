@@ -6,12 +6,7 @@ import * as Fn from "fn/simpleCall.js";
 
 class ProfileFilter extends Component {
   getProfileOptions = (input, callback) => {
-    if (input === "") {
-      callback(null, {
-        options: [],
-        completed: true
-      });
-    } else {
+
     const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
 
     request.then(response => {
@@ -23,21 +18,22 @@ class ProfileFilter extends Component {
         complete: true
       });
     });
-  }
+  
   };
 
   render() {
-    const { selected, handleChange } = this.props;
+    const { profileChange, profile } = this.props;
     return (
       <React.Fragment>
         <FormControl>
           <InputLabel shrink={true}>Profile</InputLabel>
           <Async
             name="profile"
-            onChange={handleChange}
-            value={selected}
+            onChange={profileChange}
+            value={profile}
             clearable={false}
             autoBlur={true}
+            autoload={false}
             removeSelected={true}
             loadOptions={this.getProfileOptions}
             style={{ width: "160px" }}

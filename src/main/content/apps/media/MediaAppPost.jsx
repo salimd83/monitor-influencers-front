@@ -2,17 +2,16 @@ import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import {
   Card,
-  CardActions,
   CardContent,
   CardMedia,
-  Button,
   Typography,
   CardHeader,
   Avatar,
-  IconButton
+  IconButton,
+  Icon
 } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import { format } from "date-fns";
 
 const styles = {
   card: {
@@ -27,33 +26,32 @@ const styles = {
   }
 };
 
-const MediaAppPost = ({ classes }) => {
+const MediaAppPost = ({ classes, post }) => {
   return (
     <Card className={classes.card}>
       <CardHeader
         avatar={
           <Avatar aria-label="Recipe">
-            <img src="https://images.unsplash.com/photo-1505204144504-0a48bd7862ee?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=76172e9f72596284b0b185b38e0d122d&auto=format&fit=crop&w=100&q=60" alt=""/>
+            <img src={post.owner.profile_picture} alt="" />
           </Avatar>
         }
         action={
-          <IconButton className={classes.action}>
-            <i className="fab fa-instagram" />
-          </IconButton>
+          <div>
+            <IconButton className={classes.action}>
+              <i className={`fab fa-${post.platform}`} />
+            </IconButton>
+            <IconButton className={classes.action}>
+              <Icon>{post.type.meta.recommended_icon}</Icon>
+            </IconButton>
+          </div>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={`${post.owner.first_name} ${post.owner.last_name}`}
+        // subheader="September 14, 2016"
+        subheader={format(post.created_at, "MMMM D, YYYY")}
       />
-      <CardMedia
-        className={classes.media}
-        image="https://images.unsplash.com/photo-1526409049865-5b0b188372f1?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=d3fe047bb45259fa0a21c4222010a085&auto=format&fit=crop&w=400&q=60"
-        title="Contemplative Reptile"
-      />
+      <CardMedia className={classes.media} image={post.thumbnail} title="Contemplative Reptile" />
       <CardContent>
-        <Typography component="p">
-          Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-          across all continents except Antarctica
-        </Typography>
+        <Typography component="p">{post.caption.substring(0, 100)}</Typography>
       </CardContent>
     </Card>
   );

@@ -8,7 +8,7 @@ export const MediaAppConfig = {
   },
   routes: [
     {
-      path: '/apps/media/:id?/:from?/:to?',
+      path: '/apps/media/:id?/:from?/:to?/:tags?/:types?',
       component: MediaApp
     }
   ]
