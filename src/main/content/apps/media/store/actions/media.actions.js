@@ -35,7 +35,7 @@ export const getMedia = (since, until, profile, tags, types, page=null) => {
       const response = await Fn.simpleCallWA(dispatch, "get", "si/media", {
         since,
         until,
-        profile,
+        profile_id: profile,
         tags,
         types,
         page
