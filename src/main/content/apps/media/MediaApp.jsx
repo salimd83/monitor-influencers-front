@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import MediaAppHeader from "./MediaAppHeader";
 import MediaAppList from "./MediaAppList";
 import { getMedia, setFilters, setTagsFilter, setTypesFilter } from "./store/actions/media.actions";
+import { simpleCall } from "../../../../fn";
 import moment from "moment";
 
 const mapState = ({ mediaApp }) => ({
@@ -24,15 +25,26 @@ const actions = {
 };
 
 export class MediaApp extends Component {
-  componentDidMount() {
-    const { from, to, profile, tags, types, match, getMedia } = this.props;
+  async componentDidMount() {
+    const { from, to, profile, tags, types, match, getMedia, setFilters } = this.props;
     const strFrom = match.params.from || moment(from).toISOString();
     const strTo = match.params.to || moment(to).toISOString();
     const profileId = match.params.id || profile.value;
+    let profileObj = profileId;
+    
+    if (match.params.id) {
+      console.log(profileId)
+      const response = await simpleCall("get", `/si/profiles/${profileId}`);
+      profileObj = {
+        label: `${response.data.first_name} ${response.data.last_name}`,
+        value: response.data.id
+      };
+    }
     const strTags = match.params.tags || tags.join();
+
     const strTypes = match.params.types || types.join();
     getMedia(strFrom, strTo, profileId, strTags, strTypes);
-    // setFilters(strFrom, strTo, profile, strTags.split(','));
+    setFilters(strFrom, strTo, profileObj);
     // this.handleClick();
   }
 
@@ -83,8 +95,8 @@ export class MediaApp extends Component {
     const { from, to, profile, tags, types, history } = this.props;
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
-    const profileId = profile.value;
-    const strTags = tags.map(tag => tag.id).join();
+    const profileId = profile ? profile.value : "*";
+    const strTags = tags.map(tag => tag.id).join() || "*";
     // getMedia(strFrom, strTo, profileId, tags, types);
     history.push(`/apps/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`);
   };

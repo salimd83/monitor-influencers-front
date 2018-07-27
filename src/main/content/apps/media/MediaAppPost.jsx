@@ -51,7 +51,7 @@ const MediaAppPost = ({ classes, post }) => {
       />
       <CardMedia className={classes.media} image={post.thumbnail} title="Contemplative Reptile" />
       <CardContent>
-        <Typography component="p">{post.caption.substring(0, 100)}</Typography>
+        <Typography component="p" className="description">{post.caption}</Typography>
       </CardContent>
     </Card>
   );
