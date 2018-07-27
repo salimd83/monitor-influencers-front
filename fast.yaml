@@ -1,12 +1,17 @@
 runtime: nodejs8
 service: fast
 
+default_expiration: 30d
+
+
 handlers:
 - url: /
   static_files: build/index.html
   upload: build/index.html
   secure: always
+  
 
 - url: /
   static_dir: build
   secure: always
+  expiration: "0s"
