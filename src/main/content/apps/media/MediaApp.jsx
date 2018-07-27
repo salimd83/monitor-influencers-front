@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import MediaAppHeader from "./MediaAppHeader";
 import MediaAppList from "./MediaAppList";
 import { getMedia, setFilters, setTagsFilter, setTypesFilter } from "./store/actions/media.actions";
+import { simpleCall } from "../../../../fn";
 import moment from "moment";
 
 const mapState = ({ mediaApp }) => ({
@@ -24,16 +25,44 @@ const actions = {
 };
 
 export class MediaApp extends Component {
-  componentDidMount() {
-    const { from, to, profile, tags, types, match, getMedia } = this.props;
+  async componentDidMount() {
+    const { from, to, profile, tags, types, match, getMedia, setFilters, setTagsFilter, setTypesFilter } = this.props;
     const strFrom = match.params.from || moment(from).toISOString();
     const strTo = match.params.to || moment(to).toISOString();
     const profileId = match.params.id || profile.value;
+    let profileObj = profileId;
+    
+    if (match.params.id &&  match.params.id !== '*') {
+      const response = await simpleCall("get", `/si/profiles/${profileId}`);
+      profileObj = {
+        label: `${response.data.first_name} ${response.data.last_name}`,
+        value: response.data.id
+      };
+    }
     const strTags = match.params.tags || tags.join();
+    let tagsId = [];
+    let tagsArr = []
+    if(strTags !== '' && strTags !== '*') {
+      tagsId = strTags.split(',');
+      tagsArr = await Promise.all(tagsId.map(async tagId => {
+        const response = await simpleCall("get", `typeahead/all?id=${tagId}`);
+        return {
+          label: response.data[0].name,
+          value: response.data[0].name,
+          id: response.data[0].id
+        }
+      }));
+    }
     const strTypes = match.params.types || types.join();
+    let typesIds = [];
+    let typesArr = []
+    if(strTypes !== '' && strTypes !== '*') {
+      typesIds = strTypes.split(',');
+    }
     getMedia(strFrom, strTo, profileId, strTags, strTypes);
-    // setFilters(strFrom, strTo, profile, strTags.split(','));
-    // this.handleClick();
+    setFilters(strFrom, strTo, profileObj);
+    setTagsFilter(tagsArr)
+    setTypesFilter(typesIds)
   }
 
   componentDidUpdate(prevProps) {
@@ -83,8 +112,9 @@ export class MediaApp extends Component {
     const { from, to, profile, tags, types, history } = this.props;
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
-    const profileId = profile.value;
-    const strTags = tags.map(tag => tag.id).join();
+    console.log(profile)
+    const profileId = (typeof profile.value !== 'undefined' && profile.value !== '') ? profile.value : "*";
+    const strTags = tags.map(tag => tag.id).join() || "*";
     // getMedia(strFrom, strTo, profileId, tags, types);
     history.push(`/apps/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`);
   };

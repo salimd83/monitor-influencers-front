@@ -30,15 +30,18 @@ export const setTypesFilter = types => {
 };
 
 export const getMedia = (since, until, profile, tags, types, page=null) => {
+    if(profile === '*') profile = '';
+    if(tags === '*') tags = '';
+    console.log(since)
   return async dispatch => {
     try {
       const response = await Fn.simpleCallWA(dispatch, "get", "si/media", {
+        page,
+        profile_id: profile,
         since,
         until,
-        profile_id: profile,
         tags,
-        types,
-        page
+        types
       }, undefined, false);
 
       if (page) {
