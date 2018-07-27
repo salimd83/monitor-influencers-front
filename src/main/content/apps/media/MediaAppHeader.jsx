@@ -17,7 +17,7 @@ const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange
         justify="space-between"
         className="cardedPageHeader"
       >
-        <Grid item>
+        <Grid item md={2} sm={12} xs={12}>
           <div className="flex items-center">
             <FuseAnimate animation="transition.expandIn" delay={300}>
               <Icon className="text-32 mr-12">perm_media</Icon>
@@ -27,7 +27,7 @@ const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange
             </FuseAnimate>
           </div>
         </Grid>
-        <Grid item>
+        <Grid item md={10} sm={12} xs={12}>
           <div className="flex items-center">
             <Grid container spacing={16} alignItems="center" direction="row" style={{zIndex: 1000}}>
               <Grid item>

@@ -6,12 +6,12 @@ export class LeaderboardProfile extends Component {
     const { profile } = this.props;
     return (
       <Grid container>
-        <Grid item xs={3}>
+        <Grid item sm={3} xs={4}>
           <div className="photo">
             <img src={profile.profile_picture} alt="" />
           </div>
         </Grid>
-        <Grid item xs>
+        <Grid item sm={9} xs={8}>
           <div className="info">
             <Grid container>
               <Grid item xs={6}>

@@ -189,21 +189,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 #mediaList .description {
   overflow: hidden;
-  position: relative; 
+  position: relative;
   line-height: 1.5em;
-  max-height: 2.9em; 
-  text-align: justify;  
+  max-height: 2.9em;
+  text-align: justify;
   margin-right: -1em;
   padding-right: 1em;
 }
 #mediaList .description:before {
-  content: '...';
+  content: "...";
   position: absolute;
   right: 0;
   bottom: 0;
 }
 #mediaList .description:after {
-  content: '';
+  content: "";
   position: absolute;
   right: 0;
   width: 1em;
@@ -217,14 +217,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .leaderboard-profile-row .photo {
   height: 240px;
-  width: 300px;
+  width: 100%;
   position: relative;
+  object-fit: cover;
   overflow: hidden;
   background: #f5f5f5;
 }
 .leaderboard-profile-row .photo img {
   position: absolute;
-  min-width: 100%;
+  max-width: none;
+  width: 100%;
+  object-fit: cover;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -350,4 +353,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .react-datepicker__time-box {
   width: 86px !important;
+}
+
+@media only screen and (max-width: 930px) {
+  .FusePageCarded-header-162 {
+    color: #fff;
+    height: 250px;
+    display: flex;
+    min-height: 136px;
+    max-height: 250px;
+  }
+  .FusePageCarded-topBg-160{
+    height: 280px;
+  }
+  .leaderboard-profile-row .photo img {
+    width: auto;
+    height: 100%;
+  }
 }
