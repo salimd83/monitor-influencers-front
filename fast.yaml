@@ -4,11 +4,12 @@ service: fast
 default_expiration: 30d
 
 handlers:
+
 - url: /
   static_dir: build
   secure: always
 
-- url: /*
+- url: /
   static_files: build/index.html
   upload: build/index.html
   secure: always
