@@ -12,12 +12,12 @@ import {
 }                         from '@material-ui/core'
 import {FuseHighlight}    from '@fuse'
 
-import unregister from '../registerServiceWorker'
 import {
     envDetails,
     hiUser
-}                 from 'fn'
+} from 'fn'
 
+var registerServiceWorker = require('../registerServiceWorker.js')
 export default class HelpDialog extends Component {
 
 
@@ -34,7 +34,7 @@ export default class HelpDialog extends Component {
     }
 
     handleReload = async () => {
-        await unregister()
+        registerServiceWorker.unregister()
         window.location.assign('/')
     }
 
