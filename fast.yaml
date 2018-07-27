@@ -1,15 +1,28 @@
 runtime: nodejs8
 service: fast
 
-handlers:
+default_expiration: 30s
 
+handlers:
 - url: /manifest.json
   static_files: build/manifest.json
   upload: build/manifest.json
 
+- url: /static
+  static_dir: build/static
+
+- url: /assets
+  static_dir: build/assets
+
+- url: /(.+)/
+  static_files: static/\1/index.html
+  upload: build/(.+)/index.html
+
+- url: /(.+)
+  static_files: static/\1/index.html
+  upload: build/(.+)/index.html
+
 - url: /
   static_files: build/index.html
   upload: build/index.html
-  
-- url: /
-  static_dir: build  
+  expiration: "1m"
