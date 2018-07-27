@@ -38,7 +38,7 @@ const mediaReducer = (state = initialState, action) => {
         case Actions.GET_NEXT_PAGE:
             return {
                 ...state,
-                media: [...state.media, ...action.payload],
+                media: [...state.media.filter(post => !action.payload.includes(post)), ...action.payload],
                 page: action.page
             }
         default:

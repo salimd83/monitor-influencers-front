@@ -41,7 +41,7 @@ export const getMedia = (since, until, profile, tags, types, page=null) => {
         since,
         until,
         tags,
-        types
+        type: types
       }, undefined, false);
 
       if (page) {
