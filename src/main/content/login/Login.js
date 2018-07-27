@@ -196,7 +196,7 @@ class Login extends Component {
             </Button>
             <div className="flex flex-col items-center justify-center pt-32">
               <span className="font-medium">Didn't get a text?</span>
-              <Link className="font-small" to="/login?retry">
+                <Link className="font-small" to="/">
                 Change Number or Try Again
               </Link>
             </div>
