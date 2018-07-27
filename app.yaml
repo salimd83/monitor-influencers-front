@@ -6,17 +6,22 @@ handlers:
 - url: /manifest.json
   static_files: build/manifest.json
   upload: build/manifest.json
+  secure: always
 
 - url: /static
   static_dir: build/static
+  secure: always
 
 - url: /assets
   static_dir: build/assets
+  secure: always
 
 - url: /service-worker.js
   static_files: build/service-worker.js
   upload: build/service-worker.js
+  secure: always
 
 - url: /
   static_files: build/index.html
   upload: build/index.html
+  secure: always
