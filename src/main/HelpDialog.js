@@ -12,10 +12,11 @@ import {
 }                         from '@material-ui/core'
 import {FuseHighlight}    from '@fuse'
 
+import unregister from '../registerServiceWorker'
 import {
     envDetails,
     hiUser
-} from 'fn'
+}                 from 'fn'
 
 export default class HelpDialog extends Component {
 
@@ -30,6 +31,11 @@ export default class HelpDialog extends Component {
 
     handleClose = () => {
         this.setState({open: false})
+    }
+
+    handleReload = async () => {
+        await unregister()
+        window.location.assign('/')
     }
 
     render() {
@@ -57,6 +63,10 @@ export default class HelpDialog extends Component {
                     </pre>
                 </DialogContent>
                 <DialogActions>
+                    <Button onClick={this.handleReload} color="secondary">
+                        Reload Appplication
+                        <Icon>refresh</Icon>
+                    </Button>
                     <Button onClick={this.handleClose} color="primary">
                         Close
                     </Button>
