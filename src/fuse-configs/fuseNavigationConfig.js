@@ -8,14 +8,14 @@ export const fuseNavigationConfig = [
     type: "item",
     auth: authRoles.user,
     icon: "bubble_chart",
-    url: "/apps/leaderboard"
+    url: "/mirrorr/leaderboard"
   },
   {
     id: "insight",
     title: "Insight",
     type: "item",
     icon: "bubble_chart",
-    url: "/apps/insight"
+    url: "/mirrorr/insight"
   },
   {
     id: "admin",
@@ -29,14 +29,14 @@ export const fuseNavigationConfig = [
         title: "Typeahead",
         type: "item",
         icon: "account_box",
-        url: "/apps/typeahead/all"
+        url: "/admin/typeahead/all"
       },
       {
         id: "social_profiles",
         title: "Social Profiles",
         type: "item",
         icon: "star_rate",
-        url: "/apps/profiles"
+        url: "/mirrorr/profiles"
       }
     ]
   },
@@ -45,6 +45,6 @@ export const fuseNavigationConfig = [
     title: "Media",
     type: "item",
     icon: "perm_media",
-    url: "/apps/media"
+    url: "/mirrorr/media"
   }
 ];

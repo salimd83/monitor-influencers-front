@@ -11,7 +11,7 @@ class ProfilesHeader extends Component {
 
   searchWhenStopTyping = debounce(() => {
     const {history, searchText} = this.props;
-    history.push(`/apps/profiles/${searchText}`);
+    history.push(`/mirrorr/profiles/${searchText}`);
   }, 800);
 
   handleChange = e => {
