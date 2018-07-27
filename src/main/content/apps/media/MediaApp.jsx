@@ -42,6 +42,7 @@ export class MediaApp extends Component {
     const strTags = match.params.tags || tags.join();
     let tagsId = [];
     let tagsArr = []
+    console.log('strTags',strTags)
     if(strTags !== '' && strTags !== '*') {
       tagsId = strTags.split(',');
       tagsArr = await Promise.all(tagsId.map(async tagId => {
