@@ -10,7 +10,7 @@ export const ProfilesAppConfig = {
   },
   routes: [
     {
-      path: '/apps/profiles/:term?',
+      path: '/mirrorr/profiles/:term?',
       component: ProfilesApp
     }
   ]

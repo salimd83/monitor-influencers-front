@@ -1,4 +1,4 @@
-import LeaderboardApp from 'main/content/apps/leaderboard/LeaderboardApp';
+import LeaderboardApp from "main/content/apps/leaderboard/LeaderboardApp";
 
 export const LeaderboardAppConfig = {
   settings: {
@@ -8,7 +8,7 @@ export const LeaderboardAppConfig = {
   },
   routes: [
     {
-      path: '/apps/leaderboard',
+      path: "/mirrorr/leaderboard",
       component: LeaderboardApp
     }
   ]

@@ -117,7 +117,7 @@ export class MediaApp extends Component {
     const profileId = (typeof profile.value !== 'undefined' && profile.value !== '') ? profile.value : "*";
     const strTags = tags.map(tag => tag.id).join() || "*";
     // getMedia(strFrom, strTo, profileId, tags, types);
-    history.push(`/apps/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`);
+    history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`);
   };
 
   loadNextPage = isVisible => {

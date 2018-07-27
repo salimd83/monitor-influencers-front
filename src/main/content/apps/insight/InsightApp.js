@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { FusePageCarded } from "@fuse";
 import { connect } from "react-redux";
-import { setFilters, getProfileById } from "./store/actions";
+import { setFilters } from "./store/actions";
 import moment from "moment";
 import { simpleCall } from "fn/simpleCall.js";
 
