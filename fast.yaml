@@ -14,6 +14,10 @@ handlers:
 - url: /assets
   static_dir: build/assets
 
+- url: /service-worker.js
+  static_files: build/service-worker.js
+  upload: build/service-worker.js
+
 - url: /
   static_files: build/index.html
   upload: build/index.html
