@@ -20,8 +20,6 @@ class TagsFilter extends Component {
         options: response.data.map(tag => ({
           label: tag.name,
           value: tag.name,
-          name: tag.name,
-          type: tag.type,
           id: tag.id
         })),
         complete: true
