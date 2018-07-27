@@ -36,7 +36,7 @@ export const fuseNavigationConfig = [
         title: "Social Profiles",
         type: "item",
         icon: "star_rate",
-        url: "/mirrorr/profiles"
+        url: "/admin/mirrorr/profiles"
       }
     ]
   },

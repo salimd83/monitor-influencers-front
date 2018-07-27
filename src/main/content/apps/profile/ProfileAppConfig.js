@@ -8,7 +8,7 @@ export const ProfileAppConfig = {
   },
   routes: [
     {
-      path: '/mirrorr/profile/:id',
+      path: '/admin/mirrorr/profile/:id',
       component: ProfileApp
     }
   ]
