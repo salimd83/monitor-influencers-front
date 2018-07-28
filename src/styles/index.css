@@ -359,6 +359,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .FusePageCarded-header-162 {
     color: #fff;
     height: 250px;
+    width: auto;
     display: flex;
     min-height: 136px;
     max-height: 250px;
