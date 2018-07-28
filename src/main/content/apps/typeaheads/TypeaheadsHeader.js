@@ -12,16 +12,16 @@ import { debounce } from "lodash";
 
 class TypeaheadsHeader extends Component {
   searchWhenStopTyping = debounce(() => {
-    const {history, searchText, searchType} = this.props;
+    const { history, searchText, searchType } = this.props;
     history.push(`/admin/typeahead/${searchType}/${searchText}`);
   }, 800);
 
   handleTextChange = event => {
-    this.props.setSearchText(event.target.value)
+    this.props.setSearchText(event.target.value);
     this.searchWhenStopTyping();
   };
   handleTypeChange = event => {
-    const {history, searchText} = this.props;
+    const { history, searchText } = this.props;
     history.push(`/admin/typeahead/${event.target.value}/${searchText}`);
   };
 
