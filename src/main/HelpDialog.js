@@ -34,10 +34,18 @@ export default class HelpDialog extends Component {
     }
 
     handleReload = async () => {
-        await registerServiceWorker.unregister()
-        await registerServiceWorker.default()
-        window.location.assign('/')
+        registerServiceWorker.unregister()
+        await wait(1000)
+        window.location.assign('/index.html')
     }
+    
+    wait = async (ms){
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
 
     render() {
         return (<div>
