@@ -45,7 +45,9 @@ export default class HelpDialog extends Component {
     handleReload = async () => {
         registerServiceWorker.unregister()
         await waitFunction(300)
-        window.location.assign('/index.html?_cache=' + Math.random())
+        registerServiceWorker.default()
+        await waitFunction(300)
+        window.location.assign('/index.html?c=' + Math.random())
     }
 
     render() {
