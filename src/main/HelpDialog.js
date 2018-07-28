@@ -18,6 +18,15 @@ import {
 } from 'fn'
 
 var registerServiceWorker = require('../registerServiceWorker.js')
+
+    const waitFunction = async (ms) => {
+   var start = new Date().getTime();
+   var end = start;
+   while(end < start + ms) {
+     end = new Date().getTime();
+  }
+}
+
 export default class HelpDialog extends Component {
 
 
@@ -35,17 +44,9 @@ export default class HelpDialog extends Component {
 
     handleReload = async () => {
         registerServiceWorker.unregister()
-        await wait(1000)
+        await waitFunction(1000)
         window.location.assign('/index.html')
     }
-    
-    wait = async (ms) => {
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
-  }
-}
 
     render() {
         return (<div>
