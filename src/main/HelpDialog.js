@@ -39,7 +39,7 @@ export default class HelpDialog extends Component {
         window.location.assign('/index.html')
     }
     
-    wait = async (ms){
+    wait = async (ms) => {
    var start = new Date().getTime();
    var end = start;
    while(end < start + ms) {
