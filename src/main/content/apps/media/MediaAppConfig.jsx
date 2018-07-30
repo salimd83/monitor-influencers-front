@@ -8,6 +8,10 @@ export const MediaAppConfig = {
   },
   routes: [
     {
+      path: '/mirrorr/media/post/:postid',
+      component: MediaApp
+    },
+    {
       path: '/mirrorr/media/:id?/:from?/:to?/:tags?/:types?',
       component: MediaApp
     }

@@ -211,6 +211,26 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-top: 0.2em;
   background: white;
 }
+#mediaPostDialog .dialog-content:first-child {
+  padding: 0;
+  height: 600px;
+  object-fit: cover;
+  overflow: hidden;
+  max-width: 900px;
+}
+#mediaPostDialog .dialog-content:first-child video {
+  width: 100%;
+  height: 600px;
+}
+#mediaPostDialog .info {
+  padding-top: 30px;
+}
+#mediaPostDialog .tags {
+  margin-top: 20px;
+}
+.MuiDialog-paperWidthSm-490 {
+  max-width: 1000px !important;
+}
 .leaderboard-profile-row {
   padding: 0;
   margin: 20px;
@@ -364,11 +384,25 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     min-height: 136px;
     max-height: 250px;
   }
-  .FusePageCarded-topBg-160{
+  .FusePageCarded-topBg-160 {
     height: 280px;
   }
   .leaderboard-profile-row .photo img {
     width: auto;
     height: 100%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #mediaPostDialog .dialog-content:first-child {
+    height: auto;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+  #mediaPostDialog .dialog-content:first-child video {
+    height: 400px;
+  }
+  #mediaPostDialog .info {
+    padding: 20px 40px;
   }
 }

@@ -7,7 +7,9 @@ const initialState = {
   tags: [],
   types: [],
   media: [],
-  page: null
+  page: null,
+  post: {},
+  showPost: false
 };
 
 const mediaReducer = (state = initialState, action) => {
@@ -40,6 +42,17 @@ const mediaReducer = (state = initialState, action) => {
                 ...state,
                 media: [...state.media.filter(post => !action.payload.includes(post)), ...action.payload],
                 page: action.page
+            }
+        case Actions.LOAD_POST:
+            return {
+                ...state,
+                showPost: action.open,
+                post: action.post
+            }
+        case Actions.CLOSE_POST_DIALOG:
+            return {
+                ...state,
+                showPost: action.open
             }
         default:
             return state;

@@ -5,6 +5,8 @@ export const SET_TAGS_FILTER = "[MEDIA APP] SET TAGS FILTER";
 export const SET_TYPES_FILTER = "[MEDIA APP] SET TYPES FILTER";
 export const GET_MEDIA = "[MEDIA APP] GET MEDIA";
 export const GET_NEXT_PAGE = "[MEDIA APP] GET NEXT PAGE";
+export const LOAD_POST = "[MEDIA APP] LOAD POST";
+export const CLOSE_POST_DIALOG = "[MEDIA APP] CLOSE POST DIALOG";
 
 export const setFilters = (from, to, profile = {}) => {
   return {
@@ -29,20 +31,26 @@ export const setTypesFilter = types => {
   };
 };
 
-export const getMedia = (since, until, profile, tags, types, page=null) => {
-    if(profile === '*') profile = '';
-    if(tags === '*') tags = '';
-    console.log(since)
+export const getMedia = (since, until, profile, tags, types, page = null) => {
+  if (profile === "*") profile = "";
+  if (tags === "*") tags = "";
   return async dispatch => {
     try {
-      const response = await Fn.simpleCallWA(dispatch, "get", "si/media", {
-        page,
-        profile_id: profile,
-        since,
-        until,
-        tags,
-        type: types
-      }, undefined, false);
+      const response = await Fn.simpleCallWA(
+        dispatch,
+        "get",
+        "si/media",
+        {
+          page,
+          profile_id: profile,
+          since,
+          until,
+          tags,
+          type: types
+        },
+        undefined,
+        false
+      );
 
       if (page) {
         dispatch({
@@ -61,3 +69,21 @@ export const getMedia = (since, until, profile, tags, types, page=null) => {
     }
   };
 };
+
+export const loadPost = (postId) => {
+  return async dispatch => {
+    const response = await Fn.simpleCallWA(dispatch, 'get', `si/media/${postId}`)
+    dispatch({
+      type: LOAD_POST,
+      open: true,
+      post: response.data
+    })
+  }
+}
+
+export const closePostDialog = () => {
+  return {
+    type: CLOSE_POST_DIALOG,
+    open: false
+  }
+}

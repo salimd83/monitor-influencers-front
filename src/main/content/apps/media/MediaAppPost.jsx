@@ -26,7 +26,7 @@ const styles = {
   }
 };
 
-const MediaAppPost = ({ classes, post }) => {
+const MediaAppPost = ({ classes, post, onPostClick }) => {
   return (
     <Card className={classes.card}>
       <CardHeader
@@ -49,7 +49,7 @@ const MediaAppPost = ({ classes, post }) => {
         // subheader="September 14, 2016"
         subheader={format(post.created_at, "MMMM D, YYYY")}
       />
-      <CardMedia className={classes.media} image={post.thumbnail} title="Contemplative Reptile" />
+      <CardMedia onClick={onPostClick(post.id)} className={classes.media} image={post.thumbnail} title="Contemplative Reptile" />
       <CardContent>
         <Typography component="p" className="description">{post.caption}</Typography>
       </CardContent>
