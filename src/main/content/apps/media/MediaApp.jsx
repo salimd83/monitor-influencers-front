@@ -3,7 +3,7 @@ import { FusePageCarded } from "@fuse";
 import { connect } from "react-redux";
 import MediaAppHeader from "./MediaAppHeader";
 import MediaAppList from "./MediaAppList";
-import { getMedia, setFilters, setTagsFilter, setTypesFilter } from "./store/actions/media.actions";
+import { getMedia, setFilters, setTagsFilter, setTypesFilter, closePostDialog, loadPost } from "./store/actions/media.actions";
 import { simpleCall } from "../../../../fn";
 import moment from "moment";
 
@@ -14,14 +14,18 @@ const mapState = ({ mediaApp }) => ({
   tags: mediaApp.tags,
   types: mediaApp.types,
   media: mediaApp.media,
-  page: mediaApp.page
+  page: mediaApp.page,
+  showPost: mediaApp.showPost,
+  post: mediaApp.post
 });
 
 const actions = {
   getMedia,
   setFilters,
   setTagsFilter,
-  setTypesFilter
+  setTypesFilter,
+  loadPost,
+  closePostDialog
 };
 
 export class MediaApp extends Component {
@@ -42,7 +46,6 @@ export class MediaApp extends Component {
     const strTags = match.params.tags || tags.join();
     let tagsId = [];
     let tagsArr = []
-    console.log('strTags',strTags)
     if(strTags !== '' && strTags !== '*') {
       tagsId = strTags.split(',');
       tagsArr = await Promise.all(tagsId.map(async tagId => {
@@ -56,7 +59,6 @@ export class MediaApp extends Component {
     }
     const strTypes = match.params.types || types.join();
     let typesIds = [];
-    let typesArr = []
     if(strTypes !== '' && strTypes !== '*') {
       typesIds = strTypes.split(',');
     }
@@ -64,6 +66,10 @@ export class MediaApp extends Component {
     setFilters(strFrom, strTo, profileObj);
     setTagsFilter(tagsArr)
     setTypesFilter(typesIds)
+
+    if(typeof match.params.postid !== 'undefined') {
+      this.props.loadPost(match.params.postid);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -113,10 +119,8 @@ export class MediaApp extends Component {
     const { from, to, profile, tags, types, history } = this.props;
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
-    console.log(profile)
     const profileId = (typeof profile.value !== 'undefined' && profile.value !== '') ? profile.value : "*";
     const strTags = tags.map(tag => tag.id).join() || "*";
-    // getMedia(strFrom, strTo, profileId, tags, types);
     history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`);
   };
 
@@ -132,8 +136,17 @@ export class MediaApp extends Component {
     }
   };
 
+  onPostClick = postId => () => {
+    this.props.loadPost(postId);
+    this.props.history.push(`/mirrorr/media/post/${postId}`)
+  }
+
+  onPostClose = () => {
+    this.props.closePostDialog();
+  }
+
   render() {
-    const { from, to, tags, types, profile, media, page } = this.props;
+    const { from, to, tags, types, profile, media, page, post, showPost } = this.props;
     const {
       fromChange,
       toChange,
@@ -141,7 +154,9 @@ export class MediaApp extends Component {
       tagsChange,
       typesChange,
       handleClick,
-      loadNextPage
+      loadNextPage,
+      onPostClick,
+      onPostClose
     } = this;
 
     return (
@@ -163,7 +178,7 @@ export class MediaApp extends Component {
             }}
           />
         }
-        content={<MediaAppList media={media} page={page} loadNextPage={loadNextPage} />}
+        content={<MediaAppList {...{media, page, loadNextPage, onPostClick, showPost, post, onPostClose}} />}
         sidebarInner
         onRef={instance => {
           this.pageLayout = instance;

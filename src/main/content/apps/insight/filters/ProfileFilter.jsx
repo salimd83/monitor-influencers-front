@@ -11,18 +11,19 @@ class ProfileFilter extends Component {
         options: [],
         completed: true
       });
-    }
-    const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
+    } else {
+      const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
 
-    request.then(response => {
-      callback(null, {
-        options: response.data.map(profile => ({
-          label: `${profile.first_name} ${profile.last_name}`,
-          value: profile.id
-        })),
-        complete: true
+      request.then(response => {
+        callback(null, {
+          options: response.data.map(profile => ({
+            label: `${profile.first_name} ${profile.last_name}`,
+            value: profile.id
+          })),
+          complete: true
+        });
       });
-    });
+    }
   };
 
   render() {

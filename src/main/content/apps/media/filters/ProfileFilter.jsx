@@ -6,19 +6,25 @@ import * as Fn from "fn/simpleCall.js";
 
 class ProfileFilter extends Component {
   getProfileOptions = (input, callback) => {
-
-    const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
-
-    request.then(response => {
+    if (input === "") {
       callback(null, {
-        options: response.data.map(profile => ({
-          label: `${profile.first_name} ${profile.last_name}`,
-          value: profile.id
-        })),
-        complete: true
+        options: [],
+        completed: true
       });
-    });
-  
+    } else {
+      const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
+
+      request.then(response => {
+        callback(null, {
+          options: response.data.map(profile => ({
+            label: `${profile.first_name} ${profile.last_name}`,
+            value: profile.id
+          })),
+          cache: false,
+          complete: true
+        });
+      });
+    }
   };
 
   render() {
@@ -32,6 +38,7 @@ class ProfileFilter extends Component {
             onChange={profileChange}
             value={profile}
             clearable={false}
+            cache={false}
             autoBlur={true}
             autoload={false}
             removeSelected={true}
