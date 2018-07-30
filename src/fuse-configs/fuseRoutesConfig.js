@@ -54,6 +54,6 @@ export const routes = [
     ...FuseUtils.generateRoutesFromConfigs(routeConfigs),
     {
         path     : '/',
-        component: () => <Redirect to="/apps/dashboards/analytics"/>
+        component: () => <Redirect to="/mirrorr/leaderboard"/>
     }
 ];

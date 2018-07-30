@@ -20,11 +20,11 @@ const fuseSettingsConfig = {
 			mode   : "boxed"
 		}
 	},
-	customScrollbars: true,
+    customScrollbars: false,
 	theme           : {
 		main   : "greeny",
 		navbar : "mainThemeLight",
-        toolbar: 'sweetHues',
+        toolbar: 'mainThemeDark',
 		footer : "mainThemeDark"
 	}
 }
