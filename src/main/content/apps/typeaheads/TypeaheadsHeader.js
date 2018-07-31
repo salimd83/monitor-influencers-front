@@ -29,9 +29,9 @@ class TypeaheadsHeader extends Component {
     const { types, searchType, searchText } = this.props;
 
     return (
-      <div className="flex flex-1 flex-col sm:flex-row items-center justify-between p-24">
-        <div className="flex flex-1 items-center">
-          <div className="flex items-center">
+      <div className="flex flex-1 flex-col sm:flex-row justify-between p-24">
+        <div className="flex flex-1">
+          <div className="flex">
             <FuseAnimate animation="transition.expandIn" delay={300}>
               <Icon className="text-32 mr-12">account_box</Icon>
             </FuseAnimate>
@@ -41,7 +41,7 @@ class TypeaheadsHeader extends Component {
           </div>
         </div>
 
-        <div className="flex items-end">
+        <div className="flex items-end filters">
           <FuseAnimate animation="transition.expandIn" delay={300}>
             <Icon color="action">search</Icon>
           </FuseAnimate>

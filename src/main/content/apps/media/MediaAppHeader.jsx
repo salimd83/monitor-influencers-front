@@ -8,7 +8,7 @@ import TypeFilter from './filters/TypeFilter'
 
 const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange, profileChange, tagsChange, typesChange, handleClick}) => {
   return (
-    <div id="leaderboard-header">
+    <div id="media-header">
       <Grid
         container
         spacing={16}
@@ -28,7 +28,7 @@ const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange
           </div>
         </Grid>
         <Grid item md={10} sm={12} xs={12}>
-          <div className="flex items-center">
+          <div className="flex items-center filters">
             <Grid container spacing={16} alignItems="center" direction="row" style={{zIndex: 1000}}>
               <Grid item>
                 <DateFilter

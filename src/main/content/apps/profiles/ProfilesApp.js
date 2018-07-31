@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { FusePageSimple, FuseAnimate } from '@fuse';
+import { FusePageCarded, FuseAnimate } from '@fuse';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -81,8 +81,8 @@ class ProfilesApp extends Component {
     const { classes, openNewProfileDialog } = this.props;
 
     return (
-      <React.Fragment>
-        <FusePageSimple
+      <div id="profileApp">
+        <FusePageCarded
           className={classes.root}
           classes={{
             root: classes.layoutRoot,
@@ -108,7 +108,7 @@ class ProfilesApp extends Component {
           </Button>
         </FuseAnimate>
         <ProfileDialog {...this.state} />
-      </React.Fragment>
+      </div>
     );
   }
 }

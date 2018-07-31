@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { FusePageSimple, FuseAnimate } from '@fuse';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as Actions from './store/actions';
-import TypeaheadsList from './TypeaheadsList';
-import TypeaheadsHeader from './TypeaheadsHeader';
-import _ from 'lodash';
-import { Button, Icon } from '@material-ui/core';
-import TypeaheadDialog from './TypeaheadDialog';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import { FusePageCarded, FuseAnimate } from "@fuse";
+import { bindActionCreators } from "redux";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import * as Actions from "./store/actions";
+import TypeaheadsList from "./TypeaheadsList";
+import TypeaheadsHeader from "./TypeaheadsHeader";
+import _ from "lodash";
+import { Button, Icon } from "@material-ui/core";
+import TypeaheadDialog from "./TypeaheadDialog";
 
 const headerHeight = 160;
 
@@ -25,7 +25,7 @@ const styles = theme => ({
     paddingBottom: 80
   },
   addButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 12,
     bottom: 12,
     zIndex: 99
@@ -35,7 +35,7 @@ const styles = theme => ({
 class TypeaheadApp extends Component {
   componentDidMount() {
     this.props.getTypeaheads(this.props.match.params.type, this.props.match.params.term);
-      if (this.props.types.length === 0) this.props.getTypes()
+    if (this.props.types.length === 0) this.props.getTypes();
   }
 
   componentDidUpdate(prevProps) {
@@ -45,20 +45,16 @@ class TypeaheadApp extends Component {
   }
 
   render() {
-      const {classes, openNewTypeaheadDialog, types} = this.props
+    const { classes, openNewTypeaheadDialog, types } = this.props;
 
     return (
-      <React.Fragment>
-        <FusePageSimple
-            className={classes.root}
-            classes={{
-            root: classes.layoutRoot,
-            contentCardWrapper: classes.layoutContentCardWrapper
-          }}
-            header={<TypeaheadsHeader types={types} pageLayout={() => this.pageLayout}/>}
-            content={<TypeaheadsList/>}
-            sidebarInner
-            onRef={instance => {
+      <div id="typeaheadApp">
+        <FusePageCarded
+          className={classes.root}
+          header={<TypeaheadsHeader types={types} pageLayout={() => this.pageLayout} />}
+          content={<TypeaheadsList />}
+          sidebarInner
+          onRef={instance => {
             this.pageLayout = instance;
           }}
         />
@@ -74,7 +70,7 @@ class TypeaheadApp extends Component {
           </Button>
         </FuseAnimate>
         <TypeaheadDialog />
-      </React.Fragment>
+      </div>
     );
   }
 }
@@ -82,9 +78,9 @@ class TypeaheadApp extends Component {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
-        getTypeaheads         : Actions.getTypeaheads,
-        openNewTypeaheadDialog: Actions.openNewTypeaheadDialog,
-        getTypes              : Actions.getTypes
+      getTypeaheads: Actions.getTypeaheads,
+      openNewTypeaheadDialog: Actions.openNewTypeaheadDialog,
+      getTypes: Actions.getTypes
     },
     dispatch
   );
@@ -92,12 +88,12 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps({ typeaheadsApp }) {
   return {
-      typeaheads         : typeaheadsApp.typeaheads.entities,
+    typeaheads: typeaheadsApp.typeaheads.entities,
     selectedTypeaheadsIds: typeaheadsApp.typeaheads.selectedTypeaheadsIds,
-      searchText         : typeaheadsApp.typeaheads.searchText,
-      searchType         : typeaheadsApp.typeaheads.searchType,
-      user               : typeaheadsApp.user,
-      types              : typeaheadsApp.typeaheads.types
+    searchText: typeaheadsApp.typeaheads.searchText,
+    searchType: typeaheadsApp.typeaheads.searchType,
+    user: typeaheadsApp.user,
+    types: typeaheadsApp.typeaheads.types
   };
 }
 
