@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import withMobileDialog from "@material-ui/core/withMobileDialog";
 import { Grid, IconButton, Avatar, Chip, Typography, Divider, Hidden } from "@material-ui/core";
 import { format } from "date-fns";
 
 export class MediaDetailsDialog extends Component {
   render() {
-    const { post, open, handleClose, fullScreen } = this.props;
+    const { post, open, handleClose } = this.props;
     return (
       <div>
         <Dialog
@@ -112,4 +109,4 @@ export class MediaDetailsDialog extends Component {
   }
 }
 
-export default withMobileDialog()(MediaDetailsDialog);
+export default MediaDetailsDialog;
