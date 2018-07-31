@@ -69,7 +69,7 @@ export function lockUser() {
     if (_.isObject(getUserData())) {
         updateUserSettings({
                                locked : true,
-                               role   : 'guest',
+                               role   : ['guest'],
                                baToken: null
                            })
 

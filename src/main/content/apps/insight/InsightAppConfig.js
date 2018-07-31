@@ -6,6 +6,7 @@ export const InsightAppConfig = {
             config: {}
         }
     },
+    auth    : ['siInsights'],
     routes  : [
         {
             path     : '/mirrorr/insight/:id?/:from?/:to?',

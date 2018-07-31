@@ -1,15 +1,16 @@
-import ProfileApp from 'main/content/apps/profile/ProfileApp';
+import ProfileApp from 'main/content/apps/profile/ProfileApp'
 
 export const ProfileAppConfig = {
-  settings: {
-    layout: {
-      config: {}
-    }
-  },
-  routes: [
-    {
-      path: '/admin/mirrorr/profile/:id',
-      component: ProfileApp
-    }
-  ]
-};
+    settings: {
+        layout: {
+            config: {}
+        }
+    },
+    auth    : ['siSocialProfiles'],
+    routes  : [
+        {
+            path     : '/admin/mirrorr/profile/:id',
+            component: ProfileApp
+        }
+    ]
+}

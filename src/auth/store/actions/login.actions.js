@@ -35,14 +35,18 @@ export function submitLogin({username, password}) {
 
 
             const res = {
-                baToken: sessionToken,
-                from   : 'api',
-                role   : 'admin',
-                data   : {
-                    'displayName': userProfile.data.first_name + ' ' + userProfile.data.last_name,
-                    'photoURL'   : 'assets/images/avatars/Abbott.jpg',
-                    'email'      : userProfile.data.email
-                }
+                baToken    : sessionToken,
+                from       : 'api',
+                role       : userProfile.data.permissions,
+                landingPage: '/mirrorr/leaderboard',
+                data       : {
+                    displayName : userProfile.data.first_name + ' ' + userProfile.data.last_name,
+                    displayTitle: `${userProfile.data.title} - ${userProfile.data.organisation.name} `,
+                    photoURL    : userProfile.data.profile_picture,
+                    email       : userProfile.data.email
+                },
+                shortcuts  : []
+
             }
 
 

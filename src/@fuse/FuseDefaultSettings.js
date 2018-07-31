@@ -21,10 +21,10 @@ const defaultSettings = {
 				style   : "fixed",
 				position: "below"
 			},
-			mode   : "fullwidth"
+            mode   : 'boxed'
 		}
 	},
-	customScrollbars: true,
+    customScrollbars: false,
 	theme           : {
 		main   : "default",
 		navbar : "mainThemeDark",

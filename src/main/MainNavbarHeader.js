@@ -22,8 +22,8 @@ function MainNavbarHeader({classes})
     return (
         <div className={classes.root}>
             <div className={classNames(classes.logo, "flex items-center")}>
-                <img className={classes.logoIcon} src="assets/images/logos/fuse.svg" alt="logo"/>
-                <Typography className="text-20 ml-8 font-light logo-text">MIRROR</Typography>
+                <img className={classes.logoIcon} src="assets/images/logos/fuse.svg" id="platformLogo" alt="logo"/>
+                <Typography className="text-20 ml-8 font-light logo-text" id="platformName">MIRROR</Typography>
                 <div
                     className="react-badge flex items-center ml-12 py-4 px-8 rounded"
                     style={{
@@ -31,7 +31,7 @@ function MainNavbarHeader({classes})
                         color          : '#61dafb'
                     }}
                 >
-                    <span className="react-text text-14 ml-4">ARA</span>
+                    <span className="react-text text-14 ml-4" id="platformSubTitle">ARA</span>
                 </div>
             </div>
         </div>
