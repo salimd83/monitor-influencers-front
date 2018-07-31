@@ -383,10 +383,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 @media only screen and (max-width: 930px) {
   .FusePageCarded-header-162 {
-    color: #fff;
     height: 250px;
-    width: auto;
-    display: flex;
     min-height: 136px;
     max-height: 250px;
   }
@@ -400,6 +397,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 @media only screen and (max-width: 600px) {
+  [class^="FusePageCarded-header"] {
+    height: 450px;
+    min-height: 136px;
+    max-height: 450px;
+  }
+  [class^="FusePageCarded-topBg"] {
+    height: 460px;
+  }
+
+  #typeaheadApp [class^="FusePageCarded-header"],
+  #typeaheadApp [class^="FusePageCarded-header"] {
+    height: 250px;
+    min-height: 136px;
+    max-height: 250px;
+  }
+  #profileApp [class^="FusePageCarded-topBg"],
+  #profileApp [class^="FusePageCarded-topBg"] {
+    height: 260px;
+  }
+  /* .cardedPageHeader {
+    height: 300px;
+  } */
+  [class^="FusePageCarded-header"] .filters {
+    margin-bottom: 20px;
+  }
   #mediaPostDialog .dialog-content:first-child {
     height: auto;
     overflow: auto;
