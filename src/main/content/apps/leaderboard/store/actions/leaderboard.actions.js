@@ -7,7 +7,7 @@ export const START_FETCHING = "[LEADERBOARD APP] START_FETCHING";
 export const STOP_FETCHING = "[LEADERBOARD APP] STOP_FETCHING";
 export const ERROR_FETCHING = "[LEADERBOARD APP] ERROR_FETCHING";
 
-export function getLeaders(page = null, search = "", industry) {
+export function getLeaders(page = null, search = "", industry, fresh=false) {
   return async dispatch => {
     try {
       dispatch({ type: START_FETCHING });
@@ -26,7 +26,7 @@ export function getLeaders(page = null, search = "", industry) {
       );
       dispatch({
         type: GET_LEADERS,
-        payload: { profiles, page: response.paging.after }
+        payload: { profiles, page: response.paging.after, fresh }
       });
       dispatch({ type: STOP_FETCHING });
     } catch (error) {
@@ -44,7 +44,6 @@ export function setTerm(term) {
 }
 
 export function setIndustry(industry) {
-  console.log('industry', industry)
   return {
     type: SET_INDUSTRY,
     payload: industry

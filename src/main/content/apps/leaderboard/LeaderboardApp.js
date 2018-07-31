@@ -29,19 +29,18 @@ export class LeaderboardApp extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { term, page, industry } = this.props;
+    const { term, industry } = this.props;
     if (term !== prevProps.term || industry !== prevProps.industry) {
       this.searchWhenStopTyping();
     }
   }
 
   searchWhenStopTyping = debounce(() => {
-    this.props.getLeaders(this.props.page, this.props.term, this.props.industry);
+    this.props.getLeaders(null, this.props.term, this.props.industry, true);
   }, 800);
 
   loadNextPage = isVisible => {
     const { getLeaders, page, term } = this.props;
-    console.log('isVisible', isVisible)
     if(isVisible && page) getLeaders(page, term);
   };
 
