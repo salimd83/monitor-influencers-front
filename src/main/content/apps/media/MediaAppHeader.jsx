@@ -8,7 +8,7 @@ import TypeFilter from './filters/TypeFilter'
 
 const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange, profileChange, tagsChange, typesChange, handleClick}) => {
   return (
-    <div id="media-header">
+
       <Grid
         container
         spacing={16}
@@ -66,7 +66,7 @@ const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange
           </div>
         </Grid>
       </Grid>
-    </div>
+
   );
 };
 

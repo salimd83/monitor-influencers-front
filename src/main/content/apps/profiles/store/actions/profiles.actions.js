@@ -20,7 +20,7 @@ export function getProfiles(term) {
     const request = Fn.simpleCallWA(
       dispatch,
       "get",
-      `/si/leaderboard?limit=100&search=${term}`,
+      `si/leaderboard?limit=100&search=${term}`,
       undefined,
       undefined,
       false

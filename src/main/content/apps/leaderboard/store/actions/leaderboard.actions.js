@@ -11,7 +11,7 @@ export function getLeaders(page = null, search = "", industry) {
   return async dispatch => {
     try {
       dispatch({ type: START_FETCHING });
-      const response = await Fn.simpleCallWA(dispatch, "get", "/si/leaderboard", {
+      const response = await Fn.simpleCallWA(dispatch, "get", "si/leaderboard", {
         page,
         search,
         industry: industry ? industry.value : null
