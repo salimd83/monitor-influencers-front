@@ -49,7 +49,6 @@ const styles = theme => ({
 })
 
 function FuseNavHorizontalItem({item, classes, nestedLevel, userRole, navbarCloseMobile}) {
-    console.log('menu role', userRole.includes(item.auth))
     if (item.auth && (!userRole.includes(item.auth) || (userRole !== 'guest' && item.auth.length === 1 && item.auth.includes('guest')))) {
         return null
     }

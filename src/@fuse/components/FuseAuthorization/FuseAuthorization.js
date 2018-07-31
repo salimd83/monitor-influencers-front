@@ -29,8 +29,6 @@ class FuseAuthorization extends Component {
 
         if (matched && matched.route.auth && matched.route.auth.length > 0) {
             let routeMatch = this.props.user.role.filter(element => matched.route.auth.includes(element))
-            console.log('UserProps', this.props.user.role, 'RouteAuth', matched.route.auth, 'routeMatch', routeMatch.length)
-
             if (routeMatch.length === 0) {
                 redirect = true
                 if (this.props.user.role.includes('guest')) {
