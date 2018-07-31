@@ -35,7 +35,10 @@ class TypeaheadsList extends Component {
     const {
       classes,
       typeaheads,
-      openEditTypeaheadDialog
+      openEditTypeaheadDialog,
+      searchType,
+      history,
+      searchText
     } = this.props;
     const data = this.getFilteredArray(typeaheads, '');
 
@@ -49,6 +52,7 @@ class TypeaheadsList extends Component {
               onClick: () => {
                 if (rowInfo) {
                   openEditTypeaheadDialog(rowInfo.original);
+                  history.push(`/admin/typeahead/${searchType}/${searchText || '*'}/${rowInfo.original.id}`)
                 }
               }
             };
@@ -129,7 +133,8 @@ function mapStateToProps({ typeaheadsApp }) {
   return {
     typeaheads: typeaheadsApp.typeaheads.entities,
     selectedTypeaheadIds: typeaheadsApp.typeaheads.selectedTypeaheadIds,
-    searchText: typeaheadsApp.typeaheads.searchText
+    searchText: typeaheadsApp.typeaheads.searchText,
+    searchType: typeaheadsApp.typeaheads.searchType
   };
 }
 

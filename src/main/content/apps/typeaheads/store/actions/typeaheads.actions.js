@@ -21,6 +21,7 @@ export const SET_TYPEAHEADS_STARRED = "[TYPEAHEADS APP] SET TYPEAHEADS STARRED "
 export const GET_TYPES = "[TYPEAHEADS APP] GET TYPES";
 
 export function getTypeaheads(type, term = "") {
+  if(term==='*') term = ''
   return async dispatch => {
     const response = await Fn.simpleCallWA(dispatch, "get", `typeahead/${type}`, {
       q: term
@@ -78,6 +79,16 @@ export function closeNewTypeaheadDialog() {
   return {
     type: CLOSE_NEW_TYPEAHEAD_DIALOG
   };
+}
+
+export function openLoadTypeaheadDialog(id) {
+  return async dispatch => {
+    const response = await Fn.simpleCallWA(dispatch,'get', `typeahead/all?id=${id}`);
+    dispatch({
+      type: OPEN_EDIT_TYPEAHEAD_DIALOG,
+      data: response.data[0]
+    })
+  }
 }
 
 export function openEditTypeaheadDialog(data) {
