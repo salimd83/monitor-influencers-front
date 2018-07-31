@@ -46,7 +46,7 @@ class Locked extends Component {
     state = {
         canSubmit: false,
         step     : 1,
-        user     : getUserData()
+        user     : this.props.user
     }
 
 
@@ -84,9 +84,8 @@ class Locked extends Component {
             this.disableButton()
         }
 
-        if (this.props.user.role !== 'guest') {
-            const pathname = this.props.location.state && this.props.location.state.redirectUrl
-                             ? this.props.location.state.redirectUrl : '/'
+        if (!this.props.user.role.includes('guest')) {
+            const pathname = this.props.location.state && this.props.location.state.redirectUrl ? this.props.location.state.redirectUrl : '/'
             this.props.history.push({
                                         pathname
                                     })

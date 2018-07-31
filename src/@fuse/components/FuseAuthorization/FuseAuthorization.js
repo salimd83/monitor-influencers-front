@@ -26,29 +26,30 @@ class FuseAuthorization extends Component {
 
     checkAuth() {
         const matched = matchRoutes(this.props.routes, this.props.location.pathname)[0]
-        if (matched && matched.route.auth && matched.route.auth.length > 0) {
-            if (!matched.route.auth.includes(this.props.user.role)) {
-                redirect = true
-                if (this.props.user.role === 'guest') {
 
+        if (matched && matched.route.auth && matched.route.auth.length > 0) {
+            let routeMatch = this.props.user.role.filter(element => matched.route.auth.includes(element))
+            if (routeMatch.length === 0) {
+                redirect = true
+                if (this.props.user.role.includes('guest')) {
                     if (this.props.user.locked) {
                         this.props.history.push({
-                            pathname: '/locked',
-                            state   : {redirectUrl: this.props.location.pathname}
-                        })
+                                                    pathname: '/locked',
+                                                    state   : {redirectUrl: this.props.location.pathname}
+                                                })
                     }
                     else {
                         this.props.history.push({
-                            pathname: '/login',
-                            state   : {redirectUrl: this.props.location.pathname}
-                        })
+                                                    pathname: '/login',
+                                                    state   : {redirectUrl: this.props.location.pathname}
+                                                })
                     }
 
                 }
                 else {
                     this.props.history.push({
-                        pathname: '/'
-                    })
+                                                pathname: '/'
+                                            })
                 }
             }
         }
@@ -67,11 +68,9 @@ class FuseAuthorization extends Component {
     render() {
         const {children} = this.props
 
-        return (
-            <React.Fragment>
-                {children}
-            </React.Fragment>
-        )
+        return (<React.Fragment>
+            {children}
+        </React.Fragment>)
     }
 }
 

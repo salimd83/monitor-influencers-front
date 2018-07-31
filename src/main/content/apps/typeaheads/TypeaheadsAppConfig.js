@@ -1,21 +1,22 @@
-import TypeaheadsApp from "./TypeaheadsApp";
-import React from "react";
-import { Redirect } from "react-router-dom";
+import TypeaheadsApp from './TypeaheadsApp'
+import React         from 'react'
+import {Redirect}    from 'react-router-dom'
 
 export const TypeaheadsAppConfig = {
-  settings: {
-    layout: {
-      config: {}
-    }
-  },
-  routes: [
-    {
-      path: "/admin/typeahead/:type/:term?/:id?",
-      component: TypeaheadsApp
+    settings: {
+        layout: {
+            config: {}
+        }
     },
-    {
-      path: "/admin/typeahead",
-      component: () => <Redirect to="/apps/typeahead/all" />
-    }
-  ]
-};
+    auth    : ['typeahead'],
+    routes  : [
+        {
+            path     : '/admin/typeahead/:type/:term?/:id?',
+            component: TypeaheadsApp
+        },
+        {
+            path     : '/admin/typeahead',
+            component: () => <Redirect to="/apps/typeahead/all"/>
+        }
+    ]
+}

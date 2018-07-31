@@ -17,7 +17,7 @@ export const LockedConfig = {
             }
         }
     },
-    auth    : authRoles.onlyGuest,
+    auth    : ['guest'],
     routes  : [
         {
             path     : '/locked',

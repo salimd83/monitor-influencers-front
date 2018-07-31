@@ -3,7 +3,7 @@ import store from 'store';
 import {logoutUser} from 'auth/store/actions';
 
 export const LogoutConfig = {
-    auth  : authRoles.user,
+    auth  : 'login',
     routes: [
         {
             path     : '/logout',

@@ -60,8 +60,7 @@ class MainToolbar extends Component {
             <Button className="h-64" onClick={this.userMenuClick}>
               {user.data.photoURL ? (
                 <Avatar className="" alt="user photo" src={user.data.photoURL} />
-              ) : (
-                <Avatar className="">{user.data.displayName[0]}</Avatar>
+              ) : (<Avatar className="">{user.data.displayName}</Avatar>
               )}
 
               <div className="hidden md:flex flex-col ml-12 items-start">
@@ -69,7 +68,7 @@ class MainToolbar extends Component {
                   {user.data.displayName}
                 </Typography>
                 <Typography className="text-11 capitalize" color="textSecondary">
-                  {user.role}
+                    {user.data.displayTitle}
                 </Typography>
               </div>
 

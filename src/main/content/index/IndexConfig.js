@@ -1,7 +1,6 @@
-import Login from './Login';
-import {authRoles} from 'auth/auth';
+import IndexComp from './Index'
 
-export const LoginConfig = {
+export const IndexConfig = {
     settings: {
         layout: {
             config: {
@@ -17,12 +16,12 @@ export const LoginConfig = {
             }
         }
     },
-    auth    : ['guest'],
+    auth    : ['login'],
     routes  : [
         {
-            path     : '/login',
-            component: Login
+            path     : '/index',
+            component: IndexComp
         }
     ]
-};
+}
 
