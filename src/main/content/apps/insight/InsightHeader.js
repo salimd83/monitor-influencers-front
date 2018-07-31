@@ -8,7 +8,6 @@ import DateFilter from "./filters/DateFilter";
 import moment from "moment";
 
 class InsightHeader extends Component {
-
   handleDateFromChange = from => {
     const { setFilters, to, profile } = this.props;
     setFilters(profile, from, to, false);
@@ -21,7 +20,7 @@ class InsightHeader extends Component {
     const { setFilters, from, to } = this.props;
     setFilters(profile, from, to, false);
   };
-  
+
   handleClick = () => {
     const { from, to, profile } = this.props;
     const strFrom = moment(from).toISOString();
@@ -55,7 +54,7 @@ class InsightHeader extends Component {
           </div>
         </Grid>
         <Grid item>
-          <FuseAnimate animation="transition.slideLeftIn" delay={300}>
+          <div className="flex items-center filters">
             <Grid container spacing={16} alignItems="center" direction="row">
               <Grid item>
                 <DateFilter
@@ -76,7 +75,7 @@ class InsightHeader extends Component {
                 </IconButton>
               </Grid>
             </Grid>
-          </FuseAnimate>
+          </div>
         </Grid>
       </Grid>
     );
