@@ -10,7 +10,7 @@ export const TypeaheadsAppConfig = {
   },
   routes: [
     {
-      path: "/admin/typeahead/:type/:term?",
+      path: "/admin/typeahead/:type/:term?/:id?",
       component: TypeaheadsApp
     },
     {
