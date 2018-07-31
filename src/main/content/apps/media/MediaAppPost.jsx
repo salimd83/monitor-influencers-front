@@ -8,7 +8,8 @@ import {
   CardHeader,
   Avatar,
   IconButton,
-  Icon
+  Icon,
+  Tooltip
 } from "@material-ui/core";
 import red from "@material-ui/core/colors/red";
 import { format } from "date-fns";
@@ -37,21 +38,32 @@ const MediaAppPost = ({ classes, post, onPostClick }) => {
         }
         action={
           <div>
-            <IconButton className={classes.action}>
-              <i className={`fab fa-${post.platform}`} />
-            </IconButton>
-            <IconButton className={classes.action}>
-              <Icon>{post.type.meta.recommended_icon}</Icon>
-            </IconButton>
+            <Tooltip title={post.type.description}>
+              <IconButton className={classes.action}>
+                <i className={`fab fa-${post.platform}`} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={post.type.description}>
+              <IconButton className={classes.action}>
+                <Icon>{post.type.meta.recommended_icon}</Icon>
+              </IconButton>
+            </Tooltip>
           </div>
         }
         title={`${post.owner.first_name} ${post.owner.last_name}`}
         // subheader="September 14, 2016"
         subheader={format(post.created_at, "MMMM D, YYYY")}
       />
-      <CardMedia onClick={onPostClick(post.id)} className={classes.media + ' media-thumb'} image={post.thumbnail} title="Contemplative Reptile" />
+      <CardMedia
+        onClick={onPostClick(post.id)}
+        className={classes.media + " media-thumb"}
+        image={post.thumbnail}
+        title="Contemplative Reptile"
+      />
       <CardContent>
-        <Typography component="p" className="description">{post.caption}</Typography>
+        <Typography component="p" className="description">
+          {post.caption}
+        </Typography>
       </CardContent>
     </Card>
   );
