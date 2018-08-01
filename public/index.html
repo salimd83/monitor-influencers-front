@@ -10,9 +10,12 @@
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-  <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-  <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link rel="manifest" href="%PUBLIC_URL%/static/manifest.json">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/static/icon/Icon-App-60x60@1x.png">
+
+    <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+    <link rel="apple-touch-icon" href="static/icon/Icon-App-60x60@1x.png"/>
+    <link rel="apple-touch-icon" sizes="180x180" href="static/icon/Icon-App-60x60@3x.png"/>
     <link href="static/fontawesome/css/fa-brands.min.css" rel="stylesheet">
     <link href="static/fontawesome/css/fontawesome.min.css" rel="stylesheet">
     <link href="static/googleicons/googleicons.css" rel="stylesheet">
@@ -38,7 +41,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #3C4252;
+        background-color: #f0f0f0;
       z-index: 99999;
       pointer-events: none;
     }
@@ -204,10 +207,6 @@
     <div id="fuse-splash-screen">
 
         <div class="center">
-
-            <div class="logo">
-                <img width="128" src="assets/images/logos/fuse.svg" alt="logo">
-            </div>
 
             <!-- Material Design Spinner -->
             <div class="spinner-wrapper">

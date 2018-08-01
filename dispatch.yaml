@@ -6,3 +6,6 @@ dispatch:
   # Default service serves simple hostname request.
   - url: "beta.mirrorr.com/*"
     service: fast
+
+  - url: "*.mirrorr.com/static"
+    service: fast

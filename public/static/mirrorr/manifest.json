@@ -1,21 +1,21 @@
 {
-  "short_name"      :       "Mirrorr",
+  "short_name"      : "Mirrorr",
   "name"            : "Mirrorr",
-  "icons"           :            [
+  "icons"           : [
     {
-      "src"  : "/static/icons/icons-192.png",
+      "src"  : "static/icons/icons-192.png",
       "type" : "image/png",
       "sizes": "192x192"
     },
     {
-      "src"  : "/static/icons/icons-512.png",
+      "src"  : "static/icons/icons-512.png",
       "type" : "image/png",
       "sizes": "512x512"
     }
   ],
-  "start_url"       : "/index.html/?utm_source=wapp",
+  "start_url"       : "/?utm_source=wapp",
   "scope"           : "/",
-  "display"         :          "standalone",
+  "display"         : "standalone",
   "theme_color"     : "#3D3D3D",
   "background_color": "#3D3D3D"
 }
