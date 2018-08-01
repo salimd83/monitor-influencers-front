@@ -13,6 +13,22 @@ export const REMOVE_USER_DATA       = '[USER] REMOVE DATA'
 export const USER_LOGGED_OUT        = '[USER] LOGGED OUT'
 export const USER_BROWSER_REFERENCE = 'hiUser'
 
+let initialState = {
+    role: ['guest'],
+    data: {
+        'displayName': 'John Doe',
+        'photoURL'   : 'assets/images/avatars/profile.jpg',
+        'email'      : 'youfoundJohn@beaux.media',
+        shortcuts    : [
+            'calendar',
+            'mail',
+            'contacts',
+            'analytics-dashboard'
+        ]
+    }
+
+}
+
 
 export function setUserData(user, doNotUpdate) {
     return (dispatch) => {
@@ -123,7 +139,7 @@ function updateUserData(user) {
 
 export function getUserData() {
 
-    return simpleStore.lookup(USER_BROWSER_REFERENCE, 'local')
+    return {...initialState, ...  simpleStore.lookup(USER_BROWSER_REFERENCE, 'local')}
 
 }
 

@@ -43,9 +43,12 @@ export function submitLogin({username, password}) {
                     displayName : userProfile.data.first_name + ' ' + userProfile.data.last_name,
                     displayTitle: `${userProfile.data.title} - ${userProfile.data.organisation.name} `,
                     photoURL    : userProfile.data.profile_picture,
-                    email       : userProfile.data.email
-                },
-                shortcuts  : []
+                    email       : userProfile.data.email,
+                    shortcuts   : [
+                        'siLeaderBoard',
+                        ''
+                    ]
+                }
 
             }
 
