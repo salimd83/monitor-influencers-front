@@ -93,7 +93,7 @@ export class MediaApp extends Component {
       const profileId = match.params.id || profile.value;
       const strTags = match.params.tags || tags.join();
       const strTypes = match.params.types || types.join();
-      getMedia(strFrom, strTo, profileId, strTags, strTypes);
+      getMedia(strFrom, strTo, profileId, strTags, strTypes, null, true);
     }
   }
 

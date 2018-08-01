@@ -38,12 +38,12 @@ const MediaAppPost = ({ classes, post, onPostClick }) => {
         }
         action={
           <div>
-            <Tooltip title={post.platform_link}>
+            <Tooltip title={post.owner.link.value} placement="left">
               <IconButton className={classes.action}>
                 <i className={`fab fa-${post.platform}`} />
               </IconButton>
             </Tooltip>
-            <Tooltip title={post.type.description}>
+            <Tooltip title={post.type.description} placement="left">
               <IconButton className={classes.action}>
                 <Icon>{post.type.meta.recommended_icon}</Icon>
               </IconButton>
