@@ -33,7 +33,7 @@ const ProfileAddSuccess = ({addedProfile, resetAddProfile, addedProfileId, class
         >
           Add Another
         </Button>
-        <Button href={`/apps/profile/${addedProfileId}`} className={classes.button} color="primary">
+          <Button href={`/mirror/admin/profile/${addedProfileId}`} className={classes.button} color="primary">
           View Profile <Icon className={classes.rightIcon}>exit_to_app</Icon>
         </Button>
       </div>

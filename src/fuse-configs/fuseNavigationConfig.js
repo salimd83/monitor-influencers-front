@@ -7,6 +7,7 @@ export const fuseNavigationConfig = [
         title: 'Leaderboard',
         type : 'item',
         auth : 'siLeaderboard',
+        apps : ['mirrorr'],
         icon : 'bubble_chart',
         url  : '/mirrorr/leaderboard'
     },
@@ -14,6 +15,7 @@ export const fuseNavigationConfig = [
         id   : 'insight',
         title: 'Insight',
         auth : 'siInsights',
+        apps : ['mirrorr'],
         type : 'item',
         icon : 'bubble_chart',
         url  : '/mirrorr/insight'
@@ -22,6 +24,7 @@ export const fuseNavigationConfig = [
         id   : 'media_posts',
         title: 'Media',
         auth : 'siMedia',
+        apps : ['mirrorr'],
         type : 'item',
         icon : 'perm_media',
         url  : '/mirrorr/media'
@@ -34,13 +37,23 @@ export const fuseNavigationConfig = [
         auth    : 'admin',
         title   : 'Administrator Area',
         type    : 'group',
-        icon    : 'settings_applications',
+        apps    : [
+            'simple',
+            'admin',
+            'mirrorr'
+        ],
+        icon    : 'settings_appslications',
         children: [
             {
                 id   : 'typeahead',
                 title: 'Typeahead',
                 auth : 'typeahead',
                 type : 'item',
+                apps : [
+                    'simple',
+                    'admin',
+                    'mirrorr'
+                ],
                 icon : 'account_box',
                 url  : '/admin/typeahead/all'
             },
@@ -48,9 +61,13 @@ export const fuseNavigationConfig = [
                 id   : 'social_profiles',
                 title: 'Social Profiles',
                 auth : 'siSocialProfiles',
+                apps : [
+                    'mirrorr',
+                    'admin'
+                ],
                 type : 'item',
                 icon : 'star_rate',
-                url  : '/admin/mirrorr/profiles'
+                url  : '/mirrorr/admin/profiles'
             }
         ]
     }
