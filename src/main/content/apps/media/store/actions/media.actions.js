@@ -73,6 +73,9 @@ export const getMedia = (since, until, profile, tags, types, page = null, loadin
 export const loadPost = (postId) => {
   return async dispatch => {
     const response = await Fn.simpleCallWA(dispatch, 'get', `si/media/${postId}`)
+    const {data} = response;
+    data.senses = data.tags.filter(tag => tag.score.toFixed(1) < 1)
+    data.mentions = data.tags.filter(tag => tag.score.toFixed(1) >= 1)
     dispatch({
       type: LOAD_POST,
       open: true,
