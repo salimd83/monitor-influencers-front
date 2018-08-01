@@ -16,9 +16,9 @@ handlers:
   secure: always
   expiration: 0s
 
-- url: /sw.js
-  static_files: build/sw.js
-  upload: build/sw.js
+- url: /service-worker.js
+  static_files: build/service-worker.js
+  upload: build/service-worker.js
   secure: always
   expiration: 0s
 
