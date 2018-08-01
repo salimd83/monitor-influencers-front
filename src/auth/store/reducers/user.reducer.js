@@ -1,4 +1,9 @@
-import * as Actions from '../actions'
+import * as Actions             from '../actions'
+import {
+    simpleStore,
+    simpleCall
+}                               from 'fn'
+import {USER_BROWSER_REFERENCE} from '../actions/user.actions'
 
 let initialState = {
     role: ['guest'],
@@ -32,7 +37,7 @@ const user = function (state = initialState, action) {
             return initialState
         }
         default: {
-            return JSON.parse(localStorage.getItem(Actions.USER_BROWSER_REFERENCE)) || state
+            return {...initialState, ...  simpleStore.lookup(USER_BROWSER_REFERENCE, 'local')} || state
         }
     }
 }

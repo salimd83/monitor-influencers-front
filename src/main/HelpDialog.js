@@ -79,9 +79,6 @@ export default class HelpDialog extends Component {
                         Reload Appplication
                         <Icon>refresh</Icon>
                     </Button>
-                    <Button onClick={this.handleClose} color="primary">
-                        Close
-                    </Button>
                 </DialogActions>
             </Dialog>
         </div>)
