@@ -227,12 +227,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 #mediaPostDialog .dialog-content .media{
   cursor: auto;
+  background: #183340;
 }
 #mediaPostDialog .info {
   padding-top: 30px;
 }
+#mediaPostDialog .top-icons{
+  text-align: right;
+}
 #mediaPostDialog .tags {
   margin-top: 20px;
+}
+#mediaPostDialog .tags .tag{
+  margin-right: 5px;
+  margin-bottom: 5px;
+  height: 24px;
+  font-size: 1.2rem;
+  background: #e9e9e9;
+}
+#mediaPostDialog .tags .score{
+  font-size: 13px;
+  width: 24px;
+  height: 24px;
+  background-color: #d0d0d0;
 }
 .MuiDialog-paperWidthSm-490 {
   max-width: 1000px !important;

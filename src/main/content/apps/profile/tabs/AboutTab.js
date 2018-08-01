@@ -30,11 +30,11 @@ class AboutTab extends Component {
     return (
       <div className={classNames(classes.root, "md:flex max-w-2xl")}>
         <div className="flex flex-col flex-1 md:pr-32">
-          <FuseAnimateGroup
+          {/* <FuseAnimateGroup
             enter={{
               animation: "transition.slideUpBigIn"
             }}
-          >
+          > */}
           {!_.isEmpty(profile) && (
               <Tags
                 {...{
@@ -90,7 +90,7 @@ class AboutTab extends Component {
             )}
 
             
-          </FuseAnimateGroup>
+          
         </div>
 
         {/* Links Section */}

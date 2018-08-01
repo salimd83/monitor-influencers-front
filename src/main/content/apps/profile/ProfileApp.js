@@ -1,20 +1,15 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { FusePageSimple, FuseAnimate } from '@fuse';
-import {
-    Avatar,
-    Tab,
-    Tabs,
-    Typography
-} from '@material-ui/core'
-import TimelineTab from 'main/content/apps/profile/tabs/TimelineTab';
-import PhotosVideosTab from 'main/content/apps/profile/tabs/PhotosVideosTab';
-import AboutTab from 'main/content/apps/profile/tabs/AboutTab';
-import InsightTab from 'main/content/apps/profile/tabs/InsightTab';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as Actions from './store/actions';
-import _ from 'lodash';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import { FusePageSimple, FuseAnimate } from "@fuse";
+import { Avatar, Tab, Tabs, Typography } from "@material-ui/core";
+import TimelineTab from "main/content/apps/profile/tabs/TimelineTab";
+import PhotosVideosTab from "main/content/apps/profile/tabs/PhotosVideosTab";
+import AboutTab from "main/content/apps/profile/tabs/AboutTab";
+import InsightTab from "main/content/apps/profile/tabs/InsightTab";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import * as Actions from "./store/actions";
+import _ from "lodash";
 
 const styles = theme => ({
   layoutRoot: {},
@@ -24,18 +19,17 @@ const styles = theme => ({
   layoutHeader: {
     height: 220,
     minHeight: 220,
-    background:
-      "url('/assets/images/backgrounds/dark-material-bg.jpg') no-repeat",
-    backgroundSize: 'cover',
-    color: '#fff',
-    [theme.breakpoints.down('md')]: {
+    background: "url('/assets/images/backgrounds/dark-material-bg.jpg') no-repeat",
+    backgroundSize: "cover",
+    color: "#fff",
+    [theme.breakpoints.down("md")]: {
       height: 240,
       minHeight: 240
     }
   },
   tabsRoot: {
     height: 64,
-    width: '100%'
+    width: "100%"
   },
   tabRoot: {
     height: 64
@@ -59,7 +53,7 @@ class ProfilePage extends Component {
     const { classes, profile, links, tags } = this.props;
     const { value } = this.state;
 
-    const uniqueLinks = _.uniqBy(links, 'type');
+    const uniqueLinks = _.uniqBy(links, "type");
 
     return (
       <FusePageSimple
@@ -76,12 +70,7 @@ class ProfilePage extends Component {
               </FuseAnimate>
               <FuseAnimate animation="transition.slideLeftIn" delay={300}>
                 <span>
-                  <Typography
-                    className="md:ml-24"
-                    variant="display1"
-                    color="inherit"
-                    gutterBottom
-                  >
+                  <Typography className="md:ml-24" variant="display1" color="inherit" gutterBottom>
                     {profile.first_name} {profile.last_name}
                   </Typography>
                 </span>
@@ -90,15 +79,8 @@ class ProfilePage extends Component {
 
             <div className="">
               {uniqueLinks.map(link => (
-                <div
-                  key={link.id}
-                  style={{ textAlign: 'right' }}
-                  className="md:mb-8"
-                >
-                  <a
-                    href={`http://www.${link.type}.com/${link.value}`}
-                    target="_blank"
-                  >
+                <div key={link.id} style={{ textAlign: "right" }} className="md:mb-8">
+                  <a href={`http://www.${link.type}.com/${link.value}`} target="_blank">
                     {link.value}
                     <i className={`fab fa-${link.type} md:ml-8`} />
                   </a>
@@ -123,13 +105,13 @@ class ProfilePage extends Component {
               classes={{
                 root: classes.tabRoot
               }}
-              label="Timeline"
+              label="About"
             />
             <Tab
               classes={{
                 root: classes.tabRoot
               }}
-              label="About"
+              label="Timeline"
             />
             <Tab
               classes={{
@@ -147,8 +129,7 @@ class ProfilePage extends Component {
         }
         content={
           <div className="p-24">
-            {value === 0 && <TimelineTab />}
-            {value === 1 && (
+            {value === 0 && (
               <AboutTab
                 {...{
                   tags,
@@ -156,6 +137,7 @@ class ProfilePage extends Component {
                 }}
               />
             )}
+            {value === 1 && <TimelineTab />}
             {value === 2 && <PhotosVideosTab />}
             {value === 3 && <InsightTab />}
           </div>
