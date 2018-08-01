@@ -81,8 +81,7 @@ class ProfilesList extends Component {
               {
                 Header: '',
                 accessor: 'profile_picture',
-                Cell: row => (
-                  <Link to={`/admin/mirrorr/profile/${row.original.id}`}>
+                Cell: row => (<Link to={`/mirrorr/admin/profile/${row.original.id}`}>
                     <Avatar className="mr-8" alt={row.original.name} src={row.value} />
                   </Link>
                 ),
@@ -91,18 +90,18 @@ class ProfilesList extends Component {
                 sortable: false
               },
               {
-                Header: () => <div className="py-8">First Name</div>,
-                accessor: 'first_name',
+                Header    : () => <div className="py-8">First Name</div>,
+                accessor  : 'first_name',
                 filterable: true,
-                Cell: row => <Link to={`/admin/mirrorr/profile/${row.original.id}`}>{row.value}</Link>,
-                className: 'font-bold'
+                  Cell    : row => <Link to={`/mirrorr/admin/profile/${row.original.id}`}>{row.value}</Link>,
+                className : 'font-bold'
               },
               {
-                Header: 'Last Name',
-                accessor: 'last_name',
-                Cell: row => <Link to={`/admin/mirrorr/profile/${row.original.id}`}>{row.value}</Link>,
+                Header    : 'Last Name',
+                accessor  : 'last_name',
+                  Cell    : row => <Link to={`/mirrorr/admin//profile/${row.original.id}`}>{row.value}</Link>,
                 filterable: true,
-                className: 'font-bold'
+                className : 'font-bold'
               },
               {
                 Header: 'Country',
