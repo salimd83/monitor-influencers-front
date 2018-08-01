@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
+import { Button, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import _ from "lodash";
 
 import { simpleStore } from "../../../../fn/simpleStore";
-import initLayout from './initLayout'
+import initLayout from "./initLayout";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
@@ -31,19 +31,7 @@ if (originalLayouts[breakpoint]) {
 }
 
 const initialItems = dummyArray.map((i, key, list) => {
-  cards[i].hidden = false;
-  return {
-    i: i.toString(),
-    x: cards[i].x,
-    y: cards[i].y,
-    w: cards[i].w,
-    h: cards[i].h,
-    minH: cards[i].minH,
-    minW: cards[i].minW,
-    add: i === (list.length - 1).toString(),
-    component: cards[i].component,
-    id: cards[i].id
-  };
+  return cards[i];
 });
 
 class InsightGrid extends Component {
@@ -65,11 +53,16 @@ class InsightGrid extends Component {
     items: initialItems,
     newCounter: initialItems.length,
     layouts: originalLayouts, // set layout to initial items tilla layout change occures
-    layout: InsightGrid
+    layout: originalLayouts[breakpoint]
   };
 
   componentWillMount() {
-    this.setState({ layouts: simpleStore.lookup("siInsightsGrid2", "simple") || {} });
+    const layouts = simpleStore.lookup("siInsightsGrid2", "simple") || {}
+    // this.setState({ layouts });
+    this.setState({
+      layouts,
+      items: cards.filter(card => layouts[breakpoint].map(layout => layout.i).includes(card.i))
+    })
   }
 
   componentWillUnmount() {
@@ -77,7 +70,7 @@ class InsightGrid extends Component {
   }
 
   createElement = (item, index) => {
-    const i = item.add ? "+" : item.i;
+    const i = item.i;
     const Card = item.component;
 
     return (
@@ -90,16 +83,16 @@ class InsightGrid extends Component {
     );
   };
 
-  onAddItem = () => {
+  onAddItem = (e) => {
     /*eslint no-console: 0*/
+    const id = e.target.value;
     const { newCounter, items, cols } = this.state;
-    const card = cards.filter(card => card.hidden).slice(0, 1)[0];
-    card.hidden = false;
+    const card = cards.filter(card => card.id === id)[0];
 
     const newItem = {
       i: String(newCounter),
-      x: (items.length * card.w) % (cols || 12),
-      y: Infinity, // puts it at the bottom
+      x: 0,
+      y: 0, // puts it at the bottom
       w: card.w,
       h: card.h,
       minH: card.minH,
@@ -133,7 +126,6 @@ class InsightGrid extends Component {
     const { items } = this.state;
     const item = items.filter(item => item.i === i)[0];
     const card = cards.filter(card => card.id === item.id)[0];
-    card.hidden = true;
     this.setState({
       items: _.reject(items, { i: i })
     });
@@ -141,9 +133,21 @@ class InsightGrid extends Component {
 
   render() {
     const { items } = this.state;
+    const hiddenItems = cards.filter(card => !items.includes(card));
     return (
       <div>
-        <Button
+        <FormControl className="my-16 mx-16">
+          <InputLabel>Charts:</InputLabel>
+          <Select value="" onChange={this.onAddItem} style={{width: '200px'}}>
+            {hiddenItems.map(item => (
+              <MenuItem key={item.id} value={item.id}>
+                {item.id}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        {/* <Button
           onClick={this.onAddItem}
           className="my-16 mx-16"
           variant="outlined"
@@ -151,7 +155,7 @@ class InsightGrid extends Component {
           disabled={items.length < cards.length ? false : true}
         >
           Add Item
-        </Button>
+        </Button> */}
         <ResponsiveReactGridLayout
           onBreakpointChange={this.onBreakpointChange}
           layouts={this.state.layouts}
