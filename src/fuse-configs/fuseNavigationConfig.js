@@ -27,6 +27,9 @@ export const fuseNavigationConfig = [
         url  : '/mirrorr/media'
     },
     {
+        type: 'divider'
+    },
+    {
         id      : 'admin',
         auth    : 'admin',
         title   : 'Administrator Area',

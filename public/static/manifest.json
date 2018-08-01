@@ -1,34 +1,21 @@
 {
-  "name":             "Material-UI",
-  "short_name":       "MUI",
-  "display":          "browser",
-  "start_url":        "/",
-  "theme_color":      "#2196f3",
-  "background_color": "#2196f3",
-  "icons":            [
+  "short_name"      : "Mirrorr",
+  "name"            : "Mirrorr",
+  "icons"           :            [
     {
-      "src":   "/static/icons/48x48.png",
-      "sizes": "48x48"
-    },
-    {
-      "src":   "/static/icons/96x96.png",
-      "sizes": "96x96"
-    },
-    {
-      "src":   "/static/icons/192x192.png",
+      "src"  : "static/icons/icons-192.png",
+      "type" : "image/png",
       "sizes": "192x192"
     },
     {
-      "src":   "/static/icons/256x256.png",
-      "sizes": "256x256"
-    },
-    {
-      "src":   "/static/icons/384x384.png",
-      "sizes": "384x384"
-    },
-    {
-      "src":   "/static/icons/512x512.png",
+      "src"  : "static/icons/icons-512.png",
+      "type" : "image/png",
       "sizes": "512x512"
     }
-  ]
+  ],
+  "start_url"       : "/?utm_source=wapp",
+  "scope"           : "/",
+  "display"         : "standalone",
+  "theme_color"     : "#3D3D3D",
+  "background_color": "#3D3D3D"
 }

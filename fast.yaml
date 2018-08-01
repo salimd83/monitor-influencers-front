@@ -16,16 +16,11 @@ handlers:
   secure: always
   expiration: 0s
 
-- url: /service-worker.js
-  static_files: build/service-worker.js
-  upload: build/service-worker.js
+- url: /sw.js
+  static_files: build/sw.js
+  upload: build/sw.js
   secure: always
   expiration: 0s
-
-- url: /favicon.ico
-  static_files: build/favicon.ico
-  upload: build/favicon.ico
-  secure: always
 
 - url: /favicon.ico
   static_files: build/favicon.ico
