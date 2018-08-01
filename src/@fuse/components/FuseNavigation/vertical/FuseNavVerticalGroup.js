@@ -17,8 +17,10 @@ const propTypes = {
 
 const defaultProps = {}
 
-function FuseNavVerticalGroup({item, nestedLevel, userRole}) {
-    if (item.auth && (!userRole.includes(item.auth) || (userRole !== 'guest' && item.auth.length === 1 && item.auth.includes('guest')))) {
+function FuseNavVerticalGroup({item, nestedLevel, userRole, location}) {
+    let appMatch = item.apps.includes(location.pathname.split('/')[1])
+
+    if (item.auth && (!userRole.includes(item.auth) || !appMatch || (userRole !== 'guest' && item.auth.length === 1 && item.auth.includes('guest')))) {
         return null
     }
 

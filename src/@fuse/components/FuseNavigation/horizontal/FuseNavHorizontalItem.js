@@ -15,6 +15,7 @@ import PropTypes            from 'prop-types'
 import {connect}            from 'react-redux'
 import {bindActionCreators} from 'redux'
 import * as Actions         from 'store/actions'
+import {matchRoutes}        from 'react-router-config'
 
 const propTypes = {
     item: PropTypes.shape({
@@ -48,8 +49,10 @@ const styles = theme => ({
     }
 })
 
-function FuseNavHorizontalItem({item, classes, nestedLevel, userRole, navbarCloseMobile}) {
-    if (item.auth && (!userRole.includes(item.auth) || (userRole !== 'guest' && item.auth.length === 1 && item.auth.includes('guest')))) {
+function FuseNavHorizontalItem({item, classes, nestedLevel, userRole, navbarCloseMobile, location}) {
+    let appMatch = item.apps.includes(location.pathname.split('/')[1])
+
+    if (item.auth && (!userRole.includes(item.auth) || !appMatch || (userRole !== 'guest' && item.auth.length === 1 && item.auth.includes('guest')))) {
         return null
     }
 
