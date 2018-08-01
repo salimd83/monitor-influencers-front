@@ -31,7 +31,7 @@ export const setTypesFilter = types => {
   };
 };
 
-export const getMedia = (since, until, profile, tags, types, page = null) => {
+export const getMedia = (since, until, profile, tags, types, page = null, loading=false) => {
   if (profile === "*") profile = "";
   if (tags === "*") tags = "";
   return async dispatch => {
@@ -49,7 +49,7 @@ export const getMedia = (since, until, profile, tags, types, page = null) => {
           type: types
         },
         undefined,
-        false
+        loading
       );
 
       if (page) {
