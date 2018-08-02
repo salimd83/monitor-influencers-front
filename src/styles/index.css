@@ -211,45 +211,131 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-top: 0.2em;
   background: white;
 }
+#mediaList .image-container {
+  width: 100%;
+  height: 270px;
+  overflow: hidden;
+  object-fit: cover;
+  position: relative;
+  background-position: center center;
+  background-size: cover;
+}
+#mediaList .image-container .overlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-size: 14px;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+#mediaList .image-container:hover .overlay {
+  opacity: 1;
+}
+#mediaList .image-container .overlay ul {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -moz-transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  -o-transform: translate(-50%, -50%);
+  padding: 0;
+  width: 100%;
+  text-align: center;
+}
+#mediaList .image-container .overlay ul li {
+  display: inline-block;
+  margin-left: 25px;
+}
+#mediaList .image-container .overlay ul li:first-child {
+  margin-left: 0;
+}
+#mediaList .image-container .overlay ul li span {
+  font-size: 21px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
 #mediaPostDialog .dialog-content:first-child {
   padding: 0;
-  height: 600px;
   object-fit: cover;
   overflow: hidden;
-  max-width: 900px;
+  max-width: 960px;
 }
 #mediaPostDialog .dialog-content:first-child video {
   width: 100%;
   height: 600px;
 }
-#mediaList .media-thumb{
+#mediaList .media-thumb {
   cursor: pointer;
 }
-#mediaPostDialog .dialog-content .media{
+#mediaPostDialog .dialog-content .media {
   cursor: auto;
   background: #183340;
+  position: relative;
+  height: 90vh;
+}
+#mediaPostDialog .dialog-content .media img {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translate(0, -50%);
+  -moz-transform: translate(0, -50%);
+  -webkit-transform: translate(0, -50%);
+  -ms-transform: translate(0, -50%);
+  -o-transform: translate(0, -50%);
 }
 #mediaPostDialog .info {
   padding-top: 30px;
 }
-#mediaPostDialog .top-icons{
+#mediaPostDialog .top-icons {
   text-align: right;
 }
 #mediaPostDialog .tags {
   margin-top: 20px;
 }
-#mediaPostDialog .tags .tag{
+#mediaPostDialog .tags .tag {
   margin-right: 5px;
   margin-bottom: 5px;
   height: 24px;
   font-size: 1.2rem;
   background: #e9e9e9;
 }
-#mediaPostDialog .tags .score{
+#mediaPostDialog .tags .score {
   font-size: 13px;
   width: 24px;
   height: 24px;
   background-color: #d0d0d0;
+}
+#mediaPostDialog .tags .score .material-icons {
+  font-size: 19px;
+}
+#mediaPostDialog .engagment {
+  width: 100%;
+  /* text-align: center; */
+  margin: 20px 0;
+}
+#mediaPostDialog .engagment ul {
+  padding: 0;
+}
+#mediaPostDialog .engagment ul li {
+  display: inline-block;
+  margin-right: 30px;
+  color: #444;
+  font-weight: bold;
+  font-size: 18px;
+  text-align: center;
+}
+#mediaPostDialog .engagment ul li span {
+  clear: both;
+  display: block;
+  margin: auto;
+  color: #bbb;
+  font-size: 21px;
 }
 .MuiDialog-paperWidthSm-490 {
   max-width: 1000px !important;
@@ -413,6 +499,24 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
+@media only screen and (min-width: 600px) {
+  #mediaPostDialog .info {
+    position: relative;
+    height: 100%;
+    height: 90vh;
+  }
+  #mediaPostDialog .info .wrapper {
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 100%;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   [class^="FusePageCarded-header"] {
     height: 450px;
@@ -449,5 +553,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
   #mediaPostDialog .info {
     padding: 20px 40px;
+  }
+  #mediaPostDialog .post-owner {
+    margin: 15px;
   }
 }
