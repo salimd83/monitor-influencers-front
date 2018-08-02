@@ -15,7 +15,7 @@ const PostMentions = ({ mentions }) => {
             icon = "tag_faces";
             break;
           case "mention":
-            icon = "user";
+            icon = "account_circle";
             break;
           case "location":
             icon = "location_on";

@@ -16,8 +16,7 @@ const PostOwner = ({ post }) => {
             {post.owner.first_name} {post.owner.last_name}
           </Typography>
           <Typography variant="caption">
-            <b>Created at:</b> {format(post.created_at, "MMMM D, YYYY")} |
-            <b>Captured at:</b> {format(post.captured_at, "MMMM D, YYYY")}
+            {format(post.created_at, "MMMM D, YYYY")} | {format(post.captured_at, "MMMM D, YYYY")}
           </Typography>
         </Grid>
       </Grid>

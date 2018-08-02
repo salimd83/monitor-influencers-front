@@ -59,15 +59,15 @@ const MediaAppPost = ({ classes, post, onPostClick }) => {
           {/* <img src={post.thumbnail} alt="" /> */}
           {post.engagment && post.engagment.length > 0 && <div className="overlay">
             <ul>
-              <li>
+              {post.engagment[post.engagment.length -1].views > 0 && <li>
                 <Icon>remove_red_eye</Icon> {post.engagment[post.engagment.length -1].views}
-              </li>
-              <li>
+              </li>}
+              {post.engagment[post.engagment.length -1].reactions && <li>
                 <Icon>favorite</Icon> {post.engagment[post.engagment.length -1].reactions}
-              </li>
-              <li>
+              </li>}
+              {post.engagment[post.engagment.length -1].reactions && <li>
                 <Icon>mode_comment</Icon> {post.engagment[post.engagment.length -1].comments}
-              </li>
+              </li>}
             </ul>
           </div>}
         </div>
