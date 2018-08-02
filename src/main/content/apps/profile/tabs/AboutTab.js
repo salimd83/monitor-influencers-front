@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles/index";
 import { AppBar, Card, CardContent, Toolbar, Typography } from "@material-ui/core";
 import classNames from "classnames";
-import { FuseAnimateGroup } from "@fuse";
 import _ from "lodash";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";

@@ -54,12 +54,25 @@ const MediaAppPost = ({ classes, post, onPostClick }) => {
         // subheader="September 14, 2016"
         subheader={format(post.created_at, "MMMM D, YYYY")}
       />
-      <CardMedia
-        onClick={onPostClick(post.id)}
-        className={classes.media + " media-thumb"}
-        image={post.thumbnail}
-        title="Contemplative Reptile"
-      />
+      <CardMedia onClick={onPostClick(post.id)} className=" media-thumb" src={post.thumbnail}>
+        <div className="image-container" style={{backgroundImage: `url("${post.thumbnail}")`}}>
+          {/* <img src={post.thumbnail} alt="" /> */}
+          {post.engagment && post.engagment.length > 0 && <div className="overlay">
+            <ul>
+              <li>
+                <Icon>remove_red_eye</Icon> {post.engagment[post.engagment.length -1].views}
+              </li>
+              <li>
+                <Icon>favorite</Icon> {post.engagment[post.engagment.length -1].reactions}
+              </li>
+              <li>
+                <Icon>mode_comment</Icon> {post.engagment[post.engagment.length -1].comments}
+              </li>
+            </ul>
+          </div>}
+        </div>
+      </CardMedia>
+
       <CardContent>
         <Typography component="p" className="description">
           {post.caption}
