@@ -79,7 +79,7 @@ class FuseAppsShortcuts extends Component {
     }
 
     render() {
-        const {classes navigation, userRole} = this.props
+        const {classes, navigation, userRole} = this.props
         let navAppsItem                       = navigation.find(function (element) {
             return element.id === 'apps'
         })

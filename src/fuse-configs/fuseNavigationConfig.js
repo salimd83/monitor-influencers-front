@@ -101,7 +101,7 @@ export const fuseNavigationConfig = [
             {
                 id   : 'mesur',
                 title: 'Mesur',
-                auth : 'mesure',
+                auth : 'mesur',
                 apps : [],
                 type : 'item',
                 icon : 'pages',

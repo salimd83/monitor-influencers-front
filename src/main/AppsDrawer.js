@@ -28,24 +28,32 @@ const propTypes = {}
 const defaultProps = {}
 
 const styles = theme => ({
-    fullList: {
+    fullList       : {
         width: 'auto'
     },
-    root    : {
+    root           : {
         display        : 'flex',
         flexWrap       : 'wrap',
         justifyContent : 'space-around',
         overflow       : 'hidden',
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.paper,
+        height         : '25.6vw',
+        width          : '100%'
     },
-    gridList: {
+    gridList       : {
         flexWrap : 'nowrap', // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
         transform: 'translateZ(0)'
     },
-    title   : {
+    gridListTile   : {
+        height: '25.6vw'
+    },
+    gridListTileImg: {
+        height: '25.6vw'
+    },
+    title          : {
         color: theme.palette.primary.light
     },
-    titleBar: {
+    titleBar       : {
         background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 100%)'
     }
 })
@@ -170,9 +178,9 @@ class AppsDrawer extends Component {
                     onKeyDown={this.toggleDrawer('top', false)}
                 >
                     <div className={classes.root}>
-                        <GridList className={classes.gridList} cols={2.5} cellHeight={'20%'}>
-                            {appsItems.map(tile => (<GridListTile key={tile.img}>
-                                <Link to={tile.url}> <img src={tile.img} alt={tile.title}/></Link>
+                        <GridList className={classes.gridList} cols={2.213} cellHeight={'25.6vw'}>
+                            {appsItems.map(tile => (<GridListTile className={classes.gridListTile} cols={1} key={tile.img}>
+                                <Link to={tile.url}> <img className={classes.gridListTileImg} src={tile.img} alt={tile.title}/></Link>
                             </GridListTile>))}
                         </GridList>
                     </div>
