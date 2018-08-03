@@ -6,6 +6,7 @@ const initialState = {
   searchType: '',
   selectedTypeaheadIds: [],
   types: [],
+  deletingType: false,
   typeaheadDialog: {
     type: 'new',
     props: {
@@ -42,6 +43,19 @@ const typeaheadsReducer = function(state = initialState, action) {
       return {
         ...state,
         entities: [action.payload, ...state.entities]
+      };
+    }
+    case Actions.DELETING_TYPEAHEAD: {
+      return {
+        ...state,
+        deletingType: true
+      };
+    }
+    case Actions.DELETE_TYPEAHEAD: {
+      return {
+        ...state,
+        entities: [...state.entities.filter(type => type.id !== action.id)],
+        deletingType: false
       };
     }
     case Actions.SET_SEARCH_TEXT: {
