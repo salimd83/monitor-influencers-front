@@ -34,6 +34,7 @@ export const setTypesFilter = types => {
 export const getMedia = (since, until, profile, tags, types, page = null, loading = false) => {
   if (profile === "*") profile = "";
   if (tags === "*") tags = "";
+  if (types === "*") types = "";
   return async dispatch => {
     try {
       const response = await Fn.simpleCallWA(
@@ -49,7 +50,7 @@ export const getMedia = (since, until, profile, tags, types, page = null, loadin
           type: types
         },
         undefined,
-        loading
+        true
       );
 
       var d = new Date();

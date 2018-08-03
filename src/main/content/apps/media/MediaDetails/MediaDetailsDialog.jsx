@@ -9,10 +9,42 @@ import PostSenses from "./PostSenses";
 import PostMentions from "./PostMentions";
 import EngagmentGraph from "../widgets/EngagmentGraph";
 import engagmentData from "../widgets/engagmentData";
+import PostEngagement from "./PostEngagement";
 
 export class MediaDetailsDialog extends Component {
+  state = {
+    width: 0
+  };
+
+  componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth });
+  };
+
   render() {
     const { post, open, handleClose } = this.props;
+    const imageRatio = post.media_width / post.media_height;
+
+    const style = {
+      maxWidth: "none",
+      height: "90vh"
+    };
+    if (imageRatio > 0.9) {
+      style.maxWidth = "670px";
+      style.height = "auto";
+    }
+    if (this.state.width <= 960) {
+      style.width = "100%";
+      style.height = "auto";
+    }
     let data;
     if (post.engagment && post.engagment.length > 1) {
       data = engagmentData(post.engagment);
@@ -33,65 +65,39 @@ export class MediaDetailsDialog extends Component {
               <DialogContent className="dialog-content">
                 <Hidden smUp>
                   <Grid container>
-                    <Grid item xs={9}>
+                    <Grid container item xs={8} spacing={8} className="post-owner">
                       <PostOwner post={post} />
                     </Grid>
-                    <Grid item>
+                    <Grid item xs>
                       <PostIcons post={post} />
                     </Grid>
                   </Grid>
                 </Hidden>
 
                 <Grid container spacing={24}>
-                  <Grid item sm={7}>
-                    <PostMedia post={post} />
+                  <Grid item xs={12} sm={7} md lg>
+                    <PostMedia post={post} style={style} />
                   </Grid>
 
-                  <Grid item sm={5} className="info">
-                    <div className="wrapper">
-                      <Hidden xsDown>
-                        <Grid container>
-                          <Grid item xs={9}>
-                            <PostOwner post={post} />
-                          </Grid>
-                          <Grid item>
-                            <PostIcons post={post} />
-                          </Grid>
-                        </Grid>
+                  <Grid item xs={12} sm={5} md lg container className="info">
+                    <Hidden xsDown>
+                      <Grid item container xs={9} spacing={8} className="post-owner">
+                        <PostOwner post={post} />
+                      </Grid>
+                      <Grid item xs>
+                        <PostIcons post={post} />
+                      </Grid>
+                      <div style={{ clear: "both", width: "100%" }}>
                         <Divider className="mb-16 mt-16" />
-                      </Hidden>
-
-                      <div>
-                        <Typography variant="subheading" gutterBottom>
-                          {post.caption}
-                        </Typography>
                       </div>
+                    </Hidden>
 
-                      {post.engagment &&
-                        post.engagment.length > 0 && (
-                          <div style={{ marginTop: "20px" }}>
-                            <Typography variant="body2" gutterBottom>
-                              Engagements Rate
-                            </Typography>
-                            {post.engagment.length > 1 ? (
-                              <EngagmentGraph data={data} />
-                            ) : (
-                              <div className="engagment">
-                                <ul>
-                                  {post.engagment[0].views > 0 && <li>
-                                    <Icon>remove_red_eye</Icon> {post.engagment[0].views}
-                                  </li>}
-                                  {post.engagment[0].reactions > 0 && <li>
-                                    <Icon>favorite</Icon> {post.engagment[0].reactions}
-                                  </li>}
-                                  {post.engagment[0].comments > 0 && <li>
-                                    <Icon>mode_comment</Icon> {post.engagment[0].comments}
-                                  </li>}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
-                        )}
+                    <div className="scrollWrap">
+                      <Typography variant="subheading" gutterBottom>
+                        {post.caption}
+                      </Typography>
+
+                      <PostEngagement engagment={post.engagment} data={data} />
 
                       {post.senses && post.senses.length > 0 && <PostSenses senses={post.senses} />}
 

@@ -58,8 +58,8 @@ export default dataObjs => {
       },
       layout: {
         padding: {
-          left: 24,
-          right: 32
+          left: 12,
+          right: 20
         }
       },
       elements: {
