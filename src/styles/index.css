@@ -264,11 +264,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 0;
   object-fit: cover;
   overflow: hidden;
-  max-width: 960px;
+  max-width: 100%;
 }
 #mediaPostDialog .dialog-content:first-child video {
   width: 100%;
-  height: 600px;
+  height: 100%;
+  max-width: 600px;
 }
 #mediaList .media-thumb {
   cursor: pointer;
@@ -282,6 +283,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 #mediaPostDialog .top-icons {
   text-align: right;
+}
+#mediaPostDialog .top-icons button{
+  width: 44px;
+  height: 44px;
 }
 #mediaPostDialog .tags {
   margin-top: 20px;
@@ -309,6 +314,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 #mediaPostDialog .engagment ul {
   padding: 0;
+  width: 100%;
 }
 #mediaPostDialog .engagment ul li {
   display: inline-block;
@@ -493,7 +499,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   #mediaPostDialog .info {
     position: relative;
     height: 100%;
-    height: 90vh;
+    /* height: 90vh; */
   }
   #mediaPostDialog .info .wrapper {
     overflow: hidden;
@@ -507,17 +513,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
   #mediaPostDialog .dialog-content .media {
     position: relative;
-    height: 90vh;
+    height: 100%;
   }
 
-  #mediaPostDialog .dialog-content  img {
-    position: absolute;
-    width: 100%;
+  #mediaPostDialog .dialog-content .media img {
+    position: relative;
     top: 50%;
-    left: 0;
-    transform: translate(0, -50%);
-    -ms-transform: translate(0, -50%);
-    -moz-transform: translate(0, -50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    /* width: 700px; */
+    /* height: 100%;
+    max-width: none; */
+  }
+
+  #mediaPostDialog .info .scrollWrap {
+    height: 50vh;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding-bottom: 40px;
+    margin-right: -12px;
+    width: 100%;
   }
 }
 

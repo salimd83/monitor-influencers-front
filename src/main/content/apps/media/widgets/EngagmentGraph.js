@@ -42,15 +42,16 @@ class EngagmentGraph extends Component {
       };
     });
     return (
-      <div className={classNames(classes.root, "w-full")}>
+      <div className={classNames(classes.root, "w-full")} style={{width: '100%'}} >
 
-        <Typography className="relative pb-16" style={{ minHeight: "200px", marginTop: '20px' }}>
+        <Typography style={{width: '100%'}} className="relative pb-16" style={{ minHeight: "200px", marginTop: '20px' }}>
           <Line
             data={{
               labels: data.labels,
               datasets: dataWithColors
             }}
             options={data.options}
+            style={{width: '100%'}}
           />
         </Typography>
       </div>

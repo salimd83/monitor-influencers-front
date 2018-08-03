@@ -159,8 +159,14 @@ export class MediaApp extends Component {
   };
 
   onPostClick = postId => () => {
+    const { from, to, profile, tags, types, history } = this.props;
+    const strFrom = moment(from).toISOString();
+    const strTo = moment(to).toISOString();
+    const profileId =
+      typeof profile.value !== "undefined" && profile.value !== "" ? profile.value : "*";
+    const strTags = tags.map(tag => tag.id).join() || "*";
     this.props.loadPost(postId);
-    this.props.history.push(`/mirrorr/media/post/${postId}`);
+    this.props.history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}/${postId}`);
   };
 
   onPostClose = () => {

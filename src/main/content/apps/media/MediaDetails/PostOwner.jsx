@@ -4,23 +4,21 @@ import { format } from "date-fns";
 
 const PostOwner = ({ post }) => {
   return (
-    <div className="post-owner">
-      <Grid container spacing={8}>
-        <Grid item style={{ textAlign: "center" }}>
-          <Avatar aria-label="Recipe">
-            <img src={post.owner.profile_picture} alt="" />
-          </Avatar>
-        </Grid>
-        <Grid item>
-          <Typography variant="body2">
-            {post.owner.first_name} {post.owner.last_name}
-          </Typography>
-          <Typography variant="caption">
-            {format(post.created_at, "MMMM D, YYYY")} | {format(post.captured_at, "MMMM D, YYYY")}
-          </Typography>
-        </Grid>
+    <React.Fragment>
+      <Grid item style={{ textAlign: "center" }}>
+        <Avatar aria-label="Recipe">
+          <img src={post.owner.profile_picture} alt="" />
+        </Avatar>
       </Grid>
-    </div>
+      <Grid item>
+        <Typography variant="body2">
+          {post.owner.first_name} {post.owner.last_name}
+        </Typography>
+        <Typography variant="caption">
+          {format(post.created_at, "MMMM D, YYYY")} | {format(post.captured_at, "MMMM D, YYYY")}
+        </Typography>
+      </Grid>
+    </React.Fragment>
   );
 };
 

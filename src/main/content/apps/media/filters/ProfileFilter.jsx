@@ -37,7 +37,7 @@ class ProfileFilter extends Component {
             name="profile"
             onChange={profileChange}
             value={profile}
-            clearable={false}
+            clearable={true}
             cache={false}
             autoBlur={true}
             autoload={false}
