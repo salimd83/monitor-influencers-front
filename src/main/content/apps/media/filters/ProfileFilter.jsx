@@ -13,8 +13,10 @@ class ProfileFilter extends Component {
       });
     } else {
       const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
+      
 
       request.then(response => {
+        console.log(response.data)
         callback(null, {
           options: response.data.map(profile => ({
             label: `${profile.first_name} ${profile.last_name}`,

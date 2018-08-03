@@ -41,7 +41,7 @@ class ProfilePage extends Component {
     value: 0
   };
 
-  componentDidMount() {
+  componentWillMount() {
     this.props.getProfile(this.props.match.params);
   }
 

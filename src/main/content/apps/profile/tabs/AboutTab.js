@@ -24,7 +24,7 @@ class AboutTab extends Component {
   };
 
   render() {
-    const { classes, profile, tags, deleteTag, addTag } = this.props;
+    const { classes, profile, deleteTag, tags, addTag } = this.props;
 
     return (
       <div className={classNames(classes.root, "md:flex max-w-2xl")}>
@@ -109,15 +109,9 @@ function mapDispatchToProdps(dispatch) {
   );
 }
 
-function mapStateToProps({ profileApp }) {
-  return {
-    tags: profileApp.profile.tags
-  };
-}
-
 export default withStyles(styles, { withTheme: true })(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProdps
   )(AboutTab)
 );
