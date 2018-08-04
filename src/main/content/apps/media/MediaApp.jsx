@@ -111,7 +111,7 @@ export class MediaApp extends Component {
       const { from, to, profile, tags, types, match, getMedia } = this.props;
       const strFrom = match.params.from || moment(from).toISOString();
       const strTo = match.params.to || moment(to).toISOString();
-      const profileId = match.params.id || profile.value;
+      const profileId = match.params.id || profile.id;
       const strTags = match.params.tags || tags.join();
       const strTypes = match.params.types || types.join();
       getMedia(strFrom, strTo, profileId, strTags, strTypes, null, true);
@@ -128,6 +128,7 @@ export class MediaApp extends Component {
   };
 
   profileChange = profile => {
+    console.log(profile)
     const { from, to, setFilters } = this.props;
     setFilters(from, to, profile);
   };
@@ -141,7 +142,7 @@ export class MediaApp extends Component {
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
     const profileId =
-      typeof profile.value !== "undefined" && profile.value !== "" ? profile.value : "*";
+      typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
     const strTags = tags.map(tag => tag.id).join() || "*";
     history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`);
   };
@@ -151,7 +152,7 @@ export class MediaApp extends Component {
     if (isVisible && page) {
       const strFrom = match.params.from || moment(from).toISOString();
       const strTo = match.params.to || moment(to).toISOString();
-      const profileId = match.params.id || profile.value;
+      const profileId = match.params.id || profile.id;
       const strTags = match.params.tags || tags.join();
       const strTypes = match.params.types || types.join();
       getMedia(strFrom, strTo, profileId, strTags, strTypes, page);
@@ -163,7 +164,7 @@ export class MediaApp extends Component {
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
     const profileId =
-      typeof profile.value !== "undefined" && profile.value !== "" ? profile.value : "*";
+      typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
     const strTags = tags.map(tag => tag.id).join() || "*";
     this.props.loadPost(postId);
     this.props.history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}/${postId}`);
