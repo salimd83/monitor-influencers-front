@@ -1,10 +1,59 @@
 import React, { Component } from "react";
 import { Async } from "react-select";
-import { InputLabel, FormControl } from "@material-ui/core";
+import Autosuggest from "react-autosuggest";
+import { InputLabel, FormControl, Input } from "@material-ui/core";
 
 import * as Fn from "fn/simpleCall.js";
 
+const getSuggestionValue = suggestion => (`${suggestion.first_name} ${suggestion.last_name}`);
+
+const renderSuggestion = suggestion => {
+  return (
+  <div>
+    {`${suggestion.first_name} ${suggestion.last_name}`}
+  </div>
+)};
+
 class ProfileFilter extends Component {
+  state = {
+    value: "",
+    suggestions: []
+  };
+
+  onChange = (event, { newValue }) => {
+    this.setState({
+      value: newValue
+    });
+  };
+
+  getSuggestions = async value => {
+    const inputValue = value.trim().toLowerCase();
+    const inputLength = inputValue.length;
+    
+    if (inputLength === 0) {
+      return [];
+    } else {
+      const response = await Fn.simpleCall("get", `si/profiles?search=${value}&limit=10`);
+      this.setState({
+        suggestions: response.data
+      });
+    }
+  };
+
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.getSuggestions(value)
+  };
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
+
+  onSuggestionSelected = (event, { suggestion }) => {
+    this.props.profileChange(suggestion);
+  }
+
   getProfileOptions = (input, callback) => {
     if (input === "") {
       callback(null, {
@@ -13,10 +62,8 @@ class ProfileFilter extends Component {
       });
     } else {
       const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
-      
 
       request.then(response => {
-        console.log(response.data)
         callback(null, {
           options: response.data.map(profile => ({
             label: `${profile.first_name} ${profile.last_name}`,
@@ -31,11 +78,19 @@ class ProfileFilter extends Component {
 
   render() {
     const { profileChange, profile } = this.props;
+    const { value, suggestions } = this.state;
+
+    const inputProps = {
+      placeholder: "Search",
+      value,
+      onChange: this.onChange
+    };
+
     return (
       <React.Fragment>
         <FormControl>
           <InputLabel shrink={true}>Profile</InputLabel>
-          <Async
+          {/* <Async
             name="profile"
             onChange={profileChange}
             value={profile}
@@ -46,6 +101,25 @@ class ProfileFilter extends Component {
             removeSelected={true}
             loadOptions={this.getProfileOptions}
             style={{ width: "160px" }}
+          /> */}
+          {/* <Input 
+            inputComponent={() => <Autosuggest
+              suggestions={suggestions}
+              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderSuggestion}
+              inputProps={inputProps}
+            />}
+          /> */}
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            inputProps={inputProps}
+            onSuggestionSelected={this.onSuggestionSelected}
           />
         </FormControl>
       </React.Fragment>
