@@ -57,10 +57,7 @@ export class MediaApp extends Component {
 
     if (match.params.id && match.params.id !== "*") {
       const response = await simpleCall("get", `si/profiles/${profileId}`);
-      profileObj = {
-        label: `${response.data.first_name} ${response.data.last_name}`,
-        value: response.data.id
-      };
+      profileObj =response.data;
     }
     const strTags = match.params.tags || tags.join();
     let tagsId = [];

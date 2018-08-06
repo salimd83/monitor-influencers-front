@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Async } from "react-select";
 import Autosuggest from "react-autosuggest";
-import { InputLabel, FormControl, Input } from "@material-ui/core";
+import { InputLabel, FormControl, Input, Icon } from "@material-ui/core";
 
 import * as Fn from "fn/simpleCall.js";
 
@@ -76,6 +76,13 @@ class ProfileFilter extends Component {
     }
   };
 
+  clearInput = () => {
+    this.setState({
+      value: '',
+      suggestions: []
+    })
+  }
+
   render() {
     const { profileChange, profile } = this.props;
     const { value, suggestions } = this.state;
@@ -121,6 +128,7 @@ class ProfileFilter extends Component {
             inputProps={inputProps}
             onSuggestionSelected={this.onSuggestionSelected}
           />
+          {value && <Icon className="clear-input" onClick={this.clearInput}>close</Icon>}
         </FormControl>
       </React.Fragment>
     );
