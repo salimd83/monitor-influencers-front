@@ -8,7 +8,6 @@ const mapState = state => ({
 });
 
 const Loading = ({ loading, autoLoader }) => {
-  console.log(loading);
   return (
     <div>
       {loading && autoLoader && (
