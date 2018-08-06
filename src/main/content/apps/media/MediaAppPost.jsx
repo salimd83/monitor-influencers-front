@@ -73,11 +73,11 @@ const MediaAppPost = ({ classes, post, onPostClick }) => {
         </div>
       </CardMedia>
 
-      <CardContent>
+      {/* <CardContent>
         <Typography component="p" className="description">
           {post.caption}
         </Typography>
-      </CardContent>
+      </CardContent> */}
     </Card>
   );
 };
