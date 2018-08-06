@@ -48,7 +48,8 @@ export class MediaApp extends Component {
       getMedia,
       setFilters,
       setTagsFilter,
-      setTypesFilter
+      setTypesFilter,
+      showMessage
     } = this.props;
     const strFrom = match.params.from || moment(from).toISOString();
     const strTo = match.params.to || moment(to).toISOString();
@@ -56,8 +57,12 @@ export class MediaApp extends Component {
     let profileObj = profileId;
 
     if (match.params.id && match.params.id !== "*") {
-      const response = await simpleCall("get", `si/profiles/${profileId}`);
-      profileObj =response.data;
+      try {
+        const response = await simpleCall("get", `si/profiles/${profileId}`);
+        profileObj = response.data;
+      } catch (error) {
+        console.log(error);
+      }
     }
     const strTags = match.params.tags || tags.join();
     let tagsId = [];
@@ -66,12 +71,16 @@ export class MediaApp extends Component {
       tagsId = strTags.split(",");
       tagsArr = await Promise.all(
         tagsId.map(async tagId => {
-          const response = await simpleCall("get", `typeahead/all?id=${tagId}`);
-          return {
-            label: response.data[0].name,
-            value: response.data[0].name,
-            id: response.data[0].id
-          };
+          try {
+            const response = await simpleCall("get", `typeahead/all?id=${tagId}`);
+            return {
+              label: response.data[0].name,
+              value: response.data[0].name,
+              id: response.data[0].id
+            };
+          } catch (error) {
+            console.log(error);
+          }
         })
       );
     }
@@ -137,8 +146,7 @@ export class MediaApp extends Component {
     const { from, to, profile, tags, types, history } = this.props;
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
-    const profileId =
-      typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
+    const profileId = typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
     const strTags = tags.map(tag => tag.id).join() || "*";
     history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`);
   };
@@ -159,11 +167,12 @@ export class MediaApp extends Component {
     const { from, to, profile, tags, types, history, loadPost } = this.props;
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
-    const profileId =
-      typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
+    const profileId = typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
     const strTags = tags.map(tag => tag.id).join() || "*";
     loadPost(postId);
-    history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}/${postId}`);
+    history.push(
+      `/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || "*"}/${postId}`
+    );
   };
 
   onPostClose = () => {
@@ -171,10 +180,11 @@ export class MediaApp extends Component {
     const { from, to, profile, tags, types, history } = this.props;
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
-    const profileId =
-      typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
+    const profileId = typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
     const strTags = tags.map(tag => tag.id).join() || "*";
-    history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}`);
+    history.push(
+      `/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || "*"}`
+    );
   };
 
   render() {
