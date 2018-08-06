@@ -1,10 +1,8 @@
 import React, { Component } from "react";
 import Widget from "../widgets/Widget9";
 import dataParser from "./data/topLocationsData";
-import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { CircularProgress, Card } from "@material-ui/core";
-import * as Actions from "../store/actions";
 
 class TopLocationsCard extends Component {
   render() {

@@ -10,11 +10,6 @@ class TagsFilter extends Component {
     const request = Fn.simpleCall("get", `typeahead/simedia_tag?q=${input}`);
 
     request.then(response => {
-      // const ids = this.props.tags.map(tag => tag.id);
-
-      // const filteredTags = response.data.filter(tag => {
-      //   return !ids.includes(tag.id);
-      // });
 
       callback(null, {
         options: response.data.map(tag => ({
@@ -24,7 +19,7 @@ class TagsFilter extends Component {
         })),
         complete: true
       });
-    });
+    }).catch(e => console.log(e));
   
   };
 

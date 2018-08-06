@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Async } from "react-select";
 import Autosuggest from "react-autosuggest";
-import { InputLabel, FormControl, Input, Icon } from "@material-ui/core";
+import { InputLabel, FormControl, Icon } from "@material-ui/core";
 
 import * as Fn from "fn/simpleCall.js";
 
@@ -39,10 +38,14 @@ class ProfileFilter extends Component {
     if (inputLength === 0) {
       return [];
     } else {
-      const response = await Fn.simpleCall("get", `si/profiles?search=${value}&limit=10`);
-      this.setState({
-        suggestions: response.data
-      });
+      try {
+        const response = await Fn.simpleCall("get", `si/profiles?search=${value}&limit=10`);
+        this.setState({
+          suggestions: response.data
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -67,30 +70,27 @@ class ProfileFilter extends Component {
         completed: true
       });
     } else {
-      const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
+      try {
+        const request = Fn.simpleCall("get", `si/profiles?search=${input}&limit=10`);
 
-      request.then(response => {
-        callback(null, {
-          options: response.data.map(profile => ({
-            label: `${profile.first_name} ${profile.last_name}`,
-            value: profile.id
-          })),
-          cache: false,
-          complete: true
+        request.then(response => {
+          callback(null, {
+            options: response.data.map(profile => ({
+              label: `${profile.first_name} ${profile.last_name}`,
+              value: profile.id
+            })),
+            cache: false,
+            complete: true
+          });
         });
-      });
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
   clearInput = () => {
     this.props.profileChange({});
-    console.log("sdsds");
-    // this.setState(
-    //   {
-    //     value: "",
-    //     suggestions: []
-    //   }
-    // );
   };
 
   render() {
@@ -107,28 +107,6 @@ class ProfileFilter extends Component {
       <React.Fragment>
         <FormControl>
           <InputLabel shrink={true}>Profile</InputLabel>
-          {/* <Async
-            name="profile"
-            onChange={profileChange}
-            value={profile}
-            clearable={true}
-            cache={false}
-            autoBlur={true}
-            autoload={false}
-            removeSelected={true}
-            loadOptions={this.getProfileOptions}
-            style={{ width: "160px" }}
-          /> */}
-          {/* <Input 
-            inputComponent={() => <Autosuggest
-              suggestions={suggestions}
-              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-              getSuggestionValue={getSuggestionValue}
-              renderSuggestion={renderSuggestion}
-              inputProps={inputProps}
-            />}
-          /> */}
           <Autosuggest
             suggestions={suggestions}
             onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}

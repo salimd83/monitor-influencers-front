@@ -29,10 +29,14 @@ class TypeFilter extends Component {
   };
 
   async componentDidMount() {
-    const response = await Fn.simpleCall("get", "typeahead/simedia_type");
-    this.setState({
-      types: response.data
-    });
+    try {
+      const response = await Fn.simpleCall("get", "typeahead/simedia_type");
+      this.setState({
+        types: response.data
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {

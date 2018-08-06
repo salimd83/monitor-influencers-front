@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 import Widget from '../widgets/Widget7';
 import dataParser from './data/activityTypeData';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { CircularProgress, Card } from '@material-ui/core';
-import * as Actions from '../store/actions';
 
 class ActivityTypeCard extends Component {
-  // componentDidMount() {
-  //   if (!(this.props.data.length > 0)) {
-  //     const { from, to } = this.props;
-  //     this.props.getData('42ig8yrfd5jhwrmy83', from, to);
-  //   }
-  // }
 
   render() {
     const { loading, data, size } = this.props;
@@ -36,15 +28,6 @@ class ActivityTypeCard extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(
-    {
-      getData: Actions.getActivityData
-    },
-    dispatch
-  );
-}
-
 function mapStateToProps({ insightApp }) {
   return {
     data: insightApp.insight.activityData,
@@ -53,6 +36,5 @@ function mapStateToProps({ insightApp }) {
 }
 
 export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(ActivityTypeCard);
