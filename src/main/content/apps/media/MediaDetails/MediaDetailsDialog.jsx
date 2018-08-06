@@ -96,6 +96,12 @@ export class MediaDetailsDialog extends Component {
                       <Typography variant="subheading" gutterBottom>
                         {post.caption}
                       </Typography>
+                      <Typography variant="body2" gutterBottom>
+                        {`OCR: ${post.ocr && post.ocr[0].type}`}
+                      </Typography>
+                      <Typography variant="subheading" gutterBottom>
+                        {post.ocr && post.ocr[0].meta.text}
+                      </Typography>
 
                       <PostEngagement engagment={post.engagment} data={data} />
 
