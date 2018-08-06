@@ -5,20 +5,26 @@ import { InputLabel, FormControl, Input, Icon } from "@material-ui/core";
 
 import * as Fn from "fn/simpleCall.js";
 
-const getSuggestionValue = suggestion => (`${suggestion.first_name} ${suggestion.last_name}`);
+const getSuggestionValue = suggestion => `${suggestion.first_name} ${suggestion.last_name}`;
 
 const renderSuggestion = suggestion => {
-  return (
-  <div>
-    {`${suggestion.first_name} ${suggestion.last_name}`}
-  </div>
-)};
+  return <div>{`${suggestion.first_name} ${suggestion.last_name}`}</div>;
+};
 
 class ProfileFilter extends Component {
   state = {
     value: "",
     suggestions: []
   };
+
+  componentDidUpdate(prevProps) {
+    if (this.props.profile.first_name !== prevProps.profile.first_name)
+      this.setState({
+        value: this.props.profile.first_name
+          ? `${this.props.profile.first_name} ${this.props.profile.last_name || ""}`
+          : ""
+      });
+  }
 
   onChange = (event, { newValue }) => {
     this.setState({
@@ -29,7 +35,7 @@ class ProfileFilter extends Component {
   getSuggestions = async value => {
     const inputValue = value.trim().toLowerCase();
     const inputLength = inputValue.length;
-    
+
     if (inputLength === 0) {
       return [];
     } else {
@@ -41,7 +47,7 @@ class ProfileFilter extends Component {
   };
 
   onSuggestionsFetchRequested = ({ value }) => {
-    this.getSuggestions(value)
+    this.getSuggestions(value);
   };
 
   onSuggestionsClearRequested = () => {
@@ -52,7 +58,7 @@ class ProfileFilter extends Component {
 
   onSuggestionSelected = (event, { suggestion }) => {
     this.props.profileChange(suggestion);
-  }
+  };
 
   getProfileOptions = (input, callback) => {
     if (input === "") {
@@ -77,11 +83,15 @@ class ProfileFilter extends Component {
   };
 
   clearInput = () => {
-    this.setState({
-      value: '',
-      suggestions: []
-    })
-  }
+    this.props.profileChange({});
+    console.log("sdsds");
+    // this.setState(
+    //   {
+    //     value: "",
+    //     suggestions: []
+    //   }
+    // );
+  };
 
   render() {
     const { profileChange, profile } = this.props;
@@ -128,7 +138,11 @@ class ProfileFilter extends Component {
             inputProps={inputProps}
             onSuggestionSelected={this.onSuggestionSelected}
           />
-          {value && <Icon className="clear-input" onClick={this.clearInput}>close</Icon>}
+          {value && (
+            <div className="clear-input">
+              <Icon onClick={this.clearInput}>close</Icon>
+            </div>
+          )}
         </FormControl>
       </React.Fragment>
     );

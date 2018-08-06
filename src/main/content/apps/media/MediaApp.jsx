@@ -125,7 +125,6 @@ export class MediaApp extends Component {
   };
 
   profileChange = profile => {
-    console.log(profile)
     const { from, to, setFilters } = this.props;
     setFilters(from, to, profile);
   };
@@ -157,18 +156,25 @@ export class MediaApp extends Component {
   };
 
   onPostClick = postId => () => {
+    const { from, to, profile, tags, types, history, loadPost } = this.props;
+    const strFrom = moment(from).toISOString();
+    const strTo = moment(to).toISOString();
+    const profileId =
+      typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
+    const strTags = tags.map(tag => tag.id).join() || "*";
+    loadPost(postId);
+    history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}/${postId}`);
+  };
+
+  onPostClose = () => {
+    this.props.closePostDialog();
     const { from, to, profile, tags, types, history } = this.props;
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
     const profileId =
       typeof profile.id !== "undefined" && profile.id !== "" ? profile.id : "*";
     const strTags = tags.map(tag => tag.id).join() || "*";
-    this.props.loadPost(postId);
-    this.props.history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}/${postId}`);
-  };
-
-  onPostClose = () => {
-    this.props.closePostDialog();
+    history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}`);
   };
 
   render() {
