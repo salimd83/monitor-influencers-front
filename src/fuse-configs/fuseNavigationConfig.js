@@ -54,7 +54,7 @@ export const fuseNavigationConfig = [
                 ],
                 type : 'item',
                 icon : 'star_rate',
-                url  : '/si/profiles'
+                url  : '/mirrorr/admin/profiles'
             },
             {
                 id   : 'simpleadmin',
