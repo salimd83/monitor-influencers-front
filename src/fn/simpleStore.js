@@ -31,8 +31,7 @@ class simpleStoreClass {
 
   upsert(key, storeValue, type = 'session') {
     const valueType = typeof storeValue;
-    console.log('ERRORRR')
-
+    
     if (valueType !== 'object' && valueType !== 'string') {
       console.error(
         new Error('simpleStore only support object or string storage'),
