@@ -30,7 +30,7 @@ if (originalLayouts[breakpoint]) {
   dummyArray = originalLayouts[breakpoint].map((it, index) => index);
 }
 
-const initialItems = dummyArray.map((i, key, list) => {
+const initialItems = dummyArray.map((i) => {
   return cards[i];
 });
 
@@ -133,7 +133,7 @@ class InsightGrid extends Component {
 
   render() {
     const { items } = this.state;
-    const hiddenItems = cards.filter(card => !items.includes(card));
+    const hiddenItems = cards.filter(card => !items.some(item => item.i === card.i));
     return (
       <div>
         <FormControl className="my-16 mx-16">
