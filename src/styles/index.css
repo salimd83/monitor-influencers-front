@@ -163,6 +163,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 14px;
   pointer-events: auto;
 }
+#tagsFilter .Select.is-focused > .Select-control{
+  background-color: transparent;
+}
+#tagsFilter .Select--multi .Select-value{
+  color: rgba(255,255,255, 0.4);
+  border-color: rgba(255,255,255, 0.4) !important;
+}
+
+#tagsFilter .Select-value-label{
+  color: rgba(255,255,255, 0.7);
+  border-color: rgba(255,255,255, 0.4) !important;
+}
+
+#tagsFilter .Select--multi .Select-value-icon {
+  color: rgba(255,255,255, 0.7);
+  border-color: rgba(255,255,255, 0.4);
+}
 
 #loader {
   position: absolute;
