@@ -9,6 +9,7 @@ const cards = [
     {
       i: '0',
       id: "ActivityRateCard",
+      name: "Activity & Engagement",
       component: ActivityRateCard,
       w: 6,
       h: 4,
@@ -20,6 +21,7 @@ const cards = [
     {
       i: '1',
       id: "FollowersRateCard",
+      name: "Followers Rates",
       component: FollowersRateCard,
       w: 6,
       h: 4,
@@ -31,6 +33,7 @@ const cards = [
     {
       i: '2',
       id: "ActivityTypeCard",
+      name: "Activity Type",
       component: ActivityTypeCard,
       w: 3,
       h: 4,
@@ -42,6 +45,7 @@ const cards = [
     {
       i: '3',
       id: "TopHashtagsCard",
+      name: "Top Hashtags",
       component: TopHashtagsCard,
       w: 3,
       h: 5,
@@ -53,6 +57,7 @@ const cards = [
     {
       i: '4',
       id: "TopLocationsCard",
+      name: "Top Locations",
       component: TopLocationsCard,
       w: 3,
       h: 5,
@@ -64,6 +69,7 @@ const cards = [
     {
       i: '5',
       id: "TopMentionsCard",
+      name: "Top Mentions",
       component: TopMentionsCard,
       w: 3,
       h: 5,

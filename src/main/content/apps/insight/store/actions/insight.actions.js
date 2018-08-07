@@ -194,8 +194,6 @@ export function getTopMentionsData(profileId, from, to) {
 
 export function setFilters(profile, from, to, withData = true) {
   return async dispatch => {
-    // const profile = await getProfileById(profileId)
-    console.log("profile", profile);
     dispatch({
       type: SET_FILTERS,
       from,
@@ -209,7 +207,6 @@ export function setFilters(profile, from, to, withData = true) {
       dispatch(getTopHashtagsData(profile.value, from, to));
       dispatch(getTopLocationsData(profile.value, from, to));
       dispatch(getTopMentionsData(profile.value, from, to));
-      // dispatch(getActivityEngagementData(profileId, from, to))
     }
   };
 }
