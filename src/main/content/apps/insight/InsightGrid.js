@@ -11,8 +11,11 @@ import initLayout from "./initLayout";
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 const cards = initLayout;
+console.log('cards', cards)
 
 const originalLayouts = simpleStore.lookup("siInsightsGrid2", "simple") || {};
+console.log('originalLayouts', originalLayouts)
+
 let breakpoint;
 if (window.innerWidth >= 1200) {
   breakpoint = "lg";
@@ -25,14 +28,18 @@ if (window.innerWidth >= 1200) {
 } else {
   breakpoint = "xxs";
 }
+console.log('breakpoint', breakpoint)
+
 let dummyArray = [0, 1, 2, 3, 4, 5];
 if (originalLayouts[breakpoint]) {
   dummyArray = originalLayouts[breakpoint].map((it, index) => index);
 }
+console.log('dummyArray', dummyArray)
 
-const initialItems = dummyArray.map((i, key, list) => {
+const initialItems = dummyArray.map((i) => {
   return cards[i];
 });
+console.log('initialItems', initialItems)
 
 class InsightGrid extends Component {
   static get defaultProps() {
@@ -51,14 +58,12 @@ class InsightGrid extends Component {
 
   state = {
     items: initialItems,
-    newCounter: initialItems.length,
-    layouts: originalLayouts, // set layout to initial items tilla layout change occures
+    layouts: originalLayouts,
     layout: originalLayouts[breakpoint]
   };
 
   componentWillMount() {
     const layouts = simpleStore.lookup("siInsightsGrid2", "simple") || {}
-    // this.setState({ layouts });
     this.setState({
       layouts,
       items: cards.filter(card => layouts[breakpoint].map(layout => layout.i).includes(card.i))
@@ -86,11 +91,10 @@ class InsightGrid extends Component {
   onAddItem = (e) => {
     /*eslint no-console: 0*/
     const id = e.target.value;
-    const { newCounter, items, cols } = this.state;
     const card = cards.filter(card => card.id === id)[0];
 
     const newItem = {
-      i: String(newCounter),
+      i: card.i,
       x: 0,
       y: 0, // puts it at the bottom
       w: card.w,
@@ -104,7 +108,6 @@ class InsightGrid extends Component {
     this.setState({
       // Add a new item. It must have a unique key!
       items: [...this.state.items, newItem], // Increment the counter to ensure key is always unique.
-      newCounter: newCounter + 1
     });
   };
 
@@ -133,7 +136,7 @@ class InsightGrid extends Component {
 
   render() {
     const { items } = this.state;
-    const hiddenItems = cards.filter(card => !items.includes(card));
+    const hiddenItems = cards.filter(card => !items.some(item => item.i === card.i));
     return (
       <div>
         <FormControl className="my-16 mx-16">
