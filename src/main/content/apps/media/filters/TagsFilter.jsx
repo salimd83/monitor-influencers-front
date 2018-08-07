@@ -15,12 +15,10 @@ class TagsFilter extends Component {
       .then(response => {
         
         const data = response.map(res => res.data)
-        console.log('data', data)
         const flatData = [].concat(...data)
-        console.log('flat',flatData)
         callback(null, {
           options: flatData.map(tag => ({
-            label: tag.name,
+            label: `${tag.name} (${tag.type})`,
             value: tag.name,
             id: tag.id
           })),

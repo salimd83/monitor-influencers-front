@@ -55,14 +55,17 @@ class InsightGrid extends Component {
     else
       breakpoint = "xxs";
 
+    console.log('originalLayouts[breakpoint]', originalLayouts[breakpoint])
     let initialItems;
-    if (originalLayouts[breakpoint]) {
+    if (typeof originalLayouts[breakpoint] === undefined) {
       initialItems = originalLayouts[breakpoint].map(item => cards.find(card => card.i === item.i));
     } else {
       initialItems = [0, 1, 2, 3, 4, 5].map(i => {
         return cards[i];
       });
     }
+
+    console.log('initialItems', initialItems)
 
     this.setState({
       items: initialItems,
@@ -81,7 +84,7 @@ class InsightGrid extends Component {
 
     return (
       <div key={i} data-grid={item}>
-        <Card size={this.state.layout[index] ? this.state.layout[index].w : 2} />
+        <Card size={(this.state.layout && this.state.layout[index]) ? this.state.layout[index].w : 2} />
         <span className="remove" onClick={this.onRemoveItem(i)}>
           x
         </span>
