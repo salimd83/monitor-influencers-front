@@ -18,7 +18,7 @@ class TagsFilter extends Component {
         const flatData = [].concat(...data)
         callback(null, {
           options: flatData.map(tag => ({
-            label: tag.name,
+            label: `${tag.name} (${tag.type})`,
             value: tag.name,
             id: tag.id
           })),

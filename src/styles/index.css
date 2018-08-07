@@ -166,6 +166,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #tagsFilter .Select.is-focused > .Select-control{
   background-color: transparent;
 }
+.is-focused .Select-input > input{
+  color: #fff;
+}
 #tagsFilter .Select--multi .Select-value{
   color: rgba(255,255,255, 0.4);
   border-color: rgba(255,255,255, 0.4) !important;
