@@ -15,7 +15,7 @@ const PostOwner = ({ post }) => {
           {post.owner.first_name} {post.owner.last_name}
         </Typography>
         <Typography variant="caption">
-          {format(post.created_at, "MMMM D, YYYY")} | {format(post.captured_at, "MMMM D, YYYY")}
+            {format(post.created_at, 'MMMM D, YYYY HH:mm')}
         </Typography>
       </Grid>
     </React.Fragment>
