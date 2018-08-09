@@ -66,12 +66,12 @@ class ProfileForm extends Component {
             <Icon color="action">note</Icon>
           </div>
           <Field
-            label="Description"
-            name="description"
-            multiline
-            rows="2"
-            rowsMax="4"
-            component={TextInput}
+              label="Description"
+              name="description"
+              multiline
+              rows="4"
+              rowsMax="6"
+              component={TextInput}
           />
         </div>
 
