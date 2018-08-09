@@ -19,12 +19,7 @@ let initialState = {
         'displayName': 'John Doe',
         'photoURL'   : 'assets/images/avatars/profile.jpg',
         'email'      : 'youfoundJohn@beaux.media',
-        shortcuts    : [
-            'calendar',
-            'mail',
-            'contacts',
-            'analytics-dashboard'
-        ]
+        shortcuts    : []
     }
 
 }
@@ -38,9 +33,9 @@ export function setUserData(user, doNotUpdate) {
         dispatch(setDefaultSettings(user.data.settings))
 
         dispatch({
-                     type   : SET_USER_DATA,
-                     payload: user
-                 })
+            type   : SET_USER_DATA,
+            payload: user
+        })
     }
 }
 
@@ -63,12 +58,12 @@ export function toggleInShortcuts(id) {
             id
         ]
         return dispatch(setUserData({
-                                        ...user,
-                                        data: {
-                                            ...user.data,
-                                            shortcuts
-                                        }
-                                    }))
+            ...user,
+            data: {
+                ...user.data,
+                shortcuts
+            }
+        }))
     }
 }
 
@@ -84,22 +79,22 @@ export function removeUserData() {
 export function lockUser() {
     if (_.isObject(getUserData())) {
         updateUserSettings({
-                               locked : true,
-                               role   : ['guest'],
-                               baToken: null
-                           })
+            locked : true,
+            baToken: null,
+            role   : null
+        })
 
         history.push({
-                         pathname: '/locked'
-                     })
+            pathname: '/locked'
+        })
     }
     return (dispatch, getState) => {
 
         dispatch(setDefaultSettings(FuseDefaultSettings))
 
         dispatch({
-                     type: USER_LOGGED_OUT
-                 })
+            type: USER_LOGGED_OUT
+        })
     }
 }
 
@@ -110,16 +105,16 @@ export function logoutUser() {
         simpleStore.remove('hiUsername', 'local')
 
         history.push({
-                         pathname: '/'
-                     })
+            pathname: '/'
+        })
     }
     return (dispatch, getState) => {
 
         dispatch(setDefaultSettings(FuseDefaultSettings))
 
         dispatch({
-                     type: USER_LOGGED_OUT
-                 })
+            type: USER_LOGGED_OUT
+        })
     }
 }
 
