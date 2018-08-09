@@ -17,7 +17,7 @@ const validate = combineValidators({
   description: composeValidators(
     isRequired({ message: 'Please enter a description' }),
     hasLengthGreaterThan(4)({ message: 'Description needs to be at least 5 characters' }),
-    hasLengthLessThan(129)({ message: 'Description needs to be less than 129 characters' })
+      hasLengthLessThan(513)({message: 'Description needs to be less than 512 characters'})
   )(),
   internal_note: hasLengthLessThan(1024)({ message: 'Note needs to be less than 1025 characters' })
 });
