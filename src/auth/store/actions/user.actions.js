@@ -13,6 +13,17 @@ export const REMOVE_USER_DATA       = '[USER] REMOVE DATA'
 export const USER_LOGGED_OUT        = '[USER] LOGGED OUT'
 export const USER_BROWSER_REFERENCE = 'hiUser'
 
+let initialState = {
+    role: ['guest'],
+    data: {
+        'displayName': 'John Doe',
+        'photoURL'   : 'assets/images/avatars/profile.jpg',
+        'email'      : 'youfoundJohn@beaux.media',
+        shortcuts    : []
+    }
+
+}
+
 
 export function setUserData(user, doNotUpdate) {
     return (dispatch) => {
@@ -22,9 +33,9 @@ export function setUserData(user, doNotUpdate) {
         dispatch(setDefaultSettings(user.data.settings))
 
         dispatch({
-                     type   : SET_USER_DATA,
-                     payload: user
-                 })
+            type   : SET_USER_DATA,
+            payload: user
+        })
     }
 }
 
@@ -47,12 +58,12 @@ export function toggleInShortcuts(id) {
             id
         ]
         return dispatch(setUserData({
-                                        ...user,
-                                        data: {
-                                            ...user.data,
-                                            shortcuts
-                                        }
-                                    }))
+            ...user,
+            data: {
+                ...user.data,
+                shortcuts
+            }
+        }))
     }
 }
 
@@ -68,42 +79,40 @@ export function removeUserData() {
 export function lockUser() {
     if (_.isObject(getUserData())) {
         updateUserSettings({
-                               locked : true,
-                               role   : ['guest'],
-                               baToken: null
-                           })
+            locked : true,
+            baToken: null,
+            role   : ['guest']
+        })
 
         history.push({
-                         pathname: '/locked'
-                     })
+            pathname: '/locked'
+        })
     }
     return (dispatch, getState) => {
 
         dispatch(setDefaultSettings(FuseDefaultSettings))
 
         dispatch({
-                     type: USER_LOGGED_OUT
-                 })
+            type: USER_LOGGED_OUT
+        })
     }
 }
 
 export function logoutUser() {
     if (_.isObject(getUserData())) {
         simpleCall('delete', 'account/session')
-        simpleStore.remove(USER_BROWSER_REFERENCE, 'local')
-        simpleStore.remove('hiUsername', 'local')
-
+        simpleStore.clear('local')
         history.push({
-                         pathname: '/'
-                     })
+            pathname: '/'
+        })
     }
     return (dispatch, getState) => {
 
         dispatch(setDefaultSettings(FuseDefaultSettings))
 
         dispatch({
-                     type: USER_LOGGED_OUT
-                 })
+            type: USER_LOGGED_OUT
+        })
     }
 }
 
@@ -123,7 +132,7 @@ function updateUserData(user) {
 
 export function getUserData() {
 
-    return simpleStore.lookup(USER_BROWSER_REFERENCE, 'local')
+    return {...initialState, ...  simpleStore.lookup(USER_BROWSER_REFERENCE, 'local')}
 
 }
 
