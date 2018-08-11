@@ -28,18 +28,19 @@ class InsightApp extends Component {
         .add(-1, "months")
         .toISOString();
     const to = match.params.to || moment().toISOString();
-    try {
-      const response = await simpleCall("get", `si/profiles/${id}`);
+      try {
+          const response = await simpleCall('get', `si/profiles/${id}`)
 
-      const profile = {
-        value: response.data.id,
-        label: `${response.data.first_name} ${response.data.last_name}`
-      };
+          const profile = {
+              value: response.data.id,
+              label: `${response.data.first_name} ${response.data.last_name}`
+          }
 
-      setFilters(profile, from, to);
-    } catch (error) {
-      console.log(error);
-    }
+          setFilters(profile, from, to)
+      }
+      catch (error) {
+          console.log(error)
+      }
   }
 
   render() {

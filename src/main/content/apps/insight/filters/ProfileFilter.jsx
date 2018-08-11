@@ -21,7 +21,8 @@ class ProfileFilter extends Component {
             value: profile.id
           })),
           complete: true
-        }).catch(e => console.log(e));
+        })
+            .catch(e => console.log(e));
       });
     }
   };

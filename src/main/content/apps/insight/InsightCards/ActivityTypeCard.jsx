@@ -36,5 +36,5 @@ function mapStateToProps({ insightApp }) {
 }
 
 export default connect(
-  mapStateToProps
+    mapStateToProps
 )(ActivityTypeCard);

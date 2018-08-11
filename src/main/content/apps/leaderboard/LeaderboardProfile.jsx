@@ -20,10 +20,12 @@ export class LeaderboardProfile extends Component {
               <Grid item xs={6}>
                 <div className="statics">
                   <span className="primary">
-                    <Icon>adjust</Icon> {Intl.NumberFormat().format(profile.insights.media_count)}
+                    <Icon>adjust</Icon> {Intl.NumberFormat()
+                                             .format(profile.insights.media_count)}
                   </span>
                   <span className="primary">
-                    <Icon>people</Icon> {Intl.NumberFormat().format(profile.insights.followers_count)}
+                    <Icon>people</Icon> {Intl.NumberFormat()
+                                             .format(profile.insights.followers_count)}
                   </span>
                 </div>
               </Grid>

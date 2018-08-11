@@ -27,36 +27,38 @@ const propTypes = {}
 
 const defaultProps = {}
 
-const styles = theme => ({
-    fullList       : {
-        width: 'auto'
-    },
-    root           : {
-        display        : 'flex',
-        flexWrap       : 'wrap',
-        justifyContent : 'space-around',
-        overflow       : 'hidden',
-        backgroundColor: theme.palette.background.paper,
-        height         : '25.6vw',
-        width          : '100%'
-    },
-    gridList       : {
-        flexWrap : 'nowrap', // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-        transform: 'translateZ(0)'
-    },
-    gridListTile   : {
-        height: '25.6vw'
-    },
-    gridListTileImg: {
-        height: '25.6vw'
-    },
-    title          : {
-        color: theme.palette.primary.light
-    },
-    titleBar       : {
-        background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 100%)'
+const styles = theme => (
+    {
+        fullList       : {
+            width: 'auto'
+        },
+        root           : {
+            display        : 'flex',
+            flexWrap       : 'wrap',
+            justifyContent : 'space-around',
+            overflow       : 'hidden',
+            backgroundColor: theme.palette.background.paper,
+            height         : '25.6vw',
+            width          : '100%'
+        },
+        gridList       : {
+            flexWrap : 'nowrap', // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+            transform: 'translateZ(0)'
+        },
+        gridListTile   : {
+            height: '25.6vw'
+        },
+        gridListTileImg: {
+            height: '25.6vw'
+        },
+        title          : {
+            color: theme.palette.primary.light
+        },
+        titleBar       : {
+            background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,0) 100%)'
+        }
     }
-})
+)
 
 
 class AppsDrawer extends Component {
@@ -66,8 +68,8 @@ class AppsDrawer extends Component {
 
     toggleDrawer = (side, open) => () => {
         this.setState({
-                          top: open
-                      })
+            top: open
+        })
     }
 
     componentDidMount() {
@@ -150,50 +152,57 @@ class AppsDrawer extends Component {
                   const item = navAppsItem[key]
                   if (item.auth && userRole.includes(item.auth)) {
                       appsItems.push({
-                                         img  : item.image,
-                                         title: item.title,
-                                         url  : item.url
-                                     })
+                          img  : item.image,
+                          title: item.title,
+                          url  : item.url
+                      })
                   }
               })
 
         if (appsItems.length < 2) {
-            return (<div></div>)
+            return (
+                <div></div>
+            )
         }
 
-        return (<div>
-            <IconButton className="w-64 h-64" onClick={this.toggleDrawer('top', true)}>
-                <Icon>apps</Icon>
-            </IconButton>
-            <SwipeableDrawer
-                anchor="top"
-                open={this.state.top}
-                onClose={this.toggleDrawer('top', false)}
-                onOpen={this.toggleDrawer('top', true)}
-            >
-                <div
-                    tabIndex={0}
-                    role="button"
-                    onClick={this.toggleDrawer('top', false)}
-                    onKeyDown={this.toggleDrawer('top', false)}
+        return (
+            <div>
+                <IconButton className="w-64 h-64" onClick={this.toggleDrawer('top', true)}>
+                    <Icon>apps</Icon>
+                </IconButton>
+                <SwipeableDrawer
+                    anchor="top"
+                    open={this.state.top}
+                    onClose={this.toggleDrawer('top', false)}
+                    onOpen={this.toggleDrawer('top', true)}
                 >
-                    <div className={classes.root}>
-                        <GridList className={classes.gridList} cols={2.213} cellHeight={'25.6vw'}>
-                            {appsItems.map(tile => (<GridListTile className={classes.gridListTile} cols={1} key={tile.img}>
-                                <Link to={tile.url}> <img className={classes.gridListTileImg} src={tile.img} alt={tile.title}/></Link>
-                            </GridListTile>))}
-                        </GridList>
+                    <div
+                        tabIndex={0}
+                        role="button"
+                        onClick={this.toggleDrawer('top', false)}
+                        onKeyDown={this.toggleDrawer('top', false)}
+                    >
+                        <div className={classes.root}>
+                            <GridList className={classes.gridList} cols={2.213} cellHeight={'25.6vw'}>
+                                {appsItems.map(tile => (
+                                    <GridListTile className={classes.gridListTile} cols={1} key={tile.img}>
+                                        <Link to={tile.url}> <img className={classes.gridListTileImg} src={tile.img}
+                                                                  alt={tile.title}/></Link>
+                                    </GridListTile>
+                                ))}
+                            </GridList>
+                        </div>
                     </div>
-                </div>
-            </SwipeableDrawer>
-        </div>)
+                </SwipeableDrawer>
+            </div>
+        )
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-                                  toggleInShortcuts: UserActions.toggleInShortcuts
-                              }, dispatch)
+        toggleInShortcuts: UserActions.toggleInShortcuts
+    }, dispatch)
 }
 
 function mapStateToProps({fuse, auth}) {

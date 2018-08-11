@@ -24,12 +24,12 @@ class AboutTab extends Component {
   };
 
   render() {
-    const { classes, profile, deleteTag, tags, addTag } = this.props;
+      const {classes, profile, deleteTag, tags, addTag} = this.props
 
     return (
       <div className={classNames(classes.root, "md:flex max-w-2xl")}>
         <div className="flex flex-col flex-1 md:pr-32">
-          {/* <FuseAnimateGroup
+            {/* <FuseAnimateGroup
             enter={{
               animation: "transition.slideUpBigIn"
             }}
@@ -88,8 +88,7 @@ class AboutTab extends Component {
               </Card>
             )}
 
-            
-          
+
         </div>
 
         {/* Links Section */}
@@ -111,7 +110,7 @@ function mapDispatchToProdps(dispatch) {
 
 export default withStyles(styles, { withTheme: true })(
   connect(
-    null,
+      null,
     mapDispatchToProdps
   )(AboutTab)
 );

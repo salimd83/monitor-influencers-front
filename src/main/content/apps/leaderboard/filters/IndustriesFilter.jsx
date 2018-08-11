@@ -16,7 +16,8 @@ class IndustriesFilter extends Component {
         })),
         complete: true
       })
-    }).catch(e => console.log(e));
+           })
+           .catch(e => console.log(e));
   };
 
   render() {

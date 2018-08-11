@@ -6,24 +6,24 @@ export const GET_TYPEAHEADS = "[TYPEAHEADS APP] GET TYPEAHEADS";
 export const SET_SEARCH_TEXT = "[TYPEAHEADS APP] SET SEARCH TEXT";
 export const TOGGLE_IN_SELECTED_TYPEAHEADS = "[TYPEAHEADS APP] TOGGLE IN SELECTED TYPEAHEADS";
 export const SELECT_ALL_TYPEAHEADS = "[TYPEAHEADS APP] SELECT ALL TYPEAHEADS";
-export const DESELECT_ALL_TYPEAHEADS = "[TYPEAHEADS APP] DESELECT ALL TYPEAHEADS";
-export const OPEN_NEW_TYPEAHEAD_DIALOG = "[TYPEAHEADS APP] OPEN NEW TYPEAHEAD DIALOG";
-export const CLOSE_NEW_TYPEAHEAD_DIALOG = "[TYPEAHEADS APP] CLOSE NEW TYPEAHEAD DIALOG";
-export const OPEN_EDIT_TYPEAHEAD_DIALOG = "[TYPEAHEADS APP] OPEN EDIT TYPEAHEAD DIALOG";
+export const DESELECT_ALL_TYPEAHEADS     = "[TYPEAHEADS APP] DESELECT ALL TYPEAHEADS";
+export const OPEN_NEW_TYPEAHEAD_DIALOG   = "[TYPEAHEADS APP] OPEN NEW TYPEAHEAD DIALOG";
+export const CLOSE_NEW_TYPEAHEAD_DIALOG  = "[TYPEAHEADS APP] CLOSE NEW TYPEAHEAD DIALOG";
+export const OPEN_EDIT_TYPEAHEAD_DIALOG  = "[TYPEAHEADS APP] OPEN EDIT TYPEAHEAD DIALOG";
 export const CLOSE_EDIT_TYPEAHEAD_DIALOG = "[TYPEAHEADS APP] CLOSE EDIT TYPEAHEAD DIALOG";
-export const ADD_TYPEAHEAD = "[TYPEAHEADS APP] ADD TYPEAHEAD";
-export const UPDATE_TYPEAHEAD = "[TYPEAHEADS APP] UPDATE TYPEAHEAD";
-export const REMOVE_TYPEAHEAD = "[TYPEAHEADS APP] REMOVE TYPEAHEAD";
-export const REMOVE_TYPEAHEADS = "[TYPEAHEADS APP] REMOVE TYPEAHEADS";
-export const TOGGLE_STARRED_TYPEAHEAD = "[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEAD";
-export const TOGGLE_STARRED_TYPEAHEADS = "[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEADS";
-export const SET_TYPEAHEADS_STARRED = "[TYPEAHEADS APP] SET TYPEAHEADS STARRED ";
-export const GET_TYPES = "[TYPEAHEADS APP] GET TYPES";
-export const DELETE_TYPEAHEAD = "[TYPEAHEADS APP] DELETE_TYPEAHEAD";
-export const DELETING_TYPEAHEAD = "[TYPEAHEADS APP] DELETING_TYPEAHEAD";
+export const ADD_TYPEAHEAD               = "[TYPEAHEADS APP] ADD TYPEAHEAD";
+export const UPDATE_TYPEAHEAD            = '[TYPEAHEADS APP] UPDATE TYPEAHEAD'
+export const REMOVE_TYPEAHEAD            = '[TYPEAHEADS APP] REMOVE TYPEAHEAD'
+export const REMOVE_TYPEAHEADS           = '[TYPEAHEADS APP] REMOVE TYPEAHEADS'
+export const TOGGLE_STARRED_TYPEAHEAD    = '[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEAD'
+export const TOGGLE_STARRED_TYPEAHEADS   = "[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEADS";
+export const SET_TYPEAHEADS_STARRED      = '[TYPEAHEADS APP] SET TYPEAHEADS STARRED '
+export const GET_TYPES                   = '[TYPEAHEADS APP] GET TYPES'
+export const DELETE_TYPEAHEAD            = '[TYPEAHEADS APP] DELETE_TYPEAHEAD'
+export const DELETING_TYPEAHEAD          = '[TYPEAHEADS APP] DELETING_TYPEAHEAD'
 
 export function getTypeaheads(type, term = "") {
-  if (term === "*") term = "";
+    if (term === '*') term = ''
   return async dispatch => {
     const response = await Fn.simpleCallWA(dispatch, "get", `typeahead/${type}`, {
       q: term
@@ -85,7 +85,7 @@ export function closeNewTypeaheadDialog() {
 
 export function openLoadTypeaheadDialog(id) {
   return async dispatch => {
-    const response = await Fn.simpleCallWA(dispatch, "get", `typeahead/all?id=${id}`);
+      const response = await Fn.simpleCallWA(dispatch, 'get', `typeahead/all?id=${id}`)
     dispatch({
       type: OPEN_EDIT_TYPEAHEAD_DIALOG,
       data: response.data[0]
@@ -122,16 +122,20 @@ export function addTypeahead(newTypeahead) {
 }
 
 export function deleteTypeahead(id) {
-  return async dispatch => {
-    try {
-      dispatch({ type: DELETING_TYPEAHEAD });
-      const response = await Fn.simpleCallWA(dispatch, "delete", `typeahead/${id}`);
+    return async dispatch => {
+        try {
+            dispatch({type: DELETING_TYPEAHEAD})
+            const response = await Fn.simpleCallWA(dispatch, 'delete', `typeahead/${id}`)
 
-      dispatch({ type: DELETE_TYPEAHEAD, id });
-    } catch (error) {
-      console.log(error);
+            dispatch({
+                type: DELETE_TYPEAHEAD,
+                id
+            })
+        }
+        catch (error) {
+            console.log(error)
+        }
     }
-  };
 }
 
 export function updateTypeahead(typeahead) {

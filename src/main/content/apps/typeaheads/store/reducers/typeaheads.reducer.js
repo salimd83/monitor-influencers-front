@@ -1,13 +1,13 @@
 import * as Actions from '../actions';
 
 const initialState = {
-  entities: [],
-  searchText: '',
-  searchType: '',
+    entities          : [],
+    searchText        : '',
+    searchType        : '',
   selectedTypeaheadIds: [],
-  types: [],
-  deletingType: false,
-  typeaheadDialog: {
+    types             : [],
+    deletingType      : false,
+    typeaheadDialog   : {
     type: 'new',
     props: {
       open: false
@@ -45,19 +45,19 @@ const typeaheadsReducer = function(state = initialState, action) {
         entities: [action.payload, ...state.entities]
       };
     }
-    case Actions.DELETING_TYPEAHEAD: {
-      return {
-        ...state,
-        deletingType: true
-      };
-    }
-    case Actions.DELETE_TYPEAHEAD: {
-      return {
-        ...state,
-        entities: [...state.entities.filter(type => type.id !== action.id)],
-        deletingType: false
-      };
-    }
+      case Actions.DELETING_TYPEAHEAD: {
+          return {
+              ...state,
+              deletingType: true
+          }
+      }
+      case Actions.DELETE_TYPEAHEAD: {
+          return {
+              ...state,
+              entities    : [...state.entities.filter(type => type.id !== action.id)],
+              deletingType: false
+          }
+      }
     case Actions.SET_SEARCH_TEXT: {
       return {
         ...state,

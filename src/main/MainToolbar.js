@@ -34,7 +34,8 @@ const styles = theme => ({
         height         : 64,
         backgroundColor: theme.palette.divider
     }
-})
+    }
+)
 
 class MainToolbar extends Component {
     state = {
@@ -53,80 +54,89 @@ class MainToolbar extends Component {
         const {classes, toggleQuickPanel, user, logout} = this.props
         const {userMenu}                                = this.state
 
-        return (<div className={classNames(classes.root, 'flex flex-row')}>
-            <div className="flex flex-1">
-                <FuseShortcuts/>
-            </div>
+        return (
+            <div className={classNames(classes.root, 'flex flex-row')}>
+                <div className="flex flex-1">
+                    <FuseShortcuts/>
+                </div>
 
-            <div className="flex">
-                <FuseAnimate delay={300}>
-                    <Button className="h-64" onClick={this.userMenuClick}>
-                        {user.data.photoURL ? (<Avatar className="" alt="user photo" src={user.data.photoURL}/>) : (<Avatar className="">{user.data.displayName}</Avatar>)}
+                <div className="flex">
+                    <FuseAnimate delay={300}>
+                        <Button className="h-64" onClick={this.userMenuClick}>
+                            {user.data.photoURL ? (
+                                <Avatar className="" alt="user photo" src={user.data.photoURL}/>
+                            ) : (
+                                 <Avatar className="">{user.data.displayName}</Avatar>
+                             )}
 
-                        <div className="hidden md:flex flex-col ml-12 items-start">
-                            <Typography component="span" className="normal-case font-500 flex">
-                                {user.data.displayName}
-                            </Typography>
-                            <Typography className="text-11 capitalize" color="textSecondary">
-                                {user.data.displayTitle}
-                            </Typography>
-                        </div>
+                            <div className="hidden md:flex flex-col ml-12 items-start">
+                                <Typography component="span" className="normal-case font-500 flex">
+                                    {user.data.displayName}
+                                </Typography>
+                                <Typography className="text-11 capitalize" color="textSecondary">
+                                    {user.data.displayTitle}
+                                </Typography>
+                            </div>
 
-                        <Icon className="text-16 ml-12 hidden sm:flex" variant="action">
-                            keyboard_arrow_down
-                        </Icon>
-                    </Button>
-                </FuseAnimate>
+                            <Icon className="text-16 ml-12 hidden sm:flex" variant="action">
+                                keyboard_arrow_down
+                            </Icon>
+                        </Button>
+                    </FuseAnimate>
 
-                <Popover
-                    open={Boolean(userMenu)}
-                    anchorEl={userMenu}
-                    onClose={this.userMenuClose}
-                    anchorOrigin={{
-                        vertical  : 'bottom',
-                        horizontal: 'center'
-                    }}
-                    transformOrigin={{
-                        vertical  : 'top',
-                        horizontal: 'center'
-                    }}
-                    classes={{
-                        paper: 'py-8'
-                    }}
-                >
-                    {user.role === 'guest' ? (<React.Fragment>
-                        <MenuItem component={Link} to="/login">
-                            <ListItemIcon>
-                                <Icon>lock</Icon>
-                            </ListItemIcon>
-                            <ListItemText className="pl-0" primary="Login"/>
-                        </MenuItem>
-                        <MenuItem component={Link} to="/register">
-                            <ListItemIcon>
-                                <Icon>person_add</Icon>
-                            </ListItemIcon>
-                            <ListItemText className="pl-0" primary="Register"/>
-                        </MenuItem>
-                    </React.Fragment>) : (<React.Fragment>
-                        <MenuItem
-                            onClick={() => {
-                                logout()
-                                this.userMenuClose()
-                            }}
-                        >
-                            <ListItemIcon>
-                                <Icon>exit_to_app</Icon>
-                            </ListItemIcon>
-                            <ListItemText className="pl-0" primary="Logout"/>
-                        </MenuItem>
-                    </React.Fragment>)}
-                </Popover>
+                    <Popover
+                        open={Boolean(userMenu)}
+                        anchorEl={userMenu}
+                        onClose={this.userMenuClose}
+                        anchorOrigin={{
+                            vertical  : 'bottom',
+                            horizontal: 'center'
+                        }}
+                        transformOrigin={{
+                            vertical  : 'top',
+                            horizontal: 'center'
+                        }}
+                        classes={{
+                            paper: 'py-8'
+                        }}
+                    >
+                        {user.role === 'guest' ? (
+                            <React.Fragment>
+                                <MenuItem component={Link} to="/login">
+                                    <ListItemIcon>
+                                        <Icon>lock</Icon>
+                                    </ListItemIcon>
+                                    <ListItemText className="pl-0" primary="Login"/>
+                                </MenuItem>
+                                <MenuItem component={Link} to="/register">
+                                    <ListItemIcon>
+                                        <Icon>person_add</Icon>
+                                    </ListItemIcon>
+                                    <ListItemText className="pl-0" primary="Register"/>
+                                </MenuItem>
+                            </React.Fragment>
+                        ) : (
+                             <React.Fragment>
+                                 <MenuItem
+                                     onClick={() => {
+                                         logout()
+                                         this.userMenuClose()
+                                     }}
+                                 >
+                                     <ListItemIcon>
+                                         <Icon>exit_to_app</Icon>
+                                     </ListItemIcon>
+                                     <ListItemText className="pl-0" primary="Logout"/>
+                                 </MenuItem>
+                             </React.Fragment>
+                         )}
+                    </Popover>
 
-                <div className={classes.seperator}/>
-                <AppsDrawer/>
-                <HelpDialog/>
+                    <div className={classes.seperator}/>
+                    <AppsDrawer/>
+                    <HelpDialog/>
 
-                {/*
+                    {/*
             Kept QuickPanel for later use
 
                 <div className={classes.seperator}/>
@@ -134,16 +144,17 @@ class MainToolbar extends Component {
                     <IconButton className="w-64 h-64" onClick={() => toggleQuickPanel(true)}>
                         <Icon>format_list_bulleted</Icon>
                     </IconButton>*/}
+                </div>
             </div>
-        </div>)
+        )
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-                                  toggleQuickPanel: quickPanelActions.toggleQuickPanel,
-                                  logout          : authActions.logoutUser
-                              }, dispatch)
+        toggleQuickPanel: quickPanelActions.toggleQuickPanel,
+        logout          : authActions.logoutUser
+    }, dispatch)
 }
 
 function mapStateToProps({auth}) {
