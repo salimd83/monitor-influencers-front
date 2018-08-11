@@ -1,10 +1,9 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
+import { withRouter } from 'react-router-dom'
 import {
   Card,
-  CardContent,
   CardMedia,
-  Typography,
   CardHeader,
   Avatar,
   IconButton,
@@ -27,10 +26,10 @@ const styles = {
   }
 };
 
-const MediaAppPost = ({ classes, post, onPostClick }) => {
+const MediaAppPost = ({ classes, post, onPostClick, match }) => {
   return (
     <Card className={classes.card}>
-      <CardHeader
+      {(!match.params.id || match.params.id === '*') && <CardHeader
         avatar={
           <Avatar aria-label="Recipe">
             <img src={post.owner.profile_picture} alt="" />
@@ -38,12 +37,12 @@ const MediaAppPost = ({ classes, post, onPostClick }) => {
         }
         action={
           <div>
-            <Tooltip title={post.platform_link}>
+            <Tooltip title={post.owner.link.value} placement="left">
               <IconButton className={classes.action}>
                 <i className={`fab fa-${post.platform}`} />
               </IconButton>
             </Tooltip>
-            <Tooltip title={post.type.description}>
+            <Tooltip title={post.type.description} placement="left">
               <IconButton className={classes.action}>
                 <Icon>{post.type.meta.recommended_icon}</Icon>
               </IconButton>
@@ -53,20 +52,44 @@ const MediaAppPost = ({ classes, post, onPostClick }) => {
         title={`${post.owner.first_name} ${post.owner.last_name}`}
         // subheader="September 14, 2016"
         subheader={format(post.created_at, "MMMM D, YYYY")}
-      />
-      <CardMedia
-        onClick={onPostClick(post.id)}
-        className={classes.media + " media-thumb"}
-        image={post.thumbnail}
-        title="Contemplative Reptile"
-      />
-      <CardContent>
+      />}
+      <CardMedia onClick={onPostClick(post.id)} className="media-thumb" src={post.thumbnail}>
+        <div className="image-container" style={{backgroundImage: `url("${post.thumbnail}")`}}>
+          {match.params.id && match.params.id !== '*' && <div className="icons">
+            <Tooltip title={post.owner.link.value} placement="left">
+              <IconButton className={classes.action}>
+                <i className={`fab fa-${post.platform}`} />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={post.type.description} placement="left">
+              <IconButton className={classes.action}>
+                <Icon>{post.type.meta.recommended_icon}</Icon>
+              </IconButton>
+            </Tooltip>
+          </div>}
+          {post.engagment && post.engagment.length > 0 && <div className="overlay">
+            <ul>
+              {post.engagment[post.engagment.length -1].views > 0 && <li>
+                <Icon>remove_red_eye</Icon> {post.engagment[post.engagment.length -1].views}
+              </li>}
+              {post.engagment[post.engagment.length -1].reactions && <li>
+                <Icon>favorite</Icon> {post.engagment[post.engagment.length -1].reactions}
+              </li>}
+              {post.engagment[post.engagment.length -1].reactions && <li>
+                <Icon>mode_comment</Icon> {post.engagment[post.engagment.length -1].comments}
+              </li>}
+            </ul>
+          </div>}
+        </div>
+      </CardMedia>
+
+      {/* <CardContent>
         <Typography component="p" className="description">
           {post.caption}
         </Typography>
-      </CardContent>
+      </CardContent> */}
     </Card>
   );
 };
 
-export default withStyles(styles)(MediaAppPost);
+export default withRouter(withStyles(styles)(MediaAppPost));

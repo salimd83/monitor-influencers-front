@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { withStyles } from "@material-ui/core/styles/index";
 import { AppBar, Card, CardContent, Toolbar, Typography } from "@material-ui/core";
 import classNames from "classnames";
-import { FuseAnimateGroup } from "@fuse";
 import _ from "lodash";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -25,16 +24,16 @@ class AboutTab extends Component {
   };
 
   render() {
-    const { classes, profile, tags, deleteTag, addTag } = this.props;
+    const { classes, profile, deleteTag, tags, addTag } = this.props;
 
     return (
       <div className={classNames(classes.root, "md:flex max-w-2xl")}>
         <div className="flex flex-col flex-1 md:pr-32">
-          <FuseAnimateGroup
+          {/* <FuseAnimateGroup
             enter={{
               animation: "transition.slideUpBigIn"
             }}
-          >
+          > */}
           {!_.isEmpty(profile) && (
               <Tags
                 {...{
@@ -90,7 +89,7 @@ class AboutTab extends Component {
             )}
 
             
-          </FuseAnimateGroup>
+          
         </div>
 
         {/* Links Section */}
@@ -110,15 +109,9 @@ function mapDispatchToProdps(dispatch) {
   );
 }
 
-function mapStateToProps({ profileApp }) {
-  return {
-    tags: profileApp.profile.tags
-  };
-}
-
 export default withStyles(styles, { withTheme: true })(
   connect(
-    mapStateToProps,
+    null,
     mapDispatchToProdps
   )(AboutTab)
 );

@@ -16,6 +16,7 @@ export { default as FuseCountdown } from './components/FuseCountdown/FuseCountdo
 export { default as FuseHighlight } from './components/FuseHighlight/FuseHighlight';
 export { default as FuseExample } from './components/FuseExample/FuseExample';
 export { default as FuseShortcuts } from './components/FuseShortcuts/FuseShortcuts';
+export {default as FuseAppsShortcuts} from './components/FuseAppsShortcuts/FuseAppsShortcuts'
 export { default as FuseMessage } from './components/FuseMessage/FuseMessage';
 export { default as FuseAnimate } from './components/FuseAnimate/FuseAnimate';
 export { default as FuseAnimateGroup } from './components/FuseAnimateGroup/FuseAnimateGroup';

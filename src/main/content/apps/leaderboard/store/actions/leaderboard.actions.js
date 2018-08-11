@@ -18,7 +18,7 @@ export function getLeaders(page = null, search = "", industry, fresh=false) {
       }, undefined, false);
       const profiles = await Promise.all(
         response.data.map(async profile => {
-          const details = await Fn.simpleCallWA(dispatch, "get", `si/profiles/${profile.id}`, undefined, undefined, false);
+          const details = await Fn.simpleCallWA(dispatch, "get", `si/profiles/${profile.id}`, undefined, undefined, true);
           profile["links"] = details.data.links;
           profile["tags"] = details.data.tags;
           return profile;

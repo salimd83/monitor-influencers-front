@@ -1,4 +1,9 @@
-import * as Actions from '../actions'
+import * as Actions             from '../actions'
+import {
+    simpleStore,
+    simpleCall
+}                               from 'fn'
+import {USER_BROWSER_REFERENCE} from '../actions/user.actions'
 
 let initialState = {
     role: ['guest'],
@@ -6,12 +11,7 @@ let initialState = {
         'displayName': 'John Doe',
         'photoURL'   : 'assets/images/avatars/profile.jpg',
         'email'      : 'youfoundJohn@beaux.media',
-        shortcuts    : [
-            'calendar',
-            'mail',
-            'contacts',
-            'analytics-dashboard'
-        ]
+        shortcuts    : []
     }
 
 }
@@ -19,9 +19,7 @@ let initialState = {
 const user = function (state = initialState, action) {
     switch (action.type) {
         case Actions.SET_USER_DATA: {
-            return {
-                ...initialState, ...action.payload
-            }
+            return action.payload
         }
         case Actions.REMOVE_USER_DATA: {
             return {
@@ -32,7 +30,7 @@ const user = function (state = initialState, action) {
             return initialState
         }
         default: {
-            return JSON.parse(localStorage.getItem(Actions.USER_BROWSER_REFERENCE)) || state
+            return {...initialState, ...  simpleStore.lookup(USER_BROWSER_REFERENCE, 'local')} || state
         }
     }
 }

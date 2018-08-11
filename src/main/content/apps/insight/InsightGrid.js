@@ -1,88 +1,90 @@
 import React, { Component } from "react";
-import Button from "@material-ui/core/Button";
+import { Typography, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 import { WidthProvider, Responsive } from "react-grid-layout";
 import _ from "lodash";
 
 import { simpleStore } from "../../../../fn/simpleStore";
-import initLayout from './initLayout'
+import initLayout from "./initLayout";
 
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
-
 const cards = initLayout;
-
-const originalLayouts = simpleStore.lookup("siInsightsGrid2", "simple") || {};
+let originalLayouts;
 let breakpoint;
-if (window.innerWidth >= 1200) {
-  breakpoint = "lg";
-} else if (window.innerWidth >= 996) {
-  breakpoint = "md";
-} else if (window.innerWidth >= 768) {
-  breakpoint = "sm";
-} else if (window.innerWidth >= 480) {
-  breakpoint = "xs";
-} else {
-  breakpoint = "xxs";
-}
-let dummyArray = [0, 1, 2, 3, 4, 5];
-if (originalLayouts[breakpoint]) {
-  dummyArray = originalLayouts[breakpoint].map((it, index) => index);
-}
-
-const initialItems = dummyArray.map((i, key, list) => {
-  cards[i].hidden = false;
-  return {
-    i: i.toString(),
-    x: cards[i].x,
-    y: cards[i].y,
-    w: cards[i].w,
-    h: cards[i].h,
-    minH: cards[i].minH,
-    minW: cards[i].minW,
-    add: i === (list.length - 1).toString(),
-    component: cards[i].component,
-    id: cards[i].id
-  };
-});
 
 class InsightGrid extends Component {
   static get defaultProps() {
     return {
       className: "layout",
       cols: {
-        lg: 12,
-        md: 9,
-        sm: 6,
-        xs: 3,
+        lg: 16,
+        md: 12,
+        sm: 9,
+        xs: 6,
         xxs: 3
       },
       rowHeight: 100
     };
   }
 
-  state = {
-    items: initialItems,
-    newCounter: initialItems.length,
-    layouts: originalLayouts, // set layout to initial items tilla layout change occures
-    layout: InsightGrid
-  };
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+    this.state = {
+      items: [],
+      layouts: [],
+      layout: [],
+      breakpoint: "",
+      cols: 0
+    };
+  }
 
-  componentWillMount() {
-    this.setState({ layouts: simpleStore.lookup("siInsightsGrid2", "simple") || {} });
+  componentDidMount() {
+    originalLayouts = simpleStore.lookup("siInsightsGrid2", "simple") || {};
+
+    const width = this.myRef.current.offsetWidth - 17;
+    if (width >= 1200)
+      breakpoint = "lg";
+    else if (width >= 996)
+      breakpoint = "md";
+    else if (width >= 768)
+      breakpoint = "sm";
+    else if (width >= 480)
+      breakpoint = "xs";
+    else
+      breakpoint = "xxs";
+
+    console.log('originalLayouts[breakpoint]', originalLayouts[breakpoint])
+    let initialItems;
+    if (typeof originalLayouts[breakpoint] === undefined) {
+      initialItems = originalLayouts[breakpoint].map(item => cards.find(card => card.i === item.i));
+    } else {
+      initialItems = [0, 1, 2, 3, 4, 5].map(i => {
+        return cards[i];
+      });
+    }
+
+    console.log('initialItems', initialItems)
+
+    this.setState({
+      items: initialItems,
+      layouts: originalLayouts,
+      layout: originalLayouts[breakpoint]
+    });
   }
 
   componentWillUnmount() {
-    simpleStore.upsert("siInsightsGrid2", this.state.layouts, "simple");
+    // simpleStore.upsert("siInsightsGrid2", this.state.layouts, "simple");
   }
 
   createElement = (item, index) => {
-    const i = item.add ? "+" : item.i;
+    const i = item.i;
     const Card = item.component;
 
     return (
       <div key={i} data-grid={item}>
-        <Card size={this.state.layout[index] ? this.state.layout[index].w : 2} />
+        <Card size={(this.state.layout && this.state.layout[index]) ? this.state.layout[index].w : 2} />
         <span className="remove" onClick={this.onRemoveItem(i)}>
           x
         </span>
@@ -90,16 +92,15 @@ class InsightGrid extends Component {
     );
   };
 
-  onAddItem = () => {
+  onAddItem = e => {
     /*eslint no-console: 0*/
-    const { newCounter, items, cols } = this.state;
-    const card = cards.filter(card => card.hidden).slice(0, 1)[0];
-    card.hidden = false;
+    const id = e.target.value;
+    const card = cards.filter(card => card.id === id)[0];
 
     const newItem = {
-      i: String(newCounter),
-      x: (items.length * card.w) % (cols || 12),
-      y: Infinity, // puts it at the bottom
+      i: card.i,
+      x: 0,
+      y: 0, // puts it at the bottom
       w: card.w,
       h: card.h,
       minH: card.minH,
@@ -110,15 +111,14 @@ class InsightGrid extends Component {
 
     this.setState({
       // Add a new item. It must have a unique key!
-      items: [...this.state.items, newItem], // Increment the counter to ensure key is always unique.
-      newCounter: newCounter + 1
+      items: [...this.state.items, newItem]
     });
   };
 
   onBreakpointChange = (breakpoint, cols) => {
     this.setState({
-      breakpoint: breakpoint,
-      cols: cols
+      breakpoint,
+      cols
     });
   };
 
@@ -133,7 +133,6 @@ class InsightGrid extends Component {
     const { items } = this.state;
     const item = items.filter(item => item.i === i)[0];
     const card = cards.filter(card => card.id === item.id)[0];
-    card.hidden = true;
     this.setState({
       items: _.reject(items, { i: i })
     });
@@ -141,25 +140,33 @@ class InsightGrid extends Component {
 
   render() {
     const { items } = this.state;
+    const hiddenItems =
+      items && items.length > 0 && cards.filter(card => !items.some(item => item.i === card.i));
+
     return (
-      <div>
-        <Button
-          onClick={this.onAddItem}
-          className="my-16 mx-16"
-          variant="outlined"
-          color="primary"
-          disabled={items.length < cards.length ? false : true}
-        >
-          Add Item
-        </Button>
-        <ResponsiveReactGridLayout
+      <div ref={this.myRef} style={{width: '100%'}}>
+        {items && items.length > 0 && hiddenItems.length > 0 ? <FormControl className="my-16 mx-16">
+          <InputLabel>Charts:</InputLabel>
+          <Select value="" onChange={this.onAddItem} style={{ width: "200px" }}>
+            {hiddenItems.map(item => (
+              <MenuItem key={item.id} value={item.id}>
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl> :
+        <Typography className="my-16 mx-16" varient="body2">No chart available</Typography>  
+      }
+
+        {items && items.length > 0 && <ResponsiveReactGridLayout
           onBreakpointChange={this.onBreakpointChange}
           layouts={this.state.layouts}
           onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
           {...this.props}
+          
         >
           {items.map((item, i) => this.createElement(item, i))}
-        </ResponsiveReactGridLayout>
+        </ResponsiveReactGridLayout>}
       </div>
     );
   }

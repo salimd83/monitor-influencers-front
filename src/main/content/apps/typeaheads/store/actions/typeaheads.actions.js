@@ -19,9 +19,11 @@ export const TOGGLE_STARRED_TYPEAHEAD = "[TYPEAHEADS APP] TOGGLE STARRED TYPEAHE
 export const TOGGLE_STARRED_TYPEAHEADS = "[TYPEAHEADS APP] TOGGLE STARRED TYPEAHEADS";
 export const SET_TYPEAHEADS_STARRED = "[TYPEAHEADS APP] SET TYPEAHEADS STARRED ";
 export const GET_TYPES = "[TYPEAHEADS APP] GET TYPES";
+export const DELETE_TYPEAHEAD = "[TYPEAHEADS APP] DELETE_TYPEAHEAD";
+export const DELETING_TYPEAHEAD = "[TYPEAHEADS APP] DELETING_TYPEAHEAD";
 
 export function getTypeaheads(type, term = "") {
-  if(term==='*') term = ''
+  if (term === "*") term = "";
   return async dispatch => {
     const response = await Fn.simpleCallWA(dispatch, "get", `typeahead/${type}`, {
       q: term
@@ -83,12 +85,12 @@ export function closeNewTypeaheadDialog() {
 
 export function openLoadTypeaheadDialog(id) {
   return async dispatch => {
-    const response = await Fn.simpleCallWA(dispatch,'get', `typeahead/all?id=${id}`);
+    const response = await Fn.simpleCallWA(dispatch, "get", `typeahead/all?id=${id}`);
     dispatch({
       type: OPEN_EDIT_TYPEAHEAD_DIALOG,
       data: response.data[0]
-    })
-  }
+    });
+  };
 }
 
 export function openEditTypeaheadDialog(data) {
@@ -115,6 +117,19 @@ export function addTypeahead(newTypeahead) {
       });
     } catch (e) {
       console.log("error: ", e.response);
+    }
+  };
+}
+
+export function deleteTypeahead(id) {
+  return async dispatch => {
+    try {
+      dispatch({ type: DELETING_TYPEAHEAD });
+      const response = await Fn.simpleCallWA(dispatch, "delete", `typeahead/${id}`);
+
+      dispatch({ type: DELETE_TYPEAHEAD, id });
+    } catch (error) {
+      console.log(error);
     }
   };
 }

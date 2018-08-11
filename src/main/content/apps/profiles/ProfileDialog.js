@@ -51,7 +51,6 @@ class ProfileDialog extends Component {
         {...dialogProps}
         onClose={this.closeComposeDialog}
         fullWidth
-        maxWidth="xs"
       >
         <AppBar
           position="static"

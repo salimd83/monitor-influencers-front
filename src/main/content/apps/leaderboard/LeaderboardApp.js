@@ -25,7 +25,8 @@ const actions = {
 
 export class LeaderboardApp extends Component {
   componentDidMount() {
-    this.props.getLeaders();
+    if(this.props.profiles.length === 0)
+      this.props.getLeaders();
   }
 
   componentDidUpdate(prevProps) {

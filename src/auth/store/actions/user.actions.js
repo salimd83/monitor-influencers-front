@@ -81,7 +81,7 @@ export function lockUser() {
         updateUserSettings({
             locked : true,
             baToken: null,
-            role   : ['guest']
+            role   : null
         })
 
         history.push({
@@ -101,7 +101,9 @@ export function lockUser() {
 export function logoutUser() {
     if (_.isObject(getUserData())) {
         simpleCall('delete', 'account/session')
-        simpleStore.clear('local')
+        simpleStore.remove(USER_BROWSER_REFERENCE, 'local')
+        simpleStore.remove('hiUsername', 'local')
+
         history.push({
             pathname: '/'
         })

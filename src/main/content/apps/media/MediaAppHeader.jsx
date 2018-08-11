@@ -10,12 +10,12 @@ const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange
   return (
 
       <Grid
-        container
-        spacing={16}
-        alignItems="center"
-        direction="row"
-        justify="space-between"
-        className="cardedPageHeader"
+          container
+          spacing={10}
+          alignItems="center"
+          direction="row"
+          justify="space-between"
+          className="cardedPageHeader"
       >
         <Grid item md={2} sm={12} xs={12}>
           <div className="flex items-center">

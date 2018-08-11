@@ -54,5 +54,9 @@ export const routes = [
     {
         path     : '/',
         component: () => <Redirect to="/index"/>
+    },
+    {
+        path     : '/mirrorr',
+        component: () => <Redirect to="/mirrorr/leaderboard"/>
     }
 ]
