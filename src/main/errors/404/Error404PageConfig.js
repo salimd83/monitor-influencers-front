@@ -1,4 +1,4 @@
-import Error404Page from 'main/content/pages/errors/404/Error404Page';
+import Error404Page from 'main/errors/404/Error404Page'
 
 export const Error404PageConfig = {
     settings: {
@@ -6,9 +6,10 @@ export const Error404PageConfig = {
             config: {}
         }
     },
+    auth    : ['login'],
     routes  : [
         {
-            path     : '/pages/errors/error-404',
+            path     : '*',
             component: Error404Page
         }
     ]

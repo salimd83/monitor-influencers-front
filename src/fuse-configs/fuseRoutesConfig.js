@@ -13,6 +13,7 @@ import {LockedConfig}               from 'main/content/locked/LockedConfig'
 import {LoginConfig}                from 'main/content/login/LoginConfig'
 import {RegisterConfig}             from 'main/content/register/RegisterConfig'
 import {LogoutConfig}               from 'main/content/logout/LogoutConfig'
+import {Error404PageConfig}         from 'main/errors/404/Error404PageConfig'
 
 
 import {authRoles} from 'auth/auth'
@@ -46,17 +47,18 @@ const routeConfigs = [
     IndexConfig,
     LoginConfig,
     LogoutConfig,
-    LockedConfig
+    LockedConfig,
+    Error404PageConfig
 ]
 
 export const routes = [
     ...FuseUtils.generateRoutesFromConfigs(routeConfigs),
     {
-        path     : '/',
-        component: () => <Redirect to="/index"/>
-    },
-    {
         path     : '/mirrorr',
         component: () => <Redirect to="/mirrorr/leaderboard"/>
+    },
+    {
+        path     : '/',
+        component: () => <Redirect to="/index"/>
     }
 ]

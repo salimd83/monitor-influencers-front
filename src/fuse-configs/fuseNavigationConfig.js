@@ -3,16 +3,16 @@ import {authRoles}            from 'auth/auth'
 
 export const fuseNavigationConfig = [
     {
-        id   : 'siLeadboard',
+        id   : 'siLeaderboard',
         title: 'Leader Board',
         type : 'item',
         auth : 'siLeaderboard',
         apps : ['mirrorr'],
-        icon : 'sort',
+        icon : 'score',
         url  : '/mirrorr/leaderboard'
     },
     {
-        id   : 'insight',
+        id   : 'siInsights',
         title: 'Insight',
         auth : 'siInsights',
         apps : ['mirrorr'],
@@ -21,7 +21,16 @@ export const fuseNavigationConfig = [
         url  : '/mirrorr/insight'
     },
     {
-        id   : 'media_posts',
+        id   : 'siBarometer',
+        title: 'Mirrorr Data',
+        auth : 'siBarometer',
+        apps : ['mirrorr'],
+        type : 'item',
+        icon : 'show_chart',
+        url  : '/mirrorr/data'
+    },
+    {
+        id   : 'siMedia',
         title: 'Media',
         auth : 'siMedia',
         apps : ['mirrorr'],

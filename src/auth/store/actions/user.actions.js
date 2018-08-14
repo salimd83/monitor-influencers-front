@@ -81,7 +81,7 @@ export function lockUser() {
         updateUserSettings({
             locked : true,
             baToken: null,
-            role   : null
+            role   : ['guest']
         })
 
         history.push({
