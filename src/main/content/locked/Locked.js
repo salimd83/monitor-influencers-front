@@ -27,19 +27,21 @@ import {
 }                 from '@fuse'
 import Formsy     from 'formsy-react'
 
-const styles = theme => ({
-    root : {
-        background    : 'url(\'/assets/images/backgrounds/white-material-bg.jpg\') no-repeat',
-        backgroundSize: 'cover'
-    },
-    intro: {
-        color: '#ffffff'
-    },
-    card : {
-        width   : '100%',
-        maxWidth: 400
+const styles = theme => (
+    {
+        root : {
+            background    : 'url(\'https://secure.aadcdn.microsoftonline-p.com/c1c6b6c8-ogpfrapdxzkqbtgla7whfe5enpck3dusb7h-rcuk018/logintenantbranding/0/illustration\') no-repeat',
+            backgroundSize: 'cover'
+        },
+        intro: {
+            color: '#ffffff'
+        },
+        card : {
+            width   : '100%',
+            maxWidth: 400
+        }
     }
-})
+)
 
 
 class Locked extends Component {
@@ -75,20 +77,23 @@ class Locked extends Component {
 
 
     componentDidUpdate(prevProps, prevState) {
-        if (this.props.login.error && (this.props.login.error.username || this.props.login.error.password)) {
+        if (this.props.login.error && (
+            this.props.login.error.username || this.props.login.error.password
+        )) {
             this.form.updateInputsWithError({
-                                                ...this.props.login.error
-                                            })
+                ...this.props.login.error
+            })
 
             this.props.login.error = null
             this.disableButton()
         }
 
         if (!this.props.user.role.includes('guest')) {
-            const pathname = this.props.location.state && this.props.location.state.redirectUrl ? this.props.location.state.redirectUrl : '/'
+            const pathname = this.props.location.state && this.props.location.state.redirectUrl
+                             ? this.props.location.state.redirectUrl : '/'
             this.props.history.push({
-                                        pathname
-                                    })
+                pathname
+            })
         }
         return null
     }
@@ -191,45 +196,47 @@ class Locked extends Component {
         const {step, user} = this.state
 
 
-        return (<div
-            className={classNames(classes.root, 'flex flex-col flex-auto flex-no-shrink items-center justify-center p-32')}>
+        return (
+            <div
+                className={classNames(classes.root, 'flex flex-col flex-auto flex-no-shrink items-center justify-center p-32')}>
 
-            <div className="flex flex-col items-center justify-center w-full">
+                <div className="flex flex-col items-center justify-center w-full">
 
-                <FuseAnimate animation="transition.expandIn">
+                    <FuseAnimate animation="transition.expandIn">
 
-                    <Card className={classes.card}>
+                        <Card className={classes.card}>
 
-                        <CardContent className="flex flex-col items-center justify-center p-32">
+                            <CardContent className="flex flex-col items-center justify-center p-32">
 
-                            <div
-                                className="w-full flex flex-col items-center justify-center sm:flex-row sm:justify-start sm:items-center">
-                                <div className="relative mr-16">
-                                    <Avatar className="w-72 h-72" src={user.data.photoURL}/>
-                                    <Icon className="text-36 absolute pin-r pin-b" color="error">lock</Icon>
+                                <div
+                                    className="w-full flex flex-col items-center justify-center sm:flex-row sm:justify-start sm:items-center">
+                                    <div className="relative mr-16">
+                                        <Avatar className="w-72 h-72" src={user.data.photoURL}/>
+                                        <Icon className="text-36 absolute pin-r pin-b" color="error">lock</Icon>
+                                    </div>
+
+                                    <div>
+                                        <Typography variant="title" className="mb-8">YOUR SESSION IS LOCKED</Typography>
+                                        <Typography color="textSecondary">
+                                            Due to inactivity or login from another device, your session is locked.
+                                        </Typography>
+                                    </div>
                                 </div>
-
-                                <div>
-                                    <Typography variant="title" className="mb-8">YOUR SESSION IS LOCKED</Typography>
-                                    <Typography color="textSecondary">
-                                        Due to inactivity or login from another device, your session is locked.
-                                    </Typography>
-                                </div>
-                            </div>
-                            {this.renderStep(step)}
-                        </CardContent>
-                    </Card>
-                </FuseAnimate>
+                                {this.renderStep(step)}
+                            </CardContent>
+                        </Card>
+                    </FuseAnimate>
+                </div>
             </div>
-        </div>)
+        )
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-                                  submitLogin  : Actions.submitLogin,
-                                  submitRequest: Actions.submitRequest
-                              }, dispatch)
+        submitLogin  : Actions.submitLogin,
+        submitRequest: Actions.submitRequest
+    }, dispatch)
 }
 
 function mapStateToProps({auth}) {
