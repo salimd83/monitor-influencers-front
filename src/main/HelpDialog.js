@@ -47,7 +47,7 @@ export default class HelpDialog extends Component {
         await waitFunction(300)
         registerServiceWorker.default()
         await waitFunction(300)
-        window.location.assign('/index.html?c=' + new Date().getTime() + Math.random())
+        window.location.assign('/?c=' + new Date().getTime() + Math.random())
     }
 
     render() {
