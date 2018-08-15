@@ -6,10 +6,13 @@ export const Error404PageConfig = {
             config: {}
         }
     },
-    auth    : ['login'],
+    auth    : [
+        'login',
+        'guest'
+    ],
     routes  : [
         {
-            path     : '*',
+            path     : '/pages/404',
             component: Error404Page
         }
     ]

@@ -29,16 +29,30 @@ import Formsy     from 'formsy-react'
 
 const styles = theme => (
     {
-        root : {
-            background    : 'url(\'https://secure.aadcdn.microsoftonline-p.com/c1c6b6c8-ogpfrapdxzkqbtgla7whfe5enpck3dusb7h-rcuk018/logintenantbranding/0/illustration\') no-repeat',
-            backgroundSize: 'cover'
+        root     : {
+            backgroundImage : 'url(\'https://secure.aadcdn.microsoftonline-p.com/c1c6b6c8-ogpfrapdxzkqbtgla7whfe5enpck3dusb7h-rcuk018/logintenantbranding/0/illustration\')',
+            backgroundColor : '#000000',
+            backgroundRepeat: 'no-repeat',
+            backgroundSize  : 'cover'
         },
-        intro: {
+        intro    : {
             color: '#ffffff'
         },
-        card : {
+        card     : {
             width   : '100%',
             maxWidth: 400
+        },
+        bgoverlay: {
+            backgroundAttachment: 'scroll',
+            backgroundClip      : 'border-box',
+            backgroundColor     : 'rgba(0, 0, 0, 0.32)',
+            backgroundOrigin    : 'padding-box',
+            backgroundPosition  : '50% 50%',
+            backgroundRepeat    : 'no-repeat',
+            backgroundSize      : 'cover',
+            width               : '100%',
+            height              : '100%',
+            position            : 'absolute'
         }
     }
 )
@@ -199,6 +213,7 @@ class Locked extends Component {
         return (
             <div
                 className={classNames(classes.root, 'flex flex-col flex-auto flex-no-shrink items-center justify-center p-32')}>
+                <div className={classNames(classes.bgoverlay)}></div>
 
                 <div className="flex flex-col items-center justify-center w-full">
 

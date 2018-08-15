@@ -38,7 +38,7 @@ export function submitLogin({username, password}) {
                 baToken    : sessionToken,
                 from       : 'api',
                 role       : userProfile.data.permissions,
-                landingPage: '/mirrorr/leaderboard',
+                landingPage: '/index',
                 data       : {
                     displayName : userProfile.data.first_name + ' ' + userProfile.data.last_name,
                     displayTitle: `${userProfile.data.title} - ${userProfile.data.organisation.name} `,

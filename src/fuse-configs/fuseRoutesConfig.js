@@ -7,13 +7,13 @@ import {authRoleExamplesConfigs}    from 'main/content/auth/authRoleExamplesConf
 import {UserInterfaceConfig}        from 'main/content/user-interface/UserInterfaceConfig'
 import {ComponentsConfig}           from 'main/content/components/ComponentsConfig'
 import {ComponentsThirdPartyConfig} from 'main/content/components-third-party/ComponentsThirdPartyConfig'
-import {GettingStartedConfig}       from 'main/content/getting-started/GettingStartedConfig'
-import {IndexConfig}                from 'main/content/index/IndexConfig'
-import {LockedConfig}               from 'main/content/locked/LockedConfig'
-import {LoginConfig}                from 'main/content/login/LoginConfig'
-import {RegisterConfig}             from 'main/content/register/RegisterConfig'
-import {LogoutConfig}               from 'main/content/logout/LogoutConfig'
-import {Error404PageConfig}         from 'main/errors/404/Error404PageConfig'
+import {GettingStartedConfig} from 'main/content/getting-started/GettingStartedConfig'
+import {IndexConfig}          from 'main/content/index/IndexConfig'
+import {LockedConfig}         from 'main/content/locked/LockedConfig'
+import {LoginConfig}          from 'main/content/login/LoginConfig'
+import {RegisterConfig}       from 'main/content/register/RegisterConfig'
+import {LogoutConfig}         from 'main/content/logout/LogoutConfig'
+import Error404Page           from 'main/errors/404/Error404Page'
 
 
 import {authRoles} from 'auth/auth'
@@ -47,8 +47,7 @@ const routeConfigs = [
     IndexConfig,
     LoginConfig,
     LogoutConfig,
-    LockedConfig,
-    Error404PageConfig
+    LockedConfig
 ]
 
 export const routes = [
@@ -59,6 +58,11 @@ export const routes = [
     },
     {
         path     : '/',
+        exact    : true,
         component: () => <Redirect to="/index"/>
+    },
+    {
+        path     : '*',
+        component: Error404Page
     }
 ]
