@@ -53,13 +53,8 @@ const routeConfigs = [
 export const routes = [
     ...FuseUtils.generateRoutesFromConfigs(routeConfigs),
     {
-        path     : '/mirrorr',
-        component: () => <Redirect to="/mirrorr/leaderboard"/>
-    },
-    {
         path     : '/',
-        exact    : true,
-        component: () => <Redirect to="/index"/>
+        component: () => <Redirect to="/leaderboard"/>
     },
     {
         path     : '*',

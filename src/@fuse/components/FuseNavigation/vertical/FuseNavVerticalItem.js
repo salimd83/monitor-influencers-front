@@ -18,66 +18,81 @@ import * as Actions         from 'store/actions'
 
 const propTypes = {
     item: PropTypes.shape({
-                              id   : PropTypes.string.isRequired,
-                              title: PropTypes.string,
-                              icon : PropTypes.string,
-                              url  : PropTypes.string
-                          })
+        id   : PropTypes.string.isRequired,
+        title: PropTypes.string,
+        icon : PropTypes.string,
+        url  : PropTypes.string
+    })
 }
 
 const defaultProps = {}
 
-const styles = theme => ({
-    root: {
-        minHeight          : 48,
-        '&.active'         : {
-            backgroundColor            : theme.palette.secondary.main,
-            color                      : theme.palette.secondary.contrastText + '!important',
-            pointerEvents              : 'none',
-            '& .list-item-text-primary': {
-                color: 'inherit'
+const styles = theme => (
+    {
+        root: {
+            minHeight          : 48,
+            '&.active'         : {
+                backgroundColor            : theme.palette.secondary.main,
+                color                      : theme.palette.secondary.contrastText + '!important',
+                pointerEvents              : 'none',
+                '& .list-item-text-primary': {
+                    color: 'inherit'
+                },
+                '& .list-item-icon'        : {
+                    color: 'inherit'
+                }
             },
-            '& .list-item-icon'        : {
-                color: 'inherit'
-            }
-        },
-        '& .list-item-icon': {},
-        '& .list-item-text': {},
-        color              : 'inherit!important',
-        textDecoration     : 'none!important'
+            '& .list-item-icon': {},
+            '& .list-item-text': {},
+            color              : 'inherit!important',
+            textDecoration     : 'none!important'
+        }
     }
-})
+)
 
 function FuseNavVerticalItem({item, classes, nestedLevel, userRole, navbarCloseMobile, location}) {
-    let appMatch = item.apps.includes(location.pathname.split('/')[1])
 
-    if (item.auth && (!userRole.includes(item.auth) || !appMatch || (userRole !== 'guest' && item.auth.length === 1 && item.auth.includes('guest')))) {
+    if (item.auth && (
+        !userRole.includes(item.auth) || (
+            userRole !== 'guest' && item.auth.length === 1 && item.auth.includes('guest')
+        )
+    )) {
         return null
     }
 
-    let paddingValue      = 40 + (nestedLevel * 16)
-    const listItemPadding = nestedLevel > 0 ? 'pl-' + (paddingValue > 80 ? 80 : paddingValue) : 'pl-24'
+    let paddingValue      = 40 + (
+        nestedLevel * 16
+    )
+    const listItemPadding = nestedLevel > 0 ? 'pl-' + (
+        paddingValue > 80 ? 80 : paddingValue
+    ) : 'pl-24'
 
-    return (<ListItem
-        button
-        component={NavLink}
-        to={item.url}
-        activeClassName="active"
-        className={classNames(classes.root, listItemPadding)}
-        onClick={navbarCloseMobile}
-        exact={item.exact}
-    >
-        {item.icon && (<Icon className="list-item-icon text-16 flex-no-shrink" color="action">{item.icon}</Icon>)}
-        <ListItemText className="list-item-text" primary={item.title}
-                      classes={{primary: 'text-14 list-item-text-primary'}}/>
-        {item.badge && (<FuseNavBadge badge={item.badge}/>)}
-    </ListItem>)
+    return (
+        <ListItem
+            button
+            component={NavLink}
+            to={item.url}
+            activeClassName="active"
+            className={classNames(classes.root, listItemPadding)}
+            onClick={navbarCloseMobile}
+            exact={item.exact}
+        >
+            {item.icon && (
+                <Icon className="list-item-icon text-16 flex-no-shrink" color="action">{item.icon}</Icon>
+            )}
+            <ListItemText className="list-item-text" primary={item.title}
+                          classes={{primary: 'text-14 list-item-text-primary'}}/>
+            {item.badge && (
+                <FuseNavBadge badge={item.badge}/>
+            )}
+        </ListItem>
+    )
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-                                  navbarCloseMobile: Actions.navbarCloseMobile
-                              }, dispatch)
+        navbarCloseMobile: Actions.navbarCloseMobile
+    }, dispatch)
 }
 
 function mapStateToProps({auth, fuse}) {

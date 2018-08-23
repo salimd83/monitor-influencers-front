@@ -44,7 +44,7 @@ export async function simpleCallNative({
     method = method.toLowerCase()
 
     if (authenticatedCall && _.isEmpty(hiUser().baToken)) {
-        return Promise.reject('A user token is not available to complete the request.')
+        return Promise.reject('A user token is not available to complete the request. Please logout, and try again.')
     }
 
     try {

@@ -48,7 +48,7 @@ export class MediaApp extends Component {
                                                           ? profile.id : '*'
         const strTags                                   = tags.map(tag => tag.id)
                                                               .join() || '*'
-        history.push(`/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`)
+        history.push(`/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join()}`)
     }
     loadNextPage = isVisible => {
         const {from, to, profile, match, tags, types, getMedia, page} = this.props
@@ -93,7 +93,7 @@ export class MediaApp extends Component {
                                                                         .join() || '*'
         loadPost(postId)
         history.push(
-            `/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}/${postId}`
+            `/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}/${postId}`
         )
     }
     onPostClose = () => {
@@ -108,7 +108,7 @@ export class MediaApp extends Component {
         const strTags                                   = tags.map(tag => tag.id)
                                                               .join() || '*'
         history.push(
-            `/mirrorr/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}`
+            `/media/${profileId}/${strFrom}/${strTo}/${strTags}/${types.join() || '*'}`
         )
     }
 

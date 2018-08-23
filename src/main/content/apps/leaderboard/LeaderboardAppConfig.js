@@ -12,7 +12,7 @@ export const LeaderboardAppConfig = {
     auth    : ['siLeaderboard'],
     routes  : [
         {
-            path     : '/mirrorr/leaderboard',
+            path     : '/leaderboard',
             component: LeaderboardApp
         }
     ]

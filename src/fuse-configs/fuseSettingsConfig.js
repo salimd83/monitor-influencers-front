@@ -20,10 +20,10 @@ const fuseSettingsConfig = {
             mode   : 'boxed'
         }
     },
-    logoIcon         : 'assets/images/logos/fuse.svg',
-    logoIconAlt      : 'Simple HI',
-    title            : 'Simple HI',
-    subTitle         : 'ARA',
+    logoIcon         : 'assets/images/logos/mirrorr_full.svg',
+    logoIconAlt      : 'MIRRORR',
+    title            : '',
+    subTitle         : '',
     customScrollbars : false,
     theme            : {
         main   : 'greeny',

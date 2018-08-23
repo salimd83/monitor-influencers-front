@@ -26,7 +26,7 @@ class InsightHeader extends Component {
     const strFrom = moment(from).toISOString();
     const strTo = moment(to).toISOString();
 
-    this.props.history.push(`/mirrorr/insight/${profile.value}/${strFrom}/${strTo}`);
+      this.props.history.push(`/insight/${profile.value}/${strFrom}/${strTo}`)
     this.props.setFilters(profile, strFrom, strTo);
   };
 

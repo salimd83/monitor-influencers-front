@@ -11,7 +11,7 @@ export const ProfilesAppConfig = {
     auth    : ['siSocialProfiles'],
     routes  : [
         {
-            path     : '/mirrorr/admin/profiles/:term?',
+            path     : '/admin/profiles/:term?',
             component: ProfilesApp
         }
     ]

@@ -20,7 +20,6 @@ import {
     FuseAnimate
 }                             from '@fuse'
 import {Link}                 from 'react-router-dom'
-import AppsDrawer             from './AppsDrawer.js'
 import HelpDialog             from './HelpDialog.js'
 
 const styles = theme => ({
@@ -133,7 +132,6 @@ class MainToolbar extends Component {
                     </Popover>
 
                     <div className={classes.seperator}/>
-                    <AppsDrawer/>
                     <HelpDialog/>
 
                     {/*

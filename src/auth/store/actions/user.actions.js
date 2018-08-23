@@ -84,9 +84,7 @@ export function lockUser() {
             role   : ['guest']
         })
 
-        history.push({
-            pathname: '/locked'
-        })
+        history.push('/locked')
     }
     return (dispatch, getState) => {
 

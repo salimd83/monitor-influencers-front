@@ -79,27 +79,28 @@ class ProfilesList extends Component {
             data={Object.values(profiles)}
             columns={[
               {
-                Header: '',
-                accessor: 'profile_picture',
-                Cell: row => (<Link to={`/mirrorr/admin/profile/${row.original.id}`}>
+                Header   : '',
+                accessor : 'profile_picture',
+                  Cell   : row => (
+                      <Link to={`/admin/profile/${row.original.id}`}>
                     <Avatar className="mr-8" alt={row.original.name} src={row.value} />
                   </Link>
                 ),
                 className: 'justify-center',
-                width: 80,
-                sortable: false
+                width    : 80,
+                sortable : false
               },
               {
                 Header    : () => <div className="py-8">First Name</div>,
                 accessor  : 'first_name',
                 filterable: true,
-                  Cell    : row => <Link to={`/mirrorr/admin/profile/${row.original.id}`}>{row.value}</Link>,
+                  Cell    : row => <Link to={`/admin/profile/${row.original.id}`}>{row.value}</Link>,
                 className : 'font-bold'
               },
               {
                 Header    : 'Last Name',
                 accessor  : 'last_name',
-                  Cell    : row => <Link to={`/mirrorr/admin//profile/${row.original.id}`}>{row.value}</Link>,
+                  Cell    : row => <Link to={`/admin//profile/${row.original.id}`}>{row.value}</Link>,
                 filterable: true,
                 className : 'font-bold'
               },

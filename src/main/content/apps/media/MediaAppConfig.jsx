@@ -11,15 +11,15 @@ export const MediaAppConfig = {
     auth    : ['siMedia'],
     routes  : [
         {
-            path     : '/mirrorr/media/post/:postid',
+            path     : '/media/post/:postid',
             component: MediaApp
         },
         {
-            path     : '/mirrorr/media/:id?/:from?/:to?/:tags?/:types?/:postid?',
+            path     : '/media/:id?/:from?/:to?/:tags?/:types?/:postid?',
             component: MediaApp
         },
         {
-            path     : '/mirrorr/media/:id?/:from?/:to?/:tags?/:types?',
+            path     : '/media/:id?/:from?/:to?/:tags?/:types?',
             component: MediaApp
         }
     ]
