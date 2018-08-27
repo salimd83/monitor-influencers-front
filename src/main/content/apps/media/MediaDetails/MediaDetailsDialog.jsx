@@ -45,11 +45,13 @@ const styles = theme => ({
 export class MediaDetailsDialog extends Component {
   state = {
     width: 0,
+    height: 0,
     open: false,
     relatedImage: ""
   };
   updateWindowDimensions = () => {
     this.setState({ width: window.innerWidth });
+    this.setState({ height: window.innerHeight });
   };
 
   componentDidMount() {
@@ -72,6 +74,7 @@ export class MediaDetailsDialog extends Component {
   render() {
     const { post, open, handleClose, classes } = this.props;
     const imageRatio = post.media_width / post.media_height;
+    const screenRation = this.state.width / this.state.height
 
     const style = {
       maxWidth: "none",
@@ -81,7 +84,7 @@ export class MediaDetailsDialog extends Component {
       style.maxWidth = "670px";
       style.height = "auto";
     }
-    if (this.state.width <= 960) {
+    if (this.state.width <= 960 || screenRation < 1.4) {
       style.width = "100%";
       style.height = "auto";
     }
