@@ -133,7 +133,7 @@ export class MediaDetailsDialog extends Component {
                           width: "100%"
                         }}
                       >
-                        <Divider className="mt-16" />
+                        <Divider className="mb-16 mt-16" />
                       </div>
                     </Hidden>
 
@@ -141,12 +141,19 @@ export class MediaDetailsDialog extends Component {
                       <Typography variant="subheading" gutterBottom>
                         {post.caption}
                       </Typography>
-                      <Typography variant="body2" gutterBottom>
-                        {post.ocr && post.ocr[0] && `OCR: ${post.ocr[0].type}`}
+                      {post.detected_text[0] && <div><Typography variant="body2" gutterBottom>
+                        Detected text
                       </Typography>
-                      <Typography variant="subheading" gutterBottom>
-                        {post.ocr && post.ocr[0].meta.text}
+                      <Typography variant="subheading" gutterBottom style={{fontStyle: "italic"}}>
+                        {post.detected_text[0].text}
+                      </Typography></div>}
+
+                      {post.transcript_text[0] && <div><Typography variant="body2" gutterBottom>
+                        Transcript text
                       </Typography>
+                      <Typography variant="subheading" gutterBottom style={{fontStyle: "italic"}}>
+                        {post.transcript_text[0].text}
+                      </Typography></div>}
 
                       <PostEngagement engagment={post.engagment} data={data} />
 
