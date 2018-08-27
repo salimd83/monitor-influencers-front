@@ -80,10 +80,10 @@ class Widget7 extends Component {
         <div className="p-16 flex flex-row items-center justify-center">
           {data.labels.slice(0, size - 1).map((label, index) => (
             <div key={label} className="px-16 flex flex-col items-center">
-              <Typography className="h4" color="textSecondary">
+              <Typography align="center" className="h4" color="textSecondary">
                 {label}
               </Typography>
-              <Typography className="h2 font-300 py-8">
+              <Typography align="center" className="h2 font-300 py-8">
                 {data.datasets[dataset][0].data[index]}%
               </Typography>
 

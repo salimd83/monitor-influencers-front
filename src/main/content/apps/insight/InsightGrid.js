@@ -78,7 +78,7 @@ class InsightGrid extends Component {
     return {
       className: "layout",
       cols: {
-        lg: 16,
+        lg: 12,
         md: 12,
         sm: 9,
         xs: 6,
