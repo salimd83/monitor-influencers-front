@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Icon, Card, Typography } from "@material-ui/core";
-import { Line } from "react-chartjs-2";
+import { Bar } from "react-chartjs-2";
 import { withStyles } from "@material-ui/core/styles/index";
 import classNames from "classnames";
 import _ from "lodash";
@@ -79,7 +79,7 @@ class Widget5 extends Component {
         </div>
 
         <Typography className="relative pb-16" style={{ minHeight: "347px" }}>
-          <Line
+          <Bar
             data={{
               labels: data.labels,
               datasets: dataWithColors

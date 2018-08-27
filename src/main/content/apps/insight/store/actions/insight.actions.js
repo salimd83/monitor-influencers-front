@@ -207,6 +207,7 @@ export function setFilters(profile, from, to, withData = true) {
       dispatch(getTopHashtagsData(profile.value, from, to));
       dispatch(getTopLocationsData(profile.value, from, to));
       dispatch(getTopMentionsData(profile.value, from, to));
+      // dispatch(getActivityEngagementData(profile.value, from, to));
     }
   };
 }
