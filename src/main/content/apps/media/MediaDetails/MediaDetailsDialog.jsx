@@ -1,7 +1,17 @@
 import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import { Grid, Typography, Divider, Hidden, LinearProgress } from "@material-ui/core";
+import {
+  Grid,
+  Typography,
+  Divider,
+  Hidden,
+  LinearProgress,
+  GridList,
+  GridListTile,
+  GridListTileBar
+} from "@material-ui/core";
 import PostOwner from "./PostOwner";
 import PostIcons from "./PostIcons";
 import PostMedia from "./PostMedia";
@@ -10,9 +20,33 @@ import PostMentions from "./PostMentions";
 import engagmentData from "../widgets/engagmentData";
 import PostEngagement from "./PostEngagement";
 
+const styles = theme => ({
+  root: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    backgroundColor: theme.palette.background.paper
+  },
+  gridList: {
+    flexWrap: "nowrap",
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: "translateZ(0)"
+  },
+  title: {
+    color: "#fff"
+  },
+  titleBar: {
+    background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0) 100%)",
+    color: "#fff"
+  }
+});
+
 export class MediaDetailsDialog extends Component {
   state = {
-    width: 0
+    width: 0,
+    open: false,
+    relatedImage: ""
   };
   updateWindowDimensions = () => {
     this.setState({ width: window.innerWidth });
@@ -27,8 +61,16 @@ export class MediaDetailsDialog extends Component {
     window.removeEventListener("resize", this.updateWindowDimensions);
   }
 
+  handleOpen = img => () => {
+    this.setState({ open: true, relatedImage: img });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
-    const { post, open, handleClose } = this.props;
+    const { post, open, handleClose, classes } = this.props;
     const imageRatio = post.media_width / post.media_height;
 
     const style = {
@@ -91,7 +133,7 @@ export class MediaDetailsDialog extends Component {
                           width: "100%"
                         }}
                       >
-                        <Divider className="mb-16 mt-16" />
+                        <Divider className="mt-16" />
                       </div>
                     </Hidden>
 
@@ -116,7 +158,27 @@ export class MediaDetailsDialog extends Component {
                         <Typography variant="body2" gutterBottom>
                           Sentiment
                         </Typography>
-                        <LinearProgress className="bar" variant="determinate" value={post.sentiment.score*100} />
+                        <LinearProgress className="bar" variant="determinate" value={post.sentiment.score * 100} />
+                      </div>
+
+                      <div className={classes.root + "related-media"}>
+                        <Typography variant="body2" gutterBottom>
+                          Related Media
+                        </Typography>
+                        <GridList className={classes.gridList} cols={2.5}>
+                          {post.visuals.map(media => (
+                            <GridListTile key={media.meta.image_src} onClick={this.handleOpen(media.meta.image_src)}>
+                              <img src={media.meta.image_src} alt={media.type} />
+                              <GridListTileBar
+                                title={media.type}
+                                classes={{
+                                  root: classes.titleBar,
+                                  title: classes.title
+                                }}
+                              />
+                            </GridListTile>
+                          ))}
+                        </GridList>
                       </div>
                     </div>
                   </Grid>
@@ -124,9 +186,13 @@ export class MediaDetailsDialog extends Component {
               </DialogContent>
             )}
         </Dialog>
+
+        <Dialog scroll="paper" open={this.state.open} onClose={this.handleClose}>
+          <img src={this.state.relatedImage} alt="" />
+        </Dialog>
       </div>
     );
   }
 }
 
-export default MediaDetailsDialog;
+export default withStyles(styles)(MediaDetailsDialog);

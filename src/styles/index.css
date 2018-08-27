@@ -408,6 +408,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 #mediaPostDialog .sentiment{
   margin-right: 20px;
+  margin-top: 20px;
 }
 #mediaPostDialog .sentiment div.bar {
   overflow: inherit;
@@ -466,6 +467,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   left: 0;
   font-size: 12px;
   color: #666;
+}
+#mediaPostDialog .related-media{
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 .MuiDialog-paperWidthSm-490 {
   max-width: 1000px !important;
@@ -682,8 +687,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 @media only screen and (min-width: 600px) {
   #mediaPostDialog .info {
     position: relative;
-    height: 100%; /* height: 90vh; */
+    /* height: 100%;  */
+    height: 90vh;
   }
+
   #mediaPostDialog .info .wrapper {
     overflow: hidden;
     overflow-y: scroll;
@@ -694,6 +701,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 40px;
     left: 0;
   }
+
   #mediaPostDialog .dialog-content .media {
     position: relative;
     height: 100%;
@@ -711,7 +719,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     max-width: none; */
   }
   #mediaPostDialog .info .scrollWrap {
-    height: 50vh;
+    height: 70vh;
     overflow: hidden;
     overflow-y: scroll;
     padding-bottom: 40px;
