@@ -406,6 +406,67 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #bbb;
   font-size: 21px;
 }
+#mediaPostDialog .sentiment{
+  margin-right: 20px;
+}
+#mediaPostDialog .sentiment div.bar {
+  overflow: inherit;
+  margin-top: 35px;
+  margin-bottom: 20px;
+  background: #f2736e; /* Old browsers */
+  background: -moz-linear-gradient(left, #f2736e 0%, #ffc532 50%, #63b58d 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #f2736e 0%, #ffc532 50%, #63b58d 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    to right,
+    #f2736e 0%,
+    #ffc532 50%,
+    #63b58d 100%
+  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2736e', endColorstr='#63b58d',GradientType=1 ); /* IE6-9 */
+}
+#mediaPostDialog .sentiment div.bar::after {
+  content: "Neutre";
+  position: absolute;
+  top: -24px;
+  right: 50%;
+  transform: translate(50%, 0);
+  -webkit-transform: translate(50%, 0);
+  -moz-transform: translate(50%, 0);
+  -ms-transform: translate(50%, 0);
+  -o-transform: translate(50%, 0);
+  font-size: 12px;
+  color: #666;
+}
+#mediaPostDialog .sentiment div.bar::before {
+  content: "Positive";
+  position: absolute;
+  top: -24px;
+  right: 0;
+  font-size: 12px;
+  color: #666;
+}
+#mediaPostDialog .sentiment div:last-child div {
+  background-color: transparent;
+}
+#mediaPostDialog .sentiment div:last-child div::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 0;
+  width: 14px;
+  height: 13px;
+  border-radius: 50%;
+  background-color: #fff;
+  border: 5px solid #387ca3;
+}
+#mediaPostDialog .sentiment div:last-child div::after {
+  content: "Negative";
+  position: absolute;
+  top: -24px;
+  left: 0;
+  font-size: 12px;
+  color: #666;
+}
 .MuiDialog-paperWidthSm-490 {
   max-width: 1000px !important;
 }
@@ -421,7 +482,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   overflow: hidden;
   background: #f5f5f5;
 }
-
 .leaderboard-profile-row .photo img {
   position: absolute;
   max-width: none;
@@ -433,7 +493,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   -ms-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
 }
-
 .leaderboard-profile-row .info {
   padding: 20px;
 }
@@ -512,7 +571,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   vertical-align: text-bottom;
   color: #ccc;
 }
-
 .react-datepicker {
   font-size: 1em !important;
 }
@@ -547,18 +605,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .react-datepicker-time__header {
   font-size: 0.944em !important;
 }
-
 .react-datepicker__navigation--next--with-time {
   right: 80px !important;
 }
 .react-datepicker__time-box {
   width: 86px !important;
 }
-
 .react-autosuggest__container {
   position: relative;
 }
-
 .react-autosuggest__input {
   width: 200px;
   height: 46px;
@@ -570,11 +625,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: transparent;
   border-bottom: 1px solid #e5e5e5;
 }
-
 .react-autosuggest__input--focused {
   outline: none;
 }
-
 .react-autosuggest__input--open {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
@@ -583,7 +636,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .react-autosuggest__suggestions-container {
   display: none;
 }
-
 .react-autosuggest__suggestions-container--open {
   display: block;
   position: absolute;
@@ -600,13 +652,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-bottom-right-radius: 4px;
   z-index: 2;
 }
-
 .react-autosuggest__suggestions-list {
   margin: 0;
   padding: 0;
   list-style-type: none;
 }
-
 .react-autosuggest__suggestion {
   cursor: pointer;
   padding: 10px 20px;
@@ -615,8 +665,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
 }
-
-
 @media only screen and (max-width: 930px) {
   .FusePageCarded-header-162 {
     height: 250px;
@@ -631,14 +679,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 100%;
   }
 }
-
 @media only screen and (min-width: 600px) {
   #mediaPostDialog .info {
     position: relative;
-    height: 100%;
-    /* height: 90vh; */
+    height: 100%; /* height: 90vh; */
   }
-
   #mediaPostDialog .info .wrapper {
     overflow: hidden;
     overflow-y: scroll;
@@ -649,7 +694,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 40px;
     left: 0;
   }
-
   #mediaPostDialog .dialog-content .media {
     position: relative;
     height: 100%;
@@ -666,7 +710,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     /* height: 100%;
     max-width: none; */
   }
-
   #mediaPostDialog .info .scrollWrap {
     height: 50vh;
     overflow: hidden;
@@ -676,7 +719,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 100%;
   }
 }
-
 @media only screen and (max-width: 600px) {
   [class^="FusePageCarded-header"] {
     height: 450px;
@@ -686,7 +728,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   [class^="FusePageCarded-topBg"] {
     height: 460px;
   }
-
   #typeaheadApp [class^="FusePageCarded-header"],
   #typeaheadApp [class^="FusePageCarded-header"] {
     height: 250px;
@@ -714,8 +755,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   #mediaPostDialog .info {
     padding: 20px 40px;
   }
-
   #mediaPostDialog .post-owner {
     margin: 15px;
+  }
+  #mediaPostDialog .sentiment{
+    margin-right: 0;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  #mediaPostDialog .scrollWrap {
+    width: 100%;
   }
 }

@@ -34,7 +34,7 @@ export const setTypesFilter = types => {
 export const getMedia = (since, until, profile, tags, types, page = null, loading = false) => {
   if (profile === "*") profile = "";
   if (tags === "*") tags = "";
-    if (types === '*') types = ''
+  if (types === "*") types = "";
   return async dispatch => {
     try {
       const response = await Fn.simpleCallWA(
@@ -50,31 +50,31 @@ export const getMedia = (since, until, profile, tags, types, page = null, loadin
           type: types
         },
         undefined,
-          true
+        loading
       );
 
-        var d = new Date()
-        d.setHours(23, 59, 59, 0)
-        const strd = d.toISOString()
+      var d = new Date();
+      d.setHours(23, 59, 59, 0);
+      const strd = d.toISOString();
 
-        const media = await Promise.all(
-            response.data.map(async post => {
-                const engagment = await Fn.simpleCallWA(dispatch, 'get', 'si/insights/media_engagement', {
-                    media_id: post.id,
-                    since   : '2018-01-01T00:00:00Z',
-                    until   : strd
-                })
+      const media = await Promise.all(
+        response.data.map(async post => {
+          const engagment = await Fn.simpleCallWA(dispatch, "get", "si/insights/media_engagement", {
+            media_id: post.id,
+            since: "2018-01-01T00:00:00Z",
+            until: strd
+          });
 
-                post['engagment'] = engagment.data
-                return post
-            })
+          post["engagment"] = engagment.data;
+          return post;
+        })
       );
 
       if (page) {
         dispatch({
-            type   : GET_NEXT_PAGE,
-            payload: media,
-            page   : response.metadata.paging.after
+          type: GET_NEXT_PAGE,
+          payload: media,
+          page: response.metadata.paging.after
         });
       } else
         dispatch({
@@ -90,27 +90,27 @@ export const getMedia = (since, until, profile, tags, types, page = null, loadin
 
 export const loadPost = postId => {
   return async dispatch => {
-      const response = await Fn.simpleCallWA(dispatch, 'get', `si/media/${postId}`)
-      const {data}   = response
-      data.senses    = data.tags.filter(tag => tag.score.toFixed(1) < 1)
-      data.mentions  = data.tags.filter(tag => tag.score.toFixed(1) >= 1)
+    const response = await Fn.simpleCallWA(dispatch, "get", `si/media/${postId}`);
+    const { data } = response;
+    data.senses = data.tags.filter(tag => tag.score.toFixed(1) < 1);
+    data.mentions = data.tags.filter(tag => tag.score.toFixed(1) >= 1);
 
-      var d = new Date()
-      d.setHours(23, 59, 59, 0)
-      const strd = d.toISOString()
+    var d = new Date();
+    d.setHours(23, 59, 59, 0);
+    const strd = d.toISOString();
 
-      const engagment = await Fn.simpleCallWA(dispatch, 'get', 'si/insights/media_engagement', {
-          media_id: data.id,
-          since   : '2018-01-01T00:00:00Z',
-          until   : strd
-      })
+    const engagment = await Fn.simpleCallWA(dispatch, "get", "si/insights/media_engagement", {
+      media_id: data.id,
+      since: "2018-01-01T00:00:00Z",
+      until: strd
+    });
 
-      data.engagment = engagment.data
+    data.engagment = engagment.data;
 
     dispatch({
-        type: LOAD_POST,
-        open: true,
-        post: data
+      type: LOAD_POST,
+      open: true,
+      post: data
     });
   };
 };
