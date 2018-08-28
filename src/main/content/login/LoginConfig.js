@@ -1,28 +1,26 @@
-import Login from './Login';
-import {authRoles} from 'auth/auth';
+import Login from "./Login";
 
 export const LoginConfig = {
-    settings: {
-        layout: {
-            config: {
-                navbar : {
-                    display: false
-                },
-                toolbar: {
-                    display: false
-                },
-                footer : {
-                    display: false
-                }
-            }
+  settings: {
+    layout: {
+      config: {
+        navbar: {
+          display: false
+        },
+        toolbar: {
+          display: false
+        },
+        footer: {
+          display: false
         }
-    },
-    auth    : ['guest'],
-    routes  : [
-        {
-            path     : '/login',
-            component: Login
-        }
-    ]
+      }
+    }
+  },
+  auth: ["guest"],
+  routes: [
+    {
+      path: "/login",
+      component: Login
+    }
+  ]
 };
-

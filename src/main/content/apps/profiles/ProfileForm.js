@@ -7,7 +7,7 @@ import {
   hasLengthGreaterThan,
   hasLengthLessThan
 } from 'revalidate';
-import { Icon, Button, DialogActions } from '@material-ui/core';
+import { Icon, Button } from '@material-ui/core';
 import { TextInput, SelectInput } from '@fuse';
 
 const validate = combineValidators({

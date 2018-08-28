@@ -86,42 +86,9 @@ class Widget7 extends Component {
               <Typography align="center" className="h2 font-300 py-8">
                 {data.datasets[dataset][0].data[index]}%
               </Typography>
-
-              {/* <div className="flex flex-row items-center justify-center">
-
-                                {data.datasets[dataset][0].change[index] < 0 && (
-                                    <Icon className="text-18 pr-4 text-red">
-                                        arrow_downward
-                                    </Icon>
-                                )}
-
-                                {data.datasets[dataset][0].change[index] > 0 && (
-                                    <Icon className="text-18 pr-4 text-green">
-                                        arrow_upward
-                                    </Icon>
-                                )}
-                                <div className="h5">
-                                    {data.datasets[dataset][0].change[index]}%
-                                </div>
-                            </div> */}
             </div>
           ))}
         </div>
-
-        {/* <Divider className="mx-16"/> */}
-
-        {/* <div className="p-16 flex flex-row items-center justify-between">
-                    <div>
-                        <FormControl className="">
-                            <Select value={dataset} onChange={this.setDataSet}>
-                                {Object.keys(data.datasets).map(key => (
-                                    <MenuItem key={key} value={key}>{key}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
-                    </div>
-                    <Button size="small">OVERVIEW</Button>
-                </div> */}
         <Popover
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}

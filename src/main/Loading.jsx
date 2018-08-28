@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Backdrop, CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@material-ui/core';
 
 const mapState = state => ({
   loading: state.async.loading,

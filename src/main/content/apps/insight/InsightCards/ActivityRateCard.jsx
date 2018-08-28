@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Widget from "../widgets/Widget5";
+import Widget from "../widgets/Widget10";
 import dataParser from "./data/activityRateData";
 import { connect } from "react-redux";
 import { CircularProgress, Card } from "@material-ui/core";

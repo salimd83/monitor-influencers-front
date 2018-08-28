@@ -13,8 +13,7 @@ import {
   Typography,
   Toolbar,
   AppBar,
-  MenuItem,
-  InputAdornment
+  MenuItem
 } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles/index";
 import { bindActionCreators } from "redux";
@@ -23,7 +22,7 @@ import _ from "lodash";
 
 import * as Actions from "../store/actions";
 
-const styles = theme => ({
+const styles = () => ({
   root: {},
   formControl: {
     marginBottom: 24

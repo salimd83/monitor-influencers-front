@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, InputLabel, FormControl } from '@material-ui/core';
+import { Grid, InputLabel } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
@@ -42,21 +42,6 @@ const DateFilter = props => {
             />
         </Grid>
       </Grid>
-      {/* <TextField
-        id="date"
-        label="To"
-        name="to"
-        onChange={handleDateToChange}
-        type="datetime-local"
-        defaultValue={to}
-        InputLabelProps={{
-          shrink: true
-        }}
-        inputProps={{
-          max: maxTo,
-          required: 'required'
-        }}
-      /> */}
     </React.Fragment>
   );
 };

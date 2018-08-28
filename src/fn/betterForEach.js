@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import _ from "lodash";
 
 /**
  * Better foreach item in object or array.
@@ -10,33 +10,28 @@ import _ from 'lodash'
  * @param opts Additional options that should provided for each item.
  */
 export async function betterForEach(dataArr, func, opts = []) {
+  return new Promise(function(resolve, reject) {
+    var itemsProcessed = 0;
+    var resArr = [];
 
-    return new Promise(function (resolve, reject) {
-        var itemsProcessed = 0
-        var resArr         = []
+    if (typeof dataArr === "string") {
+      dataArr = [dataArr];
+    }
 
-        if (typeof dataArr == 'string') {
-            dataArr = [dataArr]
-        }
-
-        dataArr.forEach((item, index, array) => {
-            func(item, opts)
-                .then(res => {
-                    if (!_.isEmpty(res)) {
-                        resArr.push(res)
-                    }
-                    itemsProcessed++
-                    if (itemsProcessed === array.length) {
-                        resolve(resArr)
-                    }
-                })
-                .catch(err => {
-                    reject(err)
-                })
-
-
+    dataArr.forEach((item, index, array) => {
+      func(item, opts)
+        .then(res => {
+          if (!_.isEmpty(res)) {
+            resArr.push(res);
+          }
+          itemsProcessed++;
+          if (itemsProcessed === array.length) {
+            resolve(resArr);
+          }
         })
-    })
-
-
+        .catch(err => {
+          reject(err);
+        });
+    });
+  });
 }

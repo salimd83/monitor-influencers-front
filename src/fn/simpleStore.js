@@ -12,6 +12,7 @@ class simpleStoreClass {
             case 'string':
                 localStorage.setItem(key, storeValue)
                 return storeValue
+            default:
         }
     }
 
@@ -24,11 +25,13 @@ class simpleStoreClass {
                 return combinedValues
             case 'string':
                 sessionStorage.setItem(key, storeValue)
+                break;
+            default:
         }
     }
 
-    _upsertSimple(key, storeValue, valueType) {
-    }
+    // _upsertSimple(key, storeValue, valueType) {
+    // }
 
     upsert(key, storeValue, type = 'session') {
         const valueType = typeof storeValue

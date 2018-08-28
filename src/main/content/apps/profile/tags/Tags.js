@@ -1,16 +1,9 @@
-import React, {Component} from 'react'
-import {
-    AppBar,
-    Card,
-    CardContent,
-    Toolbar,
-    Typography,
-    Chip
-}                         from '@material-ui/core'
-import {Async}            from 'react-select'
-import 'react-select/dist/react-select.css'
+import React, { Component } from "react";
+import { AppBar, Card, CardContent, Toolbar, Typography } from "@material-ui/core";
+import { Async } from "react-select";
+import "react-select/dist/react-select.css";
 
-import * as Fn from 'fn/simpleCall.js'
+import * as Fn from "fn/simpleCall.js";
 
 class Tags extends Component {
   state = {
@@ -24,7 +17,7 @@ class Tags extends Component {
   };
 
   getTagsOptions = (input, callback) => {
-      const request = Fn.simpleCall('get', `typeahead/profile_tag?q=${input}`)
+    const request = Fn.simpleCall("get", `typeahead/profile_tag?q=${input}`);
 
     request.then(response => {
       const ids = this.props.tags.map(tag => tag.id);
@@ -70,10 +63,8 @@ class Tags extends Component {
   };
 
   render() {
-    const { tags } = this.props;
-
     return (
-        <Card id="profile-tags" className="w-full mb-16" style={{overflow: 'initial'}}>
+      <Card id="profile-tags" className="w-full mb-16" style={{ overflow: "initial" }}>
         <AppBar position="static" elevation={0}>
           <Toolbar className="pl-16 pr-8">
             <Typography variant="subheading" color="inherit" className="flex-1">
@@ -84,7 +75,7 @@ class Tags extends Component {
 
         <CardContent>
           <div className="mb-24">
-              {/* <div className="mb-24">
+            {/* <div className="mb-24">
               {!tags.length && <Typography className="mb-4 text-15">No tags.</Typography>}
               {tags.length !== 0 &&
                 tags.map(tag => (
@@ -99,23 +90,21 @@ class Tags extends Component {
             </div> */}
 
             <Async
-                name="profile-tags"
-                onChange={this.handleAsyncSelectChange}
-                value={this.props.tags.map(tag => (
-                    {
-                        label: `${tag.type}/${tag.name}`,
-                        value: tag.name,
-                        name : tag.name,
-                        type : tag.type,
-                        id   : tag.id
-                    }
-                ))}
-                closeOnSelect={false}
-                multi
-                clearable={false}
-                removeSelected={true}
-                loadOptions={this.getTagsOptions}
-                style={{zIndex: 1000}}
+              name="profile-tags"
+              onChange={this.handleAsyncSelectChange}
+              value={this.props.tags.map(tag => ({
+                label: `${tag.type}/${tag.name}`,
+                value: tag.name,
+                name: tag.name,
+                type: tag.type,
+                id: tag.id
+              }))}
+              closeOnSelect={false}
+              multi
+              clearable={false}
+              removeSelected={true}
+              loadOptions={this.getTagsOptions}
+              style={{ zIndex: 1000 }}
             />
           </div>
         </CardContent>

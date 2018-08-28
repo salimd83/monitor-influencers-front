@@ -50,7 +50,6 @@ class ProfilesApp extends Component {
 
   componentDidMount() {
     this.props.getProfiles(this.props.match.params.term || '');
-    this.props.getUserData();
 
     Fn.simpleCall('get', 'typeahead/industry').then(res => {
       this.setState({
@@ -86,7 +85,6 @@ class ProfilesApp extends Component {
           className={classes.root}
           classes={{
             root: classes.layoutRoot,
-            contentCardWrapper: classes.layoutContentCardWrapper,
             leftSidebar: classes.layoutLeftSidebar
           }}
           header={<ProfilesHeader pageLayout={() => this.pageLayout} />}
@@ -117,7 +115,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       getProfiles: Actions.getProfiles,
-      getUserData: Actions.getUserData,
       openNewProfileDialog: Actions.openNewProfileDialog
     },
     dispatch
@@ -128,8 +125,7 @@ function mapStateToProps({ profilesApp }) {
   return {
     profiles: profilesApp.profiles.entities,
     selectedProfileIds: profilesApp.profiles.selectedProfileIds,
-    searchText: profilesApp.profiles.searchText,
-    user: profilesApp.user
+    searchText: profilesApp.profiles.searchText
   };
 }
 

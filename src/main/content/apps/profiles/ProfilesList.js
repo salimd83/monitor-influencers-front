@@ -165,7 +165,6 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       getProfiles: Actions.getProfiles,
-      getUserData: Actions.getUserData,
       openEditProfileDialog: Actions.openEditProfileDialog,
       removeProfile: Actions.removeProfile
     },
@@ -180,7 +179,6 @@ function mapStateToProps({ profilesApp }) {
     selectedProfileIds: profiles.selectedProfileIds,
     loadingProfiles: profiles.loadingProfiles,
     searchText: profiles.searchText,
-    user: profilesApp.user
   };
 }
 

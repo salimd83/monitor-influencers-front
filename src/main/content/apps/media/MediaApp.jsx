@@ -104,8 +104,7 @@ export class MediaApp extends Component {
       getMedia,
       setFilters,
       setTagsFilter,
-      setTypesFilter,
-      showMessage
+      setTypesFilter
     } = this.props;
     const strFrom = match.params.from || moment(from).toISOString();
     const strTo = match.params.to || moment(to).toISOString();

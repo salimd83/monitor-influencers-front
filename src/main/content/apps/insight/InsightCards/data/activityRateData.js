@@ -5,13 +5,13 @@ export default dataObjs => {
     dataEngagement = [],
     labels = [];
 
-  if (typeof dataObjs != "undefined") {
-    if (typeof dataObjs[0] != "undefined")
+  if (typeof dataObjs !== "undefined") {
+    if (typeof dataObjs[0] !== "undefined")
       dataObjs[0].forEach(dataObj => {
         labels.push(format(dataObj.date, "D MMM"));
         dataRate.push(dataObj.count);
       });
-    if (typeof dataObjs[1] != "undefined")
+    if (typeof dataObjs[1] !== "undefined")
       dataObjs[1].forEach(dataObj => {
         dataEngagement.push(dataObj.count);
       });

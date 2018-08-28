@@ -50,7 +50,7 @@ class MainToolbar extends Component {
     }
 
     render() {
-        const {classes, toggleQuickPanel, user, logout} = this.props
+        const {classes, user, logout} = this.props
         const {userMenu}                                = this.state
 
         return (

@@ -3,7 +3,6 @@ import { Card, Icon, Typography } from '@material-ui/core';
 import { Bar } from 'react-chartjs-2';
 import { withStyles } from '@material-ui/core/styles/index';
 import classNames from 'classnames';
-import Popover from '@material-ui/core/Popover';
 
 const styles = theme => ({
   root: {}

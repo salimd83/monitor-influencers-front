@@ -11,7 +11,7 @@ const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange
 
       <Grid
           container
-          spacing={10}
+          
           alignItems="center"
           direction="row"
           justify="space-between"

@@ -1,8 +1,8 @@
 export default dataObjs => {
   let data = [],
     labels = [];
-  // const sortedArray = dataObjs.sort((a, b) => b.count - a.count);
-  if (typeof dataObjs != 'undefined') {
+
+    if (typeof dataObjs !== 'undefined') {
     dataObjs.forEach(dataObj => {
       labels.push(dataObj.label);
       data.push(dataObj.percentage);

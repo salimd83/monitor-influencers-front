@@ -1,6 +1,3 @@
-import {MaterialUINavigation} from 'main/content/components/material-ui/MaterialUINavigation'
-import {authRoles}            from 'auth/auth'
-
 export const fuseNavigationConfig = [
     {
         id   : 'siLeaderboard',
