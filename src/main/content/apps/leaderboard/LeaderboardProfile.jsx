@@ -20,12 +20,10 @@ export class LeaderboardProfile extends Component {
               <Grid item xs={6}>
                 <div className="statics">
                   <span className="primary">
-                    <Icon>adjust</Icon> {Intl.NumberFormat()
-                                             .format(profile.insights.media_count)}
+                    <Icon>adjust</Icon> {Intl.NumberFormat().format(profile.insights.media_count)}
                   </span>
                   <span className="primary">
-                    <Icon>people</Icon> {Intl.NumberFormat()
-                                             .format(profile.insights.followers_count)}
+                    <Icon>people</Icon> {Intl.NumberFormat().format(profile.insights.followers_count)}
                   </span>
                 </div>
               </Grid>
@@ -33,7 +31,7 @@ export class LeaderboardProfile extends Component {
 
             <Divider />
 
-            <div className="links mt-8">
+            <div className="links mt-16 mb-8">
               {profile.links &&
                 profile.links.map(link => {
                   let faType = link.type;
@@ -53,9 +51,7 @@ export class LeaderboardProfile extends Component {
                 })}
             </div>
 
-            <Typography variant="subheading">
-              {profile.category && profile.category.name}
-            </Typography>
+            <Typography variant="subheading">{profile.category && profile.category.name}</Typography>
             <Typography variant="body1" component="p" color="textSecondary">
               {profile.description}
             </Typography>
@@ -69,9 +65,10 @@ export class LeaderboardProfile extends Component {
                 profile.tags.map(tag => (
                   <Chip
                     key={tag.id}
+                    className="mb-4"
                     avatar={
                       <Avatar>
-                        <Icon style={{fontSize: '17px'}}>local_offer</Icon>
+                        <Icon style={{ fontSize: "17px" }}>local_offer</Icon>
                       </Avatar>
                     }
                     label={tag.name}

@@ -1,4 +1,3 @@
-import axios from "axios/index";
 import * as Fn from "fn/simpleCall.js";
 
 export const GET_PROFILES = "[PROFILES APP] GET PROFILES";

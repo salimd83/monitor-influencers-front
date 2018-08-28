@@ -1,4 +1,3 @@
-import {authRoles} from 'auth/auth';
 import store from 'store';
 import {logoutUser} from 'auth/store/actions';
 

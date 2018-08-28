@@ -1,19 +1,18 @@
-import ProfileApp         from 'main/content/apps/profile/ProfileApp'
-import FuseSettingsConfig from 'fuse-configs/fuseSettingsConfig'
-
+import ProfileApp from "main/content/apps/profile/ProfileApp";
+import FuseSettingsConfig from "fuse-configs/fuseSettingsConfig";
 
 export const ProfileAppConfig = {
-    settings: {
-        layout: {
-            config: {}
-        }, ...FuseSettingsConfig.alternativeConfig.mirror
-
+  settings: {
+    layout: {
+      config: {}
     },
-    auth    : ['siSocialProfiles'],
-    routes  : [
-        {
-            path     : '/admin/profile/:id',
-            component: ProfileApp
-        }
-    ]
-}
+    ...FuseSettingsConfig.alternativeConfig.mirror
+  },
+  auth: ["siSocialProfiles"],
+  routes: [
+    {
+      path: "/admin/profile/:id",
+      component: ProfileApp
+    }
+  ]
+};

@@ -14,6 +14,64 @@ let originalLayouts;
 let breakpoint;
 
 class InsightGrid extends Component {
+  constructor(props) {
+    super(props);
+    this.myRef = React.createRef();
+    this.state = {
+      items: [],
+      layouts: [],
+      layout: [],
+      breakpoint: "",
+      cols: 0,
+      firstTimeLayoutChange: true
+    };
+  }
+
+  static get defaultProps() {
+    return {
+      className: "layout",
+      cols: {
+        lg: 12,
+        md: 12,
+        sm: 9,
+        xs: 6,
+        xxs: 3
+      },
+      rowHeight: 100
+    };
+  }
+
+  componentDidMount() {
+    originalLayouts = simpleStore.lookup("siInsightsGrid2", "simple") || {};
+
+    const width = this.myRef.current.offsetWidth - 17;
+    if (width >= 1200) {
+      breakpoint = "lg";
+    } else if (width >= 996) {
+      breakpoint = "md";
+    } else if (width >= 768) {
+      breakpoint = "sm";
+    } else if (width >= 480) {
+      breakpoint = "xs";
+    } else {
+      breakpoint = "xxs";
+    }
+    let initialItems;
+    if (typeof originalLayouts[breakpoint] !== undefined) {
+      initialItems = originalLayouts[breakpoint].map(item => cards.find(card => card.i === item.i));
+    } else {
+      initialItems = [0, 1, 2, 3, 4, 5].map(i => {
+        return cards[i];
+      });
+    }
+
+    this.setState({
+      items: initialItems,
+      layouts: originalLayouts,
+      layout: originalLayouts[breakpoint]
+    });
+  }
+
   createElement = (item, index) => {
     const i = item.i;
     const Card = item.component;
@@ -56,81 +114,18 @@ class InsightGrid extends Component {
     });
   };
   onLayoutChange = (layout, layouts) => {
-    // this.props.onLayoutChange(layout);
+    if(this.state.firstTimeLayoutChange) {
+        this.setState({firstTimeLayoutChange: false})
+        return;
+    }
     simpleStore.upsert("siInsightsGrid2", layouts, "simple");
     this.setState({ layouts, layout });
-    // this.props.onLayoutChange(layout); // updates status display
   };
-
-  constructor(props) {
-    super(props);
-    this.myRef = React.createRef();
-    this.state = {
-      items: [],
-      layouts: [],
-      layout: [],
-      breakpoint: "",
-      cols: 0
-    };
-  }
-
-  static get defaultProps() {
-    return {
-      className: "layout",
-      cols: {
-        lg: 12,
-        md: 12,
-        sm: 9,
-        xs: 6,
-        xxs: 3
-      },
-      rowHeight: 100
-    };
-  }
-
-  componentDidMount() {
-    originalLayouts = simpleStore.lookup("siInsightsGrid2", "simple") || {};
-
-    const width = this.myRef.current.offsetWidth - 17;
-    if (width >= 1200) {
-      breakpoint = "lg";
-    } else if (width >= 996) {
-      breakpoint = "md";
-    } else if (width >= 768) {
-      breakpoint = "sm";
-    } else if (width >= 480) {
-      breakpoint = "xs";
-    } else {
-      breakpoint = "xxs";
-    }
-
-    console.log("originalLayouts[breakpoint]", originalLayouts[breakpoint]);
-    let initialItems;
-    if (typeof originalLayouts[breakpoint] === undefined) {
-      initialItems = originalLayouts[breakpoint].map(item => cards.find(card => card.i === item.i));
-    } else {
-      initialItems = [0, 1, 2, 3, 4, 5].map(i => {
-        return cards[i];
-      });
-    }
-
-    console.log("initialItems", initialItems);
-
-    this.setState({
-      items: initialItems,
-      layouts: originalLayouts,
-      layout: originalLayouts[breakpoint]
-    });
-  }
-
-  componentWillUnmount() {
-    // simpleStore.upsert("siInsightsGrid2", this.state.layouts, "simple");
-  }
 
   onRemoveItem = i => () => {
     const { items } = this.state;
-    const item = items.filter(item => item.i === i)[0];
-    const card = cards.filter(card => card.id === item.id)[0];
+    // const item = items.filter(item => item.i === i)[0];
+    // const card = cards.filter(card => card.id === item.id)[0];
     this.setState({
       items: _.reject(items, { i: i })
     });

@@ -1,26 +1,17 @@
-import React, { Component } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  Typography,
-  Toolbar,
-  AppBar,
-  Avatar
-} from '@material-ui/core';
-import { FuseAnimate } from '@fuse';
-import { bindActionCreators } from 'redux';
-import * as Actions from './store/actions';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { Dialog, DialogContent, Typography, Toolbar, AppBar, Avatar } from "@material-ui/core";
+import { FuseAnimate } from "@fuse";
+import { bindActionCreators } from "redux";
+import * as Actions from "./store/actions";
+import { connect } from "react-redux";
 
-import ProfileForm from './ProfileForm';
-import ProfileAddSuccess from './ProfileAddSuccess';
+import ProfileForm from "./ProfileForm";
+import ProfileAddSuccess from "./ProfileAddSuccess";
 
 class ProfileDialog extends Component {
   closeComposeDialog = () => {
-    this.props.profileDialog.type === 'edit'
-      ? this.props.closeEditProfileDialog()
-      : this.props.closeNewProfileDialog();
-      this.props.resetAddProfile()
+    this.props.profileDialog.type === "edit" ? this.props.closeEditProfileDialog() : this.props.closeNewProfileDialog();
+    this.props.resetAddProfile();
   };
 
   render() {
@@ -39,7 +30,7 @@ class ProfileDialog extends Component {
 
     let profile = {};
     for (let key in data) {
-      if (typeof data[key] === 'object' && data[key] !== null) {
+      if (typeof data[key] === "object" && data[key] !== null) {
         profile[key] = data[key].id;
       } else {
         profile[key] = data[key];
@@ -47,28 +38,20 @@ class ProfileDialog extends Component {
     }
 
     return (
-      <Dialog
-        {...dialogProps}
-        onClose={this.closeComposeDialog}
-        fullWidth
-      >
-        <AppBar
-          position="static"
-          color={addedProfile ? 'secondary' : 'primary'}
-          style={{ transition: 'color 0.2s' }}
-        >
+      <Dialog {...dialogProps} onClose={this.closeComposeDialog} fullWidth>
+        <AppBar position="static" color={addedProfile ? "secondary" : "primary"} style={{ transition: "color 0.2s" }}>
           <Toolbar className="flex w-full">
             <Typography variant="subheading" color="inherit">
-              {type === 'new' ? 'New Profile' : 'Edit Profile'}
+              {type === "new" ? "New Profile" : "Edit Profile"}
             </Typography>
           </Toolbar>
           <div className="flex flex-col items-center justify-center pb-24">
             <Avatar
               className="w-96 h-96"
               alt="profile avatar"
-              src={data.profile_picture || 'assets/images/avatars/profile.jpg'}
+              src={data.profile_picture || "assets/images/avatars/profile.jpg"}
             />
-            {type === 'edit' && (
+            {type === "edit" && (
               <Typography variant="title" color="inherit" className="pt-8">
                 {data.name}
               </Typography>
@@ -76,10 +59,10 @@ class ProfileDialog extends Component {
           </div>
         </AppBar>
 
-        <DialogContent className='p-24'>
+        <DialogContent className="p-24">
           {addedProfile ? (
             <FuseAnimate animation="transition.expandIn" delay={300}>
-              <ProfileAddSuccess {...{addedProfileId, resetAddProfile, addedProfile}} />
+              <ProfileAddSuccess {...{ addedProfileId, resetAddProfile, addedProfile }} />
             </FuseAnimate>
           ) : (
             <ProfileForm
@@ -114,13 +97,8 @@ function mapDispatchToProps(dispatch) {
   );
 }
 
-function mapStateToProps({ profilesApp: {profiles} }) {
-  const {
-    profileDialog,
-    addingProfile,
-    addedProfile,
-    addedProfileId
-  } = profiles;
+function mapStateToProps({ profilesApp: { profiles } }) {
+  const { profileDialog, addingProfile, addedProfile, addedProfileId } = profiles;
   return {
     profileDialog,
     addingProfile,
@@ -129,4 +107,7 @@ function mapStateToProps({ profilesApp: {profiles} }) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileDialog);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileDialog);

@@ -13,7 +13,7 @@ import green from '@material-ui/core/colors/green';
 import CheckIcon from '@material-ui/icons/Check';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const styles = theme => ({
+const styles = () => ({
   buttonSuccess: {
     backgroundColor: green[500],
     pointerEvents: 'none'

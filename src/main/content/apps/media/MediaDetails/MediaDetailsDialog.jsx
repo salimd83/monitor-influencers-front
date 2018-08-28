@@ -1,17 +1,7 @@
 import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import {
-  Grid,
-  Typography,
-  Divider,
-  Hidden,
-  LinearProgress,
-  GridList,
-  GridListTile,
-  GridListTileBar
-} from "@material-ui/core";
+import { Grid, Typography, Divider, Hidden, LinearProgress } from "@material-ui/core";
 import PostOwner from "./PostOwner";
 import PostIcons from "./PostIcons";
 import PostMedia from "./PostMedia";
@@ -19,28 +9,7 @@ import PostSenses from "./PostSenses";
 import PostMentions from "./PostMentions";
 import engagmentData from "../widgets/engagmentData";
 import PostEngagement from "./PostEngagement";
-
-const styles = theme => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    backgroundColor: theme.palette.background.paper
-  },
-  gridList: {
-    flexWrap: "nowrap",
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: "translateZ(0)"
-  },
-  title: {
-    color: "#fff"
-  },
-  titleBar: {
-    background: "linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 80%, rgba(0,0,0,0) 100%)",
-    color: "#fff"
-  }
-});
+import RelatedMedia from "./RelatedMedia";
 
 export class MediaDetailsDialog extends Component {
   state = {
@@ -72,9 +41,9 @@ export class MediaDetailsDialog extends Component {
   };
 
   render() {
-    const { post, open, handleClose, classes } = this.props;
+    const { post, open, handleClose } = this.props;
     const imageRatio = post.media_width / post.media_height;
-    const screenRation = this.state.width / this.state.height
+    const screenRation = this.state.width / this.state.height;
 
     const style = {
       maxWidth: "none",
@@ -144,19 +113,27 @@ export class MediaDetailsDialog extends Component {
                       <Typography variant="subheading" gutterBottom>
                         {post.caption}
                       </Typography>
-                      {post.detected_text[0] && <div><Typography variant="body2" gutterBottom>
-                        Detected text
-                      </Typography>
-                      <Typography variant="subheading" gutterBottom style={{fontStyle: "italic"}}>
-                        {post.detected_text[0].text}
-                      </Typography></div>}
+                      {post.detected_text[0] && (
+                        <div>
+                          <Typography variant="body2" gutterBottom>
+                            Detected text
+                          </Typography>
+                          <Typography variant="subheading" gutterBottom style={{ fontStyle: "italic" }}>
+                            {post.detected_text[0].text}
+                          </Typography>
+                        </div>
+                      )}
 
-                      {post.transcript_text[0] && <div><Typography variant="body2" gutterBottom>
-                        Transcript text
-                      </Typography>
-                      <Typography variant="subheading" gutterBottom style={{fontStyle: "italic"}}>
-                        {post.transcript_text[0].text}
-                      </Typography></div>}
+                      {post.transcript_text[0] && (
+                        <div>
+                          <Typography variant="body2" gutterBottom>
+                            Transcript text
+                          </Typography>
+                          <Typography variant="subheading" gutterBottom style={{ fontStyle: "italic" }}>
+                            {post.transcript_text[0].text}
+                          </Typography>
+                        </div>
+                      )}
 
                       <PostEngagement engagment={post.engagment} data={data} />
 
@@ -171,25 +148,11 @@ export class MediaDetailsDialog extends Component {
                         <LinearProgress className="bar" variant="determinate" value={post.sentiment.score * 100} />
                       </div>
 
-                      <div className={classes.root + "related-media"}>
-                        <Typography variant="body2" gutterBottom>
-                          Related Media
-                        </Typography>
-                        <GridList className={classes.gridList} cols={2.5}>
-                          {post.visuals.map(media => (
-                            <GridListTile key={media.meta.image_src} onClick={this.handleOpen(media.meta.image_src)}>
-                              <img src={media.meta.image_src} alt={media.type} />
-                              <GridListTileBar
-                                title={media.type}
-                                classes={{
-                                  root: classes.titleBar,
-                                  title: classes.title
-                                }}
-                              />
-                            </GridListTile>
-                          ))}
-                        </GridList>
-                      </div>
+                      <RelatedMedia
+                        visuals={post.visuals}
+                        open={this.state.open}
+                        handleOpen={this.handleOpen}
+                      />
                     </div>
                   </Grid>
                 </Grid>
@@ -205,4 +168,4 @@ export class MediaDetailsDialog extends Component {
   }
 }
 
-export default withStyles(styles)(MediaDetailsDialog);
+export default MediaDetailsDialog;

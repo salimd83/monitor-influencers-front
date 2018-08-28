@@ -16,7 +16,7 @@ export default linksData => {
   const labels = [];
   let totalData = [];
 
-  if (typeof linksData != "undefined") {
+  if (typeof linksData !== "undefined") {
     linksData.forEach(link => {
       //get data
       const obj = {

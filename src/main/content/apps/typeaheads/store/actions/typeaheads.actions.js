@@ -125,7 +125,7 @@ export function deleteTypeahead(id) {
     return async dispatch => {
         try {
             dispatch({type: DELETING_TYPEAHEAD})
-            const response = await Fn.simpleCallWA(dispatch, 'delete', `typeahead/${id}`)
+            await Fn.simpleCallWA(dispatch, 'delete', `typeahead/${id}`)
 
             dispatch({
                 type: DELETE_TYPEAHEAD,

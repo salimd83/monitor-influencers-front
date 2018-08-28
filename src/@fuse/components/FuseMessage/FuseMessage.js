@@ -3,8 +3,7 @@ import {
   Snackbar,
   IconButton,
   withStyles,
-  Icon,
-  Divider
+  Icon
 } from '@material-ui/core';
 import * as Actions from 'store/actions';
 import { bindActionCreators } from 'redux';

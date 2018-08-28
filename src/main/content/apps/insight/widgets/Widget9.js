@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Card, Divider, Icon, IconButton, Typography } from "@material-ui/core";
+import { Card, Divider, Icon, Typography } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles/index";
 import classNames from "classnames";
 import Popover from "@material-ui/core/Popover";
@@ -31,7 +31,7 @@ class Widget9 extends Component {
 
   render() {
     const { anchorEl } = this.state;
-    const { data, popovertext, classes, title, name } = this.props;
+    const { data, popovertext, classes, title } = this.props;
 
     return (
       <Card className={classNames(classes.root, "w-full", "h-full")}>
@@ -42,12 +42,6 @@ class Widget9 extends Component {
             </Icon>
             {title}
           </Typography>
-
-          {/* <div>
-            <IconButton aria-label="more">
-              <Icon>more_vert</Icon>
-            </IconButton>
-          </div> */}
         </div>
 
         <table className="simple">
@@ -55,7 +49,6 @@ class Widget9 extends Component {
             <tr>
               <th />
               <th className="text-right">Count</th>
-              {/* <th className="text-right">Conv</th> */}
             </tr>
           </thead>
           <tbody>
@@ -68,7 +61,6 @@ class Widget9 extends Component {
                 <tr key={row.name}>
                   <td>{row.link ? <a href={row.link}>{row.name}</a> : row.name}</td>
                   <td className="text-right">{row.count}</td>
-                  {/* <td className="text-right">{row.conversion}</td> */}
                 </tr>
               ))
             )}
@@ -76,10 +68,6 @@ class Widget9 extends Component {
         </table>
 
         <Divider className="card-divider w-full" />
-
-        {/* <div className="p-8 pt-16 flex flex-row items-center">
-          <Button>GO TO {name.toUpperCase()}</Button>
-        </div> */}
         <Popover
           open={Boolean(anchorEl)}
           anchorEl={anchorEl}

@@ -100,7 +100,7 @@ export function updateLink(link) {
   return async dispatch => {
     dispatch(updatingLink(link.id));
     try {
-      const response = await Fn.simpleCallWA(dispatch, 'put', `si/link/${link.id}`, {
+      await Fn.simpleCallWA(dispatch, 'put', `si/link/${link.id}`, {
         ...link
       });
       dispatch({
