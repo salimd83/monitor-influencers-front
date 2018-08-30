@@ -27,11 +27,11 @@ const styles = theme => ({
 const RelatedMedia = ({ visuals, classes, handleOpen, open }) => {
   return (
     <div className={classes.root + "related-media"}>
-      <Typography variant="body2" gutterBottom>
+      {visuals && visuals.length > 0 && <Typography variant="body2" gutterBottom>
         Related Media
-      </Typography>
+      </Typography>}
       <GridList className={classes.gridList} cols={2.5}>
-        {visuals.map(media => (
+        {visuals && visuals.length > 0 && visuals.map(media => (
           <GridListTile key={media.meta.image_src} onClick={handleOpen(media.meta.image_src)}>
             <img src={media.meta.image_src} alt={media.type} />
             <GridListTileBar
