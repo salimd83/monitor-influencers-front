@@ -22,7 +22,7 @@ import * as Actions from '../store/actions';
 import LinkDialog from './LinkDialog';
 import Link from './Link';
 
-const styles = theme => ({});
+const styles = () => ({});
 
 class Links extends Component {
   state = {

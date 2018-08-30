@@ -57,7 +57,7 @@ class InsightGrid extends Component {
       breakpoint = "xxs";
     }
     let initialItems;
-    if (typeof originalLayouts[breakpoint] !== undefined) {
+    if (typeof originalLayouts[breakpoint] !== 'undefined') {
       initialItems = originalLayouts[breakpoint].map(item => cards.find(card => card.i === item.i));
     } else {
       initialItems = [0, 1, 2, 3, 4, 5].map(i => {
