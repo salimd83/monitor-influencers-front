@@ -1,5 +1,5 @@
 runtime: nodejs8
-service: fast
+service: mir-fast
 
 default_expiration: 30d
 
