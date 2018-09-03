@@ -52,7 +52,7 @@ class TypeFilter extends Component {
             input={<Input id="select-multiple-checkbox" />}
             renderValue={selected => selected.join(", ")}
             MenuProps={MenuProps}
-            style={{ width: "160px", fontSize: "13px" }}
+            style={{ width: 120, fontSize: 13, marginTop: 18 }}
           >
             {this.state.types &&
               this.state.types.length > 0 &&
