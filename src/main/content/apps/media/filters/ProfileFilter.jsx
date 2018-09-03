@@ -4,6 +4,12 @@ import { InputLabel, FormControl, Icon } from "@material-ui/core";
 
 import * as Fn from "fn/simpleCall.js";
 
+const autosuggestTheme = {
+  input: {
+    width: '100px'
+  }
+};
+
 const getSuggestionValue = suggestion => `${suggestion.first_name} ${suggestion.last_name}`;
 
 const renderSuggestion = suggestion => {
@@ -108,6 +114,7 @@ class ProfileFilter extends Component {
             renderSuggestion={renderSuggestion}
             inputProps={inputProps}
             onSuggestionSelected={this.onSuggestionSelected}
+            // theme={autosuggestTheme}
           />
           {value && (
             <div className="clear-input">

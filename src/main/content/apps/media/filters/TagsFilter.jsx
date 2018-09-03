@@ -40,7 +40,7 @@ class TagsFilter extends Component {
             clearable={false}
             removeSelected={true}
             loadOptions={this.getTagsOptions}
-            style={{ width: "200px" }}
+            style={{ width: "260px" }}
           />
         </FormControl>
       </React.Fragment>

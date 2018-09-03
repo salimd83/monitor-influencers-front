@@ -28,8 +28,8 @@ const LeaderboardHeader = ({from, to, profile, tags, types, fromChange, toChange
           </div>
         </Grid>
         <Grid item md={10} sm={12} xs={12}>
-          <div className="flex items-center filters">
-            <Grid container spacing={16} alignItems="center" direction="row" style={{zIndex: 1000}}>
+          <div className="flex items-top filters flex-end">
+            <Grid container spacing={16} alignItems="top" direction="row" style={{zIndex: 1000}}>
               <Grid item>
                 <DateFilter
                   {...{
