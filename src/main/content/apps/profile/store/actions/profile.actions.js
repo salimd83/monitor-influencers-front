@@ -129,7 +129,7 @@ export function addTag(tag, profileId) {
   };
 }
 
-export function deleteTag({ id, relation_id }, profileId) {
+export function deleteTag({ id }, profileId) {
   return async dispatch => {
     try {
       await Fn.simpleCallWA(dispatch, 'delete', `si/profile/${profileId}/tags`, {
