@@ -43,8 +43,13 @@ class Tags extends Component {
     const stateTags = this.state.selectedTags;
 
     if (stateTags.length > selectedOptions.length) {
-      const lastTagInState = stateTags[stateTags.length - 1];
-      this.handleTagDelete(lastTagInState);
+      const selectedTagsIds = selectedOptions.map(option => option.id);
+
+      const tagToDelete = stateTags.filter(tag => {
+        return !selectedTagsIds.includes(tag.id)
+      })
+
+      this.handleTagDelete(tagToDelete[0]);
     } else {
       const { addTag, profile } = this.props;
       addTag(selectedOptions[selectedOptions.length - 1], profile.id);
