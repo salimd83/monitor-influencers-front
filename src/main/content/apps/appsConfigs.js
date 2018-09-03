@@ -5,6 +5,7 @@ import { ProfileAppConfig } from "main/content/apps/profile/ProfileAppConfig";
 import { InsightAppConfig } from "main/content/apps/insight/InsightAppConfig";
 import { LeaderboardAppConfig } from "main/content/apps/leaderboard/LeaderboardAppConfig";
 import { MediaAppConfig } from "main/content/apps/media/MediaAppConfig";
+import { ReportAppConfig } from "main/content/apps/report/ReportAppConfig";
 
 export const appsConfigs = [
   AnalyticsDashboardAppConfig,
@@ -13,5 +14,6 @@ export const appsConfigs = [
   ProfileAppConfig,
   InsightAppConfig,
   LeaderboardAppConfig,
-  MediaAppConfig
+  MediaAppConfig,
+  ReportAppConfig
 ];
