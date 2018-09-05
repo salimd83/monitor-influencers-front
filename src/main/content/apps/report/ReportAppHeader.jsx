@@ -1,10 +1,17 @@
 import React from "react";
-import { Icon, Typography, Grid, IconButton } from "@material-ui/core";
+import { Icon, Typography, Grid } from "@material-ui/core";
 import { FuseAnimate } from "@fuse";
+import DateFilter from "./filters/DateFilter";
+import ProfileFilter from "./filters/ProfileFilter";
 
-const LeaderboardHeader = () => {
+const LeaderboardHeader = ({
+  from,
+  to,
+  handleDateChange,
+  handleProfileChange,
+  profiles
+}) => {
   return (
-
     <Grid
       container
       alignItems="center"
@@ -23,22 +30,32 @@ const LeaderboardHeader = () => {
         </div>
       </Grid>
       <Grid item md={10} sm={12} xs={12}>
-        <div className="flex items-center filters">
-          <Grid container spacing={16} alignItems="center" direction="row" style={{ zIndex: 1000 }}>
+        <div className="filters">
+          <Grid
+            container
+            spacing={16}
+            direction="row"
+            style={{ zIndex: 1000, justifyContent: "flex-end", alignItems: "flex-end" }}
+          >
             <Grid item>
-              {/* <DateFilter
-                  {...{
-                    to,
-                    from,
-                    fromChange,
-                    toChange
-                  }}
-                /> */}
+              <DateFilter
+                {...{
+                  to,
+                  from,
+                  handleDateChange
+                }}
+              />
             </Grid>
             <Grid item id="profileFilter">
               {/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
                   <ProfileFilter profileChange={profileChange} profile={profile} />
                 </FuseAnimate> */}
+              {profiles.length < 5 ? (
+                <ProfileFilter
+                  profileChange={handleProfileChange}
+                  profile={{}}
+                />
+              ) : (<Typography color="secondary">Remove profile to add another</Typography>)}
             </Grid>
             <Grid item id="typeFilter">
               {/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
@@ -51,7 +68,6 @@ const LeaderboardHeader = () => {
         </div>
       </Grid>
     </Grid>
-
   );
 };
 

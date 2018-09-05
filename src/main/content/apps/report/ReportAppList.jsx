@@ -1,47 +1,96 @@
 import React from "react";
-import { Table, TableBody, TableHead, TableRow, TableCell } from "@material-ui/core";
+import {
+  Table,
+  TableBody,
+  TableHead,
+  TableRow,
+  TableCell,
+  IconButton,
+  Icon,
+  Avatar,
+  Fade
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import FuseUtil from "@fuse/FuseUtils";
 
-const rows = [
-  { calories: 0, fat: 5, carbs: 10, protein: 15, vitamin: 5, name: 'test' },
-  { calories: 0, fat: 5, carbs: 10, protein: 15, vitamin: 5, name: 'test' },
-  { calories: 0, fat: 5, carbs: 10, protein: 15, vitamin: 5, name: 'test' },
-  { calories: 0, fat: 5, carbs: 10, protein: 15, vitamin: 5, name: 'test' },
-  { calories: 0, fat: 5, carbs: 10, protein: 15, vitamin: 5, name: 'test' },
-]
+const metrics = [
+  "Total Followers",
+  "Total Media",
+  "Activity and Engagement",
+  "Followers Rate",
+  "Activity Type",
+  "Top Hashtag",
+  "Top Location",
+  "Top Mentions"
+];
 
-const ReportAppList = () => {
+const ReportAppList = ({ profiles, removeProfile, classes, loading }) => {
+  const { camelize } = FuseUtil;
+
+  const renderMetric = mtrc =>
+    profiles.map(prof => (
+      <TableCell key={`${mtrc} ${prof.id}`}>{prof[camelize(mtrc)]}</TableCell>
+    ));
+
   return (
     <div className="m-32 lazyloading">
-      <Table>
+      <Fade in={!loading}>
+      <Table className="metrics">
         <TableHead>
           <TableRow>
-            <TableCell>Metrics</TableCell>
-            <TableCell numeric>Profile one</TableCell>
-            <TableCell numeric>Profile 2</TableCell>
-            <TableCell numeric>profile 3</TableCell>
-            <TableCell numeric>profile 4</TableCell>
-            <TableCell numeric>profile 5</TableCell>
+            <TableCell></TableCell>
+            {profiles.map(profile => (
+              <TableCell key={FuseUtil.camelize(profile.name)}>
+                <div className={classes.profile}>
+                  <Avatar
+                    alt={profile.name}
+                    src={profile.image}
+                    className={classes.smallAvatar}
+                  />
+                  {profile.name}
+                  <IconButton
+                    color="action"
+                    className="remove-profile-action"
+                    aria-label="Remove profile"
+                    onClick={removeProfile(profile.id)}
+                  >
+                    <Icon color="error">close</Icon>
+                  </IconButton>
+                </div>
+              </TableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
-          {['name', 'calories', 'fat', 'carbs', 'protein', 'vitamin'].map((matric) => {
+          {metrics.map(metric => {
             return (
-              <TableRow key={rows.id}>
+              <TableRow key={FuseUtil.camelize(metric)}>
                 <TableCell component="th" scope="row">
-                  {matric}
+                  {metric}
                 </TableCell>
-                <TableCell numeric>{rows[0][matric]}</TableCell>
-                <TableCell numeric>{rows[1][matric]}</TableCell>
-                <TableCell numeric>{rows[2][matric]}</TableCell>
-                <TableCell numeric>{rows[3][matric]}</TableCell>
-                <TableCell numeric>{rows[4][matric]}</TableCell>
+                {renderMetric(metric)}
               </TableRow>
             );
           })}
         </TableBody>
       </Table>
+      </Fade>
     </div>
   );
 };
 
-export default ReportAppList;
+const styles = {
+  smallAvatar: {
+    width: 24,
+    height: 24,
+    display: "block",
+    marginRight: 5
+  },
+  profile: {
+    display: 'flex',
+    // flexDirection: 'row',
+    alignItems: 'center'
+  }
+};
+
+export default withStyles(styles)(ReportAppList);

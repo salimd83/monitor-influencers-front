@@ -47,6 +47,9 @@ class ProfileFilter extends Component {
   };
   onSuggestionSelected = (event, { suggestion }) => {
     this.props.profileChange(suggestion);
+    this.setState({
+      value: ''
+    });
   };
   getProfileOptions = (input, callback) => {
     if (input === "") {
@@ -109,11 +112,6 @@ class ProfileFilter extends Component {
             inputProps={inputProps}
             onSuggestionSelected={this.onSuggestionSelected}
           />
-          {value && (
-            <div className="clear-input">
-              <Icon onClick={this.clearInput}>close</Icon>
-            </div>
-          )}
         </FormControl>
       </React.Fragment>
     );

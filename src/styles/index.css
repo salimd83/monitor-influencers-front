@@ -140,8 +140,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   z-index: 1000;
 }
 .cardedPageHeader .react-datepicker-wrapper {
-  margin-top: -8px;
-  padding-bottom: 8px;
+  /* margin-top: -8px;
+  padding-bottom: 8px; */
 }
 .cardedPageHeader .react-datepicker-wrapper input {
   height: 35px;
@@ -175,7 +175,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 100%;
 }
 
-#tagsFilter{
+#tagsFilter {
   z-index: 1000;
 }
 #tagsFilter .Select.is-focused > .Select-control {
@@ -600,6 +600,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   vertical-align: text-bottom;
   color: #ccc;
 }
+
+#report-app table.metrics thead tr th {
+  min-width: 180px;
+}
+#report-app table.metrics .remove-profile-action {
+  margin-left: 4px;
+  width: 22px;
+  height: 22px;
+}
+#report-app table.metrics .remove-profile-action .material-icons {
+  font-size: 14px;
+}
 .react-datepicker {
   font-size: 1em !important;
 }
@@ -706,6 +718,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     height: 100%;
   }
 }
+
 @media only screen and (min-width: 600px) {
   #mediaPostDialog .info {
     position: relative;
@@ -715,7 +728,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   #mediaPostDialog .info .wrapper {
     overflow: hidden;
     overflow-y: scroll;
-
     max-height: 100%;
     position: absolute;
     height: 100%;
@@ -727,9 +739,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     position: relative;
     height: 100%;
   }
-
   #mediaPostDialog .dialog-content .media img {
     position: relative;
+
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);

@@ -10,6 +10,7 @@ import insightApp from 'main/content/apps/insight/store/reducers/index';
 import leaderboardApp from 'main/content/apps/leaderboard/store/reducers/index';
 import asyncReducer from '../../main/content/features/async/asyncReducer';
 import mediaReducer from '../../main/content/apps/media/store/reducers/media.reducer';
+import reportReducer from '../../main/content/apps/report/store/reducers/report.reducer';
 import { reducer as formReducer } from 'redux-form';
 
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   typeaheadsApp,
   insightApp,
   leaderboardApp,
+  reportApp: reportReducer,
   form: formReducer,
   async: asyncReducer,
   mediaApp: mediaReducer

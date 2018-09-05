@@ -35,15 +35,15 @@ export const fuseNavigationConfig = [
         icon : 'perm_media',
         url  : '/media'
     },
-    // {
-    //     id   : 'siReport',
-    //     title: 'report',
-    //     // auth : 'siMedia',
-    //     apps : ['mirrorr'],
-    //     type : 'item',
-    //     icon : 'perm_media',
-    //     url  : '/reports'
-    // },
+    {
+        id   : 'siReport',
+        title: 'report',
+        // auth : 'siMedia',
+        apps : ['mirrorr'],
+        type : 'item',
+        icon : 'perm_media',
+        url  : '/reports'
+    },
     {
         id  : 'divider1',
         type: 'divider'
