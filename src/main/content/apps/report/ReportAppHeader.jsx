@@ -50,12 +50,12 @@ const LeaderboardHeader = ({
               {/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>
                   <ProfileFilter profileChange={profileChange} profile={profile} />
                 </FuseAnimate> */}
-              {profiles.length < 5 ? (
+              {/* {profiles.length < 5 ? ( */}
                 <ProfileFilter
                   profileChange={handleProfileChange}
                   profile={{}}
                 />
-              ) : (<Typography color="secondary">Remove profile to add another</Typography>)}
+              {/* ) : (<Typography color="secondary">Remove profile to add another</Typography>)} */}
             </Grid>
             <Grid item id="typeFilter">
               {/* <FuseAnimate animation="transition.slideLeftIn" delay={300}>

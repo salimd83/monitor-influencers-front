@@ -20,7 +20,7 @@ export const envDetails = { ...defaultEnv, ...envJson };
 
 export function hiUser() {
   const hiUserStorage = JSON.parse(localStorage.getItem("hiUser"));
-
+  
   const defaultUser = {
     baToken: "",
     baTokenReference: "NA",

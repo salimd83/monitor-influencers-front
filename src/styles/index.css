@@ -186,6 +186,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #fff;
 }
 
+#profile-tags .is-focused .Select-input > input {
+  color: #333;
+}
+
 #tagsFilter .Select--multi .Select-value {
   color: rgba(255, 255, 255, 0.4);
   border-color: rgba(255, 255, 255, 0.4) !important;
@@ -703,6 +707,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
+}
+
+[class^=FusePageCarded-content]{
+  overflow: hidden;
 }
 @media only screen and (max-width: 930px) {
   .FusePageCarded-header-162 {

@@ -38,7 +38,8 @@ export class LeaderboardApp extends Component {
   }
 
   searchWhenStopTyping = debounce(() => {
-    this.props.getLeaders(null, this.props.term, this.props.industry, true);
+    const {getLeaders, term, industry} = this.props;
+    getLeaders(null, term, industry.value, true);
   }, 800);
 
   loadNextPage = isVisible => {

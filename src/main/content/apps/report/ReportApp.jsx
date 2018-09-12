@@ -4,25 +4,34 @@ import { connect } from "react-redux";
 import {
   setDateFilter,
   addProfile,
-  removeProfile
+  removeProfile,
+  getProfiles
 } from "./store/actions/report.actions";
+import {toggleInSelectedProfiles} from '../profiles/store/actions/profiles.actions'
 import ReportAppHeader from "./ReportAppHeader";
 import ReportAppList from "./ReportAppList";
 
-const mapState = ({ reportApp, async }) => ({
+const mapState = ({ reportApp, async, profilesApp }) => ({
   from: reportApp.from,
   to: reportApp.to,
   profiles: reportApp.profiles,
-  loading: async.loading
+  loading: async.loading,
+  selectedProfileIds: profilesApp.profiles.selectedProfileIds,
 });
 
 const actions = {
   setDateFilter,
   addProfile,
-  removeProfile
+  removeProfile,
+  getProfiles,
+  toggleInSelectedProfiles
 };
 
 export class ReportApp extends Component {
+  componentDidMount() {
+    if (this.props.selectedProfileIds.length > 0)
+      this.props.getProfiles(this.props.selectedProfileIds);
+  }
   handleDateChange = (type, date) => {
     const { from, to, setDateFilter } = this.props;
     type === "from" ? setDateFilter(date, to) : setDateFilter(from, date);
@@ -30,10 +39,12 @@ export class ReportApp extends Component {
 
   handleProfileChange = profile => {
     this.props.addProfile(profile);
+    this.props.toggleInSelectedProfiles(profile.id)
   };
 
   removeProfile = id => () => {
     this.props.removeProfile(id);
+    this.props.toggleInSelectedProfiles(id)
   };
 
   render() {

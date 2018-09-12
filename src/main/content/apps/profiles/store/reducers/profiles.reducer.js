@@ -4,11 +4,11 @@ import _ from "lodash";
 const initialState = {
   entities: [],
   searchText: "",
-  selectedProfileIds: [],
   loadingProfiles: false,
   addingProfile: false,
   addedProfile: false,
   addedProfileId: "",
+  selectedProfileIds: [],
   errors: [],
   profileDialog: {
     type: "new",
@@ -52,7 +52,6 @@ const profilesReducer = function(state = initialState, action) {
       };
     }
     case Actions.ERROR_ADDING_PROFILE: {
-      console.log("ERROR_ADDING_PROFILE");
       return {
         ...state,
         addingProfile: false,
@@ -143,6 +142,34 @@ const profilesReducer = function(state = initialState, action) {
           },
           data: {}
         }
+      };
+    }
+    case Actions.TOGGLE_IN_SELECTED_PROFILES: {
+      const profileId = action.profileId;
+      let selectedProfileIds = [...state.selectedProfileIds];
+
+      if (selectedProfileIds.find(id => id === profileId) !== undefined)
+        selectedProfileIds = selectedProfileIds.filter(id => id !== profileId);
+      else selectedProfileIds = [...selectedProfileIds, profileId];
+
+      return {
+        ...state,
+        selectedProfileIds: selectedProfileIds
+      };
+    }
+    case Actions.SELECT_ALL_PROFILES: {
+      const arr = Object.keys(state.entities).map(k => state.entities[k]);
+      const selectedProfileIds = arr.map(profile => profile.id);
+
+      return {
+        ...state,
+        selectedProfileIds: selectedProfileIds
+      };
+    }
+    case Actions.DESELECT_ALL_PROFILES: {
+      return {
+        ...state,
+        selectedProfileIds: []
       };
     }
     default: {

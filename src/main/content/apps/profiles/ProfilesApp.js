@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { FusePageCarded, FuseAnimate } from '@fuse';
-import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import * as Actions from './store/actions';
-import ProfilesList from 'main/content/apps/profiles/ProfilesList';
-import ProfilesHeader from 'main/content/apps/profiles/ProfilesHeader';
-import _ from 'lodash';
-import { Button, Icon } from '@material-ui/core';
-import ProfileDialog from 'main/content/apps/profiles/ProfileDialog';
-import * as Fn from 'fn/simpleCall.js';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import { FusePageCarded, FuseAnimateGroup } from "@fuse";
+import { bindActionCreators } from "redux";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import * as Actions from "./store/actions";
+import ProfilesList from "main/content/apps/profiles/ProfilesList";
+import ProfilesHeader from "main/content/apps/profiles/ProfilesHeader";
+import _ from "lodash";
+import { Button, Icon } from "@material-ui/core";
+import ProfileDialog from "main/content/apps/profiles/ProfileDialog";
+import * as Fn from "fn/simpleCall.js";
 
 const headerHeight = 160;
 
@@ -31,11 +31,21 @@ const styles = theme => ({
   addButton: {
     zIndex: 99,
     margin: 0,
-    top: 'auto',
+    top: "auto",
     right: 60,
     bottom: 40,
-    left: 'auto',
-    position: 'fixed'
+    left: "auto",
+    position: "fixed"
+  }
+  ,
+  compareButton: {
+    zIndex: 99,
+    margin: 0,
+    top: "auto",
+    right: 130,
+    bottom: 40,
+    left: "auto",
+    position: "fixed"
   }
 });
 
@@ -49,21 +59,21 @@ class ProfilesApp extends Component {
   };
 
   componentDidMount() {
-    this.props.getProfiles(this.props.match.params.term || '');
+    this.props.getProfiles(this.props.match.params.term || "");
 
-    Fn.simpleCall('get', 'typeahead/industry').then(res => {
+    Fn.simpleCall("get", "typeahead/industry").then(res => {
       this.setState({
         industries: res.data
       });
     });
 
-    Fn.simpleCall('get', 'typeahead/country').then(res => {
+    Fn.simpleCall("get", "typeahead/country").then(res => {
       this.setState({
         countries: res.data
       });
     });
 
-    Fn.simpleCall('get', 'typeahead/category').then(res => {
+    Fn.simpleCall("get", "typeahead/category").then(res => {
       this.setState({
         categories: res.data
       });
@@ -72,21 +82,20 @@ class ProfilesApp extends Component {
 
   componentDidUpdate(prevProps) {
     if (!_.isEqual(this.props.location, prevProps.location)) {
-      this.props.getProfiles(this.props.match.params.term || '');
+      this.props.getProfiles(this.props.match.params.term || "");
     }
   }
 
+  compareProfiles = () => {
+    this.props.history.push("/reports");
+  };
+
   render() {
-    const { classes, openNewProfileDialog } = this.props;
+    const { classes, openNewProfileDialog, selectedProfileIds } = this.props;
 
     return (
       <div id="profileApp">
         <FusePageCarded
-          className={classes.root}
-          classes={{
-            root: classes.layoutRoot,
-            leftSidebar: classes.layoutLeftSidebar
-          }}
           header={<ProfilesHeader pageLayout={() => this.pageLayout} />}
           content={<ProfilesList />}
           sidebarInner
@@ -94,7 +103,14 @@ class ProfilesApp extends Component {
             this.pageLayout = instance;
           }}
         />
-        <FuseAnimate animation="transition.expandIn" delay={300}>
+        <FuseAnimateGroup
+          enter={{
+            animation: "transition.slideUpBigIn"
+          }}
+          leave={{
+            animation: "transition.slideUpBigOut"
+          }}
+        >
           <Button
             variant="fab"
             color="primary"
@@ -104,7 +120,18 @@ class ProfilesApp extends Component {
           >
             <Icon>person_add</Icon>
           </Button>
-        </FuseAnimate>
+          {selectedProfileIds.length > 1 && (
+            <Button
+              variant="fab"
+              color="secondary"
+              aria-label="add"
+              className={classes.compareButton}
+              onClick={this.compareProfiles}
+            >
+              <Icon>compare_arrows</Icon>
+            </Button>
+          )}
+        </FuseAnimateGroup>
         <ProfileDialog {...this.state} />
       </div>
     );

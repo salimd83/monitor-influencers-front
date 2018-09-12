@@ -7,14 +7,14 @@ export const START_FETCHING = "[LEADERBOARD APP] START_FETCHING";
 export const STOP_FETCHING = "[LEADERBOARD APP] STOP_FETCHING";
 export const ERROR_FETCHING = "[LEADERBOARD APP] ERROR_FETCHING";
 
-export function getLeaders(page = null, search = "", industry, fresh=false) {
+export function getLeaders(page = null, search = "", industry=null, fresh=false) {
   return async dispatch => {
     try {
       dispatch({ type: START_FETCHING });
       const response = await Fn.simpleCallWA(dispatch, "get", "si/leaderboard", {
         page,
         search,
-        industry: industry ? industry.value : null
+        industry
       }, undefined, false);
       const profiles = await Promise.all(
         response.data.map(async profile => {

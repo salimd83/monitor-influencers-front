@@ -1,14 +1,22 @@
-import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
-import { FuseUtils, FuseAnimate } from '@fuse';
-import { Avatar, Icon, IconButton, Typography, CircularProgress } from '@material-ui/core';
-import { bindActionCreators } from 'redux';
-import * as Actions from './store/actions';
-import ReactTable from 'react-table';
-import classNames from 'classnames';
-import DeleteDialog from './DeleteDialog';
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
+import { FuseUtils, FuseAnimate } from "@fuse";
+import {
+  Avatar,
+  Checkbox,
+  Icon,
+  IconButton,
+  Typography,
+  CircularProgress,
+  Button
+} from "@material-ui/core";
+import { bindActionCreators } from "redux";
+import * as Actions from "./store/actions";
+import ReactTable from "react-table";
+import classNames from "classnames";
+import DeleteDialog from "./DeleteDialog";
 
 const styles = theme => ({
   avatar: {
@@ -19,10 +27,10 @@ const styles = theme => ({
 class ProfilesList extends Component {
   state = {
     confirmDeleteOpen: false,
-    selectedProfile: {}
+    selectedProfile: []
   };
 
-  confirmDelete = (profile) => {
+  confirmDelete = profile => {
     this.setState({ confirmDeleteOpen: true, selectedProfile: profile });
   };
 
@@ -39,14 +47,28 @@ class ProfilesList extends Component {
   };
 
   render() {
-    const { classes, profiles, searchText, openEditProfileDialog, loadingProfiles, removeProfile } = this.props;
-    const {selectedProfile, confirmDeleteOpen} = this.state;
+    const {
+      classes,
+      profiles,
+      searchText,
+      openEditProfileDialog,
+      loadingProfiles,
+      removeProfile,
+      selectedProfileIds,
+      selectAllProfiles,
+      deSelectAllProfiles,
+      toggleInSelectedProfiles
+    } = this.props;
+    const { selectedProfile, confirmDeleteOpen } = this.state;
 
     const data = this.getFilteredArray(profiles, searchText);
 
     if (loadingProfiles) {
       return (
-        <div className="flex items-center justify-center h-full" style={{ margin: '20px' }}>
+        <div
+          className="flex items-center justify-center h-full"
+          style={{ margin: "20px" }}
+        >
           <CircularProgress className={classes.progress} />
         </div>
       );
@@ -70,57 +92,108 @@ class ProfilesList extends Component {
         />
         <FuseAnimate animation="transition.slideUpIn" delay={300}>
           <ReactTable
-            className={classNames(classes.root, '-striped -highlight')}
+            className={classNames(classes.root, "-striped -highlight")}
             getTrProps={() => {
               return {
-                className: 'cursor-pointer'
+                className: "cursor-pointer"
               };
             }}
             data={Object.values(profiles)}
             columns={[
               {
-                Header   : '',
-                accessor : 'profile_picture',
-                  Cell   : row => (
-                      <Link to={`/admin/profile/${row.original.id}`}>
-                    <Avatar className="mr-8" alt={row.original.name} src={row.value} />
+                Header: () => (
+                  <Checkbox
+                    onClick={event => {
+                      event.stopPropagation();
+                    }}
+                    onChange={event => {
+                      event.target.checked
+                        ? selectAllProfiles()
+                        : deSelectAllProfiles();
+                    }}
+                    checked={
+                      selectedProfileIds.length ===
+                        Object.keys(profiles).length &&
+                      selectedProfileIds.length > 0
+                    }
+                    indeterminate={
+                      selectedProfileIds.length !==
+                        Object.keys(profiles).length &&
+                      selectedProfileIds.length > 0
+                    }
+                  />
+                ),
+                accessor: "",
+                Cell: row => {
+                  return (
+                    <Checkbox
+                      onClick={event => {
+                        event.stopPropagation();
+                      }}
+                      checked={selectedProfileIds.includes(row.value.id)}
+                      onChange={() => toggleInSelectedProfiles(row.value.id)}
+                    />
+                  );
+                },
+                className: "justify-center",
+                sortable: false,
+                width: 64
+              },
+              {
+                Header: "",
+                accessor: "profile_picture",
+                Cell: row => (
+                  <Link to={`/admin/profile/${row.original.id}`}>
+                    <Avatar
+                      className="mr-8"
+                      alt={row.original.name}
+                      src={row.value}
+                    />
                   </Link>
                 ),
-                className: 'justify-center',
-                width    : 80,
-                sortable : false
+                className: "justify-center",
+                width: 80,
+                sortable: false
               },
               {
-                Header    : () => <div className="py-8">First Name</div>,
-                accessor  : 'first_name',
+                Header: () => <div className="py-8">First Name</div>,
+                accessor: "first_name",
                 filterable: true,
-                  Cell    : row => <Link to={`/admin/profile/${row.original.id}`}>{row.value}</Link>,
-                className : 'font-bold'
+                Cell: row => (
+                  <Link to={`/admin/profile/${row.original.id}`}>
+                    {row.value}
+                  </Link>
+                ),
+                className: "font-bold"
               },
               {
-                Header    : 'Last Name',
-                accessor  : 'last_name',
-                  Cell    : row => <Link to={`/admin//profile/${row.original.id}`}>{row.value}</Link>,
+                Header: "Last Name",
+                accessor: "last_name",
+                Cell: row => (
+                  <Link to={`/admin//profile/${row.original.id}`}>
+                    {row.value}
+                  </Link>
+                ),
                 filterable: true,
-                className : 'font-bold'
+                className: "font-bold"
               },
               {
-                Header: 'Country',
-                accessor: 'country.name',
+                Header: "Country",
+                accessor: "country.name",
                 filterable: true
               },
               {
-                Header: 'Industry',
-                accessor: 'industry.name',
+                Header: "Industry",
+                accessor: "industry.name",
                 filterable: true
               },
               {
-                Header: 'Category',
-                accessor: 'category.name',
+                Header: "Category",
+                accessor: "category.name",
                 filterable: true
               },
               {
-                Header: '',
+                Header: "",
                 width: 64,
                 Cell: row => (
                   <div className="flex items-center">
@@ -136,14 +209,14 @@ class ProfilesList extends Component {
                 )
               },
               {
-                Header: '',
+                Header: "",
                 width: 64,
                 Cell: row => (
                   <div className="flex items-center">
                     <IconButton
                       onClick={e => {
                         e.stopPropagation();
-                        this.confirmDelete(row.original)
+                        this.confirmDelete(row.original);
                       }}
                     >
                       <Icon color="error">delete</Icon>
@@ -166,7 +239,10 @@ function mapDispatchToProps(dispatch) {
     {
       getProfiles: Actions.getProfiles,
       openEditProfileDialog: Actions.openEditProfileDialog,
-      removeProfile: Actions.removeProfile
+      removeProfile: Actions.removeProfile,
+      toggleInSelectedProfiles: Actions.toggleInSelectedProfiles,
+      selectAllProfiles: Actions.selectAllProfiles,
+      deSelectAllProfiles: Actions.deSelectAllProfiles
     },
     dispatch
   );
@@ -179,6 +255,7 @@ function mapStateToProps({ profilesApp }) {
     selectedProfileIds: profiles.selectedProfileIds,
     loadingProfiles: profiles.loadingProfiles,
     searchText: profiles.searchText,
+    selectedProfileIds: profilesApp.profiles.selectedProfileIds
   };
 }
 

@@ -13,6 +13,8 @@ import {
 import { withStyles } from "@material-ui/core/styles";
 import FuseUtil from "@fuse/FuseUtils";
 
+
+
 const metrics = [
   "Total Followers",
   "Total Media",
@@ -33,9 +35,9 @@ const ReportAppList = ({ profiles, removeProfile, classes, loading }) => {
     ));
 
   return (
-    <div className="m-32 lazyloading">
+    <div className={classes.root + " mt-32"}>
       <Fade in={!loading}>
-      <Table className="metrics">
+      <Table className={classes.table + " metrics"}>
         <TableHead>
           <TableRow>
             <TableCell></TableCell>
@@ -49,7 +51,7 @@ const ReportAppList = ({ profiles, removeProfile, classes, loading }) => {
                   />
                   {profile.name}
                   <IconButton
-                    color="action"
+                    
                     className="remove-profile-action"
                     aria-label="Remove profile"
                     onClick={removeProfile(profile.id)}
@@ -90,7 +92,14 @@ const styles = {
     display: 'flex',
     // flexDirection: 'row',
     alignItems: 'center'
-  }
+  },
+  root: {
+    width: '100%',
+    overflowX: 'auto',
+  },
+  table: {
+    width: '100%',
+  },
 };
 
 export default withStyles(styles)(ReportAppList);
