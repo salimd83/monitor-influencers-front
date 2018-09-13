@@ -3,30 +3,55 @@ import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { FuseUtils, FuseAnimate } from "@fuse";
+import { CSVLink, CSVDownload } from "react-csv";
+import * as Fn from "fn/simpleCall.js";
 import {
   Avatar,
   Checkbox,
   Icon,
   IconButton,
   Typography,
-  CircularProgress
+  CircularProgress,
+  Button,
+  Menu,
+  MenuItem,
+  Badge,
+  LinearProgress
 } from "@material-ui/core";
 import { bindActionCreators } from "redux";
 import * as Actions from "./store/actions";
+import { showMessage } from "../../../../store/actions/fuse";
 import ReactTable from "react-table";
 import classNames from "classnames";
 import DeleteDialog from "./DeleteDialog";
 
+const ITEM_HEIGHT = 48;
+
 const styles = theme => ({
   avatar: {
     backgroundColor: theme.palette.primary[500]
+  },
+  badge: {
+    margin: 3,
+    fontSize: 10
   }
 });
 
 class ProfilesList extends Component {
   state = {
     confirmDeleteOpen: false,
-    selectedProfile: []
+    selectedProfile: [],
+    anchorEl: null,
+    CSVData: [],
+    completed: -1
+  };
+
+  handleMenuClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleMenuClose = () => {
+    this.setState({ anchorEl: null });
   };
 
   confirmDelete = profile => {
@@ -35,6 +60,53 @@ class ProfilesList extends Component {
 
   handleClose = () => {
     this.setState({ confirmDeleteOpen: false });
+  };
+
+  compareProfiles = () => {
+    if (this.props.selectedProfileIds.length < 2) {
+      this.props.showMessage({
+        message: "Please select at least 2 profile to compare",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "left"
+        }
+      });
+      return;
+    }
+    this.props.history.push("/reports");
+  };
+
+  exportExcel = async () => {
+    if (this.props.selectedProfileIds.length < 1) {
+      this.props.showMessage({
+        message: "Please select at least 1 profile to export",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "left"
+        }
+      });
+      return;
+    }
+    const { selectedProfileIds } = this.props;
+    const data = await Promise.all(
+      selectedProfileIds.map(async id => {
+        const res = await Fn.simpleCall("get", `si/profiles/${id}`);
+        res.data.tags = res.data.tags.map(tag => tag.name).join(',')
+        res.data.links = res.data.links.map(link => link.type + '@' + link.value).join(', ')
+        res.data.country = res.data.country.name
+        res.data.category = res.data.category.name
+        res.data.industry = res.data.industry.name
+        res.data.location = res.data.location.name
+        delete res.data.id
+        this.setState(prevState => ({
+          completed: prevState.completed + 100 / selectedProfileIds.length
+        }));
+        return Promise.resolve(res.data);
+      })
+    );
+    this.setState({
+      CSVData: data
+    });
   };
 
   getFilteredArray = (entities, searchText) => {
@@ -58,9 +130,36 @@ class ProfilesList extends Component {
       deSelectAllProfiles,
       toggleInSelectedProfiles
     } = this.props;
-    const { selectedProfile, confirmDeleteOpen } = this.state;
+    const {
+      selectedProfile,
+      confirmDeleteOpen,
+      anchorEl,
+      CSVData,
+      completed
+    } = this.state;
+    const open = Boolean(anchorEl);
 
     const data = this.getFilteredArray(profiles, searchText);
+
+    const renderDownloadExcel = () => {
+      if (completed === -1)
+        return <div onClick={this.exportExcel}>Export Excel</div>;
+      else if (completed >= 99)
+        return (
+          <CSVLink
+            data={CSVData}
+            onClick={() => this.setState({ completed: -1 })}
+          >
+            Download file
+          </CSVLink>
+        );
+      else
+        return (
+          <div style={{ width: "100%" }}>
+            <LinearProgress variant="determinate" value={completed} />
+          </div>
+        );
+    };
 
     if (loadingProfiles) {
       return (
@@ -194,6 +293,7 @@ class ProfilesList extends Component {
               {
                 Header: "",
                 width: 64,
+                sortable: false,
                 Cell: row => (
                   <div className="flex items-center">
                     <IconButton
@@ -208,8 +308,52 @@ class ProfilesList extends Component {
                 )
               },
               {
-                Header: "",
+                Header: () => (
+                  <div>
+                    <Button
+                      aria-label="add"
+                      aria-owns={open ? "long-menu" : null}
+                      aria-haspopup="true"
+                      onClick={this.handleMenuClick}
+                    >
+                      {selectedProfileIds.length ? (
+                        <FuseAnimate
+                          animation="transition.expandIn"
+                          duration={200}
+                        >
+                          <Badge
+                            badgeContent={selectedProfileIds.length}
+                            color="secondary"
+                          >
+                            <Icon>more_vert</Icon>
+                          </Badge>
+                        </FuseAnimate>
+                      ) : (
+                        <Icon>more_vert</Icon>
+                      )}
+                    </Button>
+
+                    <Menu
+                      id="long-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={this.handleMenuClose}
+                      PaperProps={{
+                        style: {
+                          maxHeight: ITEM_HEIGHT * 4.5,
+                          width: 200
+                        }
+                      }}
+                    >
+                      <MenuItem onClick={this.compareProfiles}>
+                        Compare
+                      </MenuItem>
+                      <MenuItem>{renderDownloadExcel()}</MenuItem>
+                    </Menu>
+                  </div>
+                ),
                 width: 64,
+                sortable: false,
                 Cell: row => (
                   <div className="flex items-center">
                     <IconButton
@@ -241,7 +385,8 @@ function mapDispatchToProps(dispatch) {
       removeProfile: Actions.removeProfile,
       toggleInSelectedProfiles: Actions.toggleInSelectedProfiles,
       selectAllProfiles: Actions.selectAllProfiles,
-      deSelectAllProfiles: Actions.deSelectAllProfiles
+      deSelectAllProfiles: Actions.deSelectAllProfiles,
+      showMessage
     },
     dispatch
   );

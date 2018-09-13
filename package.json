@@ -30,6 +30,8 @@
         "react-autosuggest": "^9.3.4",
         "react-big-calendar": "0.19.1",
         "react-chartjs-2": "2.7.2",
+        "react-csv": "^1.0.15-RC2",
+        "react-data-export": "^0.4.2",
         "react-datepicker": "^1.5.0",
         "react-dnd": "2.6.0",
         "react-dnd-html5-backend": "2.6.0",

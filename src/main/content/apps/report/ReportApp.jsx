@@ -7,8 +7,8 @@ import {
   removeProfile,
   getProfiles
 } from "./store/actions/report.actions";
-import {toggleInSelectedProfiles} from '../profiles/store/actions/profiles.actions'
-import {showMessage} from '../../../../store/actions'
+import { toggleInSelectedProfiles } from "../profiles/store/actions/profiles.actions";
+import { showMessage } from "../../../../store/actions";
 import ReportAppHeader from "./ReportAppHeader";
 import ReportAppList from "./ReportAppList";
 
@@ -17,7 +17,7 @@ const mapState = ({ reportApp, async, profilesApp }) => ({
   to: reportApp.to,
   profiles: reportApp.profiles,
   loading: async.loading,
-  selectedProfileIds: profilesApp.profiles.selectedProfileIds,
+  selectedProfileIds: profilesApp.profiles.selectedProfileIds
 });
 
 const actions = {
@@ -31,34 +31,48 @@ const actions = {
 
 export class ReportApp extends Component {
   componentDidMount() {
-    const {from, to, selectedProfileIds, getProfiles} = this.props;
-    if (selectedProfileIds.length > 0)
+    const { from, to, selectedProfileIds, getProfiles } = this.props;
+    if (selectedProfileIds.length > 1)
       getProfiles(selectedProfileIds, from, to);
     else {
-        this.props.history.push("/admin/profiles");
-        this.props.showMessage({
-          message: "Please select at least 2 profiles to compare",
-          anchorOrigin: {
-            vertical: "bottom",
-            horizontal: "left"
-          }
-        });
+      this.redirectToProfile();
     }
   }
 
+  redirectToProfile = () => {
+    this.props.history.push("/admin/profiles");
+    this.props.showMessage({
+      message: "Please select at least 2 profiles to compare",
+      anchorOrigin: {
+        vertical: "bottom",
+        horizontal: "left"
+      }
+    });
+  };
+
   handleDateChange = (type, date) => {
     const { from, to, setDateFilter, selectedProfileIds } = this.props;
-    type === "from" ? setDateFilter(date, to, selectedProfileIds) : setDateFilter(from, date, selectedProfileIds);
+    type === "from"
+      ? setDateFilter(date, to, selectedProfileIds)
+      : setDateFilter(from, date, selectedProfileIds);
   };
 
   handleProfileChange = profile => {
     this.props.addProfile(profile);
-    this.props.toggleInSelectedProfiles(profile.id)
+    this.props.toggleInSelectedProfiles(profile.id);
   };
 
   removeProfile = id => () => {
-    this.props.removeProfile(id);
-    this.props.toggleInSelectedProfiles(id)
+    const {
+      selectedProfileIds,
+      removeProfile,
+      toggleInSelectedProfiles
+    } = this.props;
+    removeProfile(id);
+    toggleInSelectedProfiles(id);
+    if (selectedProfileIds.length < 2) {
+      this.redirectToProfile();
+    }
   };
 
   render() {

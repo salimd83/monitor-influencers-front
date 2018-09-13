@@ -37,16 +37,16 @@ const styles = theme => ({
     left: "auto",
     position: "fixed"
   }
-  ,
-  compareButton: {
-    zIndex: 99,
-    margin: 0,
-    top: "auto",
-    right: 130,
-    bottom: 40,
-    left: "auto",
-    position: "fixed"
-  }
+  // ,
+  // compareButton: {
+  //   zIndex: 99,
+  //   margin: 0,
+  //   top: "auto",
+  //   right: 60,
+  //   bottom: 40,
+  //   left: "auto",
+  //   position: "fixed"
+  // }
 });
 
 class ProfilesApp extends Component {
@@ -86,10 +86,6 @@ class ProfilesApp extends Component {
     }
   }
 
-  compareProfiles = () => {
-    this.props.history.push("/reports");
-  };
-
   render() {
     const { classes, openNewProfileDialog, selectedProfileIds } = this.props;
 
@@ -120,7 +116,7 @@ class ProfilesApp extends Component {
           >
             <Icon>person_add</Icon>
           </Button>
-          {selectedProfileIds.length > 1 && (
+          {/* {selectedProfileIds.length > 1 && (
             <Button
               variant="fab"
               color="secondary"
@@ -128,9 +124,9 @@ class ProfilesApp extends Component {
               className={classes.compareButton}
               onClick={this.compareProfiles}
             >
-              <Icon>compare_arrows</Icon>
+              <Icon>more_vert</Icon>
             </Button>
-          )}
+          )} */}
         </FuseAnimateGroup>
         <ProfileDialog {...this.state} />
       </div>
