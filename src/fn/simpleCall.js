@@ -24,7 +24,8 @@ export async function simpleCallNative({
   json,
   errorHandler = true,
   authenticatedCall = true,
-  headers = []
+  headers = [],
+  version
 } = {}) {
   method = method.toLowerCase();
 
@@ -34,8 +35,8 @@ export async function simpleCallNative({
 
   try {
     var options = {
-      method: method,
-      uri: "https://simple.beaux.media/v3.0/" + endpoint,
+      method,
+      uri: `https://simple.beaux.media/v${version}/${endpoint}`,
       json: json || true // Automatically stringifies the body to JSON
     };
 
@@ -122,7 +123,8 @@ export async function simpleCallWA(
   data,
   json,
   autoLoader = true,
-  authenticatedCall = true
+  authenticatedCall = true,
+  version = '3.0'
 ) {
   try {
     dispatch(asyncActionsStart(autoLoader));
@@ -132,7 +134,8 @@ export async function simpleCallWA(
       authenticatedCall: authenticatedCall,
       data: data,
       json: json,
-      errorHandler: true
+      errorHandler: true,
+      version
     });
     dispatch(asyncActionsFinish());
     return request;
@@ -161,6 +164,7 @@ export async function simpleCall(method = "get", endpoint, data, json, errorHand
     data: data,
     json: json,
     errorHandler: errorHandler,
-    headers: restParams.headers
+    headers: restParams.headers,
+    version: '3.0'
   });
 }

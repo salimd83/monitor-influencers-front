@@ -1,5 +1,6 @@
 import React from "react";
-import { Icon, Typography, Grid } from "@material-ui/core";
+import { Icon, Typography, Grid, IconButton } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import { FuseAnimate } from "@fuse";
 import DateFilter from "./filters/DateFilter";
 import ProfileFilter from "./filters/ProfileFilter";
@@ -9,7 +10,7 @@ const LeaderboardHeader = ({
   to,
   handleDateChange,
   handleProfileChange,
-  profiles
+  history
 }) => {
   return (
     <Grid
@@ -22,7 +23,9 @@ const LeaderboardHeader = ({
       <Grid item md={2} sm={12} xs={12}>
         <div className="flex items-center">
           <FuseAnimate animation="transition.expandIn" delay={300}>
-            <Icon className="text-32 mr-12">perm_report</Icon>
+            <IconButton size="small" className="mr-8" onClick={() => history.push("/admin/profiles")}>
+              <Icon color="secondary">keyboard_backspace</Icon>
+            </IconButton>
           </FuseAnimate>
           <FuseAnimate animation="transition.slideLeftIn" delay={300}>
             <Typography variant="title">Report</Typography>
@@ -35,7 +38,11 @@ const LeaderboardHeader = ({
             container
             spacing={16}
             direction="row"
-            style={{ zIndex: 1000, justifyContent: "flex-end", alignItems: "flex-end" }}
+            style={{
+              zIndex: 1000,
+              justifyContent: "flex-end",
+              alignItems: "flex-end"
+            }}
           >
             <Grid item>
               <DateFilter
@@ -51,10 +58,7 @@ const LeaderboardHeader = ({
                   <ProfileFilter profileChange={profileChange} profile={profile} />
                 </FuseAnimate> */}
               {/* {profiles.length < 5 ? ( */}
-                <ProfileFilter
-                  profileChange={handleProfileChange}
-                  profile={{}}
-                />
+              <ProfileFilter profileChange={handleProfileChange} profile={{}} />
               {/* ) : (<Typography color="secondary">Remove profile to add another</Typography>)} */}
             </Grid>
             <Grid item id="typeFilter">
@@ -71,4 +75,4 @@ const LeaderboardHeader = ({
   );
 };
 
-export default LeaderboardHeader;
+export default withRouter(LeaderboardHeader);

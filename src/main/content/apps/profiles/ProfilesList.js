@@ -9,8 +9,7 @@ import {
   Icon,
   IconButton,
   Typography,
-  CircularProgress,
-  Button
+  CircularProgress
 } from "@material-ui/core";
 import { bindActionCreators } from "redux";
 import * as Actions from "./store/actions";

@@ -21,6 +21,11 @@ class FuseUtils {
     });
   }
 
+  static makeTitle(string) {
+    let title = string.charAt(0).toUpperCase() + string.slice(1);
+    return title.replace('_', ' ');
+  }
+
   static searchInObj(itemObj, searchText) {
     for (const prop in itemObj) {
       if (!itemObj.hasOwnProperty(prop)) {

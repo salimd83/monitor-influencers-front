@@ -8,6 +8,7 @@ import {
   getProfiles
 } from "./store/actions/report.actions";
 import {toggleInSelectedProfiles} from '../profiles/store/actions/profiles.actions'
+import {showMessage} from '../../../../store/actions'
 import ReportAppHeader from "./ReportAppHeader";
 import ReportAppList from "./ReportAppList";
 
@@ -24,17 +25,30 @@ const actions = {
   addProfile,
   removeProfile,
   getProfiles,
-  toggleInSelectedProfiles
+  toggleInSelectedProfiles,
+  showMessage
 };
 
 export class ReportApp extends Component {
   componentDidMount() {
-    if (this.props.selectedProfileIds.length > 0)
-      this.props.getProfiles(this.props.selectedProfileIds);
+    const {from, to, selectedProfileIds, getProfiles} = this.props;
+    if (selectedProfileIds.length > 0)
+      getProfiles(selectedProfileIds, from, to);
+    else {
+        this.props.history.push("/admin/profiles");
+        this.props.showMessage({
+          message: "Please select at least 2 profiles to compare",
+          anchorOrigin: {
+            vertical: "bottom",
+            horizontal: "left"
+          }
+        });
+    }
   }
+
   handleDateChange = (type, date) => {
-    const { from, to, setDateFilter } = this.props;
-    type === "from" ? setDateFilter(date, to) : setDateFilter(from, date);
+    const { from, to, setDateFilter, selectedProfileIds } = this.props;
+    type === "from" ? setDateFilter(date, to, selectedProfileIds) : setDateFilter(from, date, selectedProfileIds);
   };
 
   handleProfileChange = profile => {
@@ -49,7 +63,7 @@ export class ReportApp extends Component {
 
   render() {
     const { handleDateChange, handleProfileChange } = this;
-    const { from, to, profiles, loading } = this.props;
+    const { from, to, profiles, loading, showMessage } = this.props;
 
     return (
       <div id="report-app">
@@ -64,6 +78,7 @@ export class ReportApp extends Component {
               profiles={profiles}
               removeProfile={this.removeProfile}
               loading={loading}
+              showMessage={showMessage}
             />
           }
           sidebarInner

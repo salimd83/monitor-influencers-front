@@ -10,72 +10,65 @@ import {
   Avatar,
   Fade
 } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import FuseUtil from "@fuse/FuseUtils";
 
+let metrics = [];
 
-
-const metrics = [
-  "Total Followers",
-  "Total Media",
-  "Activity and Engagement",
-  "Followers Rate",
-  "Activity Type",
-  "Top Hashtag",
-  "Top Location",
-  "Top Mentions"
-];
-
-const ReportAppList = ({ profiles, removeProfile, classes, loading }) => {
+const ReportAppList = ({ profiles, removeProfile, classes, loading, showMessage, history }) => {
   const { camelize } = FuseUtil;
+
+  metrics = profiles.length > 0 ? Object.keys(profiles[0].metrics) : [];
 
   const renderMetric = mtrc =>
     profiles.map(prof => (
-      <TableCell key={`${mtrc} ${prof.id}`}>{prof[camelize(mtrc)]}</TableCell>
+      <TableCell key={`${mtrc} ${prof.id}`}>
+        {prof.metrics[camelize(mtrc)]}
+      </TableCell>
     ));
 
   return (
     <div className={classes.root + " mt-32"}>
       <Fade in={!loading}>
-      <Table className={classes.table + " metrics"}>
-        <TableHead>
-          <TableRow>
-            <TableCell></TableCell>
-            {profiles.map(profile => (
-              <TableCell key={FuseUtil.camelize(profile.name)}>
-                <div className={classes.profile}>
-                  <Avatar
-                    alt={profile.name}
-                    src={profile.image}
-                    className={classes.smallAvatar}
-                  />
-                  {profile.name}
-                  <IconButton
-                    
-                    className="remove-profile-action"
-                    aria-label="Remove profile"
-                    onClick={removeProfile(profile.id)}
-                  >
-                    <Icon color="error">close</Icon>
-                  </IconButton>
-                </div>
-              </TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {metrics.map(metric => {
-            return (
-              <TableRow key={FuseUtil.camelize(metric)}>
-                <TableCell component="th" scope="row">
-                  {metric}
+        <Table className={classes.table + " metrics"}>
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              {profiles.map(profile => (
+                <TableCell key={FuseUtil.camelize(profile.name)}>
+                  <div className={classes.profile}>
+                    <Avatar
+                      alt={profile.name}
+                      src={profile.image}
+                      className={classes.smallAvatar}
+                    />
+                    {profile.name}
+                    <IconButton
+                      className="remove-profile-action"
+                      aria-label="Remove profile"
+                      onClick={removeProfile(profile.id)}
+                    >
+                      <Icon color="error">close</Icon>
+                    </IconButton>
+                  </div>
                 </TableCell>
-                {renderMetric(metric)}
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {metrics.map(metric => {
+              return (
+                <TableRow key={FuseUtil.camelize(metric)}>
+                  <TableCell component="th" scope="row">
+                    {FuseUtil.makeTitle(metric)}
+                  </TableCell>
+                  {renderMetric(metric)}
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
       </Fade>
     </div>
   );
@@ -89,17 +82,17 @@ const styles = {
     marginRight: 5
   },
   profile: {
-    display: 'flex',
+    display: "flex",
     // flexDirection: 'row',
-    alignItems: 'center'
+    alignItems: "center"
   },
   root: {
-    width: '100%',
-    overflowX: 'auto',
+    width: "100%",
+    overflowX: "auto"
   },
   table: {
-    width: '100%',
-  },
+    width: "100%"
+  }
 };
 
-export default withStyles(styles)(ReportAppList);
+export default withRouter(withStyles(styles)(ReportAppList));

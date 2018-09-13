@@ -151,7 +151,6 @@ export function updateProfile({ id, ...profile }) {
 }
 
 export function toggleInSelectedProfiles(profileId) {
-  console.log('toggleInSelectedProfiles', profileId)
   return {
     type: TOGGLE_IN_SELECTED_PROFILES,
     profileId
