@@ -25,7 +25,7 @@ export async function simpleCallNative({
   errorHandler = true,
   authenticatedCall = true,
   headers = [],
-  version
+  version = '3.0'
 } = {}) {
   method = method.toLowerCase();
 
