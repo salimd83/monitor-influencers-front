@@ -10,6 +10,7 @@ import ProfilesHeader from "main/content/apps/profiles/ProfilesHeader";
 import _ from "lodash";
 import { Button, Icon } from "@material-ui/core";
 import ProfileDialog from "main/content/apps/profiles/ProfileDialog";
+import ImportExcelDialog from "main/content/apps/profiles/ImportExcelDialog";
 import * as Fn from "fn/simpleCall.js";
 
 const headerHeight = 160;
@@ -36,17 +37,16 @@ const styles = theme => ({
     bottom: 40,
     left: "auto",
     position: "fixed"
+  },
+  importButton: {
+    zIndex: 99,
+    margin: 0,
+    top: "auto",
+    right: 130,
+    bottom: 40,
+    left: "auto",
+    position: "fixed"
   }
-  // ,
-  // compareButton: {
-  //   zIndex: 99,
-  //   margin: 0,
-  //   top: "auto",
-  //   right: 60,
-  //   bottom: 40,
-  //   left: "auto",
-  //   position: "fixed"
-  // }
 });
 
 class ProfilesApp extends Component {
@@ -55,7 +55,8 @@ class ProfilesApp extends Component {
     countries: [],
     categories: [],
     genders: [],
-    languages: []
+    languages: [],
+    importDialogOpen: false
   };
 
   componentDidMount() {
@@ -86,8 +87,19 @@ class ProfilesApp extends Component {
     }
   }
 
+  onOpenDialogImport = () => {
+    this.setState({
+      importDialogOpen: true
+    });
+  };
+
+  onClose = () => {
+    this.setState({ importDialogOpen: false });
+  };
+
   render() {
-    const { classes, openNewProfileDialog, selectedProfileIds } = this.props;
+    const { classes, openNewProfileDialog } = this.props;
+    const { importDialogOpen, ...stateProps } = this.state;
 
     return (
       <div id="profileApp">
@@ -116,19 +128,19 @@ class ProfilesApp extends Component {
           >
             <Icon>person_add</Icon>
           </Button>
-          {/* {selectedProfileIds.length > 1 && (
-            <Button
-              variant="fab"
-              color="secondary"
-              aria-label="add"
-              className={classes.compareButton}
-              onClick={this.compareProfiles}
-            >
-              <Icon>more_vert</Icon>
-            </Button>
-          )} */}
+
+          <Button
+            variant="fab"
+            color="secondary"
+            aria-label="add"
+            className={classes.importButton}
+            onClick={this.onOpenDialogImport}
+          >
+            <Icon>cloud_upload</Icon>
+          </Button>
         </FuseAnimateGroup>
-        <ProfileDialog {...this.state} />
+        <ProfileDialog {...stateProps} />
+        <ImportExcelDialog open={importDialogOpen} close={this.onClose} />
       </div>
     );
   }
@@ -147,7 +159,6 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps({ profilesApp }) {
   return {
     profiles: profilesApp.profiles.entities,
-    selectedProfileIds: profilesApp.profiles.selectedProfileIds,
     searchText: profilesApp.profiles.searchText
   };
 }

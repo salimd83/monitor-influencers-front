@@ -36,6 +36,7 @@
         "react-dnd": "2.6.0",
         "react-dnd-html5-backend": "2.6.0",
         "react-dom": "16.4.0",
+        "react-dropzone": "^5.1.0",
         "react-grid-layout": "^0.16.6",
         "react-material-ui-form-validator": "^1.1.4",
         "react-number-format": "3.3.4",
@@ -60,6 +61,7 @@
         "semantic-ui-react": "^0.82.0",
         "typeface-roboto": "0.0.54",
         "velocity-react": "1.4.1",
+        "xlsx": "^0.14.0",
         "yarn": "^1.7.0"
     },
     "scripts": {

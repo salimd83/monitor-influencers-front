@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-export class deleteDialog extends Component {
+export class DeleteDialog extends Component {
   render() {
     const { profile, open, handleClose, removeProfile } = this.props;
     return (
@@ -48,4 +48,4 @@ export class deleteDialog extends Component {
   }
 }
 
-export default deleteDialog;
+export default DeleteDialog;

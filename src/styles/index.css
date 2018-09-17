@@ -616,6 +616,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #report-app table.metrics .remove-profile-action .material-icons {
   font-size: 14px;
 }
+#import-dialog-content{
+  display: flex;
+  justify-content: space-around;
+}
+/* #import-dialog-content .dropzone{
+  margin-right: 20px;
+} */
+/* .terminal {
+  max-height: 80px;
+  overflow-y: scroll;
+  background: #222;
+  color: #f9f9f9;
+  font-family: 'Courier New', Courier, monospace;
+}
+.terminal p{
+  color: #e0e0e0;
+} */
 .react-datepicker {
   font-size: 1em !important;
 }

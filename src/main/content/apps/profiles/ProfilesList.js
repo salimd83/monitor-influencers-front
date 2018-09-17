@@ -3,7 +3,7 @@ import { withStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { withRouter, Link } from "react-router-dom";
 import { FuseUtils, FuseAnimate } from "@fuse";
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 import * as Fn from "fn/simpleCall.js";
 import {
   Avatar,
