@@ -7,6 +7,21 @@ import Dropzone from "react-dropzone";
 import XLSX from "xlsx";
 import { simpleCall } from "../../../../fn/simpleCall";
 
+let errors = "";
+
+function download(filename, text) {
+  var element = document.createElement("a");
+  element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(text));
+  element.setAttribute("download", filename);
+
+  element.style.display = "none";
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+
 export class ImportExcelDialog extends Component {
   state = {
     file: null,
@@ -16,9 +31,14 @@ export class ImportExcelDialog extends Component {
   };
 
   getTypeaheadIdFromName = async (name, type) => {
-    const res = await simpleCall("get", `typeahead/${type}`, { q: name });
-    const industries = res.data.filter(ind => ind.name === name);
-    return industries[0] ? industries[0].id : null;
+    try {
+      const res = await simpleCall("get", `typeahead/${type}`, { q: name });
+      const industries = res.data.filter(ind => ind.name === name);
+      return industries[0] ? industries[0].id : null;
+    } catch (err) {
+      console.log(`${type}/${name} ${err}`);
+      errors = `${errors} \n ${type}/${name} ${err}`;
+    }
   };
 
   onDrop = files => {
@@ -60,51 +80,71 @@ export class ImportExcelDialog extends Component {
           } = profile;
 
           const typeahead = ["industry", "country", "location", "category"];
-          await Promise.all(
-            typeahead.map(async type => {
-              const name = profileFiltered[type];
-              const id = await this.getTypeaheadIdFromName(name, type);
-              profileFiltered[type] = id;
-              delete profileFiltered.status;
-              if (!id) return;
-            })
-          );
+          try {
+            await Promise.all(
+              typeahead.map(async type => {
+                const name = profileFiltered[type];
+                const id = await this.getTypeaheadIdFromName(name, type);
+                profileFiltered[type] = id;
+                delete profileFiltered.status;
+                if (!id) return;
+              })
+            );
+          } catch (err) {
+            console.log(err);
+          }
 
-          const res = await simpleCall("post", `si/profiles`, { ...profileFiltered });
-          const newProfileId = res.data.id;
+          let newProfileId;
+          try {
+            const res = await simpleCall("post", `si/profiles`, { ...profileFiltered });
+            newProfileId = res.data.id;
 
-          const links = [
-            { title: `facebook / ${link_facebook}`.substring(0, 30), value: link_facebook, type: "facebook" },
-            { title: `instagram / ${link_instagram}`.substring(0, 30), value: link_instagram, type: "instagram" },
-            { title: `twitter / ${link_twitter}`.substring(0, 30), value: link_twitter, type: "twitter" },
-            { title: `website / ${link_website}`.substring(0, 30), value: link_website, type: "website" }
-          ];
+            const links = [
+              { title: `facebook / ${link_facebook}`.substring(0, 30), value: link_facebook, type: "facebook" },
+              { title: `instagram / ${link_instagram}`.substring(0, 30), value: link_instagram, type: "instagram" },
+              { title: `twitter / ${link_twitter}`.substring(0, 30), value: link_twitter, type: "twitter" },
+              { title: `website / ${link_website}`.substring(0, 30), value: link_website, type: "website" }
+            ];
 
-          await Promise.all(
-            links.map(async link => {
-              await simpleCall("post", `si/profile/${newProfileId}/links`, link);
-            })
-          );
+            try {
+              await Promise.all(
+                links.map(async link => {
+                  await simpleCall("post", `si/profile/${newProfileId}/links`, link);
+                })
+              );
+            } catch (err) {
+              console.log(err);
+              errors = `${errors} \n ${profileFiltered.first_name} ${profileFiltered.last_name} - ${err}`;
+            }
 
-          const tagsId = [];
+            const tagsId = [];
 
-          await Promise.all(
-            profile_tags.split(",").map(async tag => {
-              const id = await this.getTypeaheadIdFromName(tag, "profile_tag");
-              if (id !== null) tagsId.push(id);
-            })
-          );
+            await Promise.all(
+              profile_tags.split(",").map(async tag => {
+                const id = await this.getTypeaheadIdFromName(tag, "profile_tag");
+                if (id !== null) tagsId.push(id);
+              })
+            );
 
-          await Promise.all(
-            tagsId.map(async tagId => {
-              await simpleCall("post", `si/profile/${newProfileId}/tags`, { tag_id: tagId });
-            })
-          );
+            try {
+              await Promise.all(
+                tagsId.map(async tagId => {
+                  await simpleCall("post", `si/profile/${newProfileId}/tags`, { tag_id: tagId });
+                })
+              );
+            } catch (err) {
+              console.log(err);
+              errors = `${errors} \n ${profileFiltered.first_name} ${profileFiltered.last_name} - ${err}`;
+            }
 
-          this.setState(prevState => ({
-            terminalMsg: `Uploading profile ${i + 1}`,
-            completed: prevState.completed + 100 / profiles.length
-          }));
+            this.setState(prevState => ({
+              terminalMsg: `Uploading profile ${i + 1}`,
+              completed: prevState.completed + 100 / profiles.length
+            }));
+          } catch (err) {
+            console.log(err);
+            errors = `${errors} \n ${profileFiltered.first_name} ${profileFiltered.last_name} - ${err}`;
+          }
 
           console.log(profileFiltered);
         })
@@ -115,12 +155,9 @@ export class ImportExcelDialog extends Component {
       });
 
       console.log(profiles);
+      download('error-log', errors)
     };
     reader.readAsBinaryString(files[0]);
-  };
-
-  scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
 
   render() {
@@ -190,6 +227,7 @@ export class ImportExcelDialog extends Component {
                       <div style={{ width: "100%" }} className="py-8">
                         <Typography className="pb-4">{terminalMsg}</Typography>
                         <LinearProgress variant="determinate" value={completed} />
+                        {errors.length > 0 && <Typography color="error" className="pt-4">Some errors occured while uploading profiles</Typography>}
                       </div>
                     </div>
                   </aside>
