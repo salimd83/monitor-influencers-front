@@ -8,7 +8,7 @@ const initialState = {
   addingProfile: false,
   addedProfile: false,
   addedProfileId: "",
-  selectedProfileIds: [],
+  selectedProfiles: [],
   errors: [],
   profileDialog: {
     type: "new",
@@ -145,31 +145,31 @@ const profilesReducer = function(state = initialState, action) {
       };
     }
     case Actions.TOGGLE_IN_SELECTED_PROFILES: {
-      const profileId = action.profileId;
-      let selectedProfileIds = [...state.selectedProfileIds];
+      const {id} = action.profile;
+      let selectedProfiles = [...state.selectedProfiles];
 
-      if (selectedProfileIds.find(id => id === profileId) !== undefined)
-        selectedProfileIds = selectedProfileIds.filter(id => id !== profileId);
-      else selectedProfileIds = [...selectedProfileIds, profileId];
+      if (selectedProfiles.some(prof => prof.id === id))
+        selectedProfiles = selectedProfiles.filter(prof => prof.id !== id);
+      else selectedProfiles = [...selectedProfiles, action.profile];
 
       return {
         ...state,
-        selectedProfileIds: selectedProfileIds
+        selectedProfiles: selectedProfiles
       };
     }
     case Actions.SELECT_ALL_PROFILES: {
       const arr = Object.keys(state.entities).map(k => state.entities[k]);
-      const selectedProfileIds = arr.map(profile => profile.id);
+      const selectedProfiles = arr;
 
       return {
         ...state,
-        selectedProfileIds: selectedProfileIds
+        selectedProfiles
       };
     }
     case Actions.DESELECT_ALL_PROFILES: {
       return {
         ...state,
-        selectedProfileIds: []
+        selectedProfiles: []
       };
     }
     default: {

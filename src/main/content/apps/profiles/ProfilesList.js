@@ -41,6 +41,7 @@ class ProfilesList extends Component {
   state = {
     confirmDeleteOpen: false,
     selectedProfile: [],
+    checkedProfiles: [],
     anchorEl: null,
     CSVData: [],
     completed: -1
@@ -62,22 +63,12 @@ class ProfilesList extends Component {
     this.setState({ confirmDeleteOpen: false });
   };
 
-  compareProfiles = () => {
-    if (this.props.selectedProfileIds.length < 2) {
-      this.props.showMessage({
-        message: "Please select at least 2 profile to compare",
-        anchorOrigin: {
-          vertical: "bottom",
-          horizontal: "left"
-        }
-      });
-      return;
-    }
-    this.props.history.push("/reports");
-  };
+  onProfileChecked = profile => () => {
+    this.props.toggleInSelectedProfiles(profile);
+  }
 
   exportExcel = async () => {
-    if (this.props.selectedProfileIds.length < 1) {
+    if (this.props.selectedProfiles.length < 1) {
       this.props.showMessage({
         message: "Please select at least 1 profile to export",
         anchorOrigin: {
@@ -87,19 +78,19 @@ class ProfilesList extends Component {
       });
       return;
     }
-    const { selectedProfileIds } = this.props;
+    const { selectedProfiles } = this.props;
     const data = await Promise.all(
-      selectedProfileIds.map(async id => {
-        const res = await Fn.simpleCall("get", `si/profiles/${id}`);
-        res.data.tags = res.data.tags.map(tag => tag.name).join(',')
-        res.data.links = res.data.links.map(link => link.type + '@' + link.value).join(', ')
-        res.data.country = res.data.country.name
-        res.data.category = res.data.category.name
-        res.data.industry = res.data.industry.name
-        res.data.location = res.data.location.name
-        delete res.data.id
+      selectedProfiles.map(async prof => {
+        const res = await Fn.simpleCall("get", `si/profiles/${prof.id}`);
+        res.data.tags = res.data.tags.map(tag => tag.name).join(",");
+        res.data.links = res.data.links.map(link => link.type + "@" + link.value).join(", ");
+        res.data.country = res.data.country.name;
+        res.data.category = res.data.category.name;
+        res.data.industry = res.data.industry.name;
+        res.data.location = res.data.location.name;
+        delete res.data.id;
         this.setState(prevState => ({
-          completed: prevState.completed + 100 / selectedProfileIds.length
+          completed: prevState.completed + 100 / selectedProfiles.length
         }));
         return Promise.resolve(res.data);
       })
@@ -125,31 +116,22 @@ class ProfilesList extends Component {
       openEditProfileDialog,
       loadingProfiles,
       removeProfile,
-      selectedProfileIds,
+      selectedProfiles,
       selectAllProfiles,
       deSelectAllProfiles,
-      toggleInSelectedProfiles
+      onOpenDialogImport,
+      openNewProfileDialog
     } = this.props;
-    const {
-      selectedProfile,
-      confirmDeleteOpen,
-      anchorEl,
-      CSVData,
-      completed
-    } = this.state;
+    const { selectedProfile, confirmDeleteOpen, anchorEl, CSVData, completed } = this.state;
     const open = Boolean(anchorEl);
 
     const data = this.getFilteredArray(profiles, searchText);
 
     const renderDownloadExcel = () => {
-      if (completed === -1)
-        return <div onClick={this.exportExcel}>Export Excel</div>;
+      if (completed === -1) return <div onClick={this.exportExcel}>Export Excel</div>;
       else if (completed >= 99)
         return (
-          <CSVLink
-            data={CSVData}
-            onClick={() => this.setState({ completed: -1 })}
-          >
+          <CSVLink data={CSVData} onClick={() => this.setState({ completed: -1 })}>
             Download file
           </CSVLink>
         );
@@ -163,10 +145,7 @@ class ProfilesList extends Component {
 
     if (loadingProfiles) {
       return (
-        <div
-          className="flex items-center justify-center h-full"
-          style={{ margin: "20px" }}
-        >
+        <div className="flex items-center justify-center h-full" style={{ margin: "20px" }}>
           <CircularProgress className={classes.progress} />
         </div>
       );
@@ -205,19 +184,11 @@ class ProfilesList extends Component {
                       event.stopPropagation();
                     }}
                     onChange={event => {
-                      event.target.checked
-                        ? selectAllProfiles()
-                        : deSelectAllProfiles();
+                      event.target.checked ? selectAllProfiles() : deSelectAllProfiles();
                     }}
-                    checked={
-                      selectedProfileIds.length ===
-                        Object.keys(profiles).length &&
-                      selectedProfileIds.length > 0
-                    }
+                    checked={selectedProfiles.length === Object.keys(profiles).length && selectedProfiles.length > 0}
                     indeterminate={
-                      selectedProfileIds.length !==
-                        Object.keys(profiles).length &&
-                      selectedProfileIds.length > 0
+                      selectedProfiles.length !== Object.keys(profiles).length && selectedProfiles.length > 0
                     }
                   />
                 ),
@@ -228,8 +199,8 @@ class ProfilesList extends Component {
                       onClick={event => {
                         event.stopPropagation();
                       }}
-                      checked={selectedProfileIds.includes(row.value.id)}
-                      onChange={() => toggleInSelectedProfiles(row.value.id)}
+                      checked={selectedProfiles.some(prof => prof.id === row.value.id)}
+                      onChange={this.onProfileChecked(row.value)}
                     />
                   );
                 },
@@ -242,11 +213,7 @@ class ProfilesList extends Component {
                 accessor: "profile_picture",
                 Cell: row => (
                   <Link to={`/admin/profile/${row.original.id}`}>
-                    <Avatar
-                      className="mr-8"
-                      alt={row.original.name}
-                      src={row.value}
-                    />
+                    <Avatar className="mr-8" alt={row.original.name} src={row.value} />
                   </Link>
                 ),
                 className: "justify-center",
@@ -257,21 +224,13 @@ class ProfilesList extends Component {
                 Header: () => <div className="py-8">First Name</div>,
                 accessor: "first_name",
                 filterable: true,
-                Cell: row => (
-                  <Link to={`/admin/profile/${row.original.id}`}>
-                    {row.value}
-                  </Link>
-                ),
+                Cell: row => <Link to={`/admin/profile/${row.original.id}`}>{row.value}</Link>,
                 className: "font-bold"
               },
               {
                 Header: "Last Name",
                 accessor: "last_name",
-                Cell: row => (
-                  <Link to={`/admin//profile/${row.original.id}`}>
-                    {row.value}
-                  </Link>
-                ),
+                Cell: row => <Link to={`/admin//profile/${row.original.id}`}>{row.value}</Link>,
                 filterable: true,
                 className: "font-bold"
               },
@@ -316,15 +275,9 @@ class ProfilesList extends Component {
                       aria-haspopup="true"
                       onClick={this.handleMenuClick}
                     >
-                      {selectedProfileIds.length ? (
-                        <FuseAnimate
-                          animation="transition.expandIn"
-                          duration={200}
-                        >
-                          <Badge
-                            badgeContent={selectedProfileIds.length}
-                            color="secondary"
-                          >
+                      {selectedProfiles.length ? (
+                        <FuseAnimate animation="transition.expandIn" duration={200}>
+                          <Badge badgeContent={selectedProfiles.length} color="secondary">
                             <Icon>more_vert</Icon>
                           </Badge>
                         </FuseAnimate>
@@ -345,10 +298,13 @@ class ProfilesList extends Component {
                         }
                       }}
                     >
-                      <MenuItem onClick={this.compareProfiles}>
-                        Compare
+                      <MenuItem onClick={openNewProfileDialog}>Add Profile</MenuItem>
+                      <MenuItem onClick={onOpenDialogImport}>Import Excel</MenuItem>
+                      <MenuItem>
+                        <Badge badgeContent={selectedProfiles.length} color="secondary">
+                          {renderDownloadExcel()}
+                        </Badge>
                       </MenuItem>
-                      <MenuItem>{renderDownloadExcel()}</MenuItem>
                     </Menu>
                   </div>
                 ),
@@ -368,7 +324,7 @@ class ProfilesList extends Component {
                 )
               }
             ]}
-            defaultPageSize={10}
+            defaultPageSize={12}
             noDataText="No profiles found"
           />
         </FuseAnimate>
@@ -386,6 +342,7 @@ function mapDispatchToProps(dispatch) {
       toggleInSelectedProfiles: Actions.toggleInSelectedProfiles,
       selectAllProfiles: Actions.selectAllProfiles,
       deSelectAllProfiles: Actions.deSelectAllProfiles,
+      openNewProfileDialog: Actions.openNewProfileDialog,
       showMessage
     },
     dispatch
@@ -396,10 +353,9 @@ function mapStateToProps({ profilesApp }) {
   const { profiles } = profilesApp;
   return {
     profiles: profiles.entities,
-    selectedProfileIds: profiles.selectedProfileIds,
+    selectedProfiles: profiles.selectedProfiles,
     loadingProfiles: profiles.loadingProfiles,
-    searchText: profiles.searchText,
-    selectedProfileIds: profilesApp.profiles.selectedProfileIds
+    searchText: profiles.searchText
   };
 }
 

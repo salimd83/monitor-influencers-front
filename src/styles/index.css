@@ -620,6 +620,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   justify-content: space-around;
 }
+.compare-bar li{
+  height: 98px !important;
+  width: 98px !important;
+}
 /* #import-dialog-content .dropzone{
   margin-right: 20px;
 } */

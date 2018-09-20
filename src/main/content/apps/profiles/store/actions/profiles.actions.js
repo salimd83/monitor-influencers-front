@@ -3,12 +3,9 @@ import * as Fn from "fn/simpleCall.js";
 export const GET_PROFILES = "[PROFILES APP] GET PROFILES";
 export const SET_SEARCH_TEXT = "[PROFILES APP] SET SEARCH TEXT";
 export const OPEN_NEW_PROFILE_DIALOG = "[PROFILES APP] OPEN NEW PROFILE DIALOG";
-export const CLOSE_NEW_PROFILE_DIALOG =
-  "[PROFILES APP] CLOSE NEW PROFILE DIALOG";
-export const OPEN_EDIT_PROFILE_DIALOG =
-  "[PROFILES APP] OPEN EDIT PROFILE DIALOG";
-export const CLOSE_EDIT_PROFILE_DIALOG =
-  "[PROFILES APP] CLOSE EDIT PROFILE DIALOG";
+export const CLOSE_NEW_PROFILE_DIALOG = "[PROFILES APP] CLOSE NEW PROFILE DIALOG";
+export const OPEN_EDIT_PROFILE_DIALOG = "[PROFILES APP] OPEN EDIT PROFILE DIALOG";
+export const CLOSE_EDIT_PROFILE_DIALOG = "[PROFILES APP] CLOSE EDIT PROFILE DIALOG";
 export const ADD_PROFILE = "[PROFILES APP] ADD PROFILE";
 export const ADDING_PROFILE = "[PROFILES APP] ADDING PROFILE";
 export const ERROR_ADDING_PROFILE = "[PROFILES APP] ERROR ADDING PROFILE";
@@ -16,8 +13,7 @@ export const UPDATE_PROFILE = "[PROFILES APP] UPDATE PROFILE";
 export const REMOVE_PROFILE = "[PROFILES APP] REMOVE PROFILE";
 export const RECIEVING_PROFILES = "[PROFILES APP] RECIEVING PROFILES";
 export const RESET_ADD_PROFILE = "[PROFILES APP] RESET ADD PROFILE";
-export const TOGGLE_IN_SELECTED_PROFILES =
-  "[PROFILES APP] TOGGLE IN SELECTED PROFILES";
+export const TOGGLE_IN_SELECTED_PROFILES = "[PROFILES APP] TOGGLE IN SELECTED PROFILES";
 export const SELECT_ALL_PROFILES = "[PROFILES APP] SELECT ALL PROFILES";
 export const DESELECT_ALL_PROFILES = "[PROFILES APP] DESELECT ALL PROFILES";
 
@@ -70,11 +66,7 @@ export function closeNewProfileDialog() {
 export function openEditProfileDialog(id) {
   return async dispatch => {
     try {
-      const profile = await Fn.simpleCallWA(
-        dispatch,
-        "get",
-        `si/profiles/${id}`
-      );
+      const profile = await Fn.simpleCallWA(dispatch, "get", `si/profiles/${id}`);
       dispatch({
         type: OPEN_EDIT_PROFILE_DIALOG,
         data: profile.data
@@ -102,12 +94,7 @@ export function addProfile(newProfile) {
     dispatch({ type: ADDING_PROFILE });
 
     try {
-      const response = await Fn.simpleCallWA(
-        dispatch,
-        "post",
-        "si/profiles",
-        newProfile
-      );
+      const response = await Fn.simpleCallWA(dispatch, "post", "si/profiles", newProfile);
 
       dispatch({
         type: ADD_PROFILE,
@@ -130,12 +117,7 @@ export function updateProfile({ id, ...profile }) {
   }
   return async dispatch => {
     try {
-      const response = await Fn.simpleCallWA(
-        dispatch,
-        "put",
-        `si/profiles/${id}`,
-        filteredProfile
-      );
+      const response = await Fn.simpleCallWA(dispatch, "put", `si/profiles/${id}`, filteredProfile);
 
       dispatch({
         type: UPDATE_PROFILE,
@@ -150,10 +132,10 @@ export function updateProfile({ id, ...profile }) {
   };
 }
 
-export function toggleInSelectedProfiles(profileId) {
+export function toggleInSelectedProfiles(profile) {
   return {
     type: TOGGLE_IN_SELECTED_PROFILES,
-    profileId
+    profile
   };
 }
 

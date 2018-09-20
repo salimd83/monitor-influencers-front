@@ -47,7 +47,7 @@ const ReportAppList = ({ profiles, removeProfile, classes, loading }) => {
                     <IconButton
                       className="remove-profile-action"
                       aria-label="Remove profile"
-                      onClick={removeProfile(profile.id)}
+                      onClick={removeProfile(profile)}
                     >
                       <Icon color="error">close</Icon>
                     </IconButton>

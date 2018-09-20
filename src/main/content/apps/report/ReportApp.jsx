@@ -11,13 +11,14 @@ import { toggleInSelectedProfiles } from "../profiles/store/actions/profiles.act
 import { showMessage } from "../../../../store/actions";
 import ReportAppHeader from "./ReportAppHeader";
 import ReportAppList from "./ReportAppList";
+import profilesReducer from "../profiles/store/reducers/profiles.reducer";
 
 const mapState = ({ reportApp, async, profilesApp }) => ({
   from: reportApp.from,
   to: reportApp.to,
   profiles: reportApp.profiles,
   loading: async.loading,
-  selectedProfileIds: profilesApp.profiles.selectedProfileIds
+  selectedProfiles: profilesApp.profiles.selectedProfiles
 });
 
 const actions = {
@@ -31,9 +32,9 @@ const actions = {
 
 export class ReportApp extends Component {
   componentDidMount() {
-    const { from, to, selectedProfileIds, getProfiles } = this.props;
-    if (selectedProfileIds.length > 1)
-      getProfiles(selectedProfileIds, from, to);
+    const { from, to, selectedProfiles, getProfiles } = this.props;
+    if (selectedProfiles.length > 1)
+      getProfiles(selectedProfiles.map(pro => pro.id), from, to);
     else {
       this.redirectToProfile();
     }
@@ -51,7 +52,8 @@ export class ReportApp extends Component {
   };
 
   handleDateChange = (type, date) => {
-    const { from, to, setDateFilter, selectedProfileIds } = this.props;
+    const { from, to, setDateFilter, selectedProfiles } = this.props;
+    const selectedProfileIds = selectedProfiles.amp(pro => pro.id)
     type === "from"
       ? setDateFilter(date, to, selectedProfileIds)
       : setDateFilter(from, date, selectedProfileIds);
@@ -59,18 +61,18 @@ export class ReportApp extends Component {
 
   handleProfileChange = profile => {
     this.props.addProfile(profile);
-    this.props.toggleInSelectedProfiles(profile.id);
+    this.props.toggleInSelectedProfiles(profile);
   };
 
-  removeProfile = id => () => {
+  removeProfile = profile => () => {
     const {
-      selectedProfileIds,
+      selectedProfiles,
       removeProfile,
       toggleInSelectedProfiles
     } = this.props;
-    removeProfile(id);
-    toggleInSelectedProfiles(id);
-    if (selectedProfileIds.length < 2) {
+    removeProfile(profile.id);
+    toggleInSelectedProfiles(profile);
+    if (selectedProfiles.length < 2) {
       this.redirectToProfile();
     }
   };

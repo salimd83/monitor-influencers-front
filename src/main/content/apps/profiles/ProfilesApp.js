@@ -8,7 +8,7 @@ import * as Actions from "./store/actions";
 import ProfilesList from "main/content/apps/profiles/ProfilesList";
 import ProfilesHeader from "main/content/apps/profiles/ProfilesHeader";
 import _ from "lodash";
-import { Button, Icon } from "@material-ui/core";
+import { Button, Icon, GridList, GridListTile, GridListTileBar, IconButton } from "@material-ui/core";
 import ProfileDialog from "main/content/apps/profiles/ProfileDialog";
 import ImportExcelDialog from "main/content/apps/profiles/ImportExcelDialog";
 import * as Fn from "fn/simpleCall.js";
@@ -29,23 +29,45 @@ const styles = theme => ({
   layoutLeftSidebar: {
     width: 246
   },
-  addButton: {
-    zIndex: 99,
-    margin: 0,
-    top: "auto",
-    right: 60,
-    bottom: 40,
-    left: "auto",
-    position: "fixed"
-  },
-  importButton: {
+  // addButton: {
+  //   zIndex: 99,
+  //   margin: 0,
+  //   top: "auto",
+  //   right: 60,
+  //   bottom: 40,
+  //   left: "auto",
+  //   position: "fixed"
+  // },
+  compareButton: {
     zIndex: 99,
     margin: 0,
     top: "auto",
     right: 130,
-    bottom: 40,
+    bottom: 20,
     left: "auto",
-    position: "fixed"
+    position: "fixed",
+    backgroundColor: theme.palette.primary.light,
+    color: "#fff"
+  },
+  gridList: {
+    flexWrap: "nowrap",
+    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    transform: "translateZ(0)",
+    position: "fixed",
+    bottom: 0,
+    left: "25vw",
+    width: "50vw",
+    background: theme.palette.primary.light,
+    zIndex: 90
+  },
+  gridListTile: {
+    height: 122
+  },
+  title: {
+    color: theme.palette.primary.light
+  },
+  titleBar: {
+    background: "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
   }
 });
 
@@ -56,7 +78,7 @@ class ProfilesApp extends Component {
     categories: [],
     genders: [],
     languages: [],
-    importDialogOpen: false
+    importDialogOpen: false,
   };
 
   componentDidMount() {
@@ -97,16 +119,39 @@ class ProfilesApp extends Component {
     this.setState({ importDialogOpen: false });
   };
 
+  compareProfiles = () => {
+    if (this.props.selectedProfiles.length < 2) {
+      this.props.showMessage({
+        message: "Please select at least 2 profile to compare",
+        anchorOrigin: {
+          vertical: "bottom",
+          horizontal: "left"
+        }
+      });
+      return;
+    }
+    this.props.history.push("/reports");
+  };
+
+  onCompareProfileClose = profile => () => {
+    this.props.toggleInSelectedProfiles(profile)
+  }
+
   render() {
-    const { classes, openNewProfileDialog } = this.props;
+    const { classes, selectedProfiles } = this.props;
     const { importDialogOpen, ...stateProps } = this.state;
 
     return (
       <div id="profileApp">
         <FusePageCarded
           header={<ProfilesHeader pageLayout={() => this.pageLayout} />}
-          content={<ProfilesList />}
+          content={
+            <ProfilesList
+              onOpenDialogImport={this.onOpenDialogImport}
+            />
+          }
           sidebarInner
+          innerScroll={true}
           onRef={instance => {
             this.pageLayout = instance;
           }}
@@ -116,10 +161,10 @@ class ProfilesApp extends Component {
             animation: "transition.slideUpBigIn"
           }}
           leave={{
-            animation: "transition.slideUpBigOut"
+            animation: "transition.slideDownBigOut"
           }}
         >
-          <Button
+          {/* <Button
             variant="fab"
             color="primary"
             aria-label="add"
@@ -127,20 +172,55 @@ class ProfilesApp extends Component {
             onClick={openNewProfileDialog}
           >
             <Icon>person_add</Icon>
-          </Button>
+          </Button> */}
 
-          <Button
+          {/* <Button
             variant="fab"
             color="secondary"
             aria-label="add"
-            className={classes.importButton}
+            className={classes.compareButton}
             onClick={this.onOpenDialogImport}
           >
             <Icon>cloud_upload</Icon>
-          </Button>
+          </Button> */}
+          {selectedProfiles.length > 0 && (
+            <Button variant="fab" aria-label="add" className={classes.compareButton} onClick={this.compareProfiles}>
+              <Icon>compare_arrows</Icon>
+            </Button>
+          )}
         </FuseAnimateGroup>
         <ProfileDialog {...stateProps} />
         <ImportExcelDialog open={importDialogOpen} close={this.onClose} />
+        <FuseAnimateGroup
+          enter={{
+            animation: "transition.slideUpBigIn"
+          }}
+          leave={{
+            animation: "transition.slideDownBigOut"
+          }}
+        >
+          {selectedProfiles.length > 0 && (
+            <GridList cols={10} className={`${classes.gridList} compare-bar`}>
+              {selectedProfiles.map(profile => (
+                <GridListTile key={profile.profile_picture} className={classes.gridListTile}>
+                  <img src={profile.profile_picture} alt={`${profile.first_name} ${profile.last_name}`} />
+                  <GridListTileBar
+                    title={`${profile.first_name} ${profile.last_name}`}
+                    classes={{
+                      root: classes.titleBar,
+                      title: classes.title
+                    }}
+                    actionIcon={
+                      <IconButton onClick={this.onCompareProfileClose(profile)}>
+                        <Icon color="error">cancel</Icon>
+                      </IconButton>
+                    }
+                  />
+                </GridListTile>
+              ))}
+            </GridList>
+          )}
+        </FuseAnimateGroup>
       </div>
     );
   }
@@ -150,7 +230,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(
     {
       getProfiles: Actions.getProfiles,
-      openNewProfileDialog: Actions.openNewProfileDialog
+      toggleInSelectedProfiles: Actions.toggleInSelectedProfiles
     },
     dispatch
   );
@@ -159,7 +239,8 @@ function mapDispatchToProps(dispatch) {
 function mapStateToProps({ profilesApp }) {
   return {
     profiles: profilesApp.profiles.entities,
-    searchText: profilesApp.profiles.searchText
+    searchText: profilesApp.profiles.searchText,
+    selectedProfiles: profilesApp.profiles.selectedProfiles,
   };
 }
 
