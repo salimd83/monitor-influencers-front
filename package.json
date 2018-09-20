@@ -65,7 +65,7 @@
         "yarn": "^1.7.0"
     },
     "scripts": {
-        "start": "react-scripts start",
+        "start": "serve -s build",
         "build": "react-scripts build",
         "build-css-helpers": "./node_modules/.bin/tailwind build ./src/styles/fuse-helpers.tailwind.css -c ./tailwind.js -o ./src/styles/fuse-helpers.css && postcss --use autoprefixer -o ./src/styles/fuse-helpers.css ./src/styles/fuse-helpers.css",
         "test": "cross-env NODE_PATH=src react-scripts test --env=jsdom",
