@@ -729,6 +729,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .react-autosuggest__suggestion--highlighted {
   background-color: #ddd;
 }
+.react-datepicker-popper{
+  z-index: 100 !important;
+}
 
 [class^=FusePageCarded-content]{
   overflow: hidden;
