@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Dialog, Typography, LinearProgress } from "@material-ui/core";
 import { FuseAnimateGroup } from "@fuse";
 import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import Dropzone from "react-dropzone";
 import XLSX from "xlsx";
 import { simpleCall } from "../../../../fn/simpleCall";
@@ -79,12 +78,13 @@ export class ImportExcelDialog extends Component {
             ...profileFiltered
           } = profile;
 
-          const typeahead = ["industry", "country", "location", "category"];
+          const typeahead = ["location", "industry", "country", "category"];
           try {
             await Promise.all(
               typeahead.map(async type => {
                 const name = profileFiltered[type];
-                const id = await this.getTypeaheadIdFromName(name, type);
+                const id = await this.getTypeaheadIdFromName(name, type === 'location' ? 'country' : type);
+                console.log(type, id)
                 profileFiltered[type] = id;
                 delete profileFiltered.status;
                 if (!id) return;
