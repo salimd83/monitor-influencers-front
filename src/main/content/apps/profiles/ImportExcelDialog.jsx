@@ -79,20 +79,20 @@ export class ImportExcelDialog extends Component {
           } = profile;
 
           const typeahead = ["location", "industry", "country", "category"];
-          try {
-            await Promise.all(
-              typeahead.map(async type => {
+
+          await Promise.all(
+            typeahead.map(async type => {
+              try {
                 const name = profileFiltered[type];
-                const id = await this.getTypeaheadIdFromName(name, type === 'location' ? 'country' : type);
-                console.log(type, id)
+                const id = await this.getTypeaheadIdFromName(name, type === "location" ? "country" : type);
                 profileFiltered[type] = id;
                 delete profileFiltered.status;
                 if (!id) return;
-              })
-            );
-          } catch (err) {
-            console.log(err);
-          }
+              } catch (err) {
+                console.log(err);
+              }
+            })
+          );
 
           let newProfileId;
           try {
@@ -106,16 +106,18 @@ export class ImportExcelDialog extends Component {
               { title: `website / ${link_website}`.substring(0, 30), value: link_website, type: "website" }
             ];
 
-            try {
-              await Promise.all(
-                links.map(async link => {
-                  await simpleCall("post", `si/profile/${newProfileId}/links`, link);
-                })
-              );
-            } catch (err) {
-              console.log(err);
-              errors = `${errors} \n ${profileFiltered.first_name} ${profileFiltered.last_name} - ${err}`;
-            }
+            await Promise.all(
+              links.map(async link => {
+                try {
+                  if (link.value) await simpleCall("post", `si/profile/${newProfileId}/links`, link);
+                } catch (err) {
+                  console.log(err);
+                  errors = `${errors} \n\r ${profileFiltered.first_name} ${
+                    profileFiltered.last_name
+                  } - error while adding link ${link.title}, ${err.message}`;
+                }
+              })
+            );
 
             const tagsId = [];
 
@@ -126,16 +128,18 @@ export class ImportExcelDialog extends Component {
               })
             );
 
-            try {
-              await Promise.all(
-                tagsId.map(async tagId => {
+            await Promise.all(
+              tagsId.map(async tagId => {
+                try {
                   await simpleCall("post", `si/profile/${newProfileId}/tags`, { tag_id: tagId });
-                })
-              );
-            } catch (err) {
-              console.log(err);
-              errors = `${errors} \n ${profileFiltered.first_name} ${profileFiltered.last_name} - ${err}`;
-            }
+                } catch (err) {
+                  console.log(err);
+                  errors = `${errors} \n\r ${profileFiltered.first_name} ${
+                    profileFiltered.last_name
+                  } - error while adding tag, ${err.message}`;
+                }
+              })
+            );
 
             this.setState(prevState => ({
               terminalMsg: `Uploading profile ${i + 1}`,
@@ -155,7 +159,7 @@ export class ImportExcelDialog extends Component {
       });
 
       console.log(profiles);
-      download('error-log', errors)
+      download("error-log", errors);
     };
     reader.readAsBinaryString(files[0]);
   };
@@ -227,7 +231,11 @@ export class ImportExcelDialog extends Component {
                       <div style={{ width: "100%" }} className="py-8">
                         <Typography className="pb-4">{terminalMsg}</Typography>
                         <LinearProgress variant="determinate" value={completed} />
-                        {errors.length > 0 && <Typography color="error" className="pt-4">Some errors occured while uploading profiles</Typography>}
+                        {errors.length > 0 && (
+                          <Typography color="error" className="pt-4">
+                            Some errors occured while uploading profiles
+                          </Typography>
+                        )}
                       </div>
                     </div>
                   </aside>
