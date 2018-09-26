@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Icon, TextField, Input, Typography, InputAdornment, IconButton } from "@material-ui/core";
+import { Icon, Input, Typography, InputAdornment } from "@material-ui/core";
 import * as Actions from "./store/actions";
 import { withRouter } from "react-router-dom";
 import { bindActionCreators } from "redux";

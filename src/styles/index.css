@@ -194,12 +194,21 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: rgba(255, 255, 255, 0.4);
   border-color: rgba(255, 255, 255, 0.4) !important;
 }
+.Select--multi .Select-input{
+  margin-left: 0 !important;
+}
 
 #tagsFilter .Select-value-label {
   color: rgba(255, 255, 255, 0.7);
   border-color: rgba(255, 255, 255, 0.4) !important;
   font-size: 10px;
   letter-spacing: -0.04em;
+}
+#leaderboard-header #tagsFilter{
+  padding-top: 10px;
+}
+#tagsFilter label{
+  transform: translate(0, -2.5px) scale(0.75) !important;
 }
 
 #tagsFilter .Select--multi .Select-value-icon {
@@ -508,12 +517,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin: 20px;
 }
 .leaderboard-profile-row .photo {
-  height: 240px;
+  height: 195px;
   width: 100%;
   position: relative;
   object-fit: cover;
   overflow: hidden;
   background: #f5f5f5;
+  cursor: pointer;
 }
 .leaderboard-profile-row .photo img {
   position: absolute;
@@ -526,72 +536,99 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   -ms-transform: translate(-50%, -50%);
   -moz-transform: translate(-50%, -50%);
 }
+.leaderboard-profile-row .profile{
+  outline: transparent 2px solid !important;
+}
+.leaderboard-profile-row .profile.selected{
+  outline-color: rgba(85,195,158, 0.7) !important;
+  transition: all 0.15s ease-in;
+  -webkit-transition: all 0.15s ease-in;
+}
+.leaderboard-profile-row .photo::after{
+  transition: all 0.15s ease-in;
+  -webkit-transition: all 0.15s ease-in;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+}
+.leaderboard-profile-row .selected .photo::after,
+.leaderboard-profile-row .photo:hover::after {
+  background-color: rgba(85,195,158, 0.7);
+}
+.leaderboard-profile-row .photo span {
+  opacity: 0;
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 1;
+  font-size: 30px;
+  color: #eee;
+  transition: all 0.15s ease-in;
+  -webkit-transition: all 0.15s ease-in;
+}
+.leaderboard-profile-row .selected .photo span{
+  opacity: 1;
+}
 .leaderboard-profile-row .info {
   padding: 20px;
+}
+.leaderboard-profile-row .info .brief-metrics span{
+  margin-right: 20px;
 }
 .leaderboard-profile-row .info h4 {
   color: #55c39e;
 }
 .leaderboard-profile-row .info .links a {
   display: inline-block;
-  margin-right: 5px;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  min-width: 30px;
+  padding-left: 10px;
+  text-align: right;
+  /* margin-left: 12px; */
   position: relative;
-  color: #fff;
+  color: red;
   font-size: 14px;
 }
-.leaderboard-profile-row .info .links a i {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  -o-transform: translate(-50%, -50%);
-}
 .leaderboard-profile-row .info .links a.facebook {
-  background-color: #3b5998;
+  color: #3b5998;
 }
 .leaderboard-profile-row .info .links a.twitter {
-  background-color: #1da1f2;
+  color: #1da1f2;
 }
 .leaderboard-profile-row .info .links a.youtube {
-  background-color: #ff0000;
+  color: #ff0000;
 }
 .leaderboard-profile-row .info .links a.instagram {
-  background-color: #c32aa3;
+  color: #c32aa3;
 }
 .leaderboard-profile-row .info .links a.pinterest {
-  background-color: #bd081c;
+  color: #bd081c;
 }
 .leaderboard-profile-row .info .links a.linkedin {
-  background-color: #007bb5;
+  color: #007bb5;
 }
 .leaderboard-profile-row .info .links a.googleplus {
-  background-color: #db4437;
+  color: #db4437;
 }
 .leaderboard-profile-row .info .links a.snapchat {
-  background-color: #fffc00;
-  color: #111;
-  font-size: 18px;
+  color: #555;
 }
 .leaderboard-profile-row .info .links a.rss,
 .leaderboard-profile-row .info .links a.website {
-  background-color: #f26522;
+  color: #f26522;
 }
-.leaderboard-profile-row .info .tags > div {
+.leaderboard-profile-row .info .tags > span {
   font-size: 13px;
-  margin-right: 2px;
+  margin-right: 4px;
+  color: #666;
 }
 .leaderboard-profile-row .info .statics {
   text-align: right;
   width: 100%;
   margin-bottom: 10px;
-  font-size: 14px;
-  font-weight: 600;
   color: #55c39e;
 }
 .leaderboard-profile-row .info .statics span.material-icons {
@@ -603,6 +640,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 21px;
   vertical-align: text-bottom;
   color: #ccc;
+}
+.leaderboard-profile-row .info .description{
+  height: 125px;
 }
 
 #report-app table.metrics thead tr th {
@@ -748,6 +788,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   .leaderboard-profile-row .photo img {
     width: auto;
     height: 100%;
+  }
+  .leaderboard-profile-row .info .description{
+    height: auto;
   }
 }
 

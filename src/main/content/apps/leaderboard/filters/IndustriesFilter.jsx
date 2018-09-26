@@ -1,41 +1,47 @@
 import React, { Component } from "react";
-import { Async } from "react-select";
-import { InputLabel, FormControl } from "@material-ui/core";
+import { InputLabel, FormControl, Select, MenuItem } from "@material-ui/core";
 
 import * as Fn from "fn/simpleCall.js";
 
 class IndustriesFilter extends Component {
-  getIndustriesOptions = (input, callback) => {
-    const request = Fn.simpleCall("get", `typeahead/industry?q=${input}`);
-
-    request.then(response => {
-      callback(null, {
-        options: response.data.map(industry => ({
-          label: industry.name,
-          value: industry.id
-        })),
-        complete: true
-      })
-           })
-           .catch(e => console.log(e));
+  state = {
+    industries: []
   };
 
+  async componentDidMount() {
+    const request = await Fn.simpleCall("get", `typeahead/industry`);
+    this.setState({
+      industries: request.data.map(industry => ({
+        label: industry.name,
+        value: industry.id
+      }))
+    });
+  }
+
+  handleIndustry = (e) => {
+    this.props.setIndustry(e.target.value)
+  }
+
   render() {
-    const { industry, setIndustry } = this.props;
+    const { industry } = this.props;
     return (
       <React.Fragment>
         <FormControl>
-          <InputLabel shrink={true} style={{marginTop: '-4px'}}>Industries</InputLabel>
-          <Async
-            name="profile"
-            onChange={setIndustry}
+          <InputLabel htmlFor="indutries">Industry</InputLabel>
+          <Select
             value={industry}
-            clearable={false}
-            autoBlur={true}
-            removeSelected={true}
-            loadOptions={this.getIndustriesOptions}
-            style={{ width: "200px", marginTop: '10px' }}
-          />
+            onChange={this.handleIndustry}
+            inputProps={{
+              name: "indutries",
+              id: "industries"
+            }}
+            style={{ width: 195 }}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {this.state.industries.sort((a,b) => a.label > b.label).map(ind => <MenuItem key={ind.value} value={ind.value}>{ind.label}</MenuItem>)}
+          </Select>
         </FormControl>
       </React.Fragment>
     );

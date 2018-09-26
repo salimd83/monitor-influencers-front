@@ -14,6 +14,10 @@ class FuseUtils {
     });
   }
 
+  static kFormatter(num) {
+    return num > 999 ? (num / 1000).toFixed(0) + "k" : num;
+  }
+
   static camelize(str) {
     return str.replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, function(match, index) {
       if (+match === 0) return ""; // or if (/\s+/.test(match)) for white spaces
@@ -23,24 +27,34 @@ class FuseUtils {
 
   static makeTitle(string) {
     let title = string.charAt(0).toUpperCase() + string.slice(1);
-    return title.replace('_', ' ');
+    return title.replace("_", " ");
   }
 
   static formatMoney(amount, decimalCount = 2, decimal = ".", thousands = ",") {
     try {
       decimalCount = Math.abs(decimalCount);
       decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
-  
+
       const negativeSign = amount < 0 ? "-" : "";
-  
-      let i = parseInt(amount = Math.abs(Number(amount) || 0).toFixed(decimalCount)).toString();
-      let j = (i.length > 3) ? i.length % 3 : 0;
-  
-      return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) + (decimalCount ? decimal + Math.abs(amount - i).toFixed(decimalCount).slice(2) : "");
+
+      let i = parseInt((amount = Math.abs(Number(amount) || 0).toFixed(decimalCount))).toString();
+      let j = i.length > 3 ? i.length % 3 : 0;
+
+      return (
+        negativeSign +
+        (j ? i.substr(0, j) + thousands : "") +
+        i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousands) +
+        (decimalCount
+          ? decimal +
+            Math.abs(amount - i)
+              .toFixed(decimalCount)
+              .slice(2)
+          : "")
+      );
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  };
+  }
 
   static searchInObj(itemObj, searchText) {
     for (const prop in itemObj) {
@@ -209,8 +223,7 @@ class FuseUtils {
       "orange",
       "deepOrange"
     ];
-    const randomColor =
-      mainColors[Math.floor(Math.random() * mainColors.length)];
+    const randomColor = mainColors[Math.floor(Math.random() * mainColors.length)];
     return colors[randomColor][hue];
   }
 
@@ -218,10 +231,7 @@ class FuseUtils {
     function changes(object, base) {
       return _.transform(object, function(result, value, key) {
         if (!_.isEqual(value, base[key])) {
-          result[key] =
-            _.isObject(value) && _.isObject(base[key])
-              ? changes(value, base[key])
-              : value;
+          result[key] = _.isObject(value) && _.isObject(base[key]) ? changes(value, base[key]) : value;
         }
       });
     }

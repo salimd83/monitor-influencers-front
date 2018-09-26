@@ -1,37 +1,72 @@
 import React, { Component } from "react";
 import { Grid, Typography, Icon, Chip, Avatar, Divider } from "@material-ui/core";
+import { FuseUtils } from "@fuse";
 
 export class LeaderboardProfile extends Component {
+  toggleSelected = profile => () => {
+    this.props.toggleProfileSelect(profile);
+  }
   render() {
-    const { profile } = this.props;
+    const { profile, selectedProfiles } = this.props;
+    const isSelected = selectedProfiles.map(pro => pro.id).includes(profile.id);
+    const selectClass = isSelected ? 'selected' : '';
     return (
-      <Grid container>
-        <Grid item sm={3} xs={4}>
-          <div className="photo">
+      <Grid container className={`profile ${selectClass}`}>
+        <Grid item sm={2} xs={12}>
+          <div className="photo" onClick={this.toggleSelected(profile)}>
             <img src={profile.profile_picture} alt="" />
+            <span><Icon color="secondary">check_circle</Icon></span>
           </div>
         </Grid>
-        <Grid item sm={9} xs={8}>
+        <Grid item sm={10} xs={12}>
           <div className="info">
             <Grid container>
               <Grid item xs={6}>
-                <h4>{`${profile.first_name} ${profile.last_name}`}</h4>
+                <Typography color="secondary" variant="subheading">{`${profile.first_name} ${profile.last_name}`}</Typography>
               </Grid>
               <Grid item xs={6}>
-                <div className="statics">
+                <div className="links statics">
+                  {profile.links &&
+                    profile.links.map(link => {
+                      let faType = link.type;
+                      switch (link.type) {
+                        case "facebook":
+                          faType = "facebook-f";
+                          break
+                        case "snapchat":
+                          faType = "snapchat-ghost";
+                          break;
+                        case "website":
+                        case "rss":
+                          faType = "wordpress-simple";
+                      }
+                      return (
+                        <a
+                          key={link.id}
+                          href={`http://www.${link.type}.com/${link.value}`}
+                          target="_blank"
+                          className={link.type}
+                        >
+                          <i className={`fab fa-${faType}`} />{" "}
+                          {link.type === "instagram" ? FuseUtils.kFormatter(profile.insights.media_count) : 0}
+                        </a>
+                      );
+                    })}
+                </div>
+                {/* <div className="statics">
                   <span className="primary">
                     <Icon>adjust</Icon> {Intl.NumberFormat().format(profile.insights.media_count)}
                   </span>
                   <span className="primary">
                     <Icon>people</Icon> {Intl.NumberFormat().format(profile.insights.followers_count)}
                   </span>
-                </div>
+                </div> */}
               </Grid>
             </Grid>
 
             <Divider />
 
-            <div className="links mt-16 mb-8">
+            {/* <div className="links mt-16 mb-8">
               {profile.links &&
                 profile.links.map(link => {
                   let faType = link.type;
@@ -49,32 +84,43 @@ export class LeaderboardProfile extends Component {
                     </a>
                   );
                 })}
-            </div>
+            </div> */}
 
-            <Typography variant="subheading">{profile.category && profile.category.name}</Typography>
-            <Typography variant="body1" component="p" color="textSecondary">
-              {profile.description}
-            </Typography>
-            <Typography className="pt-8" component="p">
-              <Icon>place</Icon>
-              {profile.location && profile.location.name}
-            </Typography>
+            <Grid container className="description">
+              <Grid item>
+                <Typography className="pt-12 brief-metrics" component="p">
+                  <span>{profile.location && profile.location.name}</span>
+                  <span>
+                    {profile.category && profile.category.name + " /"} {profile.industry && profile.industry.name}
+                  </span>
+                  <span>{FuseUtils.kFormatter(profile.insights.media_count)} Posts</span>
+                </Typography>
+              </Grid>
 
-            <div className="tags mt-16">
-              {profile.tags &&
-                profile.tags.map(tag => (
-                  <Chip
-                    key={tag.id}
-                    className="mb-4"
-                    avatar={
-                      <Avatar>
-                        <Icon style={{ fontSize: "17px" }}>local_offer</Icon>
-                      </Avatar>
-                    }
-                    label={tag.name}
-                  />
-                ))}
-            </div>
+              <Grid item style={{ alignSelf: "flex-end" }} className="mt-8">
+                <Typography variant="body1" component="p" color="textSecondary">
+                  {profile.description.substring(0, 120)}
+                  ...
+                </Typography>
+
+                <div className="tags">
+                  {profile.tags &&
+                    profile.tags.map(tag => (
+                      // <Chip
+                      //   key={tag.id}
+                      //   className="mb-4"
+                      //   avatar={
+                      //     <Avatar>
+                      //       <Icon style={{ fontSize: "17px" }}>local_offer</Icon>
+                      //     </Avatar>
+                      //   }
+                      //   label={tag.name}
+                      // />
+                      <span key={tag.id} className="mb-4">{tag.name} /</span>
+                    ))}
+                </div>
+              </Grid>
+            </Grid>
           </div>
         </Grid>
       </Grid>
