@@ -12,12 +12,13 @@ export const DESELECT_ALL_LEADERBOARD = "[LEADERBOARD APP] DESELECT_ALL_LEADERBO
 export const SET_LANGUAGE = "[LEADERBOARD APP] SET_LANGUAGE";
 export const SET_TAGS = "[LEADERBOARD APP] SET_TAGS";
 
-export function getLeaders(page = null, search = "", industry = null, language = null, tags=null, fresh = false) {
+export function getLeaders(page = null, search = "", industry = null, gender='', language = null, tags=null, fresh = false) {
   console.log(tags)
   return async dispatch => {
     try {
       dispatch({ type: START_FETCHING });
       tags = language ? tags + ',' + language : tags
+      tags = gender ? tags + ',' + gender : tags
       if(tags) tags = tags.replace(/^,+|,+$/g, '')
       const response = await Fn.simpleCallWA(
         dispatch,

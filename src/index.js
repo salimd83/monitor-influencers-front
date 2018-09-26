@@ -5,11 +5,11 @@ import ReactDOM from "react-dom";
 import history from "./history";
 import "./react-table-defaults";
 import "./styles/index.css";
-import "./fake-db/fake-db";
+// import "./fake-db/fake-db";
 import JssProvider from "react-jss/lib/JssProvider";
 import { create } from "jss";
 import { createGenerateClassName, jssPreset } from "@material-ui/core/styles";
-import registerServiceWorker from "./registerServiceWorker";
+// import registerServiceWorker from "./registerServiceWorker";
 import { Provider } from "react-redux";
 import { Router } from "react-router-dom";
 import { routes } from "./fuse-configs/fuseRoutesConfig";
@@ -54,4 +54,4 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-registerServiceWorker();
+// registerServiceWorker();
