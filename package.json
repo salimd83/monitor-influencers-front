@@ -67,7 +67,6 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "build-css-helpers": "./node_modules/.bin/tailwind build ./src/styles/fuse-helpers.tailwind.css -c ./tailwind.js -o ./src/styles/fuse-helpers.css && postcss --use autoprefixer -o ./src/styles/fuse-helpers.css ./src/styles/fuse-helpers.css",
         "test": "cross-env NODE_PATH=src react-scripts test --env=jsdom",
         "eject": "cross-env NODE_PATH=src react-scripts eject",
         "build-docs": "babel-node src/main/content/components/material-ui/build.js"
