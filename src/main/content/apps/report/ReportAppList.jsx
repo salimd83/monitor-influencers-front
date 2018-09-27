@@ -17,7 +17,7 @@ import FuseUtil from "@fuse/FuseUtils";
 let metrics = [];
 
 const ReportAppList = ({ profiles, removeProfile, classes, loading }) => {
-  const { camelize } = FuseUtil;
+  const { camelize, makeTitle } = FuseUtil;
 
   metrics = profiles.length > 0 ? Object.keys(profiles[0].metrics) : [];
 
@@ -36,7 +36,7 @@ const ReportAppList = ({ profiles, removeProfile, classes, loading }) => {
             <TableRow>
               <TableCell />
               {profiles.map(profile => (
-                <TableCell key={FuseUtil.camelize(profile.name)}>
+                <TableCell key={camelize(profile.name)}>
                   <div className={classes.profile}>
                     <Avatar
                       alt={profile.name}
@@ -59,9 +59,9 @@ const ReportAppList = ({ profiles, removeProfile, classes, loading }) => {
           <TableBody>
             {metrics.map(metric => {
               return (
-                <TableRow key={FuseUtil.camelize(metric)}>
+                <TableRow key={camelize(metric)}>
                   <TableCell component="th" scope="row">
-                    <strong>{FuseUtil.makeTitle(metric)}</strong>
+                    <strong>{makeTitle(metric)}</strong>
                   </TableCell>
                   {renderMetric(metric)}
                 </TableRow>

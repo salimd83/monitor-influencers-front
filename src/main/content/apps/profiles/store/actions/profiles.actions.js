@@ -139,9 +139,10 @@ export function toggleInSelectedProfiles(profile) {
   };
 }
 
-export function selectAllProfiles() {
+export function selectAllProfiles(profiles = []) {
   return {
-    type: SELECT_ALL_PROFILES
+    type: SELECT_ALL_PROFILES,
+    payload: profiles
   };
 }
 

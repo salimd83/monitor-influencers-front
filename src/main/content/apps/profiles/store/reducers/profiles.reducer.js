@@ -158,7 +158,12 @@ const profilesReducer = function(state = initialState, action) {
       };
     }
     case Actions.SELECT_ALL_PROFILES: {
-      const arr = Object.keys(state.entities).map(k => state.entities[k]);
+      let arr = [];
+      if(action.payload.length <= 0)
+        arr = Object.keys(state.entities).map(k => state.entities[k]);
+      else
+        arr = action.payload
+
       const selectedProfiles = arr;
 
       return {

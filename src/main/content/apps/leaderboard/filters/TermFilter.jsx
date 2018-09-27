@@ -9,7 +9,7 @@ const TermFilter = ({setTerm, term}) => {
         placeholder="Search for anything"
         fullWidth
         value={term}
-        style={{marginTop: '14px'}}
+        style={{marginTop: 14, width: 195}}
         inputProps={{
           "aria-label": "Search"
         }}

@@ -5,12 +5,12 @@ export const fuseNavigationConfig = [
     type: "item",
     auth: "siLeaderboard",
     apps: ["mirrorr"],
-    icon: "score",
+    icon: "star",
     url: "/leaderboard"
   },
   {
     id: "siInsights",
-    title: "Insight",
+    title: "Insights",
     auth: "siInsights",
     apps: ["mirrorr"],
     type: "item",

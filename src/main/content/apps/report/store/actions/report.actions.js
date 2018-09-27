@@ -1,4 +1,5 @@
 import * as Fn from "fn/simpleCall.js";
+import FuseUtils from "@fuse/FuseUtils";
 
 export const SET_DATE_FILTER = "[REPORT APP] SET_DATE_FILTER";
 export const ADD_PROFILE = "[REPORT APP] ADD_PROFILE";
@@ -60,16 +61,16 @@ const createProfileData = (profile, metrics) => ({
   name: `${profile.first_name} ${profile.last_name}`,
   image: profile.profile_picture,
   metrics: {
-    total_activity: metrics.activity.total.toFixed(2) || "N/A",
-    avgerage_activity: metrics.activity.average.toFixed(2) || "N/A",
-    average_comments: metrics.engagement.average_comments.toFixed(2) || "N/A",
-    average_reactions: metrics.engagement.average_reactions.toFixed(2) || "N/A",
-    average_views: metrics.engagement.average_views.toFixed(2) || "N/A",
-    total_views: metrics.engagement.total_views.toFixed(2) || "N/A",
-    total_vomments: metrics.engagement.total_comments.toFixed(2) || "N/A",
-    total_reactions: metrics.engagement.total_reactions.toFixed(2) || "N/A",
-    total_brands: metrics.brands.total.toFixed(2) || "N/A",
-    unique_brands: metrics.brands.unique.toFixed(2) || "N/A"
+    total_activity: FuseUtils.formatMoney(metrics.activity.total, 0) || "N/A",
+    avgerage_activity: FuseUtils.formatMoney(metrics.activity.average, 0) || "N/A",
+    average_comments: FuseUtils.formatMoney(metrics.engagement.average_comments, 0) || "N/A",
+    average_reactions: FuseUtils.formatMoney(metrics.engagement.average_reactions, 0) || "N/A",
+    average_views: FuseUtils.formatMoney(metrics.engagement.average_views, 0) || "N/A",
+    total_views: FuseUtils.formatMoney(metrics.engagement.total_views, 0) || "N/A",
+    total_comments: FuseUtils.formatMoney(metrics.engagement.total_comments, 0) || "N/A",
+    total_reactions: FuseUtils.formatMoney(metrics.engagement.total_reactions, 0) || "N/A",
+    total_brands: FuseUtils.formatMoney(metrics.brands.total, 0) || "N/A",
+    unique_brands: FuseUtils.formatMoney(metrics.brands.unique, 0) || "N/A"
   }
 });
 

@@ -5,6 +5,9 @@ const initialState = {
   page: null,
   term: "",
   industry: "",
+  gender: '',
+  language: '',
+  tags: [],
   fetching: false
 };
 
@@ -26,10 +29,28 @@ const leaderBoardReducer = function(state = initialState, action) {
         term: action.payload
       };
     }
+    case Actions.SET_GENDER: {
+      return {
+        ...state,
+        gender: action.payload
+      };
+    }
     case Actions.SET_INDUSTRY: {
       return {
         ...state,
         industry: action.payload
+      };
+    }
+    case Actions.SET_LANGUAGE: {
+      return {
+        ...state,
+        language: action.payload
+      };
+    }
+    case Actions.SET_TAGS: {
+      return {
+        ...state,
+        tags: [...action.tags]
       };
     }
     case Actions.START_FETCHING: {
