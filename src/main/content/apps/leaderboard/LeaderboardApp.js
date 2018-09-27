@@ -56,8 +56,8 @@ export class LeaderboardApp extends Component {
   }
 
   searchWhenStopTyping = debounce(() => {
-    const { getLeaders, term, industry, language, tags } = this.props;
-    getLeaders(null, term, industry.value, language, tags.map(t => t.id).join(','), true);
+    const { getLeaders, term, industry, gender, language, tags } = this.props;
+    getLeaders(null, term, industry.value, gender, language, tags.map(t => t.id).join(','), true);
   }, 800);
 
   loadNextPage = isVisible => {
@@ -108,6 +108,11 @@ export class LeaderboardApp extends Component {
               genderFilter,
               languageFilter,
               tagsFilter,
+              tags,
+              gender,
+              language,
+              term,
+              industry
             }}
           />
         }

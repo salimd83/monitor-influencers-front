@@ -250,6 +250,19 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   -webkit-transform: translate(0, -50%);
   width: 100%;
 }
+#leaderboard-header button{
+  position: relative;
+}
+#leaderboard-header button .indicator{
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 8px;
+  height: 8px;
+  background-color: Tomato;
+  border-radius: 100%;
+  display: block;
+}
 .lazyloading .loader {
   text-align: center;
 }

@@ -48,43 +48,15 @@ export class LeaderboardProfile extends Component {
                           className={link.type}
                         >
                           <i className={`fab fa-${faType}`} />{" "}
-                          {link.type === "instagram" ? FuseUtils.kFormatter(profile.insights.media_count) : 0}
+                          {link.type === "instagram" ? FuseUtils.kFormatter(profile.insights.followers_count) : 0}
                         </a>
                       );
                     })}
                 </div>
-                {/* <div className="statics">
-                  <span className="primary">
-                    <Icon>adjust</Icon> {Intl.NumberFormat().format(profile.insights.media_count)}
-                  </span>
-                  <span className="primary">
-                    <Icon>people</Icon> {Intl.NumberFormat().format(profile.insights.followers_count)}
-                  </span>
-                </div> */}
               </Grid>
             </Grid>
 
             <Divider />
-
-            {/* <div className="links mt-16 mb-8">
-              {profile.links &&
-                profile.links.map(link => {
-                  let faType = link.type;
-                  if (link.type === "facebook") {
-                    faType = "facebook-f";
-                  }
-                  return (
-                    <a
-                      key={link.id}
-                      href={`http://www.${link.type}.com/${link.value}`}
-                      target="_blank"
-                      className={link.type}
-                    >
-                      <i className={`fab fa-${faType}`} />
-                    </a>
-                  );
-                })}
-            </div> */}
 
             <Grid container className="description">
               <Grid item>
@@ -106,16 +78,6 @@ export class LeaderboardProfile extends Component {
                 <div className="tags">
                   {profile.tags &&
                     profile.tags.map(tag => (
-                      // <Chip
-                      //   key={tag.id}
-                      //   className="mb-4"
-                      //   avatar={
-                      //     <Avatar>
-                      //       <Icon style={{ fontSize: "17px" }}>local_offer</Icon>
-                      //     </Avatar>
-                      //   }
-                      //   label={tag.name}
-                      // />
                       <span key={tag.id} className="mb-4">{tag.name} /</span>
                     ))}
                 </div>

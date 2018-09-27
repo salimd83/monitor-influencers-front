@@ -56,7 +56,12 @@ class LeaderboardHeader extends Component {
       languageFilter,
       tagsFilter,
       selectAllProfiles,
-      deSelectAllProfiles
+      deSelectAllProfiles,
+      tags,
+      gender,
+      language,
+      term,
+      industry
     } = this.props;
 
     const someCheckProfile = selectedProfiles.length > 0;
@@ -128,6 +133,7 @@ class LeaderboardHeader extends Component {
               className={classes.button}
               onClick={this.toggleDrawer}
             >
+              {(tags.length > 0 || industry || language || term || gender) && <div className="indicator"></div>}
               <Icon className={classNames(classes.iconSmall)}>search</Icon>
             </Button>
 
@@ -140,21 +146,6 @@ class LeaderboardHeader extends Component {
             >
               <div tabIndex={0}>{sideList}</div>
             </SwipeableDrawer>
-
-            {/* <div className="flex items-center">
-              <Grid container spacing={16} alignItems="center" direction="row">
-                <Grid item style={{ zIndex: 1000 }}>
-                  <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-                    {industriesFilter}
-                  </FuseAnimate>
-                </Grid>
-                <Grid item>
-                  <FuseAnimate animation="transition.slideLeftIn" delay={300}>
-                    {termFilter}
-                  </FuseAnimate>
-                </Grid>
-              </Grid>
-            </div> */}
           </Grid>
         </Grid>
       </div>
