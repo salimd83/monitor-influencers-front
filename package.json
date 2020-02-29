@@ -64,7 +64,7 @@
         "typeface-roboto": "0.0.54",
         "velocity-react": "1.4.1",
         "xlsx": "^0.14.0",
-        "yarn": "^1.7.0"
+        "yarn": "^1.22.0"
     },
     "scripts": {
         "start": "yarn run build-css-helpers && cross-env NODE_PATH=src react-scripts start",
