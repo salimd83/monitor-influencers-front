@@ -20,7 +20,7 @@
         "jsoneditor-react": "^0.1.9",
         "jss-extend": "6.2.0",
         "keycode": "2.2.0",
-        "lodash": "4.17.10",
+        "lodash": "4.17.21",
         "material-ui": "^0.20.1",
         "mobile-detect": "1.4.1",
         "moment": "^2.22.2",
