@@ -63,7 +63,7 @@
         "semantic-ui-react": "^0.82.0",
         "typeface-roboto": "0.0.54",
         "velocity-react": "1.4.1",
-        "xlsx": "^0.14.0",
+        "xlsx": "^0.17.0",
         "yarn": "^1.7.0"
     },
     "scripts": {
