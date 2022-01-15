@@ -79,7 +79,7 @@
         "babel-preset-env": "1.7.0",
         "cross-env": "5.1.6",
         "js-beautify": "1.7.5",
-        "marked": "0.4.0",
+        "marked": "4.0.10",
         "postcss-cli": "5.0.0",
         "tailwindcss": "0.5.3"
     }
